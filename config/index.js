@@ -16,7 +16,7 @@ module.exports = {
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
         proxyTable: {
-            '/api': { target: 'http://localhost:8880', changeOrigin: true }
+            '/api': { target: 'http://localhost:8880', changeOrigin: true }   // 后端用 nginx做代理
         },
         // CSS Sourcemaps off by default because relative paths are "buggy"
         // with this option, according to the CSS-Loader README

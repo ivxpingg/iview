@@ -3,7 +3,8 @@ var rou = require('./rou');
 var express = require('express');
 var router = express.Router();
 
-const DOMAIN = 'http://10.131.1.222:8080';
+// const DOMAIN = 'http://10.131.1.222:8080';
+const DOMAIN = 'http://localhost:8880';
 
 var rpGet = function (url, req, res) {
     var options = {
@@ -46,7 +47,7 @@ var rpPost = function (url, req, res) {
 }
 
 rou.get.forEach(function (val, index) {
-    if (val.oUrl.indexOf('local') > 0) {
+    if (val.oUrl.indexOf('test') > 0) {
         router.get(val.oUrl, function (req, res) {
             res.json(val.data);
         });

@@ -24,7 +24,7 @@ const router = new VueRouter(RouterConfig);
 
 router.beforeEach((to, from, next) => {
     iView.LoadingBar.start();
-    Util.title(to.meta.title);
+  //  Util.title(to.meta.title);
     next();
 });
 
@@ -36,13 +36,22 @@ router.afterEach(() => {
 
 const store = new Vuex.Store({
     state: {
-
+        user: {},
+        token: null,
+        title: ''
     },
     getters: {
 
     },
     mutations: {
-
+        login: function (state, data) {
+          localStorage.token = data;
+          state.token = data;
+        },
+        logout: function(state) {
+          localStorage.removeItem('token');
+          state.token = null;
+        }
     },
     actions: {
 

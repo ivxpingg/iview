@@ -8,16 +8,19 @@ var router = require('./api/index');
 var app = express();
 var opn = require('opn');
 
-var port = process.env.PORT || config.dev.port;
-
-// Define HTTP proxies to your custom API backend
-// https://github.com/chimurai/http-proxy-middleware
-var proxyTable = config.dev.proxyTable;
+// 本地运行端口
+var port = config.dev.port;
 
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = JSON.parse(config.dev.env.NODE_ENV)
 }
 
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+// parse application/json
+app.use(bodyParser.json());
+
+// 设置路由规则
 app.use('/', router);
 
 var compiler = webpack(webpackConfig);
@@ -39,6 +42,9 @@ compiler.plugin('compilation', function (compilation) {
   })
 })
 
+// Define HTTP proxies to your custom API backend
+// https://github.com/chimurai/http-proxy-middleware
+var proxyTable = config.dev.proxyTable;
 // proxy api requests
 Object.keys(proxyTable).forEach(function (context) {
   var options = proxyTable[context]
@@ -48,7 +54,7 @@ Object.keys(proxyTable).forEach(function (context) {
   app.use(proxyMiddleware(options.filter || context, options))
 })
 
-// handle fallback for HTML5 history API
+// 处理HTML5历史记录API的回退
 app.use(require('connect-history-api-fallback')());
 
 // serve webpack bundle output
