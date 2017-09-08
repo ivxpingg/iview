@@ -46,7 +46,7 @@ var rpPost = function (url, req, res) {
 }
 
 rou.get.forEach(function (val, index) {
-    if (val.oUrl.indexOf('local') > 0) {
+    if (val.oUrl.indexOf('mytest') > 0) {
         router.get(val.oUrl, function (req, res) {
             res.json(val.data);
         });

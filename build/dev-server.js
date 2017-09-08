@@ -10,6 +10,7 @@ var opn = require('opn');
 
 var port = process.env.PORT || config.dev.port;
 
+
 // Define HTTP proxies to your custom API backend
 // https://github.com/chimurai/http-proxy-middleware
 var proxyTable = config.dev.proxyTable;
@@ -26,6 +27,7 @@ var devMiddleware = require('webpack-dev-middleware')(compiler, {
   publicPath: webpackConfig.output.publicPath,
   quiet: true
 });
+
 
 var hotMiddleware = require('webpack-hot-middleware')(compiler, {
   log: () => {}
@@ -49,7 +51,9 @@ Object.keys(proxyTable).forEach(function (context) {
 })
 
 // handle fallback for HTML5 history API
-app.use(require('connect-history-api-fallback')());
+app.use(require('connect-history-api-fallback')({
+  index: '/'
+}));
 
 // serve webpack bundle output
 app.use(devMiddleware);
@@ -63,6 +67,7 @@ var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsS
 app.use(staticPath, express.static('./static'))
 
 var uri = 'http://localhost:' + port;
+
 
 module.exports = app.listen(port, function (err) {
   if (err) {

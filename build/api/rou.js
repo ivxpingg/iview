@@ -1,14 +1,19 @@
 module.exports = {
     "get": [
         {
-            "oUrl": '/api/questionnaire/getQuestionnaireList',
-            "des": ""
-        }, {
-            "oUrl": "/api/test",
+            "oUrl": "/mytest/test",
             "des": "",
             "data": [{id: 1000, name: "天南"}, {id: 1001, name: "地北"} ],
             "param": {}
+        },{
+            "oUrl": "/mytest/login",
+            "data": { token: 'qwertyuiop123456789' }
+        },{
+            "oUrl": "/mytest/getsystem",
+            "data": {list: [{name: '系统一'}, {name: '系统二'}]}
         }
+
+
     ],
     "post": [
         {

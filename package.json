@@ -4,12 +4,12 @@
   "description": "测试",
   "main": "index.js",
   "scripts": {
-    "init": "webpack --progress --config webpack.dev.config.js",
-    "dev": "webpack-dev-server --content-base ./ --open --inline --hot --compress --history-api-fallback --config webpack.dev.config.js",
-    "build": "webpack --progress --hide-modules --config webpack.prod.config.js",
-    "lint": "eslint --fix --ext .js,.vue src",
-    "dev2": "node --throw-deprecation build/dev-server.js",
-    "build2": "node  build/pro-server.js"
+    "iinit": "webpack --progress --config webpack.dev.config.js",
+    "idev": "webpack-dev-server --content-base ./ --open --inline --hot --compress --history-api-fallback --config webpack.dev.config.js",
+    "ibuild": "webpack --progress --hide-modules --config webpack.prod.config.js",
+    "ilint": "eslint --fix --ext .js,.vue src",
+    "dev": "node --throw-deprecation build/dev-server.js",
+    "build": "node  build/pro-server.js"
   },
   "repository": {
     "type": "git",
@@ -18,12 +18,13 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.15.3",
+    "echarts": "^3.4.0",
+    "iview": "^2.3.0",
     "vue": "^2.2.6",
     "vue-router": "^2.3.1",
-    "iview": "^2.0.0-rc.13",
-    "axios": "^0.15.3",
     "vuex": "^2.2.1",
-    "echarts": "^3.4.0"
+    "zrender": "^3.6.0"
   },
   "devDependencies": {
     "autoprefixer-loader": "^2.0.0",
