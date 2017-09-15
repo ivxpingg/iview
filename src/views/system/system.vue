@@ -1,90 +1,61 @@
-<style scoped>
-    .content{
-        border: 1px solid #d7dde4;
-        background: #f5f7f9;
-        height:100%;
-    }
-    .content-logo{
-        width: 100px;
-        height: 30px;
-        background: #5b6270;
-        border-radius: 3px;
-        float: left;
-        position: relative;
-        top: 15px;
-        left: 20px;
-    }
-    .layout-content-main{
-        padding: 10px;
-        height: calc(100% - 47px);
-    }
-    .content-footer{
-        text-align: center;
-        padding: 10px 0 20px;
-        color: #9ea7b4;
-    }
-    .layout-hide-text .layout-text{
-        display: none;
-    }
-    .ivu-col{
-        transition: width .2s ease-in-out;
-    }
-</style>
+
 <template>
     <div class="content" ref="content">
-        <Menu class="content-header" ref="contentHeader" mode="horizontal" theme="dark" active-name="1">
-            <div class="content-logo"></div>
-        </Menu>
-        <div class="content-body" ref="contentBody" :class="{'layout-hide-text': spanLeft < 5}">
-            <Row type="flex" style="height:100%;">
-                <Col :span=spanLeft class="layout-menu-left">
-                    <Menu active-name="1-1" theme="light" :open-names="['1']" accordion width="auto" @on-select="menuLink" style="height:100%;">
-                        <div class="layout-logo-left"></div>
-                        <Submenu name="1">
-                            <template slot="title">
-                                <Icon type="ios-navigate" :size="iconSize"></Icon>
-                                <span class="layout-text">导航一</span>
-                            </template>
-                            <MenuItem name="/system/canvas">选项 1</MenuItem>
-                            <MenuItem name="1-2">选项 2</MenuItem>
-                            <MenuItem name="1-3">选项 3</MenuItem>
-                        </Submenu>
-                        <Submenu name="2">
-                            <template slot="title">
-                                <Icon type="ios-keypad" :size="iconSize"></Icon>
-                                <span class="layout-text">导航二</span>
-                            </template>
-                            <MenuItem name="2-1">选项 1</MenuItem>
-                            <MenuItem name="2-2">选项 2</MenuItem>
-                            <MenuItem name="2-3">选项 3</MenuItem>
-                        </Submenu>
-                        <Submenu name="3">
-                            <template slot="title">
-                                <Icon type="ios-navigate"></Icon>
-                                <span class="layout-text">导航三</span>
-                            </template>
-                            <MenuItem name="3-1">选项 1</MenuItem>
-                            <MenuItem name="3-2">选项 2</MenuItem>
-                            <MenuItem name="3-3">选项 3</MenuItem>
-                        </Submenu>
-                    </Menu>
-                </Col>
-                <Col :span=spanRight>
-                    <div class="layout-header">
-                        <Button type="text" @click="toggleClick">
-                            <Icon type="navicon" size="32"></Icon>
-                        </Button>
+        <Row type="flex" style="height: 100%">
+            <Col :span="spanLeft" class="layout-menu-left" style="height: 100%">
+                <Menu active-name="/system/employee/add" theme="dark" @on-select="menuLink" width="auto">
+                    <div class="layout-logo-left">
+                        <img class="logo-img" src="../../images/xmgd.png" alt="">
+                        <div class="logo-title">轨道监管平台</div>
                     </div>
+                    <Submenu name="1">
+                        <template slot="title">
+                            <Icon type="ios-navigate" :size="iconSize"></Icon>
+                            <span class="layout-text">从业人员</span>
+                        </template>
+                        <MenuItem name="/system/canvas">选项 1</MenuItem>
+                        <MenuItem name="/system/employee/add" >添加从业人员</MenuItem>
+                        <MenuItem name="1-3">选项 3</MenuItem>
+                    </Submenu>
+                </Menu>
+            </Col>
+            <Col :span="spanRight" style="height: 100%">
+                <div class="layout-header">
+                    <Button class="btn-layout" type="text" icon="log-out" title="退出"></Button>
+                    <div class="userInfo">
+                        <Avatar class="userImg" src="https://i.loli.net/2017/08/21/599a521472424.jpg" style="background-color: #87d068" size="large" icon="person"/>
+                        <!--<Avatar src="../../images/avatar.jpg" />-->
+                        <!--<div class="userImg"><img src="../../images/avatar.jpg" alt=""></div>-->
+                        <Dropdown class="userDrown">
+                            <a href="javascript:void(0)">
+                                系统管理员
+                                <Icon type="arrow-down-b"></Icon>
+                            </a>
+                            <DropdownMenu slot="list">
+                                <DropdownItem>个人信息</DropdownItem>
+                                <DropdownItem>修改密码</DropdownItem>
+                                <DropdownItem>我的通知</DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </div>
+
+                </div>
+                <div class="layout-breadcrumb">
+                    <Breadcrumb>
+                        <BreadcrumbItem href="#">首页</BreadcrumbItem>
+                        <BreadcrumbItem href="#">应用中心</BreadcrumbItem>
+                        <BreadcrumbItem href="#">某应用</BreadcrumbItem>
+                    </Breadcrumb>
+                </div>
+                <div class="layout-content">
                     <div class="layout-content-main">
                         <router-view></router-view>
                     </div>
-                </Col>
-            </Row>
-        </div>
-        <div class="content-footer" ref="contentFooter">
-            2011-2016 &copy; TalkingData
-        </div>
+                </div>
+            </Col>
+        </Row>
     </div>
+
 </template>
 <script>
     import Util from '../../libs/util';
@@ -97,12 +68,12 @@
         },
         mounted: function() {
 
-            Util.ajax.get('/metrosupervision/api/auth/getMenuList').then(function (response) {
-                debugger
-                console.dir(response);
-            }).catch(function (error) {
-                    console.log(error);
-                });
+//            Util.ajax.get('/metrosupervision/api/auth/getMenuList').then(function (response) {
+//                debugger
+//                console.dir(response);
+//            }).catch(function (error) {
+//                    console.log(error);
+//                });
             this.pageInit();
         },
         computed: {
@@ -112,11 +83,11 @@
         },
         methods: {
             pageInit: function() {
-                this.$refs.contentBody.style.height =　(this.$refs.content.clientHeight
-                                                           - this.$refs.contentHeader.$el.clientHeight
-                                                           - this.$refs.contentFooter.clientHeight)
-                                                           + 'px';
-                console.dir(this.$refs.contentBody);
+//                this.$refs.contentBody.style.height =　(this.$refs.content.clientHeight
+//                                                           - this.$refs.contentHeader.$el.clientHeight
+//                                                           - this.$refs.contentFooter.clientHeight)
+//                                                           + 'px';
+
 
             },
             toggleClick() {
@@ -129,9 +100,96 @@
                 }
             },
             menuLink: function(link) {
-                debugger
                 this.$router.push(link);
             }
         }
     }
 </script>
+
+<style lang="scss" rel="stylesheet/scss" scoped>
+
+    .content{
+        height: 100%;
+        background: #f5f7f9;
+        position: relative;
+        overflow: hidden;
+
+        .layout-menu-left{
+            background: #464c5b;
+
+            .layout-logo-left{
+                width: 90%;
+                height: 30px;
+                background: #5b6270;
+                border-radius: 3px;
+                margin: 15px auto;
+                .logo-img {
+                    float: left;
+                    margin: 5px;
+                    height: 20px;
+                }
+                .logo-title {
+                    float: left;
+                    margin-top: 5px;
+                    line-height: 20px;
+                    color: #FFF;
+                }
+            }
+        }
+
+        .layout-header{
+            height: 57px;
+            background: #fff;
+            box-shadow: 0 1px 1px rgba(0,0,0,.1);
+            .userInfo {
+                float: right;
+                padding-right: 19px;
+                height: 100%;
+                vertical-align: top;
+                border-right: 1px solid rgba(0,0,0,.1);
+                .userImg {
+                    margin-top: 8px;
+                    margin-right: 5px;
+                }
+                .userDrown {
+                    margin-top: 19px;
+                    vertical-align: top;
+                }
+            }
+
+            .btn-layout {
+                float: right;
+                width: 69px;
+                font-size: 26px;
+            }
+        }
+        .layout-breadcrumb{
+            padding: 10px 15px 0;
+        }
+        .layout-content{
+            height: calc(100% - 57px - 31px);
+            min-height: 200px;
+            margin: 15px;
+            overflow: hidden;
+            background: #fff;
+            border-radius: 4px;
+            .layout-content-main{
+                height: 100%;
+                padding: 10px;
+                overflow-y: auto;
+            }
+        }
+
+    }
+
+
+    .layout-ceiling-main a{
+        color: #9ba7b5;
+    }
+    .layout-hide-text .layout-text{
+        display: none;
+    }
+    .ivu-col{
+        transition: width .2s ease-in-out;
+    }
+</style>

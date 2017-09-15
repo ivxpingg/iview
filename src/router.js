@@ -23,7 +23,10 @@ const routers = [{
             {
                 path: 'canvas',
                 component: (resolve) => require(['./components/canvas/canvas.vue'], resolve)
-            }]
+            },{
+                path: 'employee/add',
+                component: (resolve) => require(['./components/employee/add/add.vue'], resolve)
+            },]
 
     },{
         path: '/canvas',

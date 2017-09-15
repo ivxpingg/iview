@@ -25,10 +25,11 @@ const RouterConfig = {
 const router = new VueRouter(RouterConfig);
 
 router.beforeEach((to, from, next) => {
+    next(); return;
 
     if (to.path === '/' || !to.meta.requireAuth) {
         next();
-        return
+        return;
     }
 
     if (store.state.token == null) {

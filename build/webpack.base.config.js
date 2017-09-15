@@ -22,6 +22,11 @@ module.exports = {
                             fallback: 'vue-style-loader'
                         }),
 
+                        scss: ExtractTextPlugin.extract({
+                            use: ['css-loader?minimize', 'autoprefixer-loader', 'sass-loader'],
+                            fallback: 'vue-style-loader'
+                        }),
+
                         css: ExtractTextPlugin.extract({
                             use: ['css-loader', 'autoprefixer-loader'],
                             fallback: 'vue-style-loader'

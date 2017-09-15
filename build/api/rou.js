@@ -7,7 +7,7 @@ module.exports = {
             "param": {}
         },{
             "oUrl": "/mytest/login",
-            "data": { token: 'qwertyuiop123456789' }
+            "data": { status:1, errCode: 'E001', errMsg: '', result: { token: '1001001'} }
         },{
             "oUrl": "/mytest/getsystem",
             "data": {list: [{name: '系统一'}, {name: '系统二'}]}

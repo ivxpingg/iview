@@ -15,7 +15,7 @@ const ajaxUrl = env === 'production' ?
     'http://localhost:8880' :
     env === 'development' ?
     'http://localhost:8880' :
-    ''
+    'http://localhost:8880'
 
 var Cookie = {
     get: function (name) {
@@ -84,9 +84,8 @@ Ajax.interceptors.response.use(function (response) {
     return Promise.reject(error);
 });
 
+util.domain = ajaxUrl;
 util.ajax = Ajax;
-
-
 util.cookie = Cookie;
 
 export default util;
