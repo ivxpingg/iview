@@ -16,7 +16,8 @@ module.exports = {
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
         proxyTable: {
-            '/metrosupervision/api': { target: 'http://192.168.1.35:8080', changeOrigin: true }
+            // '/metrosupervision/api': { target: 'http://192.168.1.35:8080', changeOrigin: true }
+            '/metrosupervision/api': { target: 'http://10.131.1.222:8088', changeOrigin: true }
         },
         // CSS Sourcemaps off by default because relative paths are "buggy"
         // with this option, according to the CSS-Loader README

@@ -39,6 +39,7 @@
 <script>
     import Util from '../../libs/util';
     import VueRouter from 'vue-router';
+    import $ from 'jquery';
 export default {
         data () {
             return {
@@ -52,26 +53,24 @@ export default {
                     ],
                     password: [
                         { required: true, message: '请填写密码', trigger: 'blur' },
-                        { type: 'string', min: 5, message: '密码长度不能小于6位', trigger: 'blur' }
+                        { type: 'string', min: 0, message: '密码长度不能小于6位', trigger: 'blur' }
                     ]
                 }
             }
         },
+        mounted() {},
         methods: {
             handleSubmit(name) {
                 let that = this;
 
                 this.$refs[name].validate((valid) => {
-                    debugger
+                   // debugger
                     if (valid) {
-                        Util.ajax.get('/metrosupervision/api/login', {
-                            params: {
-                                loginName: that.formInline.user,
-                                password: that.formInline.password
-                            }
+                        Util.ajax.post('/metrosupervision/api/login', {
+                            loginName: that.formInline.user,
+                            password: that.formInline.password
                         })
                         .then(function (response) {
-                            debugger
                             Util.cookie.set('xmgd', response.result.token, new Date(new Date().getTime() + 7 * 24 * 60 * 1000));
                             that.$store.commit('setToken', response.result.token);
                             // that.$store.state.token = response.data.token;
@@ -90,6 +89,34 @@ export default {
                     } else {
                         this.$Message.error('表单验证失败!');
                     }
+
+//                    if (valid) {
+//                        $.ajax({
+//                            url: 'http://localhost:8880/metrosupervision/api/login',
+//                            type: 'POST',
+//                            dataType: 'JSON',
+//                            data: {
+//                                loginName: that.formInline.user,
+//                                password: that.formInline.password
+//                            },
+//                            success: function (response) {
+//
+//                                Util.cookie.set('xmgd', response.result.token, new Date(new Date().getTime() + 7 * 24 * 60 * 1000));
+//                                that.$store.commit('setToken', response.result.token);
+//                                // that.$store.state.token = response.data.token;
+//                                let router = new VueRouter();
+//                                if (that.$route.query.redirect) {
+//                                    router.push(that.$route.query.redirect);
+//                                } else {
+//                                    router.push({ path: '/system' });
+//                                }
+//                            },
+//                            error: function (err) {
+//                                console.dir(err);
+//                            }
+//
+//                        });
+//                    }
                 })
             }
         }

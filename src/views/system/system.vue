@@ -21,9 +21,9 @@
             </Col>
             <Col :span="spanRight" style="height: 100%">
                 <div class="layout-header">
-                    <Button class="btn-layout" type="text" icon="log-out" title="退出"></Button>
+                    <Button class="btn-layout" type="text" icon="log-out" title="退出" @click="logout"></Button>
                     <div class="userInfo">
-                        <Avatar class="userImg" src="https://i.loli.net/2017/08/21/599a521472424.jpg" style="background-color: #87d068" size="large" icon="person"/>
+                        <Avatar class="userImg" src="https://i.loli.net/2017/08/21/599a521472424.jpg" size="large" icon="person"/>
                         <!--<Avatar src="../../images/avatar.jpg" />-->
                         <!--<div class="userImg"><img src="../../images/avatar.jpg" alt=""></div>-->
                         <Dropdown class="userDrown">
@@ -47,7 +47,7 @@
                         <BreadcrumbItem href="#">某应用</BreadcrumbItem>
                     </Breadcrumb>
                 </div>
-                <div class="layout-content">
+                <div class="layout-content"  id="layout-content">
                     <div class="layout-content-main">
                         <router-view></router-view>
                     </div>
@@ -59,36 +59,43 @@
 </template>
 <script>
     import Util from '../../libs/util';
+    import VueRouter from 'vue-router';
+    import Iscroll from 'iscroll';
     export default {
         data() {
             return {
                 spanLeft: 5,
-                spanRight: 19
+                spanRight: 19,
+                mList: []
             };
         },
         mounted: function() {
-
-//            Util.ajax.get('/metrosupervision/api/auth/getMenuList').then(function (response) {
-//                debugger
-//                console.dir(response);
-//            }).catch(function (error) {
-//                    console.log(error);
-//                });
-            this.pageInit();
+           var myScroll = new Iscroll("#layout-content", {
+                mouseWheel: true,
+                scrollbars: true
+            });
+            this.getMenuData();
         },
         computed: {
             iconSize () {
                 return this.spanLeft === 5 ? 14 : 24;
+            },
+            meunList () {
+                var list = [];
+                this.mList.forEach(function (val, index, attr) {
+
+                });
             }
         },
         methods: {
-            pageInit: function() {
-//                this.$refs.contentBody.style.height =　(this.$refs.content.clientHeight
-//                                                           - this.$refs.contentHeader.$el.clientHeight
-//                                                           - this.$refs.contentFooter.clientHeight)
-//                                                           + 'px';
-
-
+            getMenuData () {
+                Util.ajax.get('/metrosupervision/api/auth/menu/getMenuList')
+                    .then(function (response) {
+                       this.mList = response.result;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
             },
             toggleClick() {
                 if (this.spanLeft === 5) {
@@ -99,8 +106,14 @@
                     this.spanRight = 19;
                 }
             },
-            menuLink: function(link) {
+            menuLink (link) {
                 this.$router.push(link);
+            },
+            logout () {
+                var router = new VueRouter();
+                Util.cookie.unset('xmgd');
+                this.$store.commit('setToken', null);
+                router.push({ path: '/' });
             }
         }
     }
@@ -148,6 +161,7 @@
                 vertical-align: top;
                 border-right: 1px solid rgba(0,0,0,.1);
                 .userImg {
+                    background-color: #87d068;
                     margin-top: 8px;
                     margin-right: 5px;
                 }
@@ -167,16 +181,16 @@
             padding: 10px 15px 0;
         }
         .layout-content{
-            height: calc(100% - 57px - 31px);
+            position: relative;
+            height: calc(100% - 57px - 31px - 30px);
             min-height: 200px;
-            margin: 15px;
+            margin: 15px 0;
+            padding: 0 15px;
             overflow: hidden;
             background: #fff;
             border-radius: 4px;
             .layout-content-main{
-                height: 100%;
-                padding: 10px;
-                overflow-y: auto;
+                /*height: 100%;*/
             }
         }
 

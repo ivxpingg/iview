@@ -25,9 +25,9 @@ const RouterConfig = {
 const router = new VueRouter(RouterConfig);
 
 router.beforeEach((to, from, next) => {
-    next(); return;
-
+    next();return ;
     if (to.path === '/' || !to.meta.requireAuth) {
+        Util.title(to.meta.title);
         next();
         return;
     }
@@ -44,12 +44,14 @@ router.beforeEach((to, from, next) => {
             next();
         }
         else {
+            Util.title(to.meta.title);
             next({
                 path: '/',
                 query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
             });
         }
     } else {
+        Util.title(to.meta.title);
         next({
             path: '/',
             query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由

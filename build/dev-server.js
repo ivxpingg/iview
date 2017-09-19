@@ -5,11 +5,17 @@ var webpack = require('webpack');
 var proxyMiddleware = require('http-proxy-middleware');
 var webpackConfig = require('./webpack.dev.config');
 var router = require('./api/index');
+var bodyParser = require("body-parser");
 var app = express();
 var opn = require('opn');
 
 var port = process.env.PORT || config.dev.port;
 
+
+// parse application/x-www-form-urlencoded
+// app.use(bodyParser.urlencoded({ extended: true }));
+// // parse application/json
+// app.use(bodyParser.json());
 
 // Define HTTP proxies to your custom API backend
 // https://github.com/chimurai/http-proxy-middleware

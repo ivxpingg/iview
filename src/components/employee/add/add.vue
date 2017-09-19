@@ -41,8 +41,7 @@
                     <!--<Button type="ghost" icon="ios-cloud-upload-outline">上传业资格证照片</Button>-->
                 <!--</Upload>-->
                 <!--<Input v-model="employee.lastSubject" placeholder="请输入从业资格证照片"></Input>-->
-
-
+                <vImgUpload :list="list"></vImgUpload>
             </FormItem>
             <FormItem prop="wordPhoto"  label="工作照片">
                 <Upload action="//jsonplaceholder.typicode.com/posts/">
@@ -54,10 +53,11 @@
     </div>
 </template>
 <script>
-    import ImgUpload from '../../upload/imgUpload/imgUpload.vue';
+    import vImgUpload from '../../upload/imgUpload/imgUpload.vue';
     export default {
         data() {
             return {
+                list: [],
                 employee: {
                     deptName: '',
                     employeeNo: '',
@@ -82,9 +82,10 @@
                     ]
                 }
             }
-        }
+        },
+        components: {vImgUpload}
     }
 </script>
-<style scoped>
+<style lang="scss" type="stylesheet/scss" scoped>
 
 </style>
