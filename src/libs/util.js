@@ -13,10 +13,10 @@ util.title = function(title) {
 
 // http://192.168.1.35:8080
 const ajaxUrl = env === 'production' ?
-    'http://10.131.1.222:8088' :
+    'http://cs.doudou360.com:8088/metrosupervision/a' :
     env === 'development' ?
     'http://localhost:8880/mytest' :
-    'http://localhost:8880'
+    'http://localhost:8880/metrosupervision/a'
 
 var Cookie = {
     get: function (name) {
@@ -73,7 +73,6 @@ var Ajax = axios.create({
     timeout: 30000,
     transformRequest: [function transformRequest(data, headers) {
         /* 把类似content-type这种改成Content-Type */
-        debugger;
         let keys = Object.keys(headers);
         let normalizedName = 'Content-Type';
         keys.forEach(name => {
@@ -113,7 +112,8 @@ var Ajax = axios.create({
 
 //ajax请求前拦截器
 Ajax.interceptors.request.use(function (config) {
-    config.headers.common['Authorization'] = Cookie.get('xmgd');
+    // config.headers.common['Authorization'] = Cookie.get('xmgd');
+    // config.url = config.url + ';JSESSIONID=' + Cookie.get('xmgd');
     return config;
 }, function (error) {
     return Promise.reject(error);

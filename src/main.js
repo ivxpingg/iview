@@ -69,7 +69,8 @@ router.afterEach(() => {
 
 const store = new Vuex.Store({
     state: {
-        token: null
+        token: null,
+        name: ''
     },
     getters: {
 
@@ -77,6 +78,9 @@ const store = new Vuex.Store({
     mutations: {
         setToken(state, token) {
             state.token = token;
+        },
+        setName(state, name) {
+            state.name = name;
         }
 
     },

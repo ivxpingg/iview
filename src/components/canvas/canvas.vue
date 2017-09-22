@@ -16,7 +16,7 @@
         },
         methods: {
             pageInit() {
-
+                document.querySelector("#layout-content-main").style.height = "100%";
             }
         }
     }

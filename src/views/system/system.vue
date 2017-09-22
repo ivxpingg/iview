@@ -3,21 +3,55 @@
     <div class="content" ref="content">
         <Row type="flex" style="height: 100%">
             <Col :span="spanLeft" class="layout-menu-left" style="height: 100%">
-                <Menu active-name="/system/employee/add" theme="dark" @on-select="menuLink" width="auto">
-                    <div class="layout-logo-left">
-                        <img class="logo-img" src="../../images/xmgd.png" alt="">
-                        <div class="logo-title">轨道监管平台</div>
-                    </div>
-                    <Submenu name="1">
+                <!--<Menu active-name="/system/employee/add" theme="dark" @on-select="menuLink" width="auto">-->
+                    <!--<div class="layout-logo-left">-->
+                        <!--<img class="logo-img" src="../../images/xmgd.png" alt="">-->
+                        <!--<div class="logo-title">轨道监管平台</div>-->
+                    <!--</div>-->
+                    <!--<Submenu name="1">-->
+                        <!--<template slot="title">-->
+                            <!--<Icon type="ios-navigate" :size="iconSize"></Icon>-->
+                            <!--<span class="layout-text">从业人员</span>-->
+                        <!--</template>-->
+                        <!--<MenuItem name="/system/canvas">选项 1</MenuItem>-->
+                        <!--<MenuItem name="/system/employee/add" >添加从业人员</MenuItem>-->
+                        <!--<MenuItem name="1-3">选项 3</MenuItem>-->
+
+                    <!--</Submenu>-->
+                <!--</Menu>-->
+            <Menu theme="dark" @on-select="menuLink" accordion width="auto">
+                <div class="layout-logo-left">
+                    <img class="logo-img" src="../../images/xmgd.png" alt="">
+                    <div class="logo-title">轨道监管平台</div>
+                </div>
+                <Submenu v-for="lv1 in meunList" name="1">
+                    <template v-if="!lv1.href">
                         <template slot="title">
                             <Icon type="ios-navigate" :size="iconSize"></Icon>
-                            <span class="layout-text">从业人员</span>
+                            <span class="layout-text">{{lv1.name}}</span>
                         </template>
-                        <MenuItem name="/system/canvas">选项 1</MenuItem>
-                        <MenuItem name="/system/employee/add" >添加从业人员</MenuItem>
-                        <MenuItem name="1-3">选项 3</MenuItem>
-                    </Submenu>
-                </Menu>
+                        <template v-for="lv2 in lv1.childrenList">
+                            <template v-if="!lv2.href">
+                                <MenuGroup :title="lv2.name">
+                                    <MenuItem v-for="lv3 in lv2.childrenList" :name="lv3.href">{{lv3.name}}</MenuItem>
+                                </MenuGroup>
+                            </template>
+                            <template v-else>
+                                <MenuItem :name="lv2.href">{{lv2.name}}</MenuItem>
+                            </template>
+                        </template>
+                    </template>
+
+                    <template v-else>
+                        <template slot="title">
+                            <Icon type="ios-navigate" :size="iconSize"></Icon>
+                            <span class="layout-text">{{lv1.name}}</span>
+                        </template>
+                        <MenuItem :name="lv1.href">{{lv1.name}}</MenuItem>
+                    </template>
+
+                </Submenu>
+            </Menu>
             </Col>
             <Col :span="spanRight" style="height: 100%">
                 <div class="layout-header">
@@ -28,7 +62,7 @@
                         <!--<div class="userImg"><img src="../../images/avatar.jpg" alt=""></div>-->
                         <Dropdown class="userDrown">
                             <a href="javascript:void(0)">
-                                系统管理员
+                                {{userName}}
                                 <Icon type="arrow-down-b"></Icon>
                             </a>
                             <DropdownMenu slot="list">
@@ -48,7 +82,7 @@
                     </Breadcrumb>
                 </div>
                 <div class="layout-content"  id="layout-content">
-                    <div class="layout-content-main">
+                    <div class="layout-content-main" id="layout-content-main">
                         <router-view></router-view>
                     </div>
                 </div>
@@ -66,37 +100,68 @@
             return {
                 spanLeft: 5,
                 spanRight: 19,
-                mList: []
+                mList: [],
+                userName: ''
             };
         },
         mounted: function() {
-           var myScroll = new Iscroll("#layout-content", {
-                mouseWheel: true,
-                scrollbars: true
+
+            this.userName = Util.cookie.get('xmgdname') || '';
+            var myScroll = new Iscroll("#layout-content", {
+               mouseWheel: true,
+               scrollbars: true,
+               disableMouse: true,
+               disableTouch: true,
+               disablePointer: true  // 禁用鼠标，防止鼠标左键无法拖动地图。
             });
             this.getMenuData();
+
         },
         computed: {
             iconSize () {
                 return this.spanLeft === 5 ? 14 : 24;
             },
             meunList () {
+                const that = this;
                 var list = [];
-                this.mList.forEach(function (val, index, attr) {
+                that.mList.forEach(function (val, index, attr) {
+                    var id = val.id;
+                    var aParentIds = val.parentIds.split(',');
+                    aParentIds = aParentIds.slice(0, aParentIds.length - 1);
 
+                    if (aParentIds.length === 2) {
+                        val.childrenList = that.getChildrenMenu(id);
+                        list.push(val);
+                    }
                 });
+                return list;
             }
         },
         methods: {
             getMenuData () {
-                Util.ajax.get('/metrosupervision/api/auth/menu/getMenuList')
+                var that = this;
+                Util.ajax.get('/sys/menu/menuList')
                     .then(function (response) {
-                       this.mList = response.result;
+                        that.mList = response.result || [];
+//                        console.log(response.result);
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
             },
+            // 遍历菜单
+            getChildrenMenu (id) {
+                var that = this;
+                var child = [];
+                that.mList.forEach(function (val) {
+                    if ( id == val.parentId ) {
+                        val.childrenList = that.getChildrenMenu(val.id);
+                        child.push(val);
+                    }
+                });
+                return child;
+            },
+
             toggleClick() {
                 if (this.spanLeft === 5) {
                     this.spanLeft = 2;
@@ -107,13 +172,22 @@
                 }
             },
             menuLink (link) {
+
                 this.$router.push(link);
             },
             logout () {
-                var router = new VueRouter();
-                Util.cookie.unset('xmgd');
-                this.$store.commit('setToken', null);
-                router.push({ path: '/' });
+                const that = this;
+                Util.ajax.get('/logout')
+                    .then(function (response){
+                        var router = new VueRouter();
+                        Util.cookie.unset('xmgd');
+                        Util.cookie.unset('xmgdname');
+                        that.$store.commit('setToken', null);
+                        router.push({ path: '/' });
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
             }
         }
     }
@@ -146,6 +220,7 @@
                     margin-top: 5px;
                     line-height: 20px;
                     color: #FFF;
+
                 }
             }
         }
@@ -190,6 +265,7 @@
             background: #fff;
             border-radius: 4px;
             .layout-content-main{
+                /*position: relative;*/
                 /*height: 100%;*/
             }
         }

@@ -58,66 +58,76 @@ export default {
                 }
             }
         },
-        mounted() {},
+        mounted() {
+//            Util.ajax.get('/logout')
+//                .then(function (response){
+//                    debugger
+//                })
+//                .catch(function (error) {
+//                    console.log(error);
+//                });
+////
+//            Util.ajax.post('/metrosupervision/a/sys/menu/menuList;JSESSIONID=111?__ajax=true')
+//                .then(function (response) {
+//                    debugger
+//                    if (response.status === 1) {
+//                        Util.cookie.set('xmgd', response.result.token, new Date(new Date().getTime() + 7 * 24 * 60 * 1000));
+//                        that.$store.commit('setToken', response.result.token);
+//                        let router = new VueRouter();
+//                        if (that.$route.query.redirect) {
+//                            router.push(that.$route.query.redirect);
+//                        } else {
+//                            router.push({path: '/system'});
+//                        }
+//                    }
+//                    else {
+//                        that.$Message.error(response.errMsg);
+//                    }
+//                })
+//                .catch(function (error) {
+//                    console.log(error);
+//                });
+        },
         methods: {
             handleSubmit(name) {
                 let that = this;
 
                 this.$refs[name].validate((valid) => {
-                   // debugger
                     if (valid) {
-                        Util.ajax.post('/metrosupervision/api/login', {
-                            loginName: that.formInline.user,
-                            password: that.formInline.password
+                        Util.ajax.post('/login', {
+                            username: that.formInline.user,
+                            password: that.formInline.password,
+                            mobileLogin: true
                         })
                         .then(function (response) {
-                            Util.cookie.set('xmgd', response.result.token, new Date(new Date().getTime() + 7 * 24 * 60 * 1000));
-                            that.$store.commit('setToken', response.result.token);
-                            // that.$store.state.token = response.data.token;
-                            let router = new VueRouter();
-                            if (that.$route.query.redirect) {
-                                router.push(that.$route.query.redirect);
-                            } else {
-                                router.push({ path: '/system' });
+                            debugger
+                            if (response.status === 1) {
+                                Util.cookie.set('xmgd', response.result.sessionid, new Date(new Date().getTime() + 7 * 24 * 60 * 1000));
+                                Util.cookie.set('xmgdname', response.result.name, new Date(new Date().getTime() + 7 * 24 * 60 * 1000));
+                                that.$store.commit('setToken', response.result.sessionid);
+                                that.$store.commit('setName', response.result.name);
+                                let router = new VueRouter();
+                                if (that.$route.query.redirect) {
+                                    router.push(that.$route.query.redirect);
+                                } else {
+                                    router.push({path: '/system'});
+                                }
+                            }
+                            else {
+                                that.$Message.error(response.errMsg);
                             }
                         })
                         .catch(function (error) {
                             console.log(error);
                         });
-                        this.$Message.success('提交成功!');
 
                     } else {
-                        this.$Message.error('表单验证失败!');
+
                     }
 
-//                    if (valid) {
-//                        $.ajax({
-//                            url: 'http://localhost:8880/metrosupervision/api/login',
-//                            type: 'POST',
-//                            dataType: 'JSON',
-//                            data: {
-//                                loginName: that.formInline.user,
-//                                password: that.formInline.password
-//                            },
-//                            success: function (response) {
-//
-//                                Util.cookie.set('xmgd', response.result.token, new Date(new Date().getTime() + 7 * 24 * 60 * 1000));
-//                                that.$store.commit('setToken', response.result.token);
-//                                // that.$store.state.token = response.data.token;
-//                                let router = new VueRouter();
-//                                if (that.$route.query.redirect) {
-//                                    router.push(that.$route.query.redirect);
-//                                } else {
-//                                    router.push({ path: '/system' });
-//                                }
-//                            },
-//                            error: function (err) {
-//                                console.dir(err);
-//                            }
-//
-//                        });
-//                    }
                 })
+
+
             }
         }
     }
