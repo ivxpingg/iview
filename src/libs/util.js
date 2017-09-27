@@ -16,7 +16,7 @@ const ajaxUrl = env === 'production' ?
     'http://cs.doudou360.com:8088/metrosupervision/a' :
     env === 'development' ?
     'http://localhost:8880/mytest' :
-    'http://localhost:8880/metrosupervision/a'
+    'http://localhost:8880/jeesite/a'
 
 var Cookie = {
     get: function (name) {
@@ -112,7 +112,7 @@ var Ajax = axios.create({
 
 //ajax请求前拦截器
 Ajax.interceptors.request.use(function (config) {
-    // config.headers.common['Authorization'] = Cookie.get('xmgd');
+    config.headers.common['Authorization'] = Cookie.get('xmgd');
     // config.url = config.url + ';JSESSIONID=' + Cookie.get('xmgd');
     return config;
 }, function (error) {
@@ -122,7 +122,7 @@ Ajax.interceptors.request.use(function (config) {
 Ajax.interceptors.response.use(function (response) {
     if(response.data.errCode === "A0002") {
         let router = new VueRouter();
-        router.push('/');
+       // router.push('/');
     }
     return response.data;
 }, function (error) {

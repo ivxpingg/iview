@@ -114,7 +114,7 @@
                disableTouch: true,
                disablePointer: true  // 禁用鼠标，防止鼠标左键无法拖动地图。
             });
-            this.getMenuData();
+//            this.getMenuData();
 
         },
         computed: {
@@ -140,7 +140,7 @@
         methods: {
             getMenuData () {
                 var that = this;
-                Util.ajax.get('/sys/menu/menuList')
+                Util.ajax.get('/metro/auth/menuList')
                     .then(function (response) {
                         that.mList = response.result || [];
 //                        console.log(response.result);

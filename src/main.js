@@ -25,6 +25,7 @@ const RouterConfig = {
 const router = new VueRouter(RouterConfig);
 
 router.beforeEach((to, from, next) => {
+
     next();return ;
     if (to.path === '/' || !to.meta.requireAuth) {
         Util.title(to.meta.title);

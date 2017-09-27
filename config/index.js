@@ -16,7 +16,7 @@ module.exports = {
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
         proxyTable: {
-            '/metrosupervision': { target: 'http://192.168.1.35:8080', changeOrigin: true }
+            '/jeesite': { target: 'http://192.168.1.35:8888', changeOrigin: true }
             // '/metrosupervision/api': { target: 'http://10.131.1.222:8088', changeOrigin: true }
         },
         // CSS Sourcemaps off by default because relative paths are "buggy"
