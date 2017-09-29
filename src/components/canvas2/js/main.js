@@ -5,65 +5,46 @@ import drawPathway from './drawPathway';
 import Util from '../../../libs/util';
 import departCar from './depart/departCar';
 
+import trainStart from './depart/start';
 
-var main = function() {
+
+var main = function(v) {
     var shapeList = [];
+
+    var carList = {};
+
     var sTime = '2017-09-27 14:50:00';
 
     var zr = ZRender.init(document.querySelector("#canvas"));
 
     var canvas = document.querySelector('#canvas');
 
-    scrollScale(canvas, 0.1, 10, 0.3);
-    startDrag(canvas,canvas,null);
+    scrollScale(v, canvas, 0.1, 10, 0.3);
+    startDrag(v, canvas,canvas,null);
 
-    drawPathway(zr);
+    drawPathway(zr, v);
 
-
-
-    //
-    // var car0 = {
-    //     Section_Name: "杏锦路站",
-    //     Station_ID : "240",
-    //     destination_id: "10",
-    //     direction: "0",
-    //     id : 27,
-    //     time : 1506494470000,
-    //     train_cnt: "10",
-    //     train_service_number:"00101",
-    //     train_unit_number:"0",
-    //     type: "0"
-    // };
-    // var car2 = {
-    //     Section_Name: "杏锦路站",
-    //     Station_ID : "240",
-    //     destination_id: "10",
-    //     direction: "0",
-    //     id : 27,
-    //     time : 1506494470000,
-    //     train_cnt: "10",
-    //     train_service_number:"00101",
-    //     train_unit_number:"0",
-    //     type: "2"
-    // };
-    //
-    // for (var i = 10; i < 250; ) {
-    //
-    //     car0.Station_ID = i;
-    //     car2.Station_ID = i;
-    //
-    //     car0.train_service_number = i;
-    //     car2.train_service_number = i;
-    //
-    //     departCar(zr, car0);
-    //     departCar(zr, car2);
-    //     i = i + 10;
-    // }
-    //
-    // return;
-
+    // trainStart(zr, v);
+    return;
 
     var forCar = function (list) {
+        shapeList.forEach(function (val) {
+            debugger
+            zr.remove(val);
+        });
+        list.forEach(function (val, index, attr) {
+            shapeList.push(departCar(zr, val));
+        });
+    }
+
+    var forCarMove = function (list) {
+
+        list.forEach(function (val) {
+           if (!carList[val.Station_ID]) {
+               carList[val.Station_ID] = val;
+           }
+        });
+
         shapeList.forEach(function (val) {
             zr.remove(val);
         });
@@ -106,12 +87,12 @@ var main = function() {
                 time: sTime
             }
         }).then(function (data) {
-            console.dir(data.result);
+            console.log(JSON.stringify(data.result));
             forCar(data.result);
         }).catch(function (err) {
 
         });
-    } ,3000);
+    } , 3000);
 
 }
 

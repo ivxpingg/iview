@@ -1,3 +1,4 @@
+
 import lineData from '../lineData';
 import ZCircle from 'zrender/lib/graphic/shape/Circle';
 import ZText from 'zrender/lib/graphic/Text';
@@ -8,8 +9,8 @@ var shapeList = [];
 
 
 var upCar = function (car) {
-    var p = [0, 0];   // 动车的位置
-    var tp = [0, 0];  // 动车服务号位置
+    var p = [0, 0];
+    var tp = [0, 0];
 
     var circle = new ZCircle({
         position: p,
@@ -59,45 +60,52 @@ var upCar = function (car) {
     });
 
 
-   for( var i = 0; i < lineData.stationList.length; i++ ) {
-       var val = lineData.stationList[i];
-       if (car.Station_ID == val.station_ID) {
-           if (car.type == 0 && val.onTheWay) {
-               p = [val.sPoint.x, val.sPoint.y];
-               tp = [val.sServerPoint.x, val.sServerPoint.y];
-               break;
-           }
-           else if (car.type == 1 && val.isStation) {
-               p = [val.sPoint.x, val.sPoint.y];
-               tp = [val.sServerPoint.x, val.sServerPoint.y];
-               circle.animate('style', true).when(300, {
-                   fill: 'rgba(0, 153, 51, 0)'
-               }).start();
+    for( var i = 0; i < lineData.stationList.length; i++ ) {
+        var val = lineData.stationList[i];
+        if (car.Station_ID == val.station_ID) {
+            if (car.type == 0 && val.onTheWay) {
+                p = [val.sPoint.x, val.sPoint.y];
+                tp = [val.sServerPoint.x, val.sServerPoint.y];
+                break;
+            }
+            else if (car.type == 1 && val.isStation) {
+                p = [val.sPoint.x, val.sPoint.y];
+                tp = [val.sServerPoint.x, val.sServerPoint.y];
+                circle.animate('style', true).when(300, {
+                    fill: 'rgba(0, 153, 51, 0)'
+                }).start();
 
-               break;
-           }
-           else if (car.type == 2 && val.isStation) {
-               p = [val.sPoint.x, val.sPoint.y];
-               tp = [val.sServerPoint.x, val.sServerPoint.y];
-               break;
-           }
-           else if (car.type == 3 && val.isStation) {
-               p = [val.sPoint.x, val.sPoint.y];
-               tp = [val.sServerPoint.x, val.sServerPoint.y];
-               circle.animate('style', true).when(300, {
-                   fill: 'rgba(0, 153, 51, 0)'
-               }).start();
-               break;
-           }
-       }
-   }
+                break;
+            }
+            else if (car.type == 2 && val.isStation) {
+                p = [val.sPoint.x, val.sPoint.y];
+                tp = [val.sServerPoint.x, val.sServerPoint.y];
+                break;
+            }
+            else if (car.type == 3 && val.isStation) {
+                p = [val.sPoint.x, val.sPoint.y];
+                tp = [val.sServerPoint.x, val.sServerPoint.y];
+                circle.animate('style', true).when(300, {
+                    fill: 'rgba(0, 153, 51, 0)'
+                }).start();
+                break;
+            }
+        }
+    }
 
-   rect.position = tp;
-   text.position = tp;
-   circle.position = p;
-    shapeList.push(circle);
-    shapeList.push(rect);
-    shapeList.push(text);
+    rect.position = tp;
+    text.position = tp;
+    circle.position = p;
+    // shapeList.push(circle);
+    // shapeList.push(rect);
+    // shapeList.push(text);
+
+    shapeList.push({
+        train: circle,
+        rect: rect,
+        text: text
+    });
+
     zr.add(circle);
     zr.add(rect);
     zr.add(text);
@@ -105,8 +113,8 @@ var upCar = function (car) {
 
 var downCar = function (car) {
 
-    var p = [0, 0];
-    var tp = [0, 0];
+    var p = [0, 0];   // 动车的位置
+    var tp = [0, 0];  // 动车服务号位置
 
     var circle = new ZCircle({
         position: p,
@@ -192,9 +200,16 @@ var downCar = function (car) {
     rect.position = tp;
     text.position = tp;
     circle.position = p;
-    shapeList.push(circle);
-    shapeList.push(rect);
-    shapeList.push(text);
+    // shapeList.push(circle);
+    // shapeList.push(rect);
+    // shapeList.push(text);
+
+    shapeList.push({
+        train: circle,
+        rect: rect,
+        text: text
+    });
+
     zr.add(circle);
     zr.add(rect);
     zr.add(text);

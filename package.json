@@ -19,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.15.3",
-    "echarts": "^3.4.0",
+    "echarts": "^3.7.2",
     "iscroll": "^5.2.0",
     "iview": "^2.3.0",
     "util": "^0.10.3",

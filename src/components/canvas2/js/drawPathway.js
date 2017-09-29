@@ -8,6 +8,8 @@ import ZText from 'zrender/lib/graphic/Text';
 import ZLine from 'zrender/lib/graphic/shape/Line';
 // import ZRect from 'zrender/lib/graphic/shape/Rect';
 
+var vm;
+
 // 绘制站点名称
 var drawStationName = function(zr) {
     lineData.stationList.forEach(function ( val, num, attr ) {
@@ -16,7 +18,7 @@ var drawStationName = function(zr) {
             var tPoint_y  = val.tPoint.y;
             var de = val.rotate * Math.PI / 180;
 
-            zr.add(new ZText({
+            var text = new ZText({
                 style: {
                     text: val.station_Name,
                     x: tPoint_x,
@@ -33,7 +35,21 @@ var drawStationName = function(zr) {
 
                 // rotation: de,
                 // origin: [tPoint_x,tPoint_y]
-            }));
+            });
+            text.on('click', function (e) {
+
+                var canvas_offsetX = e.offsetX * vm.scale,
+                    canvas_offsetY = e.offsetY * vm.scale,
+                    canvas_offsetLeft = document.querySelector("#canvas").offsetLeft,
+                    canvas_offsetTop = document.querySelector("#canvas").offsetTop;
+
+
+                vm.stationName = val.station_Name;
+                vm.stationPopupShow([canvas_offsetX + canvas_offsetLeft, canvas_offsetY + canvas_offsetTop]);
+            });
+
+
+            zr.add(text);
         }
     });
 };
@@ -214,7 +230,8 @@ var onTheWay = function (zr) {
     });
 }
 
-var drawPathWay = function (zr) {
+var drawPathWay = function (zr, v) {
+    vm = v;
     drawStationName(zr);
     drawLine(zr);
     drawUpline(zr);
