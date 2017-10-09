@@ -1,3 +1,13 @@
+/**
+ *  轨道一号线地图数据
+ *  stationList： canvas坐标信息，目前有3个类型，包含站点信息、站点与站定之间的线路信息、站点与站点之间上行和下行的坐标信息
+ *  stationList: [{
+ *      isStation: boolean // 表示是否是站点
+ *      onTheWay：boolean  // 表示站点与站点之间列车停靠位置。
+ *      isCorner：boolean  // 表示站点与站点之间的连接点
+ *  }]
+ */
+
 export default {
     id: 1,
     name: '1号线',

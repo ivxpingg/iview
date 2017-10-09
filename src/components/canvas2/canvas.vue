@@ -1,7 +1,5 @@
 <template>
-
-</template><template>
-    <div class="canvasBox" :class="fullScreen ? 'fullScreenBox': ''">
+    <div ref="canvasBox" class="canvasBox" :class="fullScreen ? 'fullScreenBox': ''">
         <div id="canvas" style="border: 0 solid #000; width: 3000px; height: 1500px;"></div>
         <i class="ivu-icon icon-fullScreen"
            :class="fullScreen ? 'ivu-icon-android-contract' : 'ivu-icon-android-expand'"
@@ -29,11 +27,18 @@
                 popupShow: false,
                 popupPositionX: 0,
                 popupPositionY: 0,
-                scale: 1    // canvas 被缩放的比例 默认1
+                scale: 1,    // canvas 被缩放的比例 默认1
+                parentDom: null
             };
         },
         mounted: function () {
+
             var that = this;
+
+            this.browserFullInit();
+
+            this.parentDom = this.$el.parentNode;
+
             this.pageInit();
             main(that);
             this.echartDemo();
@@ -42,9 +47,71 @@
             pageInit() {
                 document.querySelector("#layout-content-main").style.height = "100%";
             },
+            /**
+             * 浏览器全屏设置
+             */
+            browserFullInit() {
+                document.addEventListener("fullscreenchange", function () {
+
+                    fullscreenState.innerHTML = (document.fullscreen) ? "" : "not ";
+                }, false);
+
+                document.addEventListener("mozfullscreenchange", function () {
+
+                    fullscreenState.innerHTML = (document.mozFullScreen) ? "" : "not ";
+                }, false);
+
+
+
+                document.addEventListener("webkitfullscreenchange", function () {
+
+                    fullscreenState.innerHTML = (document.webkitIsFullScreen) ? "" : "not ";
+                }, false);
+
+                document.addEventListener("msfullscreenchange", function () {
+
+                    fullscreenState.innerHTML = (document.msFullscreenElement) ? "" : "not ";
+                }, false);
+            },
             switchFullScreen () {
                 this.fullScreen = !this.fullScreen;
-                this.$state.commit('setCancelScroll', this.fullScreen);
+                if (this.fullScreen) {
+                    document.body.appendChild(this.$el);
+
+                    var docElm = document.documentElement;
+                    //W3C
+                    if (docElm.requestFullscreen) {
+                        docElm.requestFullscreen();
+                    }
+                    //FireFox
+                    else if (docElm.mozRequestFullScreen) {
+                        docElm.mozRequestFullScreen();
+                    }
+                    //Chrome等
+                    else if (docElm.webkitRequestFullScreen) {
+                        docElm.webkitRequestFullScreen();
+                    }
+                    //IE11
+                    else if (elem.msRequestFullscreen) {
+                        elem.msRequestFullscreen();
+                    }
+                } else {
+                    this.parentDom.appendChild(this.$el);
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                    else if (document.mozCancelFullScreen) {
+                        document.mozCancelFullScreen();
+                    }
+                    else if (document.webkitCancelFullScreen) {
+                        document.webkitCancelFullScreen();
+                    }
+                    else if (document.msExitFullscreen) {
+                        document.msExitFullscreen();
+                    }
+                }
+
+                // this.$store.commit('setCancelScroll', this.fullScreen);
             },
             stationPopupShow (p) {
                 this.popupShow = true;

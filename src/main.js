@@ -71,8 +71,7 @@ router.afterEach(() => {
 const store = new Vuex.Store({
     state: {
         token: null,
-        name: '',
-        cancelScroll: false    // 取消父框架system.vue下 #layout-content 元素是否使用滚动，防止父级有transform样式，导致子元素下position:fixed;定位失效。
+        name: ''
     },
     getters: {
 
@@ -83,9 +82,6 @@ const store = new Vuex.Store({
         },
         setName(state, name) {
             state.name = name;
-        },
-        setCancelScroll(state, boole) {
-            state.cancelScroll = boole;
         }
 
     },

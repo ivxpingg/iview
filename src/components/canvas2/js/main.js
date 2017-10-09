@@ -24,12 +24,12 @@ var main = function(v) {
 
     drawPathway(zr, v);
 
-    // trainStart(zr, v);
+    trainStart(zr, v);
     return;
 
     var forCar = function (list) {
         shapeList.forEach(function (val) {
-            debugger
+            // debugger
             zr.remove(val);
         });
         list.forEach(function (val, index, attr) {
@@ -38,6 +38,7 @@ var main = function(v) {
     }
 
     var forCarMove = function (list) {
+        var newCarList = [];
 
         list.forEach(function (val) {
            if (!carList[val.Station_ID]) {

@@ -71,9 +71,9 @@ var upCar = function (car) {
             else if (car.type == 1 && val.isStation) {
                 p = [val.sPoint.x, val.sPoint.y];
                 tp = [val.sServerPoint.x, val.sServerPoint.y];
-                circle.animate('style', true).when(300, {
-                    fill: 'rgba(0, 153, 51, 0)'
-                }).start();
+                // circle.animate('style', true).when(300, {
+                //     fill: 'rgba(0, 153, 51, 0)'
+                // }).start();
 
                 break;
             }
@@ -85,9 +85,9 @@ var upCar = function (car) {
             else if (car.type == 3 && val.isStation) {
                 p = [val.sPoint.x, val.sPoint.y];
                 tp = [val.sServerPoint.x, val.sServerPoint.y];
-                circle.animate('style', true).when(300, {
-                    fill: 'rgba(0, 153, 51, 0)'
-                }).start();
+                // circle.animate('style', true).when(300, {
+                //     fill: 'rgba(0, 153, 51, 0)'
+                // }).start();
                 break;
             }
         }
@@ -100,11 +100,11 @@ var upCar = function (car) {
     // shapeList.push(rect);
     // shapeList.push(text);
 
-    shapeList.push({
+    shapeList = {
         train: circle,
         rect: rect,
         text: text
-    });
+    };
 
     zr.add(circle);
     zr.add(rect);
@@ -177,9 +177,9 @@ var downCar = function (car) {
             if (car.type == 1 && val.isStation) {
                 p = [val.xPoint.x, val.xPoint.y];
                 tp = [val.xServerPoint.x, val.xServerPoint.y];
-                circle.animate('style', true).when(300, {
-                    fill: 'rgba(0, 153, 51, 0)'
-                }).start();
+                // circle.animate('style', true).when(300, {
+                //     fill: 'rgba(0, 153, 51, 0)'
+                // }).start();
                 break;
             }
             else if (car.type == 2 && val.isStation) {
@@ -190,9 +190,9 @@ var downCar = function (car) {
             else if (car.type == 3 && val.isStation) {
                 p = [val.xPoint.x, val.xPoint.y];
                 tp = [val.xServerPoint.x, val.xServerPoint.y];
-                circle.animate('style', true).when(300, {
-                    fill: 'rgba(0, 153, 51, 0)'
-                }).start();
+                // circle.animate('style', true).when(300, {
+                //     fill: 'rgba(0, 153, 51, 0)'
+                // }).start();
                 break;
             }
         }
@@ -204,11 +204,11 @@ var downCar = function (car) {
     // shapeList.push(rect);
     // shapeList.push(text);
 
-    shapeList.push({
+    shapeList = {
         train: circle,
         rect: rect,
         text: text
-    });
+    };
 
     zr.add(circle);
     zr.add(rect);
@@ -216,7 +216,7 @@ var downCar = function (car) {
 }
 
 var car = function (z, car) {
-    shapeList = [];
+    shapeList = {};
 
     zr = z;
 

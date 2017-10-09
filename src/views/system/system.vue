@@ -101,22 +101,21 @@
                 spanLeft: 5,
                 spanRight: 19,
                 mList: [],
-                userName: ''
+                userName: '',
+
             };
         },
         mounted: function() {
 
             this.userName = Util.cookie.get('xmgdname') || '';
 
-            if (!this.$state.cancelScroll) {
-                var myScroll = new Iscroll("#layout-content", {
-                    mouseWheel: true,
-                    scrollbars: true,
-                    disableMouse: true,
-                    disableTouch: true,
-                    disablePointer: true  // 禁用鼠标，防止鼠标左键无法拖动地图。
-                });
-            }
+            var myScroll = new Iscroll("#layout-content", {
+                mouseWheel: true,
+                scrollbars: true,
+                disableMouse: true,
+                disableTouch: true,
+                disablePointer: true  // 禁用鼠标，防止鼠标左键无法拖动地图。
+            });
 //            this.getMenuData();
 
         },
