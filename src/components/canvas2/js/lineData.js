@@ -275,8 +275,8 @@ export default {
             tPoint: { x: 1414, y: 882 },
             sPoint: { x: 1421, y: 879 },
             xPoint: { x: 1407, y: 885 },
-            sServerPoint: { x: 1421, y: 879 },
-            xServerPoint: { x: 1407, y: 885 }
+            sServerPoint: { x: 1421 + 10, y: 879 - 7 },
+            xServerPoint: { x: 1407 - 60, y: 885 }
         },
         {
             station_ID: 120,
@@ -356,8 +356,8 @@ export default {
             tPoint: { x: 1155, y: 653 },
             sPoint: { x: 1159, y: 646 },
             xPoint: { x: 1151, y: 660 },
-            sServerPoint: { x: 1159, y: 646 },
-            xServerPoint: { x: 1151, y: 660 }
+            sServerPoint: { x: 1159 + 10, y: 646 - 7 },
+            xServerPoint: { x: 1151 - 60, y: 660 }
 
         },
         {
@@ -416,8 +416,8 @@ export default {
             tPoint: { x: 921, y: 653 },
             sPoint: { x: 924, y: 646 },
             xPoint: { x: 918, y: 660 },
-            sServerPoint: { x: 924, y: 646 },
-            xServerPoint: { x: 918, y: 660 }
+            sServerPoint: { x: 924, y: 646 - 24 },
+            xServerPoint: { x: 918 - 25, y: 660 + 10 }
         },
         {
             station_ID: 170,

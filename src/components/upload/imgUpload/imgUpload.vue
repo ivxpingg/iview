@@ -4,7 +4,7 @@
             <template v-if="item.status === 'finished'">
                 <img :src="item.url">
                 <div class="upload-list-cover">
-                    <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
+                    <Icon type="ios-eye-outline" @click.native="handleView(item.url)"></Icon>
                     <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
                 </div>
             </template>
@@ -14,6 +14,7 @@
         </div>
         <Upload
             ref="upload"
+            :headers="headers"
             :show-upload-list="false"
             :default-file-list="defaultList"
             :on-success="handleSuccess"
@@ -24,14 +25,16 @@
             :before-upload="handleBeforeUpload"
             :multiple="multiple"
             type="drag"
-            action=""
+            :action="actionUrl"
+            :with-credentials="true"
+            name="file"
             style="display: inline-block;width:58px;">
             <div style="width: 58px;height:58px;line-height: 58px;">
                 <Icon type="camera" size="20"></Icon>
             </div>
         </Upload>
         <Modal title="查看图片" v-model="visible">
-            <img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">
+            <img :src="previewImgSrc" v-if="visible" style="width: 100%">
         </Modal>
     </div>
 </template>
@@ -44,7 +47,10 @@
                 ],
                 uploadList: [],
                 imgName: '',
-                visible: false
+                visible: false,
+                url: '/sys/upload/picture',
+                headers: {},
+                previewImgSrc: 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/large'
             }
         },
         props: {
@@ -59,14 +65,33 @@
                 default () {
                     return true;
                 }
+            },
+            dataParams: {
+                type: Object,
+                default() {
+                    return {
+                        pictureType: 'HeadPortrait'
+                    }
+                }
+            }
+        },
+        computed: {
+            actionUrl () {
+                return Util.domain + this.url;
             }
         },
         mounted () {
             this.uploadList = this.$refs.upload.fileList;
+
+            this.headers = {
+                common: {
+                    Authorization: Util.cookie.get('xmgd') || ''
+                }
+            }
         },
         methods: {
-            handleView (name) {
-                this.imgName = name;
+            handleView (url) {
+                this.previewImgSrc = url;
                 this.visible = true;
             },
             handleRemove (file) {
@@ -74,8 +99,10 @@
                 this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
             },
             handleSuccess(res, file, fileList) {
-                file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
-                file.name = '7eb99afb9d5f317c912f08b5212fd69a';
+                if (res.status == 1) {
+                    file.url =  res.result.pictureUrl; //'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
+                    file.name = '7eb99afb9d5f317c912f08b5212fd69a';
+                }
             },
             handleFormatError (file) {
                 this.$Notice.warning({

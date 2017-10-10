@@ -58,43 +58,14 @@ export default {
                 }
             }
         },
-        mounted() {
-//            Util.ajax.get('/logout')
-//                .then(function (response){
-//                    debugger
-//                })
-//                .catch(function (error) {
-//                    console.log(error);
-//                });
-////
-//            Util.ajax.post('/metrosupervision/a/sys/menu/menuList;JSESSIONID=111?__ajax=true')
-//                .then(function (response) {
-//                    debugger
-//                    if (response.status === 1) {
-//                        Util.cookie.set('xmgd', response.result.token, new Date(new Date().getTime() + 7 * 24 * 60 * 1000));
-//                        that.$store.commit('setToken', response.result.token);
-//                        let router = new VueRouter();
-//                        if (that.$route.query.redirect) {
-//                            router.push(that.$route.query.redirect);
-//                        } else {
-//                            router.push({path: '/system'});
-//                        }
-//                    }
-//                    else {
-//                        that.$Message.error(response.errMsg);
-//                    }
-//                })
-//                .catch(function (error) {
-//                    console.log(error);
-//                });
-        },
+        mounted() {},
         methods: {
             handleSubmit(name) {
                 let that = this;
 
                 this.$refs[name].validate((valid) => {
                     if (valid) {
-                        Util.ajax.post('/login', {
+                        Util.ajax.post('/sys/login', {
                             username: that.formInline.user,
                             password: that.formInline.password,
                             mobileLogin: true

@@ -67,22 +67,37 @@ var setAnimation = function (oVal, nVal) {
                else if (lineData[i].onTheWay) {
                    start = i;
                }
+
+                end = start;
             }
 
             trainCanvasList[nVal.train_service_number].train.position = [lineData[start].xPoint.x, lineData[start].xPoint.y];
             trainCanvasList[nVal.train_service_number].rect.position = [lineData[start].xServerPoint.x, lineData[start].xServerPoint.y];
             trainCanvasList[nVal.train_service_number].text.position = [lineData[start].xServerPoint.x, lineData[start].xServerPoint.y];
+
+            var dtime = 0;
+            var trainAnimate = trainCanvasList[nVal.train_service_number].train.animate('',false),
+                rectAnimate = trainCanvasList[nVal.train_service_number].rect.animate('',false),
+                textAnimate = trainCanvasList[nVal.train_service_number].text.animate('',false);
             for (start; start > end; start--) {
-                trainCanvasList[nVal.train_service_number].train.animate('',false).when(2000, {
+
+                dtime += (!!lineData[start - 1] && !!lineData[start - 1].isCorner) ? 1000 : 2000;
+
+                trainAnimate = trainAnimate.when(dtime, {
                     position: [lineData[start - 1].xPoint.x, lineData[start - 1].xPoint.y]
-                }).start();
-                trainCanvasList[nVal.train_service_number].rect.animate('',false).when(2000, {
+                });
+
+                rectAnimate = rectAnimate.when(dtime, {
                     position: [lineData[start - 1].xServerPoint.x, lineData[start - 1].xServerPoint.y]
-                }).start();
-                trainCanvasList[nVal.train_service_number].text.animate('',false).when(2000, {
+                });
+
+                textAnimate = textAnimate.when(dtime, {
                     position: [lineData[start - 1].xServerPoint.x, lineData[start - 1].xServerPoint.y]
-                }).start();
+                });
             }
+            trainAnimate.start();
+            rectAnimate.start();
+            textAnimate.start();
 
         } else {
            for (var i = 0; i < lineData.length; i++) {
@@ -93,22 +108,37 @@ var setAnimation = function (oVal, nVal) {
                else if (lineData[i].onTheWay) {
                    start = i;
                }
+
+               end = start;
            }
 
             trainCanvasList[nVal.train_service_number].train.position = [lineData[start].sPoint.x, lineData[start].sPoint.y];
             trainCanvasList[nVal.train_service_number].rect.position = [lineData[start].sServerPoint.x, lineData[start].sServerPoint.y];
             trainCanvasList[nVal.train_service_number].text.position = [lineData[start].sServerPoint.x, lineData[start].sServerPoint.y];
+
+            var dtime = 0;
+            var trainAnimate = trainCanvasList[nVal.train_service_number].train.animate('',false),
+                rectAnimate = trainCanvasList[nVal.train_service_number].rect.animate('',false),
+                textAnimate = trainCanvasList[nVal.train_service_number].text.animate('',false);
             for (start; start < end; start++) {
-                trainCanvasList[nVal.train_service_number].train.animate('',false).when(2000, {
+                dtime += (!!lineData[start - 1] && !!lineData[start - 1].isCorner) ? 1000 : 2000;
+
+                trainAnimate = trainAnimate.when(dtime, {
                     position: [lineData[start + 1].sPoint.x, lineData[start + 1].sPoint.y]
-                }).start();
-                trainCanvasList[nVal.train_service_number].rect.animate('',false).when(2000, {
+                });
+
+                rectAnimate = rectAnimate.when(dtime, {
                     position: [lineData[start + 1].sServerPoint.x, lineData[start + 1].sServerPoint.y]
-                }).start();
-                trainCanvasList[nVal.train_service_number].text.animate('',false).when(2000, {
+                });
+
+                textAnimate = textAnimate.when(dtime, {
                     position: [lineData[start + 1].sServerPoint.x, lineData[start + 1].sServerPoint.y]
-                }).start();
+                });
+
             }
+            trainAnimate.start();
+            rectAnimate.start();
+            textAnimate.start();
         }
     }
     else if(nVal.type == 2) {
@@ -133,12 +163,90 @@ var setAnimation = function (oVal, nVal) {
             }
         }
     }
-    else if(nVal.type == 3) {
+    else if(nVal.type == 3) { // 出站
         if (nVal.direction == 1) { // 下行
+            var extra3 = false;
+            for (var i = lineData.length - 1; i >= 0; i--) {
+                if (lineData[i].station_ID == nVal.Station_ID && lineData[i].isStation) {
+                    start = i;
+                    extra3 = true;
+                }
+                else if (extra3 && lineData[i].onTheWay) {
+                    end = i;
+                    break;
+                }
+                end = start;
+            }
 
+            trainCanvasList[nVal.train_service_number].train.position = [lineData[start].xPoint.x, lineData[start].xPoint.y];
+            trainCanvasList[nVal.train_service_number].rect.position = [lineData[start].xServerPoint.x, lineData[start].xServerPoint.y];
+            trainCanvasList[nVal.train_service_number].text.position = [lineData[start].xServerPoint.x, lineData[start].xServerPoint.y];
+
+            var dtime = 0
+
+            var trainAnimate = trainCanvasList[nVal.train_service_number].train.animate('',false),
+                rectAnimate = trainCanvasList[nVal.train_service_number].rect.animate('',false),
+                textAnimate = trainCanvasList[nVal.train_service_number].text.animate('',false);
+
+            for (start; start > end; start--) {
+                dtime += (!!lineData[start - 1] && !!lineData[start - 1].isCorner) ? 1000 : 2000;
+
+                trainAnimate = trainAnimate.when(dtime, {
+                    position: [lineData[start - 1].xPoint.x, lineData[start - 1].xPoint.y]
+                });
+
+                rectAnimate = rectAnimate.when(dtime, {
+                    position: [lineData[start - 1].xServerPoint.x, lineData[start - 1].xServerPoint.y]
+                });
+
+                textAnimate = textAnimate.when(dtime, {
+                    position: [lineData[start - 1].xServerPoint.x, lineData[start - 1].xServerPoint.y]
+                });
+
+            }
+            trainAnimate.start();
+            rectAnimate.start();
+            textAnimate.start();
         }
         else { // 上行
+            var extra3 = false;
+            for (var i = 0; i < lineData.length; i++) {
+                if (lineData[i].station_ID == nVal.Station_ID && lineData[i].isStation) {
+                    extra3 = true;
+                    start = i;
+                }
+                else if (extra3 && lineData[i].onTheWay) {
+                    end = i;
+                    break;
+                }
+                end = start;
+            }
 
+            trainCanvasList[nVal.train_service_number].train.position = [lineData[start].sPoint.x, lineData[start].sPoint.y];
+            trainCanvasList[nVal.train_service_number].rect.position = [lineData[start].sServerPoint.x, lineData[start].sServerPoint.y];
+            trainCanvasList[nVal.train_service_number].text.position = [lineData[start].sServerPoint.x, lineData[start].sServerPoint.y];
+            var dtime = 0;
+            var trainAnimate = trainCanvasList[nVal.train_service_number].train.animate('',false),
+                rectAnimate = trainCanvasList[nVal.train_service_number].rect.animate('',false),
+                textAnimate = trainCanvasList[nVal.train_service_number].text.animate('',false);
+            for (start; start < end; start++) {
+                dtime += (!!lineData[start - 1] && !!lineData[start - 1].isCorner) ? 1000 : 2000;
+
+                trainAnimate = trainAnimate.when(dtime, {
+                    position: [lineData[start + 1].sPoint.x, lineData[start + 1].sPoint.y]
+                });
+
+                rectAnimate = rectAnimate.when(dtime, {
+                    position: [lineData[start + 1].sServerPoint.x, lineData[start + 1].sServerPoint.y]
+                });
+
+                textAnimate = textAnimate.when(dtime, {
+                    position: [lineData[start + 1].sServerPoint.x, lineData[start + 1].sServerPoint.y]
+                });
+            }
+            trainAnimate.start();
+            rectAnimate.start();
+            textAnimate.start();
         }
     }
 }
@@ -162,7 +270,7 @@ var handleData = function (list) {
     });
 
     // 移除不存在的动车
-    for(o in trainDataList) {
+    for(var o in trainDataList) {
         if (!trainDataList2[o]) {
             zr.remove(trainCanvasList[o].train);
             zr.remove(trainCanvasList[o].rect);
@@ -205,7 +313,8 @@ var getData = function (delay) {
             handleData(data.result);
             getData(1000);
         }).catch(function (err) {
-
+            console.dir(err);
+            getData(1000);
         });
     }, delay);
 };

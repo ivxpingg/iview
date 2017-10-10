@@ -3,55 +3,80 @@
     <div class="content" ref="content">
         <Row type="flex" style="height: 100%">
             <Col :span="spanLeft" class="layout-menu-left" style="height: 100%">
-                <!--<Menu active-name="/system/employee/add" theme="dark" @on-select="menuLink" width="auto">-->
+
+                <!--<Menu theme="dark" @on-select="menuLink" accordion width="auto">-->
                     <!--<div class="layout-logo-left">-->
                         <!--<img class="logo-img" src="../../images/xmgd.png" alt="">-->
                         <!--<div class="logo-title">轨道监管平台</div>-->
                     <!--</div>-->
-                    <!--<Submenu name="1">-->
-                        <!--<template slot="title">-->
-                            <!--<Icon type="ios-navigate" :size="iconSize"></Icon>-->
-                            <!--<span class="layout-text">从业人员</span>-->
+                    <!--<Submenu v-for="lv1 in meunList" name="1">-->
+                        <!--<template v-if="!lv1.href">-->
+                            <!--<template slot="title">-->
+                                <!--<Icon type="ios-navigate" :size="iconSize"></Icon>-->
+                                <!--<span class="layout-text">{{lv1.name}}</span>-->
+                            <!--</template>-->
+                            <!--<template v-for="lv2 in lv1.childrenList">-->
+                                <!--<template v-if="!lv2.href">-->
+                                    <!--<MenuGroup :title="lv2.name">-->
+                                        <!--<MenuItem v-for="lv3 in lv2.childrenList" :name="lv3.href">{{lv3.name}}</MenuItem>-->
+                                    <!--</MenuGroup>-->
+                                <!--</template>-->
+                                <!--<template v-else>-->
+                                    <!--<MenuItem :name="lv2.href">{{lv2.name}}</MenuItem>-->
+                                <!--</template>-->
+                            <!--</template>-->
                         <!--</template>-->
-                        <!--<MenuItem name="/system/canvas">选项 1</MenuItem>-->
-                        <!--<MenuItem name="/system/employee/add" >添加从业人员</MenuItem>-->
-                        <!--<MenuItem name="1-3">选项 3</MenuItem>-->
+
+                        <!--<template v-else>-->
+                            <!--<template slot="title">-->
+                                <!--<Icon type="ios-navigate" :size="iconSize"></Icon>-->
+                                <!--<span class="layout-text">{{lv1.name}}</span>-->
+                            <!--</template>-->
+                            <!--<MenuItem :name="lv1.href">{{lv1.name}}</MenuItem>-->
+                        <!--</template>-->
 
                     <!--</Submenu>-->
                 <!--</Menu>-->
+
             <Menu theme="dark" @on-select="menuLink" accordion width="auto">
                 <div class="layout-logo-left">
                     <img class="logo-img" src="../../images/xmgd.png" alt="">
-                    <div class="logo-title">轨道监管平台</div>
+                    <div class="logo-title">{{ meunList.appFunction.funcName}}</div>
                 </div>
-                <Submenu v-for="lv1 in meunList" name="1">
-                    <template v-if="!lv1.href">
-                        <template slot="title">
-                            <Icon type="ios-navigate" :size="iconSize"></Icon>
-                            <span class="layout-text">{{lv1.name}}</span>
-                        </template>
-                        <template v-for="lv2 in lv1.childrenList">
-                            <template v-if="!lv2.href">
-                                <MenuGroup :title="lv2.name">
-                                    <MenuItem v-for="lv3 in lv2.childrenList" :name="lv3.href">{{lv3.name}}</MenuItem>
-                                </MenuGroup>
+                <template v-if="!!meunList.children">
+                    <Submenu v-for="lv1 in meunList.children" name="1">
+                        <template v-if="!lv1.appFunction.url">
+                            <template slot="title">
+                                <Icon type="ios-navigate" :size="iconSize"></Icon>
+                                <span class="layout-text">{{lv1.appFunction.funcName}}</span>
                             </template>
-                            <template v-else>
-                                <MenuItem :name="lv2.href">{{lv2.name}}</MenuItem>
+                            <template v-if="!!lv1.children">
+                                <template v-for="lv2 in lv1.children">
+                                    <template v-if="!lv2.appFunction.url">
+                                        <MenuGroup :title="lv2.appFunction.funcName">
+                                            <template v-if="!!lv2.children">
+                                                <MenuItem v-for="lv3 in lv2.children" :name="lv3.appFunction.url">{{lv3.appFunction.funcName}}</MenuItem>
+                                            </template>
+                                        </MenuGroup>
+                                    </template>
+                                    <template v-else>
+                                        <MenuItem :name="lv2.appFunction.url">{{lv2.appFunction.funcName}}</MenuItem>
+                                    </template>
+                                </template>
                             </template>
-                        </template>
-                    </template>
 
-                    <template v-else>
-                        <template slot="title">
-                            <Icon type="ios-navigate" :size="iconSize"></Icon>
-                            <span class="layout-text">{{lv1.name}}</span>
                         </template>
-                        <MenuItem :name="lv1.href">{{lv1.name}}</MenuItem>
-                    </template>
-
-                </Submenu>
+                        <template v-else>
+                            <template slot="title">
+                                <Icon type="ios-navigate" :size="iconSize"></Icon>
+                                <span class="layout-text">{{lv1.appFunction.funcName}}</span>
+                            </template>
+                            <MenuItem :name="lv1.appFunction.url">{{lv1.appFunction.funcName}}</MenuItem>
+                        </template>
+                    </Submenu>
+                </template>
             </Menu>
+
             </Col>
             <Col :span="spanRight" style="height: 100%">
                 <div class="layout-header">
@@ -100,12 +125,13 @@
             return {
                 spanLeft: 5,
                 spanRight: 19,
-                mList: [],
+                mList: null,
                 userName: '',
-
+                funcId: ''  // 系统菜单功能编号
             };
         },
         mounted: function() {
+            this.funcId = this.$route.params.funcId;
 
             this.userName = Util.cookie.get('xmgdname') || '';
 
@@ -116,7 +142,7 @@
                 disableTouch: true,
                 disablePointer: true  // 禁用鼠标，防止鼠标左键无法拖动地图。
             });
-//            this.getMenuData();
+            this.getMenuData();
 
         },
         computed: {
@@ -124,28 +150,40 @@
                 return this.spanLeft === 5 ? 14 : 24;
             },
             meunList () {
-                const that = this;
-                var list = [];
-                that.mList.forEach(function (val, index, attr) {
-                    var id = val.id;
-                    var aParentIds = val.parentIds.split(',');
-                    aParentIds = aParentIds.slice(0, aParentIds.length - 1);
 
-                    if (aParentIds.length === 2) {
-                        val.childrenList = that.getChildrenMenu(id);
-                        list.push(val);
+                if (!this.mList) {
+                    return {appFunction: {
+                        funcName: "厦门轨道监管系统"
+                    }};
+                };
+                for (let i = 0; i < this.mList.length; i++) {
+                    if (this.mList[i].appFunction.funcId == this.funcId) {
+                        console.dir(this.mList[i]);
+                        return this.mList[i];
                     }
-                });
-                return list;
+                }
+                return {appFunction: {
+                    funcName: "厦门轨道监管系统"
+                }};
+//                that.mList.forEach(function (val, index, attr) {
+//                    var id = val.id;
+//                    var aParentIds = val.parentIds.split(',');
+//                    aParentIds = aParentIds.slice(0, aParentIds.length - 1);
+//
+//                    if (aParentIds.length === 2) {
+//                        val.childrenList = that.getChildrenMenu(id);
+//                        list.push(val);
+//                    }
+//                });
+//                return list;
             }
         },
         methods: {
             getMenuData () {
                 var that = this;
-                Util.ajax.get('/metro/auth/menuList')
+                Util.ajax.get('/sys/auth/menuList')
                     .then(function (response) {
-                        that.mList = response.result || [];
-//                        console.log(response.result);
+                        that.mList = response.result || null;
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -174,12 +212,17 @@
                 }
             },
             menuLink (link) {
-
-                this.$router.push(link);
+                // this.$router.push(link); //这种写法重复点击，会导致路径出错
+                this.$router.push({
+                    name: link,  // 路由名称
+                    params: {
+                        funcId: this.funcId
+                    }
+                });
             },
             logout () {
                 const that = this;
-                Util.ajax.get('/logout')
+                Util.ajax.get('/sys/logout')
                     .then(function (response){
                         var router = new VueRouter();
                         Util.cookie.unset('xmgd');

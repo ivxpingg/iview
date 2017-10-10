@@ -13,7 +13,7 @@ const routers = [{
         },
     component: (resolve) => require(['./views/home/home.vue'], resolve)
     }, {
-        path: '/system',
+        path: '/system/:funcId',
         meta: {
             title: '系统页',
             requireAuth: false  // 添加该字段，表示进入这个路由是需要登录的
@@ -22,16 +22,18 @@ const routers = [{
         children: [
             {
                 path: 'canvas',
+                name: 'canvas',
                 meta: {
                     title: '系统页',
                     requireAuth: false  // 添加该字段，表示进入这个路由是需要登录的
                 },
                 component: (resolve) => require(['./components/canvas2/canvas.vue'], resolve)
             },{
-                path: 'employee/add',
+                path: 'employeeAdd',
+                name: 'employeeAdd',
                 meta: {
                     title: '添加从业人员',
-                    requireAuth: true  // 添加该字段，表示进入这个路由是需要登录的
+                    requireAuth: false  // 添加该字段，表示进入这个路由是需要登录的
                 },
                 component: (resolve) => require(['./components/employee/add/add.vue'], resolve)
             },]
