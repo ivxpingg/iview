@@ -65,10 +65,14 @@ export default {
 
                 this.$refs[name].validate((valid) => {
                     if (valid) {
-                        Util.ajax.post('/sys/login', {
-                            username: that.formInline.user,
-                            password: that.formInline.password,
-                            mobileLogin: true
+                        Util.ajax({
+                            method: "post",
+                            url: '/sys/login',
+                            data: {
+                                username: that.formInline.user,
+                                password: that.formInline.password,
+                                mobileLogin: true
+                            }
                         })
                         .then(function (response) {
                             debugger

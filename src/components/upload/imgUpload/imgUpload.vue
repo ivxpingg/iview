@@ -15,11 +15,12 @@
         <Upload
             ref="upload"
             :headers="headers"
+            :data="dataParams"
             :show-upload-list="false"
             :default-file-list="defaultList"
             :on-success="handleSuccess"
-            :format="['jpg','jpeg','png']"
-            :max-size="2048"
+            :format="['jpg','jpeg','png','bmp','gif']"
+            :max-size="1024"
             :on-format-error="handleFormatError"
             :on-exceeded-size="handleMaxSize"
             :before-upload="handleBeforeUpload"
@@ -43,37 +44,46 @@
     export default {
         data() {
             return {
-                defaultList: [
-                ],
-                uploadList: [],
-                imgName: '',
-                visible: false,
-                url: '/sys/upload/picture',
-                headers: {},
-                previewImgSrc: 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/large'
+                uploadList: [],              // 上传图片信息
+                visible: false,              // 浏览图片弹出窗隐藏/显示
+                url: '/sys/upload/picture',  // 请求地址
+                headers: {},                 // 请求的头部信息
+                previewImgSrc: 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/large' // 预览图片的地址
             }
         },
         props: {
-            list: {
+            // 默认上传图片信息
+            defaultList: {
                 type: Array,
                 default() {
                     return [];
                 }
             },
+            // 是否支持多选文件, 默认单选
             multiple: {
                 type: Boolean,
                 default () {
-                    return true;
+                    return false;
                 }
             },
+            // 上传时附带的额外参数
             dataParams: {
                 type: Object,
                 default() {
-                    return {
-                        pictureType: 'HeadPortrait'
-                    }
+                    return {}
                 }
-            }
+            },
+            // 最大上传数量
+            maxCount: {
+                type: Number,
+                default () {
+                    return 20;
+                }
+            },
+            /**
+             *　文件上传成功后回调的函数，附带fileList参数。
+             */
+            onSuccess: Function
         },
         computed: {
             actionUrl () {
@@ -97,30 +107,54 @@
             handleRemove (file) {
                 const fileList = this.$refs.upload.fileList;
                 this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+                this.uploadList = this.$refs.upload.fileList;
+
+                if (this.onSuccess) {
+                    this.onSuccess(this.$refs.upload.fileList);
+                }
             },
             handleSuccess(res, file, fileList) {
+
                 if (res.status == 1) {
-                    file.url =  res.result.pictureUrl; //'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
-                    file.name = '7eb99afb9d5f317c912f08b5212fd69a';
+                    file.url =  res.result.pictureUrl;
+                    file.name = res.result.pictureName;
+                    file.pictureId = res.result.pictureId
+                }
+                else {
+                    const mfileList = fileList;
+                    fileList.splice(mfileList.indexOf(file), 1);
+                    this.$Notice.warning({
+                        title: '提示',
+                        desc: res.errMsg
+                    });
+                }
+
+                if (!this.multiple) {
+                    fileList = [file];
+                }
+                this.uploadList = fileList;
+
+                if (this.onSuccess) {
+                    this.onSuccess(fileList);
                 }
             },
             handleFormatError (file) {
                 this.$Notice.warning({
                     title: '文件格式不正确',
-                    desc: '文件 ' + file.name + ' 格式不正确，请上传 jpg 或 png 格式的图片。'
+                    desc: '文件 ' + file.name + ' 格式不正确，请上传 jpg | jpeg | png | bmp | gif 格式的图片。'
                 });
             },
             handleMaxSize (file) {
                 this.$Notice.warning({
                     title: '超出文件大小限制',
-                    desc: '文件 ' + file.name + ' 太大，不能超过 2M。'
+                    desc: '文件 ' + file.name + ' 太大，不能超过 1024KB。'
                 });
             },
             handleBeforeUpload (file) {
-                const check = this.uploadList.length < 5;
+                const check = this.uploadList.length < this.maxCount;
                 if (!check) {
                     this.$Notice.warning({
-                        title: '最多只能上传 5 张图片。'
+                        title: '最多只能上传 ' + this.maxCount + ' 张图片。'
                     });
                 }
                 return check;
