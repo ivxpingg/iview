@@ -36,7 +36,15 @@ const routers = [{
                     requireAuth: false  // 添加该字段，表示进入这个路由是需要登录的
                 },
                 component: (resolve) => require(['./components/employee/add/add.vue'], resolve)
-            },]
+            },{
+                path: 'employeeList',
+                name: 'employeeList',
+                meta: {
+                    title: '从业人员管理',
+                    requireAuth: false  // 添加该字段，表示进入这个路由是需要登录的
+                },
+                component: (resolve) => require(['./components/employee/list/list.vue'], resolve)
+            }]
 
     },{
         path: '/canvas',
