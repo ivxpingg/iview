@@ -37,6 +37,14 @@ const routers = [{
                 },
                 component: (resolve) => require(['./components/employee/add/add.vue'], resolve)
             },{
+                path: 'employeeEdit/:employeeId',
+                name: 'employeeEdit',
+                meta: {
+                    title: '添加从业人员',
+                    requireAuth: false  // 添加该字段，表示进入这个路由是需要登录的
+                },
+                component: (resolve) => require(['./components/employee/add/add.vue'], resolve)
+            },{
                 path: 'employeeList',
                 name: 'employeeList',
                 meta: {

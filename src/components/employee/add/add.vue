@@ -136,6 +136,9 @@
     export default {
         data() {
             return {
+                // 当前页面是添加(add)或者是编辑(edit)状态
+                status: 'add',
+                // 从业人员信息
                 employee: {
                     employeeId: '',
                     name: '',                   // 姓名
@@ -153,6 +156,7 @@
                     trainRecord: [],            // 培训记录
                     pictureRelation: []       // 图片
                 },
+
                 defaultHeadPortrait: [],
                 defaultHeadCertificate: [],
                 pictureRelationForHeadPortrait: [],
@@ -285,11 +289,24 @@
             entryDate(val, oldVal) {
                 this.employee.entryDate = MOMENT(val).format('YYYY-MM-DD');
             },
+
         },
         components: {vImgUpload},
         mounted() {
             //this.save();
-            this.getDictData();
+            var that = this;
+
+            if (this.$route.params.employeeId) {
+                this.employee.employeeId = this.$route.params.employeeId;
+                this.status = 'edit';
+                this.getDictData(() => {
+                    that.getEmployeeInfo();
+                });
+            }
+            else {
+                this.status = 'add';
+                this.getDictData();
+            }
         },
         methods: {
             onSuccessForHeadPortrait (fileList) {
@@ -339,7 +356,7 @@
             cancelTrainRecordModal() {},
 
             // 获取字典数据
-            getDictData() {
+            getDictData(cb) {
                 var that = this;
                 //获取岗位字典数据
                 Util.ajax({
@@ -351,7 +368,9 @@
                 }).then(function (response) {
                     if (response.status == 1) {
                         that.dict_post = response.result;
-                        console.dir(response.result);
+                        if (cb) {
+                            cb();
+                        }
                     }
                     else {
                         console.dir(response.errMsg);
@@ -419,22 +438,88 @@
 
             },
 
+            // 根据employeeId获取从业人员信息
+            getEmployeeInfo() {
+                var that = this;
+                Util.ajax({
+                    method: 'get',
+                    url: '/sys/employee/detail',
+                    params: {
+                        employeeId: that.employee.employeeId
+                    }
+                }).then(function (response) {
+                    debugger
+                    if (response.status == 1) {
+                        that.employee.name = response.result.name;
+                        that.employee.jobNum = response.result.jobNum;
+                        that.employee.sex = response.result.sex;
+                        that.employee.education = response.result.education;
+                        that.employee.getCertificateTime = response.result.getCertificateTime;
+                        that.employee.idNumber = response.result.idNumber;
+                        that.employee.entryDate = response.result.entryDate;
+                        that.employee.phone = response.result.phone;
+                        that.employee.postCategory = response.result.postCategory;
+                        that.employee.postName = response.result.postName;
+                        that.employee.otherPost = response.result.otherPost || '';
+                        that.employee.status = response.result.status;
+                        that.employee.trainRecord = response.result.trainRecord || [];
+                        that.employee.pictureRelation = response.result.pictureList || [];
+
+                        that.getCertificateTime = MOMENT(response.result.getCertificateTime);
+                        that.entryDate = MOMENT(response.result.entryDate);
+
+//                        that.defaultHeadPortrait = [{ url: "http://10.131.1.222:8088//upload/image/2017/10/2017101814310000253633.jpg" }];
+//                        that.defaultHeadCertificate = [{ url: "http://10.131.1.222:8088//upload/image/2017/10/2017101814310000253633.jpg" }];
+
+                        that.employee.pictureRelation.forEach(function(val){
+                            val.url = val.pictureUrl;
+                            val.name = val.pictureId;
+                            if (val.pictureType == 'HeadPortrait') {
+                                that.defaultHeadPortrait = [val];
+                                that.pictureRelationForHeadPortrait = [val];
+                            }
+                            if (val.pictureType == 'Certificate') {
+                                that.defaultHeadCertificate.push(val);
+                                that.pictureRelationForCertificate.push(val);
+                            }
+                        });
+
+                    } else {
+
+                    }
+
+                }).catch(function (err) {
+                    console.dir(err);
+                })
+            },
+
             save() {
-                console.dir(this.employee);
+                var that = this;
+                var url = this.status == 'add'? '/sys/employee/add' : '/sys/employee/update';
 
                 Util.ajax({
                     method: "post",
-                    url: '/sys/employee/add',
+                    url: url,
                     headers: {
                         'Content-Type': 'application/json;charset=utf-8'
                     },
                     data: JSON.stringify(this.employee)
                 }).then(function (response) {
                     if (response.status == 1) {
-                        that.$Message.success('新增成功!');
+                        if (that.status == 'add') {
+                            that.$Message.success('新增成功!');
+                        }
+                        else {
+                            that.$Message.success('修改成功!');
+                        }
                     }
                     else {
-                        that.$Message.error('新增失败!');
+                        if (that.status == 'add') {
+                            that.$Message.error('新增失败!');
+                        }
+                        else {
+                            that.$Message.error('修改失败!');
+                        }
                     }
                 }).catch(function (err) {
                     console.log(error);

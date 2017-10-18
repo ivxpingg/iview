@@ -35,24 +35,33 @@
 
                     <FormItem label="更新日期:">
                         <FormItem prop="updateDate">
-                            <DatePicker type="daterange" format="yyyy-MM-dd" :editable="false" placeholder="选择日期" v-model="updateDate"></DatePicker>
+                            <DatePicker
+                                    type="datetimerange"
+                                    :confirm="false"
+                                    :options="DatePickerOptions"
+                                    format="yyyy-MM-dd HH:mm:ss"
+                                    :editable="false"
+                                    placeholder="选择日期"
+                                    @on-change="datePickerOnChange"
+                                    v-model="updateDate"></DatePicker>
                         </FormItem>
                     </FormItem>
 
                 </Form>
             </Col>
             <Col span="12">
-                <Button type="primary">查询</Button>
+                <Button type="primary" @click="search" icon="ios-search">查询</Button>
 
                 <Button type="primary">导入</Button>
 
-                <Button type="primary">导出</Button>
+                <Button type="primary" @click="exportFile">导出</Button>
+            <a :href="liu">下载</a>
             </Col>
             <Col span="24">
                 <Table border :columns="columns" stripe :data="listData"></Table>
                 <div>
                     <Page
-                        :total="searchParams.pageCount"
+                        :total="searchParams.count"
                         :page-size="searchParams.pageSize"
                         :page-size-opts="page_size_opts"
                         @on-page-size-change="on_page_size_change"
@@ -76,7 +85,7 @@
             return {
                 searchParams: {
                     pageNo: 1,                   // 当前页数
-                    pageSize: 1,                // 每页记录数
+                    pageSize: 3,                // 每页记录数
                     count: 0,                    // 总数据量
                     pageCount: 0,                // 总页数
                     name: '',                      // 姓名
@@ -98,6 +107,8 @@
 
                 // 分页控件
                 page_size_opts: [1, 2, 3],
+
+                liu: '',
 
                 // 表格
                 listData: [],                       // 表格数据，接收ajax返回的数据
@@ -138,13 +149,43 @@
                                     size: 'small'
                                 },
                                 on: {
-                                    click() {}
+                                    click() {
+//                                        console.dir(params.row);
+                                        that.deleteData(params.row);
+                                    }
                                 }
                             }, '删除')
                         ]);
                     }
                     }
-                ]
+                ],
+                DatePickerOptions: {
+                    shortcuts: [
+                        {
+                            text: '最近7天内',
+                            value () {
+                                return [MOMENT().subtract(7, 'days'), MOMENT()];
+                            },
+                            onClick: (picker) => {
+                                debugger
+                            }
+                        },
+                        {
+                            text: '昨天',
+                            value () {
+                                return [MOMENT().subtract(1, 'days').hour(0).minute(0).second(0), MOMENT().subtract(1, 'days').hour(23).minute(59).second(59)];
+                            },
+                            onClick: (picker) => {}
+                        },
+                        {
+                            text: '一周前',
+                            value () {
+                                return [MOMENT().subtract(14, 'days').hour(0).minute(0).second(0), MOMENT().subtract(7, 'days').hour(23).minute(59).second(59)];
+                            },
+                            onClick: (picker) => {}
+                        }
+                    ]
+                }
             }
         },
         computed: {
@@ -193,8 +234,8 @@
                     this.searchParams.updateEndDate = '';
                 }
                 else {
-                    this.searchParams.updateBeginDate = MOMENT(val[0]).format('YYYY-MM-DD');
-                    this.searchParams.updateEndDate = MOMENT(val[1]).format('YYYY-MM-DD');
+                    this.searchParams.updateBeginDate = MOMENT(val[0]).format('YYYY-MM-DD hh:mm:ss');
+                    this.searchParams.updateEndDate = MOMENT(val[1]).format('YYYY-MM-DD hh:mm:ss');
                 }
             }
         },
@@ -210,6 +251,9 @@
             on_change(pageNo) {
                 this.searchParams.pageNo = pageNo;
                 this.getData();
+            },
+            datePickerOnChange(value) {
+                debugger
             },
             getData() {
                 var that = this;
@@ -235,6 +279,74 @@
                     console.log(err);
                 });
             },// 获取字典数据
+
+            // 查询按钮
+            search() {
+                this.getData();
+            },
+            // 导出
+            exportFile () {
+                var that = this;
+                Util.ajax({
+                    method: 'get',
+                    url: '/sys/employee/downEmployeeExcel',
+                    headers: {
+                        'Content-Type': 'application/octet-stream;charset=utf-8'
+                    },
+                    responseType: 'arraybuffer',
+//                    params: this.searchParams
+                    data: JSON.stringify(this.searchParams)
+                }).then(function (response) {
+                    debugger
+                    var blob = new Blob([response], {type: 'application/msexcel'}), fileName = '文件名称'; downFile(blob, fileName);
+                    that.liu = response;
+//                    if (response.status == 1) {
+//
+//                    }
+//                    else {
+//                        console.log(response.errMsg);
+//                    }
+                }).catch(function (err) {
+                    console.log(err);
+                });
+            },
+
+            // 根据ID删除一条从业人员信息
+            deleteData(row) {
+                var that = this;
+                this.$Modal.confirm({
+                    title: '提示',
+                    content: '<p>确定删除 \"'+ row.name +' \"?</p>',
+                    loading: true,
+                    onOk: () => {
+                        Util.ajax({
+                            method: 'get',
+                            url: '/sys/employee/delete',
+                            params: {
+                                employeeId: row.employeeId
+                            }
+                        }).then(function (response) {
+                            if (response.status == 1) {
+                                that.listData.splice(that.listData.indexOf(row), 1);
+                                that.$Modal.remove();
+                                that.$Message.info('删除成功!');
+
+                            } else {
+                                that.$Modal.remove();
+                                that.$Message.info('删除失败!');
+                            }
+                        }).catch(function () {
+                            that.$Modal.remove();
+                            that.$Message.info('删除失败!');
+                        });
+
+                    },
+                    onCancel: () => {
+                        // this.$Message.info('点击了取消');
+                    }
+                });
+            },
+
             getDictData() {
                 var that = this;
                 //获取岗位字典数据

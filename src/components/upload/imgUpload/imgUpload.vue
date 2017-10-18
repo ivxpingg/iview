@@ -85,6 +85,29 @@
              */
             onSuccess: Function
         },
+        watch: {
+            defaultList (val, oldVal) {
+                var that = this;
+                val = val.map(item => {
+                    item.status = 'finished';
+                    item.percentage = 100;
+                    item.uid = Date.now() + this.tempIndex++;
+                    return item;
+                });
+                oldVal.forEach(function (val) {
+                    that.uploadList.forEach(function (val2) {
+
+                        if (val.url == val2.url) {
+                            that.uploadList.splice(that.uploadList.indexOf(val2), 1);
+                        }
+                    });
+                });
+
+                val.forEach(function (val, index) {
+                    that.uploadList.splice(index, 0, val);
+                });
+            }
+        },
         computed: {
             actionUrl () {
                 return Util.domain + this.url;
