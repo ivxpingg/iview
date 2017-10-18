@@ -131,6 +131,7 @@
             };
         },
         mounted: function() {
+
             this.funcId = this.$route.params.funcId;
 
             this.userName = Util.cookie.get('xmgdname') || '';
@@ -158,7 +159,7 @@
                 };
                 for (let i = 0; i < this.mList.length; i++) {
                     if (this.mList[i].appFunction.funcId == this.funcId) {
-                        console.dir(this.mList[i]);
+
                         return this.mList[i];
                     }
                 }

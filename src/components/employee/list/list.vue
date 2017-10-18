@@ -42,7 +42,6 @@
                                     format="yyyy-MM-dd HH:mm:ss"
                                     :editable="false"
                                     placeholder="选择日期"
-                                    @on-change="datePickerOnChange"
                                     v-model="updateDate"></DatePicker>
                         </FormItem>
                     </FormItem>
@@ -73,6 +72,72 @@
                 </div>
             </Col>
         </Row>
+
+        <Modal
+                v-model="modalDetail" title="查看详情">
+            <div>
+                <Row>
+                    <Col span="6">
+                        <img :src="" alt="">
+                    </Col>
+                    <Col span="18">
+                         <div>
+                             <label for="">姓名</label>
+                             <div>{{employee.name}}</div>
+                         </div>
+                        <div>
+                            <label for="">性别</label>
+                            <div>{{employee_sex}}</div>
+                        </div>
+                        <div>
+                            <label for="">工号</label>
+                            <div>{{employee.jobNum}}</div>
+                        </div>
+                        <div>
+                            <label for="">岗位类别</label>
+                            <div>{{dict_post_type}}</div>
+                        </div>
+                        <div>
+                            <label for="">岗位名称</label>
+                            <div>{{dict_post_name}}</div>
+                        </div>
+                        <div>
+                            <label for="">取证日期</label>
+                            <div>{{employee.getCertificateTime}}</div>
+                        </div>
+                        <div>
+                            <label for="">身份证号</label>
+                            <div>{{employee.idNumber}}</div>
+                        </div>
+                        <div>
+                            <label for="">文化程度</label>
+                            <div>{{employee_education}}</div>
+                        </div>
+                        <div>
+                            <label for="">入职时间</label>
+                            <div>{{employee.entryDate}}</div>
+                        </div>
+                        <div>
+                            <label for="">状态</label>
+                            <div>{{employee_status}}</div>
+                        </div>
+
+                    </Col>
+                    <Col span="24">
+                    <Table
+                            width=""
+                            border
+                            stripe
+                            :columns="oTrainRecordColumns"
+                            :data="employee.trainRecord"></Table>
+                    </Col>
+                </Row>
+            </div>
+            <div slot="footer">
+
+            </div>
+        </Modal>
+
     </div>
 
 </template>
@@ -83,6 +148,29 @@
     export default {
         data() {
             return {
+                modalDetail: true,               // 显示/隐藏弹出框
+                employee: {                      // 当前选中的从业人员信息
+                    name: '',
+                    jobNum: '',
+                    sex: '',
+                    education: '',
+                    getCertificateTime: '',
+                    idNumber: '',
+                    entryDate: '',
+                    phone: '',
+                    postCategory: '',
+                    postName: '',
+                    otherPost: '',
+                    status: '',
+                    trainRecord: [],
+                    pictureRelation: []
+                },
+                // 培训记录表格配置信息
+                oTrainRecordColumns: [
+                    { title: '时间', key: 'trainDate', width: 180},
+                    { title: '学时', key: 'period' },
+                    { title: '培训内容', key: 'trainContent' },
+                    { title: '成绩', key: 'achievement', width: 80 }],
                 searchParams: {
                     pageNo: 1,                   // 当前页数
                     pageSize: 3,                // 每页记录数
@@ -103,11 +191,14 @@
 
                 // 数据字典
                 dict_post: [],
+                dict_education: [],
                 dict_sex: [],
+                dict_status: [],
 
                 // 分页控件
                 page_size_opts: [1, 2, 3],
 
+                // 导出文件存放流
                 liu: '',
 
                 // 表格
@@ -131,7 +222,9 @@
                                     size: 'small'
                                 },
                                 on: {
-                                    click() {}
+                                    click() {
+                                        that.getEmployeeInfoByID(params.row.employeeId);
+                                    }
                                 }
                             }, '查看'),
                             h('Button', {
@@ -140,7 +233,15 @@
                                     size: 'small'
                                 },
                                 on: {
-                                    click() {}
+                                    click() {
+                                        that.$router.push({
+                                            name: 'employeeEdit',  // 路由名称
+                                            params: {
+                                                funcId: that.$route.params.funcId,
+                                                employeeId: params.row.employeeId
+                                            }
+                                        });
+                                    }
                                 }
                             }, '编辑'),
                             h('Button', {
@@ -166,9 +267,7 @@
                             value () {
                                 return [MOMENT().subtract(7, 'days'), MOMENT()];
                             },
-                            onClick: (picker) => {
-                                debugger
-                            }
+                            onClick: (picker) => {}
                         },
                         {
                             text: '昨天',
@@ -189,32 +288,48 @@
             }
         },
         computed: {
+            // 性别
+            employee_sex() {
+                for (let i = 0; i < this.dict_sex.length; i++) {
+                    if (this.dict_sex[i].value == this.employee.sex) {
+                        return this.dict_sex[i].label;
+                    }
+                }
+                return '';
+            },
+            employee_status() {
+                for (let i = 0; i < this.dict_status.length; i++) {
+                    if (this.dict_status[i].value == this.employee.status) {
+                        return this.dict_status[i].label;
+                    }
+                }
+                return '';
+            },
+            employee_education() {
+                for (let i = 0; i < this.dict_education.length; i++) {
+                    if (this.dict_education[i].value == this.employee.education) {
+                        return this.dict_education[i].label;
+                    }
+                }
+                return '';
+            },
             // 岗位类别
             dict_post_type() {
-                var typeList = [];
-                this.dict_post.forEach(function (val) {
-                    if(val.parentId === '0') {
-                        typeList.push(val);
+                for (let i = 0; i < this.dict_post.length; i++) {
+                    if (this.dict_post[i].value == this.employee.postCategory) {
+                        return this.dict_post[i].label;
                     }
-                });
-                return typeList;
+                }
+                return '';
             },
             dict_post_name() {
-
-                var that = this;
-                var nameList = [];
-                var id = '';
-                this.dict_post.forEach(function (val) {
-                    if (val.value == that.searchParams.postCategory) {
-                        id = val.id;
+                if (this.employee.postCategory == 'other') return '';
+                for (let i = 0; i < this.dict_post.length; i++) {
+                    if (this.dict_post[i].value == this.employee.postName) {
+                        return this.dict_post[i].label;
                     }
-                });
-                this.dict_post.forEach(function (val) {
-                    if(val.parentId == id) {
-                        nameList.push(val);
-                    }
-                });
-                return nameList;
+                }
+                return '';
             }
         },
         watch: {
@@ -252,8 +367,45 @@
                 this.searchParams.pageNo = pageNo;
                 this.getData();
             },
-            datePickerOnChange(value) {
-                debugger
+            getEmployeeInfoByID(id) {
+                var that = this;
+                Util.ajax({
+                    method: 'get',
+                    url: '/sys/employee/detail',
+                    params: {
+                        employeeId: id
+                    }
+                }).then(function (response) {
+
+                    if (response.status == 1) {
+
+                        that.employee.name = response.result.name;
+                        that.employee.jobNum = response.result.jobNum;
+                        that.employee.sex = response.result.sex;
+                        that.employee.education = response.result.education;
+                        that.employee.getCertificateTime = response.result.getCertificateTime;
+                        that.employee.idNumber = response.result.idNumber;
+                        that.employee.entryDate = response.result.entryDate;
+                        that.employee.phone = response.result.phone;
+                        that.employee.postCategory = response.result.postCategory;
+                        that.employee.postName = response.result.postName;
+                        that.employee.otherPost = response.result.otherPost || '';
+                        that.employee.status = response.result.status;
+                        that.employee.trainRecord = response.result.trainRecord || [];
+                        that.employee.pictureRelation = response.result.pictureList || [];
+
+                        that.getCertificateTime = response.result.getCertificateTime;
+                        that.entryDate = response.result.entryDate;
+
+                        that.modalDetail = true;
+
+                    } else {
+
+                    }
+
+                }).catch(function (err) {
+                    console.dir(err);
+                })
             },
             getData() {
                 var that = this;
@@ -278,7 +430,89 @@
                 }).catch(function (err) {
                     console.log(err);
                 });
-            },// 获取字典数据
+            },
+            // 获取字典数据
+            getDictData(cb) {
+                var that = this;
+                //获取岗位字典数据
+                Util.ajax({
+                    method: "get",
+                    url: '/sys/dict/treeData',
+                    params: {
+                        type: 'sys_post_category'
+                    }
+                }).then(function (response) {
+                    if (response.status == 1) {
+                        that.dict_post = response.result;
+                        if (cb) {
+                            cb();
+                        }
+                    }
+                    else {
+                        console.dir(response.errMsg);
+                    }
+                }).catch(function (err) {
+                    console.dir(err);
+                });
+
+                // 获取文化程度字典数据
+                Util.ajax({
+                    method: "get",
+                    url: '/sys/dict/listData',
+                    params: {
+                        type: 'sys_education'
+                    }
+                }).then(function (response) {
+                    if (response.status == 1) {
+                        that.dict_education = response.result;
+                        console.dir(response.result);
+                    }
+                    else {
+                        console.dir(response.errMsg);
+                    }
+                }).catch(function (err) {
+                    console.dir(err);
+                });
+
+                // 获取性别字典数据
+                Util.ajax({
+                    method: "get",
+                    url: '/sys/dict/listData',
+                    params: {
+                        type: 'sex'
+                    }
+                }).then(function (response) {
+                    if (response.status == 1) {
+                        that.dict_sex = response.result;
+                        console.dir(response.result);
+                    }
+                    else {
+                        console.dir(response.errMsg);
+                    }
+                }).catch(function (err) {
+                    console.dir(err);
+                });
+
+                // 获取员工状态字典数据
+                Util.ajax({
+                    method: "get",
+                    url: '/sys/dict/listData',
+                    params: {
+                        type: 'sys_user_status'
+                    }
+                }).then(function (response) {
+                    if (response.status == 1) {
+                        that.dict_status = response.result;
+                        console.dir(response.result);
+                    }
+                    else {
+                        console.dir(response.errMsg);
+                    }
+                }).catch(function (err) {
+                    console.dir(err);
+                });
+
+            },
 
             // 查询按钮
             search() {
@@ -345,48 +579,7 @@
                         // this.$Message.info('点击了取消');
                     }
                 });
-            },
-
-            getDictData() {
-                var that = this;
-                //获取岗位字典数据
-                Util.ajax({
-                    method: "get",
-                    url: '/sys/dict/treeData',
-                    params: {
-                        type: 'sys_post_category'
-                    }
-                }).then(function (response) {
-                    if (response.status == 1) {
-                        that.dict_post = response.result;
-                        console.dir(response.result);
-                    }
-                    else {
-                        console.dir(response.errMsg);
-                    }
-                }).catch(function (err) {
-                    console.dir(err);
-                });
-
-                // 获取性别字典数据
-                Util.ajax({
-                    method: "get",
-                    url: '/sys/dict/listData',
-                    params: {
-                        type: 'sex'
-                    }
-                }).then(function (response) {
-                    if (response.status == 1) {
-                        that.dict_sex = response.result;
-                        console.dir(response.result);
-                    }
-                    else {
-                        console.dir(response.errMsg);
-                    }
-                }).catch(function (err) {
-                    console.dir(err);
-                });
-            },
+            }
         }
     }
 </script>

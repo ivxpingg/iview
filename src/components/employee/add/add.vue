@@ -325,10 +325,6 @@
                 this.employee.pictureRelation = this.pictureRelationForCertificate.concat(this.pictureRelationForHeadPortrait);
             },
 
-            singleDateValue (d){
-                console.dir(d);
-            },
-
             // 弹出添加培训记录弹出框
             showTrainRecord () {
                 this.isEditStatus = false;
@@ -336,7 +332,7 @@
             },
             // 添加或者修改培训记录
             editTrainRecord() {
-                debugger
+
                 if (this.isEditStatus) {}
                 else {
                     this.employee.trainRecord.push({
