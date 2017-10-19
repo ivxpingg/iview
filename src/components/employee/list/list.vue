@@ -51,10 +51,16 @@
             <Col span="12">
                 <Button type="primary" @click="search" icon="ios-search">查询</Button>
 
-                <Button type="primary">导入</Button>
+            <!--<Upload :action="importUrl"-->
+                    <!--name="file"-->
+                    <!--:on-success="importFileSuccess">-->
+                <!--<Button type="primary" icon="ios-cloud-upload-outline">导入</Button>-->
+            <!--</Upload>-->
+                <Button type="primary" icon="ios-cloud-upload-outline" @click="showModalExport">导入从业人员</Button>
+                <Button type="primary" icon="ios-cloud-upload-outline" @click="showModalExportReocrd">导入从业人员培训记录</Button>
 
-                <Button type="primary" @click="exportFile">导出</Button>
-            <a :href="liu">下载</a>
+                <a :href="exportFileUrl" class="ivu-btn ivu-btn-primary"><span>导出</span></a>
+
             </Col>
             <Col span="24">
                 <Table border :columns="columns" stripe :data="listData"></Table>
@@ -74,68 +80,97 @@
         </Row>
 
         <Modal
-                v-model="modalDetail" title="查看详情">
+                v-model="modalDetail" title="人员基本信息">
             <div>
                 <Row>
-                    <Col span="6">
-                        <img :src="" alt="">
-                    </Col>
                     <Col span="18">
-                         <div>
-                             <label for="">姓名</label>
-                             <div>{{employee.name}}</div>
-                         </div>
-                        <div>
-                            <label for="">性别</label>
-                            <div>{{employee_sex}}</div>
-                        </div>
-                        <div>
-                            <label for="">工号</label>
-                            <div>{{employee.jobNum}}</div>
-                        </div>
-                        <div>
-                            <label for="">岗位类别</label>
-                            <div>{{dict_post_type}}</div>
-                        </div>
-                        <div>
-                            <label for="">岗位名称</label>
-                            <div>{{dict_post_name}}</div>
-                        </div>
-                        <div>
-                            <label for="">取证日期</label>
-                            <div>{{employee.getCertificateTime}}</div>
-                        </div>
-                        <div>
-                            <label for="">身份证号</label>
-                            <div>{{employee.idNumber}}</div>
-                        </div>
-                        <div>
-                            <label for="">文化程度</label>
-                            <div>{{employee_education}}</div>
-                        </div>
-                        <div>
-                            <label for="">入职时间</label>
-                            <div>{{employee.entryDate}}</div>
-                        </div>
-                        <div>
-                            <label for="">状态</label>
-                            <div>{{employee_status}}</div>
-                        </div>
+                        <table>
+                            <tr>
+                                <td>姓名</td>
+                                <td>{{employee.name}}</td>
+                                <td>工号</td>
+                                <td>{{employee.jobNum}}</td>
+                            </tr>
+                            <tr>
+                                <td>性别</td>
+                                <td>{{employee_sex}}</td>
+                                <td>文化程度</td>
+                                <td>{{employee_education}}</td>
+                            </tr>
+                            <tr>
+                                <td>取证日期</td>
+                                <td>{{employee.getCertificateTime}}</td>
+                                <td>身份证号</td>
+                                <td>{{employee.idNumber}}</td>
+                            </tr>
+                            <tr>
+                                <td>入职时间</td>
+                                <td>{{employee.entryDate}}</td>
+                                <td>联系电话</td>
+                                <td>{{employee.phone}}</td>
+                            </tr>
+                            <tr>
+                                <td>岗位类别</td>
+                                <td>{{dict_post_type}}</td>
+                                <td>岗位名称</td>
+                                <td>{{dict_post_name}}</td>
+                            </tr>
+                            <tr>
+                                <td>人员状态</td>
+                                <td>{{employee_status}}</td>
+                                <td> </td>
+                                <td> </td>
+                            </tr>
 
+                        </table>
+                    </Col>
+                    <Col span="6">
+                        <div>
+                            <img width="100px" :src="headImageUrl" alt="">
+                        </div>
                     </Col>
                     <Col span="24">
-                    <Table
-                            width=""
-                            border
-                            stripe
-                            :columns="oTrainRecordColumns"
-                            :data="employee.trainRecord"></Table>
+                        <div>从业资格证:</div>
+                        <div>
+                            <img width="100px" v-for="item in CertificateImageUrlList" :src="item.pictureUrl" alt="">
+                        </div>
+                    </Col>
+                    <Col span="24">
+                        <div>培训记录:</div>
+                        <Table
+                                width=""
+                                border
+                                stripe
+                                :columns="oTrainRecordColumns"
+                                :data="employee.trainRecord"></Table>
                     </Col>
                 </Row>
             </div>
             <div slot="footer">
 
             </div>
+        </Modal>
+
+        <Modal v-model="modalExport" title="导入从业人员">
+            <div>
+                <Row v-if="modalExportType == '1'">
+                    <Col span="24">
+                        <a :href="exportFileUrl1" class="ivu-btn ivu-btn-primary"><span>下载从业人员模版</span></a>
+                    </Col>
+                    <Col span="24">
+                        <vFileUpload :url="importFileUrl1"  bText="导入从业人员信息"></vFileUpload>
+                    </Col>
+                </Row>
+                <Row v-else>
+                    <Col span="24">
+                    <a :href="exportFileUrl2" class="ivu-btn ivu-btn-primary"><span>下载从业人员模版</span></a>
+                    </Col>
+                    <Col span="24">
+                        <vFileUpload :url="importFileUrl2" bText="导入从业人员培训记录信息" ></vFileUpload>
+                    </Col>
+                </Row>
+            </div>
+            <div slot="footer"></div>
         </Modal>
 
     </div>
@@ -145,10 +180,13 @@
 <script>
     import Util from '../../../libs/util';
     import MOMENT from 'moment';
+    import vFileUpload from '../../upload/fileUpload/fileUpload.vue';
     export default {
         data() {
             return {
-                modalDetail: true,               // 显示/隐藏弹出框
+                modalExport: false,               // 导出窗口
+                modalExportType: '1',             // '1': 从业人员信息； '2': 从业人员培训信息
+                modalDetail: false,               // 显示/隐藏弹出框
                 employee: {                      // 当前选中的从业人员信息
                     name: '',
                     jobNum: '',
@@ -197,9 +235,6 @@
 
                 // 分页控件
                 page_size_opts: [1, 2, 3],
-
-                // 导出文件存放流
-                liu: '',
 
                 // 表格
                 listData: [],                       // 表格数据，接收ajax返回的数据
@@ -287,6 +322,7 @@
                 }
             }
         },
+        components: { vFileUpload },
         computed: {
             // 性别
             employee_sex() {
@@ -330,6 +366,49 @@
                     }
                 }
                 return '';
+            },
+            headImageUrl() {
+                for (let i = 0; i < this.employee.pictureRelation.length; i++){
+                    if (this.employee.pictureRelation[i].pictureType === 'HeadPortrait') {
+                        return this.employee.pictureRelation[i].pictureUrl;
+                    }
+                }
+                return 'https://i.loli.net/2017/08/21/599a521472424.jpg';
+            },
+            CertificateImageUrlList() {
+                var list = [];
+                for (let i = 0; i < this.employee.pictureRelation.length; i++){
+                    if (this.employee.pictureRelation[i].pictureType === 'Certificate') {
+                        list.push(this.employee.pictureRelation[i]);
+                    }
+                }
+                return list;
+            },
+            exportFileUrl() {
+                var url = Util.domain + '/sys/employee/downEmployeeExcel?';
+                url += 'name=' + this.searchParams.name;
+                url += '&sex=' + this.searchParams.sex;
+                url += '&postCategory=' + this.searchParams.postCategory;
+                url += '&postName=' + this.searchParams.postName;
+                url += '&entryBeginDate=' + this.searchParams.entryBeginDate;
+                url += '&entryEndDate=' + this.searchParams.entryEndDate;
+                url += '&updateBeginDate=' + this.searchParams.updateBeginDate;
+                url += '&updateEndDate=' + this.searchParams.updateEndDate;
+                url += '&otherPost=' + this.searchParams.otherPost;
+
+                return url;
+            },
+            exportFileUrl1() {
+                return  Util.domain.split('/xm')[0] + '/static/download/从业人员导入模板.xlsx';
+            },
+            exportFileUrl2() {
+                return Util.domain.split('/xm')[0] + '/static/download/xlsx/培训记录导入模板.xlsx';
+            },
+            importFileUrl1() {
+                return Util.domain + '/sys/employee/uploadEmployeeExcel';
+            },
+            importFileUrl2() {
+                return Util.domain + '/sys/employee/uploadTrainRecordExcel';
             }
         },
         watch: {
@@ -361,7 +440,8 @@
 
         methods: {
             on_page_size_change(pageSize) {
-                 this.searchParams.pageSize = pageSize;
+                this.searchParams.pageSize = pageSize;
+                this.getData();
             },
             on_change(pageNo) {
                 this.searchParams.pageNo = pageNo;
@@ -417,7 +497,7 @@
                     },
                     data: JSON.stringify(this.searchParams)
                 }).then(function (response) {
-                    debugger
+
                     if (response.status == 1) {
                         that.searchParams.count = response.result.count;
                         that.searchParams.pageCount = Math.ceil(response.result.count / response.result.pageSize);
@@ -518,6 +598,17 @@
             search() {
                 this.getData();
             },
+
+            // 导入
+            showModalExport() {
+                this.modalExportType = '1';
+                this.modalExport = true;
+            },
+            showModalExportReocrd() {
+                this.modalExportType = '2';
+                this.modalExport = true;
+            },
+
             // 导出
             exportFile () {
                 var that = this;

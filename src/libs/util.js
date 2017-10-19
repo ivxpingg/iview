@@ -15,8 +15,8 @@ util.title = function(title) {
 const ajaxUrl = env === 'production' ?
     'http://cs.doudou360.com:8088/xm' :
     env === 'development' ?
-    'http://localhost:8880/metrosupervision/xm' :
-    'http://localhost:8880/xm'
+    'http://localhost:8880/xm' :
+    'http://localhost:8880/metrosupervision/xm'
 
 var Cookie = {
     get: function (name) {

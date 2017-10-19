@@ -31,7 +31,7 @@
 
                     </FormItem>
 
-                    <FormItem label="取证日期">
+                    <FormItem label="取证日期" class="ivu-form-item-required">
                         <FormItem prop="getCertificateTime">
                             <DatePicker type="date" :editable="false" placeholder="选择日期" v-model="getCertificateTime"></DatePicker>
                         </FormItem>
@@ -47,7 +47,7 @@
                         </Select>
                     </FormItem>
 
-                    <FormItem label="入职时间">
+                    <FormItem label="入职时间"  class="ivu-form-item-required">
                         <FormItem prop="entryDate">
                             <DatePicker type="date" :editable="false" placeholder="选择日期" v-model="entryDate"></DatePicker>
                         </FormItem>
@@ -169,8 +169,8 @@
                 dict_status: [],
 
                 //　日期,接收日期控件的返回值，为Date类型
-                getCertificateTime: '',
-                entryDate: '',
+                getCertificateTime: new Date(),
+                entryDate: new Date(),
 
                 // 添加培训记录表单
                 oTrainRecord: {
@@ -222,10 +222,26 @@
                 isEditStatus: false,
                 ruleInline: {
                     name: [
-                        { required: true, message: '' }
+                        { required: true, message: '名字不能为空!', trigger: 'blur' }
                     ],
-                    name: [
-                        { required: true, message: '' }
+                    jobNum: [
+                        { required: true, message: '工号不能为空!', trigger: 'blur' }
+                    ],
+                    sex: [
+                        { required: true, message: '性别不能为空!', trigger: 'blur' }
+                    ],
+                    education: [
+                        { required: true, message: '文化程度不能为空!', trigger: 'blur' }
+                    ],
+                    postCategory: [
+                        { required: true, message: '岗位类别不能为空!', trigger: 'blur' }
+                    ],
+                    status: [
+                        { required: true, message: '人员状态不能为空!', trigger: 'blur' }
+                    ],
+                    idNumber: [
+                        { required: true, message: '身份证不能为空!', trigger: 'blur' },
+                        { type: 'string', min: 18, max: 18, message: '请输入正确的身份证', trigger: 'blur' }
                     ],
                     phone: [
                         { required: true, message: '请填写联系方式', trigger: 'blur' },
@@ -284,6 +300,7 @@
         },
         watch: {
             getCertificateTime(val, oldVal) {
+
                 this.employee.getCertificateTime = MOMENT(val).format('YYYY-MM-DD');
             },
             entryDate(val, oldVal) {
@@ -295,6 +312,9 @@
         mounted() {
             //this.save();
             var that = this;
+
+            this.getCertificateTime = new Date();
+            this.entryDate = new Date();
 
             if (this.$route.params.employeeId) {
                 this.employee.employeeId = this.$route.params.employeeId;
@@ -503,10 +523,30 @@
                 }).then(function (response) {
                     if (response.status == 1) {
                         if (that.status == 'add') {
-                            that.$Message.success('新增成功!');
+                            that.$Message.success({
+                                content: '新增成功!',
+                                onClose() {
+                                    that.$router.push({
+                                        name: 'employeeList',  // 路由名称
+                                        params: {
+                                            funcId: that.$route.params.funcId
+                                        }
+                                    });
+                                }
+                            });
                         }
                         else {
-                            that.$Message.success('修改成功!');
+                            that.$Message.success({
+                                content: '修改成功!',
+                                onClose() {
+                                    that.$router.push({
+                                        name: 'employeeList',  // 路由名称
+                                        params: {
+                                            funcId: that.$route.params.funcId
+                                        }
+                                    });
+                                }
+                            });
                         }
                     }
                     else {

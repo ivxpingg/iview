@@ -1,1 +1,1 @@
-export default "development1";
+export default "development";

@@ -17,7 +17,8 @@ module.exports = {
         assetsPublicPath: '/',
         proxyTable: {
             // '/metrosupervision/xm': { target: 'http://192.168.1.35:8080', changeOrigin: true }
-            '/xm': { target: 'http://cs.doudou360.com:8088', changeOrigin: true }
+            '/xm': { target: 'http://cs.doudou360.com:8088', changeOrigin: true },
+            '/static': { target: 'http://cs.doudou360.com:8088', changeOrigin: true }
             // '/xm': { target: 'http://10.131.1.222:8088', changeOrigin: true }
         },
         // CSS Sourcemaps off by default because relative paths are "buggy"
