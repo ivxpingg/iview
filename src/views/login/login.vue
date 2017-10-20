@@ -10,30 +10,34 @@
     }
 </style>
 <template>
-    <div class="login-panel">
-        <Form ref="formInline" :model="formInline" :rules="ruleInline" >
-            <Row>
-                <Col span="24">
+    <div class="login-bg">
+        <div class="login-panel">
+            <div class="login-panel-left"></div>
+            <div class="login-panel-right"></div>
+            <Form ref="formInline" :model="formInline" :rules="ruleInline" >
+                <Row>
+                    <Col span="24">
                     <Form-item class="iputout" prop="user">
                         <Input type="text" v-model="formInline.user" size="large" placeholder="Username">
                         <Icon type="ios-person-outline" slot="prepend"></Icon>
                         </Input>
                     </Form-item>
-                </Col>
-                <Col span="24">
+                    </Col>
+                    <Col span="24">
                     <Form-item prop="password">
                         <Input type="password" v-model="formInline.password" size="large" placeholder="Password">
                         <Icon type="ios-locked-outline" slot="prepend"></Icon>
                         </Input>
                     </Form-item>
-                </Col>
-                <Col span="24">
+                    </Col>
+                    <Col span="24">
                     <Form-item>
                         <Button long type="primary" size="large" @click="handleSubmit('formInline')">登录</Button>
                     </Form-item>
-                </Col>
-            </Row>
-        </Form>
+                    </Col>
+                </Row>
+            </Form>
+        </div>
     </div>
 </template>
 <script>
@@ -67,7 +71,7 @@ export default {
                     if (valid) {
                         Util.ajax({
                             method: "post",
-                            url: '/sys/login',
+                            url: '/xm/sys/login',
                             data: {
                                 username: that.formInline.user,
                                 password: that.formInline.password,
@@ -85,7 +89,7 @@ export default {
                                 if (that.$route.query.redirect) {
                                     router.push(that.$route.query.redirect);
                                 } else {
-                                    router.push({path: '/system'});
+                                    router.push({path: '/system/SYS_MANAGE'});
                                 }
                             }
                             else {

@@ -2,38 +2,43 @@
 
     <div>
         <Row>
-            <Col span="12">
-                <Form :model="searchParams" inline :label-width="65">
-                    <FormItem prop="name"  label="姓名:">
-                        <Input v-model="searchParams.name" placeholder="请输入姓名"></Input>
+            <Col span="24" class="ms-col-btn-panel">
+                <Button type="primary" icon="ios-cloud-upload-outline" @click="showModalExport">导入从业人员</Button>
+                <Button type="primary" icon="ios-cloud-upload-outline" @click="showModalExportReocrd">导入从业人员培训记录</Button>
+                <a :href="exportFileUrl" class="ivu-btn ivu-btn-primary"><span>导出</span></a>
+            </Col>
+            <Col span="24">
+                <Form class="ms-form-search" :model="searchParams" inline :label-width="0">
+                    <FormItem prop="name"  label="">
+                        <Input v-model="searchParams.name" placeholder="请输入姓名" style="width: 160px"></Input>
                     </FormItem>
 
-                    <FormItem prop="postCategory" label="岗位类别:">
-                        <Select v-model="searchParams.postCategory" transfer placeholder="请选择岗位">
-                            <Option v-for="(item, index) in dict_post_type" :value="item.value">{{item.label}}</Option>
+                    <FormItem prop="postCategory" label="">
+                        <Select v-model="searchParams.postCategory" transfer placeholder="请选择岗位"  style="width: 160px">
+                            <Option v-for="(item, index) in dict_post_type_List" :value="item.value">{{item.label}}</Option>
                         </Select>
                     </FormItem>
 
-                    <FormItem prop="postName" label="岗位名称:">
-                        <Select v-if="searchParams.postCategory != 'other'" v-model="searchParams.postName" transfer placeholder="请选择岗位名称">
-                            <Option v-for="item in dict_post_name" :value="item.value">{{item.label}}</Option>
+                    <FormItem prop="postName" label="">
+                        <Select v-if="searchParams.postCategory != 'other'" v-model="searchParams.postName" transfer placeholder="请选择岗位名称" style="width: 220px">
+                            <Option v-for="item in dict_post_name_List" :value="item.value">{{item.label}}</Option>
                         </Select>
-                        <Input v-else v-model="searchParams.otherPost" placeholder="请输入岗位名称"></Input>
+                        <Input class="ms-input" v-else v-model="searchParams.otherPost" placeholder="请输入岗位名称" style="width: 220px"></Input>
                     </FormItem>
 
-                    <FormItem prop="sex"  label="性别:">
-                        <Select v-model="searchParams.sex" placeholder="请选择" transfer>
+                    <FormItem prop="sex"  label="">
+                        <Select v-model="searchParams.sex" placeholder="性别" transfer  style="width: 80px">
                             <Option v-for="item in dict_sex" :value="item.value">{{item.label}}</Option>
                         </Select>
                     </FormItem>
 
-                    <FormItem label="入职时间:">
+                    <FormItem label="">
                         <FormItem prop="entryDate">
-                            <DatePicker type="daterange" format="yyyy-MM-dd" :editable="false" placeholder="选择日期" v-model="entryDate"></DatePicker>
+                            <DatePicker type="daterange" format="yyyy-MM-dd" :editable="false" placeholder="入职时间" v-model="entryDate" style="width: 190px"></DatePicker>
                         </FormItem>
                     </FormItem>
 
-                    <FormItem label="更新日期:">
+                    <FormItem label="">
                         <FormItem prop="updateDate">
                             <DatePicker
                                     type="datetimerange"
@@ -42,29 +47,17 @@
                                     format="yyyy-MM-dd HH:mm:ss"
                                     :editable="false"
                                     placeholder="选择日期"
-                                    v-model="updateDate"></DatePicker>
+                                    v-model="updateDate"
+                                    style="width: 290px"></DatePicker>
                         </FormItem>
                     </FormItem>
-
+                    <Button type="primary" @click="search" icon="ios-search">查询</Button>
                 </Form>
             </Col>
-            <Col span="12">
-                <Button type="primary" @click="search" icon="ios-search">查询</Button>
 
-            <!--<Upload :action="importUrl"-->
-                    <!--name="file"-->
-                    <!--:on-success="importFileSuccess">-->
-                <!--<Button type="primary" icon="ios-cloud-upload-outline">导入</Button>-->
-            <!--</Upload>-->
-                <Button type="primary" icon="ios-cloud-upload-outline" @click="showModalExport">导入从业人员</Button>
-                <Button type="primary" icon="ios-cloud-upload-outline" @click="showModalExportReocrd">导入从业人员培训记录</Button>
-
-                <a :href="exportFileUrl" class="ivu-btn ivu-btn-primary"><span>导出</span></a>
-
-            </Col>
             <Col span="24">
                 <Table border :columns="columns" stripe :data="listData"></Table>
-                <div>
+                <div class="ms-table-page">
                     <Page
                         :total="searchParams.count"
                         :page-size="searchParams.pageSize"
@@ -367,6 +360,33 @@
                 }
                 return '';
             },
+            // 岗位类别
+            dict_post_type_List() {
+                var typeList = [];
+                this.dict_post.forEach(function (val) {
+                    if(val.parentId === '0') {
+                        typeList.push(val);
+                    }
+                });
+                return typeList;
+            },
+            dict_post_name_List() {
+
+                var that = this;
+                var nameList = [];
+                var id = '';
+                this.dict_post.forEach(function (val) {
+                    if (val.value == that.searchParams.postCategory) {
+                        id = val.id;
+                    }
+                });
+                this.dict_post.forEach(function (val) {
+                    if(val.parentId == id) {
+                        nameList.push(val);
+                    }
+                });
+                return nameList;
+            },
             headImageUrl() {
                 for (let i = 0; i < this.employee.pictureRelation.length; i++){
                     if (this.employee.pictureRelation[i].pictureType === 'HeadPortrait') {
@@ -385,7 +405,7 @@
                 return list;
             },
             exportFileUrl() {
-                var url = Util.domain + '/sys/employee/downEmployeeExcel?';
+                var url = Util.domain + '/xm/sys/employee/downEmployeeExcel?';
                 url += 'name=' + this.searchParams.name;
                 url += '&sex=' + this.searchParams.sex;
                 url += '&postCategory=' + this.searchParams.postCategory;
@@ -399,16 +419,16 @@
                 return url;
             },
             exportFileUrl1() {
-                return  Util.domain.split('/xm')[0] + '/static/download/从业人员导入模板.xlsx';
+                return  Util.domain + '/static/download/从业人员导入模板.xlsx';
             },
             exportFileUrl2() {
-                return Util.domain.split('/xm')[0] + '/static/download/xlsx/培训记录导入模板.xlsx';
+                return Util.domain + '/static/download/xlsx/培训记录导入模板.xlsx';
             },
             importFileUrl1() {
-                return Util.domain + '/sys/employee/uploadEmployeeExcel';
+                return Util.domain + '/xm/sys/employee/uploadEmployeeExcel';
             },
             importFileUrl2() {
-                return Util.domain + '/sys/employee/uploadTrainRecordExcel';
+                return Util.domain + '/xm/sys/employee/uploadTrainRecordExcel';
             }
         },
         watch: {
@@ -491,7 +511,7 @@
                 var that = this;
                 Util.ajax({
                     method: 'post',
-                    url: '/sys/employee/list',
+                    url: '/xm/sys/employee/list',
                     headers: {
                         'Content-Type': 'application/json;charset=utf-8'
                     },
@@ -502,7 +522,6 @@
                         that.searchParams.count = response.result.count;
                         that.searchParams.pageCount = Math.ceil(response.result.count / response.result.pageSize);
                         that.listData = response.result.list;
-                        console.dir(that.listData);
                     }
                     else {
                         console.log(response.errMsg);
@@ -517,11 +536,12 @@
                 //获取岗位字典数据
                 Util.ajax({
                     method: "get",
-                    url: '/sys/dict/treeData',
+                    url: '/xm/sys/dict/treeData',
                     params: {
                         type: 'sys_post_category'
                     }
                 }).then(function (response) {
+                    debugger
                     if (response.status == 1) {
                         that.dict_post = response.result;
                         if (cb) {
@@ -538,14 +558,13 @@
                 // 获取文化程度字典数据
                 Util.ajax({
                     method: "get",
-                    url: '/sys/dict/listData',
+                    url: '/xm/sys/dict/listData',
                     params: {
                         type: 'sys_education'
                     }
                 }).then(function (response) {
                     if (response.status == 1) {
                         that.dict_education = response.result;
-                        console.dir(response.result);
                     }
                     else {
                         console.dir(response.errMsg);
@@ -557,14 +576,13 @@
                 // 获取性别字典数据
                 Util.ajax({
                     method: "get",
-                    url: '/sys/dict/listData',
+                    url: '/xm/sys/dict/listData',
                     params: {
                         type: 'sex'
                     }
                 }).then(function (response) {
                     if (response.status == 1) {
                         that.dict_sex = response.result;
-                        console.dir(response.result);
                     }
                     else {
                         console.dir(response.errMsg);
@@ -576,14 +594,13 @@
                 // 获取员工状态字典数据
                 Util.ajax({
                     method: "get",
-                    url: '/sys/dict/listData',
+                    url: '/xm/sys/dict/listData',
                     params: {
                         type: 'sys_user_status'
                     }
                 }).then(function (response) {
                     if (response.status == 1) {
                         that.dict_status = response.result;
-                        console.dir(response.result);
                     }
                     else {
                         console.dir(response.errMsg);
@@ -614,7 +631,7 @@
                 var that = this;
                 Util.ajax({
                     method: 'get',
-                    url: '/sys/employee/downEmployeeExcel',
+                    url: '/xm/sys/employee/downEmployeeExcel',
                     headers: {
                         'Content-Type': 'application/octet-stream;charset=utf-8'
                     },
@@ -646,7 +663,7 @@
                     onOk: () => {
                         Util.ajax({
                             method: 'get',
-                            url: '/sys/employee/delete',
+                            url: '/xm/sys/employee/delete',
                             params: {
                                 employeeId: row.employeeId
                             }
@@ -675,5 +692,12 @@
     }
 </script>
 <style lang="scss" type="stylesheet/scss" scoped>
-
+.ms-col-btn-panel {
+    margin-bottom: 24px;
+    text-align: right;
+}
+    .ms-table-page{
+        margin: 18px 0;
+        text-align: center;
+    }
 </style>

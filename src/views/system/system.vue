@@ -123,8 +123,8 @@
     export default {
         data() {
             return {
-                spanLeft: 5,
-                spanRight: 19,
+                spanLeft: 4,
+                spanRight: 20,
                 mList: null,
                 userName: '',
                 funcId: ''  // 系统菜单功能编号
@@ -182,7 +182,7 @@
         methods: {
             getMenuData () {
                 var that = this;
-                Util.ajax.get('/sys/auth/menuList')
+                Util.ajax.get('/xm/sys/auth/menuList')
                     .then(function (response) {
                         that.mList = response.result || null;
                     })
@@ -223,7 +223,7 @@
             },
             logout () {
                 const that = this;
-                Util.ajax.get('/sys/logout')
+                Util.ajax.get('/xm/sys/logout')
                     .then(function (response){
                         var router = new VueRouter();
                         Util.cookie.unset('xmgd');

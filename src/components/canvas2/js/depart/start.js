@@ -305,7 +305,7 @@ var getData = function (delay) {
         + h + ':' + m + ':' + s;
 
     setTimeout(function () {
-        Util.ajax.get('/run/getTrainPosition', {
+        Util.ajax.get('/xm/run/getTrainPosition', {
             params: {
                 time: sTime
             }

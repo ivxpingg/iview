@@ -46,7 +46,7 @@
             return {
                 uploadList: [],              // 上传图片信息
                 visible: false,              // 浏览图片弹出窗隐藏/显示
-                url: '/sys/upload/picture',  // 请求地址
+                url: '/xm/sys/upload/picture',  // 请求地址
                 headers: {},                 // 请求的头部信息
                 previewImgSrc: 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/large' // 预览图片的地址
             }

@@ -377,7 +377,7 @@
                 //获取岗位字典数据
                 Util.ajax({
                     method: "get",
-                    url: '/sys/dict/treeData',
+                    url: '/xm/sys/dict/treeData',
                     params: {
                         type: 'sys_post_category'
                     }
@@ -398,7 +398,7 @@
                 // 获取文化程度字典数据
                 Util.ajax({
                     method: "get",
-                    url: '/sys/dict/listData',
+                    url: '/xm/sys/dict/listData',
                     params: {
                         type: 'sys_education'
                     }
@@ -417,7 +417,7 @@
                 // 获取性别字典数据
                 Util.ajax({
                     method: "get",
-                    url: '/sys/dict/listData',
+                    url: '/xm/sys/dict/listData',
                     params: {
                         type: 'sex'
                     }
@@ -436,7 +436,7 @@
                 // 获取员工状态字典数据
                 Util.ajax({
                     method: "get",
-                    url: '/sys/dict/listData',
+                    url: '/xm/sys/dict/listData',
                     params: {
                         type: 'sys_user_status'
                     }
@@ -459,7 +459,7 @@
                 var that = this;
                 Util.ajax({
                     method: 'get',
-                    url: '/sys/employee/detail',
+                    url: '/xm/sys/employee/detail',
                     params: {
                         employeeId: that.employee.employeeId
                     }
@@ -511,7 +511,7 @@
 
             save() {
                 var that = this;
-                var url = this.status == 'add'? '/sys/employee/add' : '/sys/employee/update';
+                var url = this.status == 'add'? '/xm/sys/employee/add' : '/xm/sys/employee/update';
 
                 Util.ajax({
                     method: "post",

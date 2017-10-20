@@ -13,10 +13,10 @@ util.title = function(title) {
 
 // http://192.168.1.35:8080
 const ajaxUrl = env === 'production' ?
-    'http://cs.doudou360.com:8088/xm' :
+    'http://cs.doudou360.com:8088/metrosupervision' :
     env === 'development' ?
-    'http://localhost:8880/xm' :
-    'http://localhost:8880/metrosupervision/xm'
+    'http://localhost:8880/metrosupervision' :
+    'http://localhost:8880/metrosupervision'
 
 var Cookie = {
     get: function (name) {
