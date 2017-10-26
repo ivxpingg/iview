@@ -5,7 +5,6 @@
             <Col span="24" class="ms-col-btn-panel">
                 <Button type="primary" icon="ios-cloud-upload-outline" @click="showModalExport">导入从业人员</Button>
                 <Button type="primary" icon="ios-cloud-upload-outline" @click="showModalExportReocrd">导入从业人员培训记录</Button>
-                <a :href="exportFileUrl" class="ivu-btn ivu-btn-primary"><span>导出</span></a>
             </Col>
             <Col span="24">
                 <Form class="ms-form-search" :model="searchParams" inline :label-width="0">
@@ -15,12 +14,14 @@
 
                     <FormItem prop="postCategory" label="">
                         <Select v-model="searchParams.postCategory" transfer placeholder="请选择岗位"  style="width: 160px">
+                            <Option :value="''" :label="'全选'"></Option>
                             <Option v-for="(item, index) in dict_post_type_List" :value="item.value">{{item.label}}</Option>
                         </Select>
                     </FormItem>
 
-                    <FormItem prop="postName" label="">
+                    <FormItem v-if="searchParams.postCategory !=''" prop="postName" label="">
                         <Select v-if="searchParams.postCategory != 'other'" v-model="searchParams.postName" transfer placeholder="请选择岗位名称" style="width: 220px">
+                            <Option :value="''">全选</Option>
                             <Option v-for="item in dict_post_name_List" :value="item.value">{{item.label}}</Option>
                         </Select>
                         <Input class="ms-input" v-else v-model="searchParams.otherPost" placeholder="请输入岗位名称" style="width: 220px"></Input>
@@ -52,6 +53,7 @@
                         </FormItem>
                     </FormItem>
                     <Button type="primary" @click="search" icon="ios-search">查询</Button>
+                    <a :href="exportFileUrl" class="ivu-btn ivu-btn-primary"><span>导出</span></a>
                 </Form>
             </Col>
 
@@ -72,72 +74,154 @@
             </Col>
         </Row>
 
-        <Modal
-                v-model="modalDetail" title="人员基本信息">
+        <Modal v-model="modalDetail" width="700" title="人员基本信息">
             <div>
-                <Row>
-                    <Col span="18">
-                        <table>
-                            <tr>
-                                <td>姓名</td>
-                                <td>{{employee.name}}</td>
-                                <td>工号</td>
-                                <td>{{employee.jobNum}}</td>
-                            </tr>
-                            <tr>
-                                <td>性别</td>
-                                <td>{{employee_sex}}</td>
-                                <td>文化程度</td>
-                                <td>{{employee_education}}</td>
-                            </tr>
-                            <tr>
-                                <td>取证日期</td>
-                                <td>{{employee.getCertificateTime}}</td>
-                                <td>身份证号</td>
-                                <td>{{employee.idNumber}}</td>
-                            </tr>
-                            <tr>
-                                <td>入职时间</td>
-                                <td>{{employee.entryDate}}</td>
-                                <td>联系电话</td>
-                                <td>{{employee.phone}}</td>
-                            </tr>
-                            <tr>
-                                <td>岗位类别</td>
-                                <td>{{dict_post_type}}</td>
-                                <td>岗位名称</td>
-                                <td>{{dict_post_name}}</td>
-                            </tr>
-                            <tr>
-                                <td>人员状态</td>
-                                <td>{{employee_status}}</td>
-                                <td> </td>
-                                <td> </td>
-                            </tr>
+                <div class="sxc-flex employeeInfo-box">
+                    <div class="left-box sxc-flex__item">
+                        <div class="sxc-flex">
+                            <div class="sxc-flex__item">
+                                <div class="item sxc-flex">
+                                    <span class="title">姓名:</span>
+                                    <div class="content sxc-flex__item">
+                                        <span>{{employee.name}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sxc-flex__item">
+                                <div class="item sxc-flex">
+                                    <span class="title">工号:</span>
+                                    <div class="content sxc-flex__item">
+                                        <span>{{employee.jobNum}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                        </table>
-                    </Col>
-                    <Col span="6">
-                        <div>
-                            <img width="100px" :src="headImageUrl" alt="">
+                        <div class="sxc-flex">
+                            <div class="sxc-flex__item">
+                                <div class="item sxc-flex">
+                                    <span class="title">性别:</span>
+                                    <div class="content sxc-flex__item">
+                                        <span>{{employee_sex}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sxc-flex__item">
+                                <div class="item sxc-flex">
+                                    <span class="title">文化程度:</span>
+                                    <div class="content sxc-flex__item">
+                                        <span>{{employee_education}}</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </Col>
-                    <Col span="24">
-                        <div>从业资格证:</div>
-                        <div>
-                            <img width="100px" v-for="item in CertificateImageUrlList" :src="item.pictureUrl" alt="">
+
+                        <div class="sxc-flex">
+                            <div class="sxc-flex__item">
+                                <div class="item sxc-flex">
+                                    <span class="title">取证日期:</span>
+                                    <div class="content sxc-flex__item">
+                                        <span>{{employee.getCertificateTime}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sxc-flex__item">
+                                <div class="item sxc-flex">
+                                    <span class="title">身份证号:</span>
+                                    <div class="content sxc-flex__item">
+                                        <span>{{employee.idNumber}}</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </Col>
-                    <Col span="24">
-                        <div>培训记录:</div>
+
+                        <div class="sxc-flex">
+                            <div class="sxc-flex__item">
+                                <div class="item sxc-flex">
+                                    <span class="title">入职时间:</span>
+                                    <div class="content sxc-flex__item">
+                                        <span>{{employee.entryDate}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sxc-flex__item">
+                                <div class="item sxc-flex">
+                                    <span class="title">联系电话:</span>
+                                    <div class="content sxc-flex__item">
+                                        <span>{{employee.phone}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sxc-flex">
+                            <div class="sxc-flex__item">
+                                <div class="item sxc-flex">
+                                    <span class="title">岗位类别:</span>
+                                    <div class="content sxc-flex__item">
+                                        <span>{{dict_post_type}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sxc-flex__item">
+                                <div class="item sxc-flex">
+                                    <span class="title">岗位名称:</span>
+                                    <div class="content sxc-flex__item">
+                                        <span>{{dict_post_name}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sxc-flex">
+                            <div class="sxc-flex__item">
+                                <div class="item sxc-flex">
+                                    <span class="title">人员状态:</span>
+                                    <div class="content sxc-flex__item">
+                                        <span>{{employee_status}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sxc-flex__item">
+                                <div class="item sxc-flex">
+                                    <span class="title"></span>
+                                    <div class="content sxc-flex__item">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="right-box">
+                        <img class="employeeHeaderImg" :src="headImageUrl" alt="">
+                    </div>
+                </div>
+
+                <div class="item sxc-flex ">
+                    <span class="title">从业资格证:</span>
+                    <div class="content certificateImgList sxc-flex__item">
+                        <!--<img v-for="item in CertificateImageUrlList" :src="item.pictureUrl" alt="">-->
+                        <!--<vImgUpload :isLook="true" :defaultList="CertificateImageUrlList"></vImgUpload>-->
+                        <div class="upload-list" v-for="item in CertificateImageUrlList">
+                            <img :src="item.pictureUrl">
+                            <div class="upload-list-cover">
+                                <Icon type="ios-eye-outline" @click.native="handleView(item.pictureUrl)"></Icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item sxc-flex">
+                    <span class="title">培训记录:</span>
+                    <div class="content sxc-flex__item">
                         <Table
                                 width=""
                                 border
                                 stripe
                                 :columns="oTrainRecordColumns"
                                 :data="employee.trainRecord"></Table>
-                    </Col>
-                </Row>
+                    </div>
+                </div>
+
             </div>
             <div slot="footer">
 
@@ -166,6 +250,9 @@
             <div slot="footer"></div>
         </Modal>
 
+        <Modal title="查看图片" v-model="visible">
+            <img :src="previewImgSrc" v-if="visible" style="width: 100%">
+        </Modal>
     </div>
 
 </template>
@@ -177,6 +264,8 @@
     export default {
         data() {
             return {
+                visible: false,   //
+                previewImgSrc: '#',
                 modalExport: false,               // 导出窗口
                 modalExportType: '1',             // '1': 从业人员信息； '2': 从业人员培训信息
                 modalDetail: false,               // 显示/隐藏弹出框
@@ -204,7 +293,7 @@
                     { title: '成绩', key: 'achievement', width: 80 }],
                 searchParams: {
                     pageNo: 1,                   // 当前页数
-                    pageSize: 3,                // 每页记录数
+                    pageSize: 30,                // 每页记录数
                     count: 0,                    // 总数据量
                     pageCount: 0,                // 总页数
                     name: '',                      // 姓名
@@ -227,7 +316,7 @@
                 dict_status: [],
 
                 // 分页控件
-                page_size_opts: [1, 2, 3],
+                page_size_opts: [20, 30, 50],
 
                 // 表格
                 listData: [],                       // 表格数据，接收ajax返回的数据
@@ -241,7 +330,6 @@
                     { title: '取证日期', key: 'getCertificateTime', sortable: true },
                     { title: '联系电话', key: 'phone' },
                     { title: '操作', key: 'action', width: 180, render: (h, params) => {
-//                            console.dir(this);
                         var that = this;
                         return h('div', [
                             h('Button', {
@@ -279,7 +367,6 @@
                                 },
                                 on: {
                                     click() {
-//                                        console.dir(params.row);
                                         that.deleteData(params.row);
                                     }
                                 }
@@ -459,6 +546,11 @@
         },
 
         methods: {
+            // 查看从业资格证弹出框
+            handleView(url){
+                this.previewImgSrc = url;
+                this.visible = true;
+            },
             on_page_size_change(pageSize) {
                 this.searchParams.pageSize = pageSize;
                 this.getData();
@@ -471,7 +563,7 @@
                 var that = this;
                 Util.ajax({
                     method: 'get',
-                    url: '/sys/employee/detail',
+                    url: '/xm/sys/employee/detail',
                     params: {
                         employeeId: id
                     }
@@ -541,7 +633,7 @@
                         type: 'sys_post_category'
                     }
                 }).then(function (response) {
-                    debugger
+
                     if (response.status == 1) {
                         that.dict_post = response.result;
                         if (cb) {
@@ -639,15 +731,9 @@
 //                    params: this.searchParams
                     data: JSON.stringify(this.searchParams)
                 }).then(function (response) {
-                    debugger
+
                     var blob = new Blob([response], {type: 'application/msexcel'}), fileName = '文件名称'; downFile(blob, fileName);
                     that.liu = response;
-//                    if (response.status == 1) {
-//
-//                    }
-//                    else {
-//                        console.log(response.errMsg);
-//                    }
                 }).catch(function (err) {
                     console.log(err);
                 });
@@ -692,12 +778,82 @@
     }
 </script>
 <style lang="scss" type="stylesheet/scss" scoped>
+
+    .item {
+        margin-bottom: 6px;
+        .title {
+            padding-right: 8px;
+            width: 75px;
+            height: 24px;
+            color: rgb(73, 80, 96);
+            font-weight: 700;
+            line-height:24px;
+            text-align: right;
+        }
+        .content {
+            span {
+                color: rgb(73, 80, 96);
+                line-height: 24px;
+            }
+        }
+    }
+
+    .employeeInfo-box {
+        .left-box {
+
+        }
+        .right-box{
+            .employeeHeaderImg {
+                width: 80px;
+                border-radius: 5px;
+            }
+        }
+    }
+
 .ms-col-btn-panel {
     margin-bottom: 24px;
-    text-align: right;
+    text-align: left;
 }
     .ms-table-page{
         margin: 18px 0;
         text-align: center;
+    }
+
+
+    .upload-list{
+        display: inline-block;
+        width: 60px;
+        height: 60px;
+        text-align: center;
+        line-height: 60px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        overflow: hidden;
+        background: #fff;
+        position: relative;
+        box-shadow: 0 1px 1px rgba(0,0,0,.2);
+        margin-right: 4px;
+    }
+    .upload-list img{
+        width: 100%;
+        height: 100%;
+    }
+    .upload-list-cover{
+        display: none;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0,0,0,.6);
+    }
+    .upload-list:hover .upload-list-cover{
+        display: block;
+    }
+    .upload-list-cover i{
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+        margin: 0 2px;
     }
 </style>

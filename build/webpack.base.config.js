@@ -58,9 +58,16 @@ module.exports = {
                     fallback: 'style-loader'
                 })
             },
+            {
+                test: /\.scss/,
+                use: ExtractTextPlugin.extract({
+                    use: ['autoprefixer-loader', 'sass-loader'],
+                    fallback: 'style-loader'
+                })
+            },
 
             {
-                test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,
+                test: /\.(gif|jpg|png|jpeg|woff|svg|eot|ttf)\??.*$/,
                 loader: 'url-loader?limit=1024'
             },
             {

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="employee-add-panel">
         <Row>
             <Col span="12">
                 <Form :model="employee" :rules="ruleInline"　:label-width="120">
@@ -187,7 +187,6 @@
                     { title: '培训内容', key: 'trainContent' },
                     { title: '成绩', key: 'achievement', width: 80 },
                     { title: '操作', key: 'action', width: 120, render: (h, params) => {
-//                            console.dir(this);
                             var that = this;
                             return h('div', [
                                 h('Button', {
@@ -257,7 +256,6 @@
                 return this.isEditStatus ? '确定' : '添加';
             },
             modelTrainDate() {
-                console.dir(this.oTrainRecord.trainDate);
                 if (Array.isArray(this.oTrainRecord.trainDate) && this.oTrainRecord.trainDate[0] !== '') {
                     return MOMENT(this.oTrainRecord.trainDate[0]).format('YYYY-MM-DD') + '~' + MOMENT(this.oTrainRecord.trainDate[1]).format('YYYY-MM-DD');
                 }
@@ -405,7 +403,6 @@
                 }).then(function (response) {
                     if (response.status == 1) {
                         that.dict_education = response.result;
-                        console.dir(response.result);
                     }
                     else {
                         console.dir(response.errMsg);
@@ -424,7 +421,6 @@
                 }).then(function (response) {
                     if (response.status == 1) {
                         that.dict_sex = response.result;
-                        console.dir(response.result);
                     }
                     else {
                         console.dir(response.errMsg);
@@ -443,7 +439,6 @@
                 }).then(function (response) {
                     if (response.status == 1) {
                         that.dict_status = response.result;
-                        console.dir(response.result);
                     }
                     else {
                         console.dir(response.errMsg);
@@ -464,7 +459,7 @@
                         employeeId: that.employee.employeeId
                     }
                 }).then(function (response) {
-                    debugger
+
                     if (response.status == 1) {
                         that.employee.name = response.result.name;
                         that.employee.jobNum = response.result.jobNum;
@@ -567,5 +562,10 @@
     }
 </script>
 <style lang="scss" type="stylesheet/scss" scoped>
-
+    .employee-add-panel {
+        padding-top: 20px;
+        padding-bottom: 45px;
+        min-width: 720px;
+        max-width: 1024px;
+    }
 </style>

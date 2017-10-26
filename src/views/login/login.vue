@@ -1,24 +1,78 @@
-<style scoped>
-    .login-panel {
+<style lang="scss" type="stylesheet/scss" scoped>
+
+    .login-bg {
         position: relative;
-        top: 260px;
-        margin: 0 auto;
-        padding: 24px;
-        width: 269px;
-        height: 229px;
-        border: 1px solid #d9d9d9;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+
+        .login-panel-title {
+            height: 55px;
+            line-height: 55px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 24px;
+            span {
+                font-size: 18px;
+                border-bottom: 3px solid #e56124;
+                color: #666;
+                padding-bottom: 14px;
+            }
+        }
+
+        .swiper-container {
+            position: absolute;
+            z-index: 1;
+            width: 100%;
+            img {
+                width: 100%;
+            }
+        }
+
     }
+
+
+    .login-panel {
+        position: absolute;
+        z-index: 2;
+        top: 50%;
+        left: 50%;
+        margin-top: -260px;
+        margin-left: -187px;
+        padding: 0 24px 0;
+        width: 374px;
+        border: 1px solid #eee;
+        background: #fff;
+        border-radius: 5px;
+    }
+
 </style>
 <template>
+
     <div class="login-bg">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="../../images/login-bg2.jpeg" alt="" />
+                </div>
+                <div class="swiper-slide">
+                    <img src="../../images/login-bg3.jpeg" alt="" />
+                </div>
+                <div class="swiper-slide">
+                    <img src="../../images/login-bg4.jpeg" alt="" />
+                </div>
+            </div>
+        </div>
         <div class="login-panel">
-            <div class="login-panel-left"></div>
-            <div class="login-panel-right"></div>
             <Form ref="formInline" :model="formInline" :rules="ruleInline" >
                 <Row>
                     <Col span="24">
+                        <div class="login-panel-title">
+                            <span>账号登录</span>
+                        </div>
+                    </Col>
+                    <Col span="24">
                     <Form-item class="iputout" prop="user">
-                        <Input type="text" v-model="formInline.user" size="large" placeholder="Username">
+                        <Input class="input" type="text" v-model="formInline.user" size="large" autocomplete="off" placeholder="Username">
                         <Icon type="ios-person-outline" slot="prepend"></Icon>
                         </Input>
                     </Form-item>
@@ -44,6 +98,8 @@
     import Util from '../../libs/util';
     import VueRouter from 'vue-router';
     import $ from 'jquery';
+    import Swiper from 'swiper';
+    import 'swiper/dist/css/swiper.css';
 export default {
         data () {
             return {
@@ -62,7 +118,15 @@ export default {
                 }
             }
         },
-        mounted() {},
+        mounted() {
+            new Swiper ('.swiper-container', {
+                autoplay: 3000,
+                effect : 'fade',
+                speed: 1000,
+                autoplayDisableOnInteraction: false,
+                loop: true
+            });
+        },
         methods: {
             handleSubmit(name) {
                 let that = this;

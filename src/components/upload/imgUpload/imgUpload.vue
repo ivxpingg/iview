@@ -34,7 +34,7 @@
                 <Icon type="camera" size="20"></Icon>
             </div>
         </Upload>
-        <Modal title="查看图片" v-model="visible">
+        <Modal title="查看图片" v-model="visible" style="z-index: 1000">
             <img :src="previewImgSrc" v-if="visible" style="width: 100%">
         </Modal>
     </div>

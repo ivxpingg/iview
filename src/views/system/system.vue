@@ -4,40 +4,6 @@
         <Row type="flex" style="height: 100%">
             <Col :span="spanLeft" class="layout-menu-left" style="height: 100%">
 
-                <!--<Menu theme="dark" @on-select="menuLink" accordion width="auto">-->
-                    <!--<div class="layout-logo-left">-->
-                        <!--<img class="logo-img" src="../../images/xmgd.png" alt="">-->
-                        <!--<div class="logo-title">轨道监管平台</div>-->
-                    <!--</div>-->
-                    <!--<Submenu v-for="lv1 in meunList" name="1">-->
-                        <!--<template v-if="!lv1.href">-->
-                            <!--<template slot="title">-->
-                                <!--<Icon type="ios-navigate" :size="iconSize"></Icon>-->
-                                <!--<span class="layout-text">{{lv1.name}}</span>-->
-                            <!--</template>-->
-                            <!--<template v-for="lv2 in lv1.childrenList">-->
-                                <!--<template v-if="!lv2.href">-->
-                                    <!--<MenuGroup :title="lv2.name">-->
-                                        <!--<MenuItem v-for="lv3 in lv2.childrenList" :name="lv3.href">{{lv3.name}}</MenuItem>-->
-                                    <!--</MenuGroup>-->
-                                <!--</template>-->
-                                <!--<template v-else>-->
-                                    <!--<MenuItem :name="lv2.href">{{lv2.name}}</MenuItem>-->
-                                <!--</template>-->
-                            <!--</template>-->
-                        <!--</template>-->
-
-                        <!--<template v-else>-->
-                            <!--<template slot="title">-->
-                                <!--<Icon type="ios-navigate" :size="iconSize"></Icon>-->
-                                <!--<span class="layout-text">{{lv1.name}}</span>-->
-                            <!--</template>-->
-                            <!--<MenuItem :name="lv1.href">{{lv1.name}}</MenuItem>-->
-                        <!--</template>-->
-
-                    <!--</Submenu>-->
-                <!--</Menu>-->
-
             <Menu theme="dark" @on-select="menuLink" accordion width="auto">
                 <div class="layout-logo-left">
                     <img class="logo-img" src="../../images/xmgd.png" alt="">
@@ -82,7 +48,7 @@
                 <div class="layout-header">
                     <Button class="btn-layout" type="text" icon="log-out" title="退出" @click="logout"></Button>
                     <div class="userInfo">
-                        <Avatar class="userImg" src="https://i.loli.net/2017/08/21/599a521472424.jpg" size="large" icon="person"/>
+                        <Avatar class="userImg" :src="userHeaderImgUrl" size="large" icon="person"/>
                         <!--<Avatar src="../../images/avatar.jpg" />-->
                         <!--<div class="userImg"><img src="../../images/avatar.jpg" alt=""></div>-->
                         <Dropdown class="userDrown">
@@ -127,6 +93,7 @@
                 spanRight: 20,
                 mList: null,
                 userName: '',
+                userHeaderImgUrl: '',
                 funcId: ''  // 系统菜单功能编号
             };
         },
@@ -135,6 +102,8 @@
             this.funcId = this.$route.params.funcId;
 
             this.userName = Util.cookie.get('xmgdname') || '';
+
+            this.userHeaderImgUrl = '/static/img/avatar.jpg';
 
             var myScroll = new Iscroll("#layout-content", {
                 mouseWheel: true,

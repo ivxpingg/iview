@@ -8,8 +8,13 @@ var router = require('./api/index');
 var bodyParser = require("body-parser");
 var app = express();
 var opn = require('opn');
+var shell = require('shelljs');
 
 var port = process.env.PORT || config.dev.port;
+
+shell.rm('-rf', path.join(__dirname, '../dist/*'));
+shell.mkdir('-p', path.join(__dirname, '../dist/static'));
+shell.cp('-R', path.join(__dirname, '../src/static/*'), path.join(__dirname, '../dist/static'));
 
 
 // parse application/x-www-form-urlencoded
@@ -70,7 +75,7 @@ app.use(hotMiddleware);
 
 // serve pure static assets
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
-app.use(staticPath, express.static('./static'))
+app.use(staticPath, express.static('./src/static'));
 
 var uri = 'http://localhost:' + port;
 
