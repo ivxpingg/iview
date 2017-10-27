@@ -1,6 +1,6 @@
 <template>
 
-    <div>
+    <div class="my-list">
         <Row>
             <Col span="24" class="ms-col-btn-panel">
                 <Button type="primary" icon="ios-cloud-upload-outline" @click="showModalExport">导入从业人员</Button>
@@ -66,7 +66,6 @@
                         :page-size-opts="page_size_opts"
                         @on-page-size-change="on_page_size_change"
                         @on-change="on_change"
-                        show-elevator
                         show-total
                         show-sizer>
                     </Page>
@@ -231,18 +230,18 @@
         <Modal v-model="modalExport" title="导入从业人员">
             <div>
                 <Row v-if="modalExportType == '1'">
-                    <Col span="24">
+                    <Col class="text-center" span="12">
                         <a :href="exportFileUrl1" class="ivu-btn ivu-btn-primary"><span>下载从业人员模版</span></a>
                     </Col>
-                    <Col span="24">
+                    <Col class="text-center" span="12">
                         <vFileUpload :url="importFileUrl1"  bText="导入从业人员信息"></vFileUpload>
                     </Col>
                 </Row>
                 <Row v-else>
-                    <Col span="24">
+                    <Col class="text-center" span="12">
                     <a :href="exportFileUrl2" class="ivu-btn ivu-btn-primary"><span>下载从业人员模版</span></a>
                     </Col>
-                    <Col span="24">
+                    <Col class="text-center" span="12">
                         <vFileUpload :url="importFileUrl2" bText="导入从业人员培训记录信息" ></vFileUpload>
                     </Col>
                 </Row>
@@ -293,7 +292,7 @@
                     { title: '成绩', key: 'achievement', width: 80 }],
                 searchParams: {
                     pageNo: 1,                   // 当前页数
-                    pageSize: 30,                // 每页记录数
+                    pageSize: 15,                // 每页记录数
                     count: 0,                    // 总数据量
                     pageCount: 0,                // 总页数
                     name: '',                      // 姓名
@@ -316,7 +315,7 @@
                 dict_status: [],
 
                 // 分页控件
-                page_size_opts: [20, 30, 50],
+                page_size_opts: [15, 30, 50],
 
                 // 表格
                 listData: [],                       // 表格数据，接收ajax返回的数据
@@ -541,6 +540,14 @@
             }
         },
         mounted() {
+            var that = this;
+            // 初始化设置system父窗体滚动条
+            setTimeout(function (){
+                if(that.$store.state.systemScroll) {
+                    that.$store.state.systemScroll.scrollTo(0, 0);
+                    that.$store.state.systemScroll.refresh();
+                }
+            }, 0);
             this.getDictData();
             this.getData();
         },
@@ -614,6 +621,10 @@
                         that.searchParams.count = response.result.count;
                         that.searchParams.pageCount = Math.ceil(response.result.count / response.result.pageSize);
                         that.listData = response.result.list;
+
+                        setTimeout(function () {
+                            that.$store.state.systemScroll.refresh();
+                        }, 0);
                     }
                     else {
                         console.log(response.errMsg);
@@ -778,6 +789,13 @@
     }
 </script>
 <style lang="scss" type="stylesheet/scss" scoped>
+    .my-list {
+        padding-bottom: 120px;
+    }
+
+    .text-center {
+        text-align: center;
+    }
 
     .item {
         margin-bottom: 6px;
@@ -811,6 +829,7 @@
     }
 
 .ms-col-btn-panel {
+    margin-top: 24px;
     margin-bottom: 24px;
     text-align: left;
 }

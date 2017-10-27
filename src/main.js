@@ -71,7 +71,8 @@ router.afterEach(() => {
 const store = new Vuex.Store({
     state: {
         token: null,
-        name: ''
+        name: '',
+        systemScroll: null
     },
     getters: {
 
@@ -82,6 +83,9 @@ const store = new Vuex.Store({
         },
         setName(state, name) {
             state.name = name;
+        },
+        setSystemScroll(state, oIScroll) {
+            state.systemScroll = oIScroll;
         }
 
     },

@@ -1,8 +1,9 @@
 <template>
     <div class="employee-add-panel">
         <Row>
+            <Form ref="formInline" :model="employee" :rules="ruleInline"　:label-width="120">
             <Col span="12">
-                <Form :model="employee" :rules="ruleInline"　:label-width="120">
+
                     <FormItem prop="name"  label="姓名">
                         <Input v-model="employee.name" placeholder="请输入姓名"></Input>
                     </FormItem>
@@ -52,10 +53,10 @@
                             <DatePicker type="date" :editable="false" placeholder="选择日期" v-model="entryDate"></DatePicker>
                         </FormItem>
                     </FormItem>
-                </Form>
+
             </Col>
             <Col span="12">
-                <Form :model="employee" :rules="ruleInline"　:label-width="120">
+                <!--<Form  ref="formInline2" :model="employee" :rules="ruleInline"　:label-width="120">-->
                     <FormItem prop=""  label="照片">
                         <vImgUpload :defaultList="defaultHeadPortrait" :onSuccess="onSuccessForHeadPortrait"></vImgUpload>
                     </FormItem>
@@ -67,10 +68,11 @@
                             <Option v-for="item in dict_status" :value="item.value">{{item.label}}</Option>
                         </Select>
                     </FormItem>
-                </Form>
+                <!--</Form>-->
             </Col>
+            </Form>
             <Col span="24">
-                <Form :model="employee" :rules="ruleInline"　:label-width="120">
+                <Form ref="formInline2" :model="employee"　:label-width="120">
                     <FormItem prop=""  label="从业资格证">
                         <vImgUpload :defaultList="defaultHeadCertificate" :multiple="true" :onSuccess="onSuccessForCertificate"></vImgUpload>
                     </FormItem>
@@ -227,16 +229,16 @@
                         { required: true, message: '工号不能为空!', trigger: 'blur' }
                     ],
                     sex: [
-                        { required: true, message: '性别不能为空!', trigger: 'blur' }
+                        { required: true, message: '性别不能为空!', trigger: 'change' }
                     ],
                     education: [
-                        { required: true, message: '文化程度不能为空!', trigger: 'blur' }
+                        { required: true, message: '文化程度不能为空!', trigger: 'change' }
                     ],
                     postCategory: [
-                        { required: true, message: '岗位类别不能为空!', trigger: 'blur' }
+                        { required: true, message: '岗位类别不能为空!', trigger: 'change' }
                     ],
                     status: [
-                        { required: true, message: '人员状态不能为空!', trigger: 'blur' }
+                        { required: true, message: '人员状态不能为空!', trigger: 'change' }
                     ],
                     idNumber: [
                         { required: true, message: '身份证不能为空!', trigger: 'blur' },
@@ -310,6 +312,13 @@
         mounted() {
             //this.save();
             var that = this;
+            // 初始化设置system父窗体滚动条
+            setTimeout(function (){
+                if(that.$store.state.systemScroll) {
+                    that.$store.state.systemScroll.scrollTo(0, 0);
+                    that.$store.state.systemScroll.refresh();
+                }
+            }, 0);
 
             this.getCertificateTime = new Date();
             this.entryDate = new Date();
@@ -350,6 +359,7 @@
             },
             // 添加或者修改培训记录
             editTrainRecord() {
+                var that = this;
 
                 if (this.isEditStatus) {}
                 else {
@@ -365,6 +375,12 @@
                     this.oTrainRecord.trainContent = '';
                     this.oTrainRecord.achievement = '';
                 }
+
+                setTimeout(function () {
+                    if(that.$store.state.systemScroll)
+                        that.$store.state.systemScroll.refresh();
+                },0);
+
             },
             // 关闭添加培训记录弹出框
             cancelTrainRecordModal() {},
@@ -505,57 +521,61 @@
             },
 
             save() {
+                debugger
                 var that = this;
                 var url = this.status == 'add'? '/xm/sys/employee/add' : '/xm/sys/employee/update';
 
-                Util.ajax({
-                    method: "post",
-                    url: url,
-                    headers: {
-                        'Content-Type': 'application/json;charset=utf-8'
-                    },
-                    data: JSON.stringify(this.employee)
-                }).then(function (response) {
-                    if (response.status == 1) {
-                        if (that.status == 'add') {
-                            that.$Message.success({
-                                content: '新增成功!',
-                                onClose() {
-                                    that.$router.push({
-                                        name: 'employeeList',  // 路由名称
-                                        params: {
-                                            funcId: that.$route.params.funcId
+                that.$refs['formInline'].validate((valid) => {
+                    if (valid) {
+                        Util.ajax({
+                            method: "post",
+                            url: url,
+                            headers: {
+                                'Content-Type': 'application/json;charset=utf-8'
+                            },
+                            data: JSON.stringify(this.employee)
+                        }).then(function (response) {
+                            if (response.status == 1) {
+                                if (that.status == 'add') {
+                                    that.$Message.success({
+                                        content: '新增成功!',
+                                        onClose() {
+                                            that.$router.push({
+                                                name: 'employeeList',  // 路由名称
+                                                params: {
+                                                    funcId: that.$route.params.funcId
+                                                }
+                                            });
                                         }
                                     });
                                 }
-                            });
-                        }
-                        else {
-                            that.$Message.success({
-                                content: '修改成功!',
-                                onClose() {
-                                    that.$router.push({
-                                        name: 'employeeList',  // 路由名称
-                                        params: {
-                                            funcId: that.$route.params.funcId
+                                else {
+                                    that.$Message.success({
+                                        content: '修改成功!',
+                                        onClose() {
+                                            that.$router.push({
+                                                name: 'employeeList',  // 路由名称
+                                                params: {
+                                                    funcId: that.$route.params.funcId
+                                                }
+                                            });
                                         }
                                     });
                                 }
-                            });
-                        }
+                            }
+                            else {
+                                if (that.status == 'add') {
+                                    that.$Message.error('新增失败!');
+                                }
+                                else {
+                                    that.$Message.error('修改失败!');
+                                }
+                            }
+                        }).catch(function (err) {
+                            console.log(error);
+                        });
                     }
-                    else {
-                        if (that.status == 'add') {
-                            that.$Message.error('新增失败!');
-                        }
-                        else {
-                            that.$Message.error('修改失败!');
-                        }
-                    }
-                }).catch(function (err) {
-                    console.log(error);
                 });
-
             }
 
         }

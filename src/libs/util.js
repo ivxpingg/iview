@@ -13,7 +13,7 @@ util.title = function(title) {
 
 // http://192.168.1.35:8080
 const ajaxUrl = env === 'production' ?
-    'http://cs.doudou360.com:8088/metrosupervision' :
+    'http://192.168.0.100:8088/metrosupervision' :
     env === 'development' ?
     'http://localhost:8880/metrosupervision' :
     'http://localhost:8880/metrosupervision'

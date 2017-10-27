@@ -48,7 +48,7 @@
 </style>
 <template>
 
-    <div class="login-bg">
+    <div class="login-bg" @keyup="keyup($event)">
         <div class="swiper-container">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
@@ -119,6 +119,7 @@ export default {
             }
         },
         mounted() {
+            var that =this;
             new Swiper ('.swiper-container', {
                 autoplay: 3000,
                 effect : 'fade',
@@ -126,12 +127,22 @@ export default {
                 autoplayDisableOnInteraction: false,
                 loop: true
             });
+
+
+            document.onkeyup = function (e) {
+                if (window.event)//如果window.event对象存在，就以此事件对象为准
+                    e = window.event;
+                var code = e.charCode || e.keyCode;
+                if (code == 13) {
+                    that.handleSubmit();
+                }
+            }
         },
-        methods: {
-            handleSubmit(name) {
+        methods:{
+            handleSubmit() {
                 let that = this;
 
-                this.$refs[name].validate((valid) => {
+                this.$refs['formInline'].validate((valid) => {
                     if (valid) {
                         Util.ajax({
                             method: "post",

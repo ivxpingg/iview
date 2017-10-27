@@ -7,7 +7,7 @@
             <Menu theme="dark" @on-select="menuLink" accordion width="auto">
                 <div class="layout-logo-left">
                     <img class="logo-img" src="../../images/xmgd.png" alt="">
-                    <div class="logo-title">{{ meunList.appFunction.funcName}}</div>
+                    <div class="logo-title">{{ meunList.appFunction.funcName }}</div>
                 </div>
                 <template v-if="!!meunList.children">
                     <Submenu v-for="lv1 in meunList.children" name="1">
@@ -21,12 +21,12 @@
                                     <template v-if="!lv2.appFunction.url">
                                         <MenuGroup :title="lv2.appFunction.funcName">
                                             <template v-if="!!lv2.children">
-                                                <MenuItem v-for="lv3 in lv2.children" :name="lv3.appFunction.url">{{lv3.appFunction.funcName}}</MenuItem>
+                                                <MenuItem v-for="lv3 in lv2.children" :name="lv3.appFunction.url + '^' +lv3.appFunction.funcName">{{lv3.appFunction.funcName}}</MenuItem>
                                             </template>
                                         </MenuGroup>
                                     </template>
                                     <template v-else>
-                                        <MenuItem :name="lv2.appFunction.url">{{lv2.appFunction.funcName}}</MenuItem>
+                                        <MenuItem :name="lv2.appFunction.url + '^' +lv2.appFunction.funcName">{{lv2.appFunction.funcName}}</MenuItem>
                                     </template>
                                 </template>
                             </template>
@@ -37,7 +37,7 @@
                                 <Icon type="ios-navigate" :size="iconSize"></Icon>
                                 <span class="layout-text">{{lv1.appFunction.funcName}}</span>
                             </template>
-                            <MenuItem :name="lv1.appFunction.url">{{lv1.appFunction.funcName}}</MenuItem>
+                            <MenuItem :name="lv1.appFunction.url + '^' +lv1.appFunction.funcName">{{lv1.appFunction.funcName}}</MenuItem>
                         </template>
                     </Submenu>
                 </template>
@@ -67,9 +67,7 @@
                 </div>
                 <div class="layout-breadcrumb">
                     <Breadcrumb>
-                        <BreadcrumbItem href="#">首页</BreadcrumbItem>
-                        <BreadcrumbItem href="#">应用中心</BreadcrumbItem>
-                        <BreadcrumbItem href="#">某应用</BreadcrumbItem>
+                        <BreadcrumbItem href="#">{{breadcrumbItem}}</BreadcrumbItem>
                     </Breadcrumb>
                 </div>
                 <div class="layout-content"  id="layout-content">
@@ -94,7 +92,9 @@
                 mList: null,
                 userName: '',
                 userHeaderImgUrl: '',
-                funcId: ''  // 系统菜单功能编号
+                funcId: '',  // 系统菜单功能编号
+                myScroll: null,
+                breadcrumbItem: ''
             };
         },
         mounted: function() {
@@ -105,13 +105,13 @@
 
             this.userHeaderImgUrl = '/static/img/avatar.jpg';
 
-            var myScroll = new Iscroll("#layout-content", {
+            this.$store.commit('setSystemScroll', new Iscroll("#layout-content", {
                 mouseWheel: true,
                 scrollbars: true,
                 disableMouse: true,
                 disableTouch: true,
                 disablePointer: true  // 禁用鼠标，防止鼠标左键无法拖动地图。
-            });
+            }));
             this.getMenuData();
 
         },
@@ -183,8 +183,9 @@
             },
             menuLink (link) {
                 // this.$router.push(link); //这种写法重复点击，会导致路径出错
+                this.breadcrumbItem = link.split('^')[1]
                 this.$router.push({
-                    name: link,  // 路由名称
+                    name: link.split('^')[0],  // 路由名称
                     params: {
                         funcId: this.funcId
                     }

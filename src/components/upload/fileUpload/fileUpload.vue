@@ -1,5 +1,6 @@
 <template>
     <Upload name="file"
+            :class="mclass"
             :action="url"
             :headers="headers"
             :data="dataParams"
@@ -21,6 +22,12 @@
             }
         },
         props: {
+            mclass: {
+                type: String,
+                default() {
+                    return '';
+                }
+            },
             url: {
                 type: String,
                 default() {

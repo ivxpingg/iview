@@ -5,10 +5,15 @@ var path = require('path');
 var webpack = require('webpack');
 var config = require('../config');
 var webpackConfig = require('./webpack.prod.config');
+var shell = require('shelljs');
 
 
 rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
   if (err) throw err
+
+    shell.rm('-rf', path.join(__dirname, '../dist/*'));
+    shell.mkdir('-p', path.join(__dirname, '../dist/static'));
+    shell.cp('-R', path.join(__dirname, '../src/static/*'), path.join(__dirname, '../dist/static'));
   webpack(webpackConfig, function (err, stats) {
     //spinner.stop()
     if (err) throw err
