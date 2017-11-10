@@ -98,7 +98,7 @@
             </Col>
 
             <Col span="24">
-                 <Button type="success" long @click="save">确认提交</Button>
+                 <div class="bt-panel"><Button type="success" long @click="save">确认提交</Button></div>
             </Col>
 
         </Row>
@@ -511,6 +511,11 @@
                             }
                         });
 
+                        setTimeout(function () {
+                            if(that.$store.state.systemScroll)
+                                that.$store.state.systemScroll.refresh();
+                        },0);
+
                     } else {
 
                     }
@@ -587,5 +592,9 @@
         padding-bottom: 45px;
         min-width: 720px;
         max-width: 1024px;
+    }
+
+    .bt-panel {
+        margin-left: 120px;
     }
 </style>

@@ -5,6 +5,13 @@ const routers = [{
         title: '厦门轨道行业监管系统'
     },
     component: (resolve) => require(['./views/login/login.vue'], resolve)
+    },{
+       path: '/test',
+       mete: {
+           title: 'test',
+           requireAuth: false
+       },
+       component: (resolve) => require(['./views/test/test1/index.vue'], resolve)
     }, {
         path: '/home',
         meta: {

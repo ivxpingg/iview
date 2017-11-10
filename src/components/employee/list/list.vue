@@ -519,7 +519,8 @@
         },
         watch: {
             entryDate(val, oldVal) {
-                if (val == '' || val[0] == '') {
+                debugger
+                if (val == '' || val[0] == '' || val[0] == null) {
                     this.searchParams.entryBeginDate = '';
                     this.searchParams.entryEndDate = '';
                 }
@@ -529,7 +530,7 @@
                 }
             },
             updateDate(val, oldVal) {
-                if (val == '' || val[0] == '') {
+                if (val == '' || val[0] == '' || val[0] == null) {
                     this.searchParams.updateBeginDate = '';
                     this.searchParams.updateEndDate = '';
                 }
