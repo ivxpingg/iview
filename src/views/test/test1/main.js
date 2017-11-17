@@ -17,11 +17,11 @@ var main = function (t) {
         position: [100, 200],
         origin: [0,300],
         draggable: true,
-        // transform: ZRender.create(),
+        transform: ZRender.create(),
         style: {
             // stroke: '#996745',
             fill: '#456214',
-            lineWidht: 0,
+            lineWidth: 0,
             opacity: 0.4
         }
     });

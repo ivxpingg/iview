@@ -2,6 +2,7 @@ var request = require('request');
 var rou = require('./rou');
 var express = require('express');
 var router = express.Router();
+var qs=require('qs');
 
 const DOMAIN = 'http://192.168.1.35:8080';
 
@@ -43,9 +44,15 @@ var rpPost = function (url, req, res) {
 }
 
 rou.get.forEach(function (val, index) {
-    if (val.oUrl.indexOf('mytest') > 0) {
+    if (val.oUrl.indexOf('wx') > 0) {
         router.get(val.oUrl, function (req, res) {
-            res.json(val.data);
+            console.log(req.param('echostr'));
+
+            var query=require('url').parse(req.url).query;
+            var params=qs.parse(query);
+
+            console.dir(params);
+            res.send(params.echostr);
         });
     }
     else {
@@ -61,16 +68,16 @@ rou.post.forEach(function (val, index) {
 
         router.post(val.oUrl, function (req, res) {
 
-            console.log("form");
-            console.dir(req.form);
-            console.log("body");
-            console.dir(req.body);
-            console.log("query");
-            console.dir(req.query);
-
-            var url = DOMAIN + '/metrosupervision/api/login';
-            rpPost(url,req, res);
-           // res.json(val.data);
+            // console.log("form");
+            // console.dir(req.form);
+            // console.log("body");
+            // console.dir(req.body);
+            // console.log("query");
+            // console.dir(req.query);
+            //
+            // var url = DOMAIN + '/metrosupervision/api/login';
+            // rpPost(url,req, res);
+           res.json(val.data);
         });
     }
     else {

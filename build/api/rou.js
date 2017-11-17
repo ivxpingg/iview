@@ -9,7 +9,7 @@ module.exports = {
             "oUrl": "/mytest/metrosupervision/api/login",
             "data": { status:1, errCode: 'E001', errMsg: '', result: { token: '1001001'} }
         },{
-            "oUrl": "/mytest/getsystem",
+            "oUrl": "/wx",
             "data": {list: [{name: '系统一'}, {name: '系统二'}]}
         }
 
@@ -18,6 +18,10 @@ module.exports = {
     "post": [
         {
             "oUrl": "/mytest/metrosupervision/api/login",
+            "data": { status:1, errCode: 'E001', errMsg: '', result: { token: '1001001'} }
+        },
+        {
+            "oUrl": "/mytest/wx",
             "data": { status:1, errCode: 'E001', errMsg: '', result: { token: '1001001'} }
         }
     ]

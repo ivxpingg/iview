@@ -13,9 +13,10 @@ util.title = function(title) {
 
 // http://192.168.1.35:8080
 const ajaxUrl = env === 'production' ?
-    'http://192.168.0.100:8088/metrosupervision' :
+    // 'http://192.168.1.100:8088/metrosupervision' :
+    'http://ivxpingg.imwork.net:17243/metrosupervision' :
     env === 'development' ?
-    'http://192.168.0.106:8880/metrosupervision' :
+    'http://ivxpingg.imwork.net/metrosupervision' :
     'http://localhost:8880/metrosupervision'
 
 var Cookie = {
