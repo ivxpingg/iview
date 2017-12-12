@@ -519,7 +519,7 @@
         },
         watch: {
             entryDate(val, oldVal) {
-                debugger
+
                 if (val == '' || val[0] == '' || val[0] == null) {
                     this.searchParams.entryBeginDate = '';
                     this.searchParams.entryEndDate = '';
@@ -609,6 +609,11 @@
             },
             getData() {
                 var that = this;
+
+                if (that.searchParams.postCategory == "") {
+                    that.searchParams.postName = "";
+                }
+
                 Util.ajax({
                     method: 'post',
                     url: '/xm/sys/employee/list',

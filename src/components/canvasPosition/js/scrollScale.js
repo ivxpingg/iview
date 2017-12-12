@@ -10,13 +10,13 @@
  * @param maxProportion 最大比例
  * @param minProportion 最小比例
  * */
-var scrollScale = function(target, proportion, maxProportion, minProportion) {
+var scrollScale = function(vm, target, proportion, maxProportion, minProportion) {
     proportion = proportion || 0.1;
     maxProportion = maxProportion || 1;
     minProportion = minProportion || 0.3;
 
     target.addEventListener("mousewheel", function(e) {
-
+        vm.popupShow = false;
         var offsetX = e.offsetX;
         var offsetY = e.offsetY;
 
@@ -30,6 +30,8 @@ var scrollScale = function(target, proportion, maxProportion, minProportion) {
 
         // 向上滑 为正数
         if( e.wheelDelta > 0 && num < maxProportion ) {
+            vm.scale = num + proportion;
+
             this.style.transform = 'scale('+ (num + proportion) +')';
             this.style.left = (left - w) + 'px';
             this.style.top = (top - h) + 'px';
@@ -37,6 +39,8 @@ var scrollScale = function(target, proportion, maxProportion, minProportion) {
 
         // 向下滑 为负数
         if( e.wheelDelta < 0 && num > minProportion) {
+            vm.scale = num - proportion;
+
             this.style.transform = 'scale('+ (num - proportion) +')';
             this.style.left = (left + w) + 'px';
             this.style.top = (top + h) + 'px';

@@ -16,7 +16,7 @@ module.exports = {
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
         proxyTable: {
-            '/metrosupervision': { target: 'http://192.168.0.100:8088', changeOrigin: true }
+            '/metrosupervision': { target: 'http://192.168.1.100:8088', changeOrigin: true }
             // '/metrosupervision/xm': { target: 'http://cs.doudou360.com:8088', changeOrigin: tre },
             // '/metrosupervision/static': { target: 'http://cs.doudou360.com:8088', changeOrigin: true }
             // '/xm': { target: 'http://10.131.1.222:8088', changeOrigin: true }

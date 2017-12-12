@@ -48,7 +48,7 @@
 </style>
 <template>
 
-    <div class="login-bg" @keyup="keyup($event)">
+    <div class="login-bg">
         <div class="swiper-container">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
@@ -128,7 +128,7 @@ export default {
                 loop: true
             });
 
-
+//            debugger
             document.onkeyup = function (e) {
                 if (window.event)//如果window.event对象存在，就以此事件对象为准
                     e = window.event;
@@ -154,7 +154,6 @@ export default {
                             }
                         })
                         .then(function (response) {
-                            debugger
                             if (response.status === 1) {
                                 Util.cookie.set('xmgd', response.result.token, new Date(new Date().getTime() + 7 * 24 * 60 * 1000));
                                 Util.cookie.set('xmgdname', response.result.userName, new Date(new Date().getTime() + 7 * 24 * 60 * 1000));

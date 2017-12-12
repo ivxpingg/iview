@@ -16,7 +16,8 @@ const ajaxUrl = env === 'production' ?
     // 'http://192.168.1.100:8088/metrosupervision' :
     'http://ivxpingg.imwork.net:17243/metrosupervision' :
     env === 'development' ?
-    'http://ivxpingg.imwork.net/metrosupervision' :
+    // 'http://ivxpingg.imwork.net/metrosupervision' :
+    'http://localhost:8880/metrosupervision' :
     'http://localhost:8880/metrosupervision'
 
 var Cookie = {

@@ -15,7 +15,7 @@ var getCss = function(o,key){
     return o.currentStyle? o.currentStyle[key] : document.defaultView.getComputedStyle(o,false)[key];
 };
 
-var startDrag = function(bar, target, callback){
+var startDrag = function(vm, bar, target, callback){
     if(getCss(target, "left") !== "auto"){
         params.left = getCss(target, "left");
     }
@@ -39,6 +39,7 @@ var startDrag = function(bar, target, callback){
         params.currentY = e.clientY;
     };
     document.onmouseup = function(){
+        vm.popupShow = false;
         params.flag = false;
         if(getCss(target, "left") !== "auto"){
             params.left = getCss(target, "left");

@@ -68,5 +68,19 @@ const routers = [{
             requireAuth: false  // 添加该字段，表示进入这个路由是需要登录的
         },
         component: (resolve) => require(['./components/canvas/canvas.vue'], resolve)
+    },{
+    path: '/canvasPosition',
+    meta: {
+        title: '底图数据瞄点',
+        requireAuth: false  // 添加该字段，表示进入这个路由是需要登录的
+    },
+    component: (resolve) => require(['./components/canvasPosition/canvas.vue'], resolve)
+},{
+    path: '/subwayLines',
+    meta: {
+        title: '轨道运行图',
+        requireAuth: false  // 添加该字段，表示进入这个路由是需要登录的
+    },
+    component: (resolve) => require(['./components/subwayLines/subwayLines.vue'], resolve)
 }];
 export default routers;

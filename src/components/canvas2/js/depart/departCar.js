@@ -20,13 +20,9 @@ var upCar = function (car) {
         },
         style: {
             fill: 'green',
-            lineWidth: 0,
-            // fill: '#CC3333',
-            // lineWidth: 0,
-            // // stroke: '#CC3333',
-            // shadowBlur: 10,
-            // shadowColor: '#CC3333'
-        }
+            lineWidth: 0
+        },
+        draggable: true
     });
 
     var rect = new ZRect({
@@ -55,7 +51,8 @@ var upCar = function (car) {
             textFill: '#333',
             fontWeight: 'bold',
             textAlign: 'left'
-        }
+        },
+        draggable: true
     });
 
 
