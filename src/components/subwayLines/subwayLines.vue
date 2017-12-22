@@ -6,11 +6,13 @@
            :title="fullScreen ? '退出全屏' : '全屏'"
            @click="switchFullScreen"></i>
 
+        <vInfoPanel class="info-position"></vInfoPanel>
     </div>
 </template>
 
 <script>
     import metro_main from './js/main';
+    import vInfoPanel from './module/infoPanel/infoPanel.vue';
 
     export default {
         data() {
@@ -20,10 +22,12 @@
                 parentDom: null
             };
         },
+        components: {vInfoPanel},
         mounted () {
             var that = this;
             this.browserFullInit();
-//            this.pageInit();
+            this.parentDom = this.$el.parentNode;
+            this.pageInit();
             metro_main(that);
         },
         methods: {
@@ -106,6 +110,7 @@
     html, body {
         width: 100%;
         height: 100%;
+        font-family: "Microsoft YaHei", sans-serif;
     }
     .canvasBox {
         position: relative;
@@ -144,6 +149,12 @@
                 background-color: rgba(0,0,0,.7);
             }
         }
+
+        .info-position {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+        }
     }
 
     .fullScreenBox {
@@ -155,8 +166,9 @@
         position: absolute;
         top: 0;
         left: 0;
-        background-image: url('./images/xm_map_bg.jpg');
+        background-image: url('./images/xm_map_bg_1.jpg');
         background-repeat: no-repeat;
+        background-size: 100% auto;
         /*background-position: -900px -1400px;*/
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;

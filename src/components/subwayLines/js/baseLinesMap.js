@@ -5,6 +5,7 @@ import lineData from './baseData';
 import ZCircle from 'zrender/lib/graphic/shape/Circle';
 import ZText from 'zrender/lib/graphic/Text';
 import ZLine from 'zrender/lib/graphic/shape/Line';
+import ZBezierCurve from 'zrender/lib/graphic/shape/BezierCurve';
 
 var vm, zr;
 

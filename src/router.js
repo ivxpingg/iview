@@ -22,8 +22,8 @@ const routers = [{
     }, {
         path: '/system/:funcId',
         meta: {
-            title: '系统页',
-            requireAuth: false  // 添加该字段，表示进入这个路由是需要登录的
+            title: '厦门轨道行业监管系统',
+            requireAuth: true  // 添加该字段，表示进入这个路由是需要登录的
         },
         component: (resolve) => require(['./views/system/system.vue'], resolve),
         children: [
@@ -32,15 +32,23 @@ const routers = [{
                 name: 'canvas',
                 meta: {
                     title: '系统页',
-                    requireAuth: false  // 添加该字段，表示进入这个路由是需要登录的
+                    requireAuth: true  // 添加该字段，表示进入这个路由是需要登录的
                 },
                 component: (resolve) => require(['./components/canvas2/canvas.vue'], resolve)
+            },{
+                path: 'subwayLines',
+                name: 'subwayLines',
+                meta: {
+                    title: '系统页',
+                    requireAuth: false  // 添加该字段，表示进入这个路由是需要登录的
+                },
+                component: (resolve) => require(['./components/subwayLines/subwayLines.vue'], resolve)
             },{
                 path: 'employeeAdd',
                 name: 'employeeAdd',
                 meta: {
                     title: '添加从业人员',
-                    requireAuth: false  // 添加该字段，表示进入这个路由是需要登录的
+                    requireAuth: true  // 添加该字段，表示进入这个路由是需要登录的
                 },
                 component: (resolve) => require(['./components/employee/add/add.vue'], resolve)
             },{
@@ -48,7 +56,7 @@ const routers = [{
                 name: 'employeeEdit',
                 meta: {
                     title: '添加从业人员',
-                    requireAuth: false  // 添加该字段，表示进入这个路由是需要登录的
+                    requireAuth: true  // 添加该字段，表示进入这个路由是需要登录的
                 },
                 component: (resolve) => require(['./components/employee/add/add.vue'], resolve)
             },{
@@ -56,18 +64,11 @@ const routers = [{
                 name: 'employeeList',
                 meta: {
                     title: '从业人员管理',
-                    requireAuth: false  // 添加该字段，表示进入这个路由是需要登录的
+                    requireAuth: true  // 添加该字段，表示进入这个路由是需要登录的
                 },
                 component: (resolve) => require(['./components/employee/list/list.vue'], resolve)
             }]
 
-    },{
-        path: '/canvas',
-        meta: {
-            title: '轨道运行',
-            requireAuth: false  // 添加该字段，表示进入这个路由是需要登录的
-        },
-        component: (resolve) => require(['./components/canvas/canvas.vue'], resolve)
     },{
     path: '/canvasPosition',
     meta: {

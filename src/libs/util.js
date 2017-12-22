@@ -14,7 +14,7 @@ util.title = function(title) {
 // http://192.168.1.35:8080
 const ajaxUrl = env === 'production' ?
     // 'http://192.168.1.100:8088/metrosupervision' :
-    'http://ivxpingg.imwork.net:17243/metrosupervision' :
+    'http://ikey.doudou360.com/metrosupervision' :
     env === 'development' ?
     // 'http://ivxpingg.imwork.net/metrosupervision' :
     'http://localhost:8880/metrosupervision' :

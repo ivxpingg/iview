@@ -3,10 +3,19 @@
  */
 import ZCircle from 'zrender/lib/graphic/shape/Circle';
 import ZText from 'zrender/lib/graphic/Text';
-import ZRect from 'zrender/lib/graphic/shape/Rect';
+import ZImage from 'zrender/lib/graphic/Image';
+
+import trainConfig from '../../subwayLines/js/trainConfig';
 
 var vm,
     zr;
+
+var CAR_WIDTH = trainConfig.CAR_WIDTH,
+    CAR_HEIGHT = trainConfig.CAR_HEIGHT,
+    car_up_url = trainConfig.UP.IMG_URL,
+    car_down_url = trainConfig.DOWN.IMG_URL,
+    car_text_color = '';
+
 
 /**
  *
@@ -31,7 +40,16 @@ var vm,
 var upCar = function(data) {
     var shapeList = [];
     var p = [data.section_point.x, data.section_point.y];   // 动车的位置
-    var tp = [data.text_point.x, data.text_point.y];  // 动车服务号位置
+
+    var p_car, p_text;
+    if (vm.switchLine == '0') {
+        p_car = [data.text_point.x, data.text_point.y];  // 动车服务号位置
+        p_text = [data.text_point.x, data.text_point.y + CAR_HEIGHT];
+    }
+    else {
+        p_car = [data.text_point.x, data.text_point.y];  // 动车服务号位置
+        p_text = [data.text_point.x, data.text_point.y + CAR_HEIGHT];
+    }
 
     var circle = new ZCircle({
         position: p,
@@ -44,7 +62,8 @@ var upCar = function(data) {
             fill: 'green',
             lineWidth: 0
         },
-        draggable: true
+        draggable: true,
+        zlevel: 1
     });
 
     circle.on('mouseup', function (e) {
@@ -59,49 +78,56 @@ var upCar = function(data) {
         }
     });
 
-    var rect = new ZRect({
-        position: tp,
-        shape: {
-            r: 6,
-            width: 50,
-            height: 14
-        },
-        style: {
-            lineWidth: 1,
-            stroke: 'rgba(0, 153, 51, 1)',
-            fill: 'rgba(0, 153, 51, 0.4)'
-        },
-        draggable: true
-    });
 
     var text = new ZText({
-        position: tp,
+        position: p_text,
         style: {
-            text: data.section_name,
-            textFont: '12px Arial',
+            text: '00601',//data.section_name,
+            textFont: '10px Arial',
 
-            textBackgroundColor: 'rgba(0, 153, 51, 0.6)',
-            textBorderColor: 'rgba(0, 153, 51, 1)',
-            textBorderWidth: 1,
-            textBorderRadius: 10,
-            textPadding: [3, 6],
+            // textBackgroundColor: 'rgba(0, 153, 51, 0.6)',
+            // textBorderColor: 'rgba(0, 153, 51, 1)',
+            // textBorderWidth: 1,
+            // textBorderRadius: 10,
+            textPadding: [3, 0],
             // opacity: 0.4,
-            textRect: {
-                x: 10,
-                y: 10,
-                width: 70,
-                textHeight: 30
-            },
+            // textRect: {
+            //     x: 10,
+            //     y: 10,
+            //     width: 70,
+            //     textHeight: 30
+            // },
             // textWidth: 50,
             // textHeight: 20,
-            textFill: '#333',
+            textFill: car_text_color,
             fontWeight: 'bold',
-            textAlign: 'left'
+            textAlign: 'left'  //vm.switchLine == '0' ? 'left' : 'right'
         },
-        draggable: true
+        draggable: true,
+        zlevel: 1
     });
 
-    text.on('mouseup', function (e) {
+    text.on('mousemove', function (e) {
+
+    });
+
+
+
+    var zImage = new ZImage({
+        position: p_car,
+        style: {
+            x: 0,
+            y: 0,
+            image: car_down_url,
+            width: CAR_WIDTH,
+            height: CAR_HEIGHT
+        },
+        draggable: true,
+        zlevel: 1
+    });
+
+    zImage.on('mousemove', function (e) {
+
         if (vm.switchLine == '0') {
             vm.upSection.text_point.x = this.position[0];
             vm.upSection.text_point.y = this.position[1];
@@ -110,18 +136,24 @@ var upCar = function(data) {
             vm.downSection.text_point.x = this.position[0];
             vm.downSection.text_point.y = this.position[1];
         }
+
+        var txtPosition = [0, 0];
+        txtPosition = [this.position[0], this.position[1] + CAR_HEIGHT];
+        text.position = txtPosition;
+
+         text.dirty();
     });
 
 
-    // rect.position = tp;
-    // text.position = tp;
-    // circle.position = p;
+
     shapeList.push(circle);
-    // shapeList.push(rect);
     shapeList.push(text);
+    shapeList.push(zImage);
+
     zr.add(circle);
-    // zr.add(rect);
     zr.add(text);
+
+    zr.add(zImage);
 
     return shapeList;
 }
@@ -134,6 +166,6 @@ var upCar = function(data) {
 export default function (v, z, d) {
     vm = v;
     zr = z;
-
+    car_text_color = vm.switchLine == '0' ? trainConfig.UP.TEXT_COLOR: trainConfig.DOWN.TEXT_COLOR;
     return upCar(d);
 }

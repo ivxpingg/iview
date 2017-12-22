@@ -84,6 +84,7 @@
     import Util from '../../libs/util';
     import VueRouter from 'vue-router';
     import Iscroll from 'iscroll';
+    import jq from 'jquery';
     export default {
         data() {
             return {

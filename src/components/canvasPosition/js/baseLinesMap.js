@@ -5,6 +5,7 @@ import lineData from './baseData';
 import ZCircle from 'zrender/lib/graphic/shape/Circle';
 import ZText from 'zrender/lib/graphic/Text';
 import ZLine from 'zrender/lib/graphic/shape/Line';
+import ZBezierCurve from 'zrender/lib/graphic/shape/BezierCurve';
 
 var vm, zr;
 
@@ -12,78 +13,166 @@ var baseLine = lineData.baseLine;   // 线路
 
 var drawLines = function () {
 
+
+
     baseLine.forEach(function (val, idx, attr) {
         if ( idx > 0 ) {
 
-            zr.add(new ZLine({
-                shape: {
-                    x1: attr[idx - 1].line_point.x1, //attr[index - 1].zPoint.x,
-                    y1: attr[idx - 1].line_point.y1, // attr[index - 1].zPoint.y,
-                    x2: val.line_point.x1,
-                    y2: val.line_point.y1
-                },
-                style: {
-                    stroke: '#ed7924',
-                    lineWidth: 2,
-                    lineCap: 'round',
-                    // lineJoin: 'round'
-                }
-            }));
+            if (!!val.is_bezierCurve) {
+                zr.add(new ZBezierCurve({
+                    shape: {
+                        x1: attr[idx - 1].line_point.x1, //attr[index - 1].zPoint.x,
+                        y1: attr[idx - 1].line_point.y1, // attr[index - 1].zPoint.y,
+                        x2: val.line_point.x1,
+                        y2: val.line_point.y1,
+                        cpx1: val.bezierCurve_cp_point.x1,
+                        cpy1: val.bezierCurve_cp_point.y1,
+                    },
+                    style: {
+                        stroke: 'green',
+                        lineWidth: 2,
+                        lineCap: 'round',
+                        // lineJoin: 'round'
+                    }
+                }));
 
-            zr.add(new ZLine({
-                shape: {
-                    x1: attr[idx - 1].line_point.x2, //attr[index - 1].zPoint.x,
-                    y1: attr[idx - 1].line_point.y2, // attr[index - 1].zPoint.y,
-                    x2: val.line_point.x2,
-                    y2: val.line_point.y2
-                },
-                style: {
-                    stroke: '#ed7924',
-                    lineWidth: 2,
-                    lineCap: 'round',
-                    // lineJoin: 'round'
-                }
-            }));
+                zr.add(new ZBezierCurve({
+                    shape: {
+                        x1: attr[idx - 1].line_point.x2, //attr[index - 1].zPoint.x,
+                        y1: attr[idx - 1].line_point.y2, // attr[index - 1].zPoint.y,
+                        x2: val.line_point.x2,
+                        y2: val.line_point.y2,
+                        cpx1: val.bezierCurve_cp_point.x2,
+                        cpy1: val.bezierCurve_cp_point.y2,
+                    },
+                    style: {
+                        stroke: 'green',
+                        lineWidth: 2,
+                        lineCap: 'round',
+                        // lineJoin: 'round'
+                    }
+                }));
 
-            zr.add(new ZLine({
-                shape: {
-                    x1: attr[idx - 1].line_point.x3, //attr[index - 1].zPoint.x,
-                    y1: attr[idx - 1].line_point.y3, // attr[index - 1].zPoint.y,
-                    x2: val.line_point.x3,
-                    y2: val.line_point.y3
-                },
-                style: {
-                    stroke: '#ed7924',
-                    lineWidth: 6,
-                    lineCap: 'round',
-                    // lineJoin: 'round'
-                }
-            }));
+                zr.add(new ZBezierCurve({
+                    shape: {
+                        x1: attr[idx - 1].line_point.x3, //attr[index - 1].zPoint.x,
+                        y1: attr[idx - 1].line_point.y3, // attr[index - 1].zPoint.y,
+                        x2: val.line_point.x3,
+                        y2: val.line_point.y3,
+                        cpx1: val.bezierCurve_cp_point.x3,
+                        cpy1: val.bezierCurve_cp_point.y3,
+                    },
+                    style: {
+                        stroke: 'green',
+                        lineWidth: 6,
+                        lineCap: 'round',
+                        // lineJoin: 'round'
+                    }
+                }));
+
+
+                zr.add(new ZBezierCurve({
+                    shape: {
+                        x1: attr[idx - 1].line_point.x3, //attr[index - 1].zPoint.x,
+                        y1: attr[idx - 1].line_point.y3, // attr[index - 1].zPoint.y,
+                        x2: val.line_point.x3,
+                        y2: val.line_point.y3,
+                        cpx1: val.bezierCurve_cp_point.x3,
+                        cpy1: val.bezierCurve_cp_point.y3,
+                    },
+                    style: {
+                        stroke: 'yellow',
+                        lineWidth: 3,
+                        lineCap: 'round',
+                        lineDash: [5, 10],
+                        // lineJoin: 'round'
+                    }
+                }));
+            }
+            else {
+
+                zr.add(new ZLine({
+                    shape: {
+                        x1: attr[idx - 1].line_point.x1, //attr[index - 1].zPoint.x,
+                        y1: attr[idx - 1].line_point.y1, // attr[index - 1].zPoint.y,
+                        x2: val.line_point.x1,
+                        y2: val.line_point.y1
+                    },
+                    style: {
+                        stroke: '#e37528',
+                        lineWidth: 2,
+                        lineCap: 'round',
+                        // lineJoin: 'round'
+                    }
+                }));
+
+                zr.add(new ZLine({
+                    shape: {
+                        x1: attr[idx - 1].line_point.x2, //attr[index - 1].zPoint.x,
+                        y1: attr[idx - 1].line_point.y2, // attr[index - 1].zPoint.y,
+                        x2: val.line_point.x2,
+                        y2: val.line_point.y2
+                    },
+                    style: {
+                        stroke: '#e37528',
+                        lineWidth: 2,
+                        lineCap: 'round',
+                        // lineJoin: 'round'
+                    }
+                }));
+
+                zr.add(new ZLine({
+                    shape: {
+                        x1: attr[idx - 1].line_point.x3, //attr[index - 1].zPoint.x,
+                        y1: attr[idx - 1].line_point.y3, // attr[index - 1].zPoint.y,
+                        x2: val.line_point.x3,
+                        y2: val.line_point.y3
+                    },
+                    style: {
+                        stroke: '#e37528',
+                        lineWidth: 6,
+                        lineCap: 'round',
+                        // lineJoin: 'round'
+                    }
+                }));
+
+                zr.add(new ZLine({
+                    shape: {
+                        x1: attr[idx - 1].line_point.x3, //attr[index - 1].zPoint.x,
+                        y1: attr[idx - 1].line_point.y3, // attr[index - 1].zPoint.y,
+                        x2: val.line_point.x3,
+                        y2: val.line_point.y3
+                    },
+                    style: {
+                        stroke: '#FFF',
+                        lineWidth: 3,
+                        lineCap: 'round',
+                        lineDash: [5, 10],
+                        // lineJoin: 'round'
+                    },
+                    zlevel: 2
+                }));
+            }
+
+
         }
 
-        if (val.is_station) {
-
-            var text = new ZText({
-                style: {
-                    text: val.station_Name,
-                    x: val.text_point.x,
-                    y: val.text_point.y,
-                    textFont: '14px Arial',
-                    // opacity: 0.4,
-                    textFill: '#ed7924',
-                    fontWeight: 'bold',
-                    // textHeight: 300,
-                    // textWidth: 12,
-                    textAlign: 'left',
-                    // textVerticalAlign: 'middle'
-                },
-
-                // rotation: de,
-                // origin: [tPoint_x,tPoint_y]
-            });
-
-            zr.add(text);
-        }
+        // if (val.is_station) {
+        //
+        //     var text = new ZText({
+        //         style: {
+        //             text: val.station_Name,
+        //             x: val.text_point.x,
+        //             y: val.text_point.y,
+        //             textFont: '14px Arial',
+        //             textFill: '#ed7924',
+        //             fontWeight: 'bold',
+        //             textAlign: 'left',
+        //         }
+        //     });
+        //
+        //     zr.add(text);
+        // }
 
     });
 }
@@ -120,5 +209,5 @@ export default function (v, z) {
     zr = z;
 
     drawLines();
-    drawStation();
+    // drawStation();
 }

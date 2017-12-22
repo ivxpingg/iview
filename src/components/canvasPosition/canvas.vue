@@ -25,7 +25,7 @@
 
                 <template v-if="switchLine == '0'">
                     <FormItem label="区段名字:">
-                        <Select v-model="upSectionIdx" placeholder="区段名称">
+                        <Select  v-model="upSectionIdx" placeholder="区段名称">
                             <Option v-for="(val, idx) in upData" :value="idx">{{val.section_name}}</Option>
                         </Select>
                     </FormItem>
@@ -71,7 +71,7 @@
                 </template>
                 <template v-else>
                     <FormItem label="区段名字:">
-                        <Select v-model="downSectionIdx" placeholder="区段名称">
+                        <Select  v-model="downSectionIdx" placeholder="区段名称">
                             <Option v-for="(val, idx) in downData" :value="idx">{{val.section_name}}</Option>
                         </Select>
                     </FormItem>
@@ -125,6 +125,7 @@
     import data from './js/baseData';
     import metro_main from './js/main';
     import carPosition from './js/carPosition';
+    import allCarPosition from './js/allCarPosition';
 
     export default {
         data() {
@@ -177,7 +178,13 @@
                     is_station: true,
                     is_corner: false,
                     run_time: 0
-                }
+                },
+
+
+
+                // 所有的
+                allUpCanvasDom: [],
+                allDownCanvasDom: [],
             };
         },
         mounted () {
@@ -189,11 +196,15 @@
             this.downData = data.down_line;
             this.upSectionIdx = 0;
             this.downSectionIdx = 0;
-            
+
+            allCarPosition(that, that.zr, that.upData, 0);
+            allCarPosition(that, that.zr, that.downData, 1);
+
             document.querySelector('#canvas').onmouseup = function (e) {
                 that.x = e.offsetX;
                 that.y = e.offsetY;
             }
+
 
         },
         watch: {
@@ -333,6 +344,8 @@
             },
 
             btnSave() {
+                var that = this;
+
                 if (this.switchLine == '0') {
                     this.upData[this.upSectionIdx].section_name = this.upSection.section_name;
                     this.upData[this.upSectionIdx].station_Id = this.upSection.station_Id;
@@ -367,6 +380,20 @@
                 }
 
                 this.trainPosition();
+
+
+
+                this.allUpCanvasDom.forEach(function (val) {
+                    that.zr.remove(val);
+                });
+                this.allDownCanvasDom.forEach(function (val) {
+                    that.zr.remove(val);
+                });
+                this.allUpCanvasDom = [];
+                this.allDownCanvasDom = [];
+
+                allCarPosition(that, that.zr, that.upData, 0);
+                allCarPosition(that, that.zr, that.downData, 1);
             }
         }
     }
@@ -427,8 +454,10 @@
         position: absolute;
         top: 0;
         left: 0;
-        background-image: url('./images/xm_map_bg.jpg');
+        background-image: url('./images/xm_map_bg_1.jpg');
         background-repeat: no-repeat;
+        /*<!--background-position: -30px 30px;-->*/
+        background-size: 100% auto;
         /*background-position: -900px -1400px;*/
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
