@@ -32,7 +32,11 @@
         },
         methods: {
             pageInit() {
-                document.querySelector("#layout-content-main").style.height = "100%";
+                this.$refs.canvasBox.style.height = document.querySelector("#layout-content").clientHeight + 'px';
+
+                if (this.$store.state.systemScroll) {
+                    this.$store.state.systemScroll.refresh();
+                }
             },
             /**
              * 浏览器全屏设置
@@ -65,6 +69,8 @@
                 if (this.fullScreen) {
                     document.body.appendChild(this.$el);
 
+                    this.$refs.canvasBox.style.height = '';
+
                     var docElm = document.documentElement;
                     //W3C
                     if (docElm.requestFullscreen) {
@@ -84,6 +90,7 @@
                     }
                 } else {
                     this.parentDom.appendChild(this.$el);
+                    this.$refs.canvasBox.style.height = document.querySelector("#layout-content").clientHeight + 'px';
                     if (document.exitFullscreen) {
                         document.exitFullscreen();
                     }

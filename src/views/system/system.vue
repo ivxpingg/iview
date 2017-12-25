@@ -4,7 +4,7 @@
         <Row type="flex" style="height: 100%">
             <Col :span="spanLeft" class="layout-menu-left" style="height: 100%">
 
-            <Menu theme="dark" @on-select="menuLink" accordion width="auto">
+            <Menu ref="menu" theme="dark" :active-name="menuActiveName" :open-names="openNames" @on-select="menuLink" accordion width="auto">
                 <div class="layout-logo-left">
                     <img class="logo-img" src="../../images/xmgd.png" alt="">
                     <div class="logo-title">{{ meunList.appFunction.funcName }}</div>
@@ -21,12 +21,12 @@
                                     <template v-if="!lv2.appFunction.url">
                                         <MenuGroup :title="lv2.appFunction.funcName">
                                             <template v-if="!!lv2.children">
-                                                <MenuItem v-for="lv3 in lv2.children" :name="lv3.appFunction.url + '^' +lv3.appFunction.funcName">{{lv3.appFunction.funcName}}</MenuItem>
+                                                <MenuItem v-for="lv3 in lv2.children" :name="lv3.appFunction.url">{{lv3.appFunction.funcName}}</MenuItem>
                                             </template>
                                         </MenuGroup>
                                     </template>
                                     <template v-else>
-                                        <MenuItem :name="lv2.appFunction.url + '^' +lv2.appFunction.funcName">{{lv2.appFunction.funcName}}</MenuItem>
+                                        <MenuItem :name="lv2.appFunction.url">{{lv2.appFunction.funcName}}</MenuItem>
                                     </template>
                                 </template>
                             </template>
@@ -37,7 +37,7 @@
                                 <Icon type="ios-navigate" :size="iconSize"></Icon>
                                 <span class="layout-text">{{lv1.appFunction.funcName}}</span>
                             </template>
-                            <MenuItem :name="lv1.appFunction.url + '^' +lv1.appFunction.funcName">{{lv1.appFunction.funcName}}</MenuItem>
+                            <MenuItem :name="lv1.appFunction.url">{{lv1.appFunction.funcName}}</MenuItem>
                         </template>
                     </Submenu>
                 </template>
@@ -45,26 +45,27 @@
 
             </Col>
             <Col :span="spanRight" style="height: 100%">
-                <div class="layout-header">
-                    <Button class="btn-layout" type="text" icon="log-out" title="退出" @click="logout"></Button>
-                    <div class="userInfo">
-                        <Avatar class="userImg" :src="userHeaderImgUrl" size="large" icon="person"/>
-                        <!--<Avatar src="../../images/avatar.jpg" />-->
-                        <!--<div class="userImg"><img src="../../images/avatar.jpg" alt=""></div>-->
-                        <Dropdown class="userDrown">
-                            <a href="javascript:void(0)">
-                                {{userName}}
-                                <Icon type="arrow-down-b"></Icon>
-                            </a>
-                            <DropdownMenu slot="list">
-                                <DropdownItem>个人信息</DropdownItem>
-                                <DropdownItem>修改密码</DropdownItem>
-                                <DropdownItem>我的通知</DropdownItem>
-                            </DropdownMenu>
-                        </Dropdown>
-                    </div>
+                <!--<div class="layout-header">-->
+                    <!--<Button class="btn-layout" type="text" icon="log-out" title="退出" @click="logout"></Button>-->
+                    <!--<div class="userInfo">-->
+                        <!--<Avatar class="userImg" :src="userHeaderImgUrl" size="large" icon="person"/>-->
+                        <!--&lt;!&ndash;<Avatar src="../../images/avatar.jpg" />&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div class="userImg"><img src="../../images/avatar.jpg" alt=""></div>&ndash;&gt;-->
+                        <!--<Dropdown class="userDrown">-->
+                            <!--<a href="javascript:void(0)">-->
+                                <!--{{userName}}-->
+                                <!--<Icon type="arrow-down-b"></Icon>-->
+                            <!--</a>-->
+                            <!--<DropdownMenu slot="list">-->
+                                <!--<DropdownItem>个人信息</DropdownItem>-->
+                                <!--<DropdownItem>修改密码</DropdownItem>-->
+                                <!--<DropdownItem>我的通知</DropdownItem>-->
+                            <!--</DropdownMenu>-->
+                        <!--</Dropdown>-->
+                    <!--</div>-->
 
-                </div>
+                <!--</div>-->
+                <vHeader></vHeader>
                 <div class="layout-breadcrumb">
                     <Breadcrumb>
                         <BreadcrumbItem href="#">{{breadcrumbItem}}</BreadcrumbItem>
@@ -82,9 +83,9 @@
 </template>
 <script>
     import Util from '../../libs/util';
+    import vHeader from '../../components/layout/header/header.vue';
     import VueRouter from 'vue-router';
     import Iscroll from 'iscroll';
-    import jq from 'jquery';
     export default {
         data() {
             return {
@@ -95,9 +96,15 @@
                 userHeaderImgUrl: '',
                 funcId: '',  // 系统菜单功能编号
                 myScroll: null,
-                breadcrumbItem: ''
+                breadcrumbItem: '',
+
+                menuTitle: {},
+
+                menuActiveName: '',
+                openNames: ["1"]
             };
         },
+        components: {vHeader},
         mounted: function() {
 
             this.funcId = this.$route.params.funcId;
@@ -130,23 +137,53 @@
                 for (let i = 0; i < this.mList.length; i++) {
                     if (this.mList[i].appFunction.funcId == this.funcId) {
 
+                        if (!!this.mList[i].children) {
+                            for (var k = 0; k < this.mList[i].children.length; k++) {
+                                var kObj = this.mList[i].children[k];
+                                this.menuTitle[kObj.appFunction.url] = kObj.appFunction.funcName;
+
+                                if (!!kObj.children) {
+                                    for (var z = 0; z < kObj.children.length; z++) {
+                                        var zObj = kObj.children[z];
+                                        this.menuTitle[zObj.appFunction.url] = zObj.appFunction.funcName;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        if(!this.$route.name) {
+                            if (!!this.mList[i].children) {
+                                if (!!this.mList[i].children[0].children) {
+                                    this.menuActiveName = this.mList[i].children[0].children[0].appFunction.url;// + '^' + this.mList[i].children[0].children[0].appFunction.funcName;
+                                }
+                                else {
+                                    this.menuActiveName = this.mList[i].children[0].appFunction.url ;//+ '^' + this.mList[i].children[0].appFunction.funcName;
+                                }
+                            }
+                            else {
+                                this.menuActiveName = this.mList[i].appFunction.url;// + '^' + this.mList[i].appFunction.funcName;
+                            }
+                            this.menuLink(this.menuActiveName, true);
+                        }
+                        else {
+                            this.menuActiveName = this.$route.name;
+                        }
+
+                        this.breadcrumbItem = this.menuTitle[this.menuActiveName];
+
+                        this.$nextTick(function() {
+                            this.$refs.menu.updateOpened();
+                            this.$refs.menu.updateActiveName();
+                        });
+
                         return this.mList[i];
                     }
                 }
                 return {appFunction: {
                     funcName: "厦门轨道监管系统"
                 }};
-//                that.mList.forEach(function (val, index, attr) {
-//                    var id = val.id;
-//                    var aParentIds = val.parentIds.split(',');
-//                    aParentIds = aParentIds.slice(0, aParentIds.length - 1);
-//
-//                    if (aParentIds.length === 2) {
-//                        val.childrenList = that.getChildrenMenu(id);
-//                        list.push(val);
-//                    }
-//                });
-//                return list;
+
             }
         },
         methods: {
@@ -155,6 +192,7 @@
                 Util.ajax.get('/xm/sys/auth/menuList')
                     .then(function (response) {
                         that.mList = response.result || null;
+
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -182,29 +220,27 @@
                     this.spanRight = 19;
                 }
             },
-            menuLink (link) {
+            menuLink (link, isFisrst) {
                 // this.$router.push(link); //这种写法重复点击，会导致路径出错
-                this.breadcrumbItem = link.split('^')[1]
-                this.$router.push({
-                    name: link.split('^')[0],  // 路由名称
-                    params: {
-                        funcId: this.funcId
-                    }
-                });
-            },
-            logout () {
-                const that = this;
-                Util.ajax.get('/xm/sys/logout')
-                    .then(function (response){
-                        var router = new VueRouter();
-                        Util.cookie.unset('xmgd');
-                        Util.cookie.unset('xmgdname');
-                        that.$store.commit('setToken', null);
-                        router.push({ path: '/' });
-                    })
-                    .catch(function (error) {
-                        console.log(error);
+//                this.breadcrumbItem = link.split('^')[1];
+                this.breadcrumbItem = this.menuTitle[link];
+                if (isFisrst) {
+                    this.$router.replace({
+                        name: link,  // 路由名称
+                        params: {
+                            funcId: this.funcId
+                        }
                     });
+                }
+                else {
+                    this.$router.push({
+                        name: link,  // 路由名称
+                        params: {
+                            funcId: this.funcId
+                        }
+                    });
+                }
+
             }
         }
     }
@@ -242,33 +278,7 @@
             }
         }
 
-        .layout-header{
-            height: 57px;
-            background: #fff;
-            box-shadow: 0 1px 1px rgba(0,0,0,.1);
-            .userInfo {
-                float: right;
-                padding-right: 19px;
-                height: 100%;
-                vertical-align: top;
-                border-right: 1px solid rgba(0,0,0,.1);
-                .userImg {
-                    background-color: #87d068;
-                    margin-top: 8px;
-                    margin-right: 5px;
-                }
-                .userDrown {
-                    margin-top: 19px;
-                    vertical-align: top;
-                }
-            }
 
-            .btn-layout {
-                float: right;
-                width: 69px;
-                font-size: 26px;
-            }
-        }
         .layout-breadcrumb{
             padding: 10px 15px 0;
         }

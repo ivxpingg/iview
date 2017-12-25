@@ -174,6 +174,7 @@
 
     .info-panel {
         transform: scale(0.7, 0.7);
+        transform-origin: 100% 50%;
         position: relative;
         .top-panel {
             position: relative;

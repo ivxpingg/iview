@@ -123,8 +123,11 @@ Ajax.interceptors.request.use(function (config) {
 //ajax响应后拦截器
 Ajax.interceptors.response.use(function (response) {
     if(response.data.errCode === "A0002") {
+        debugger
         let router = new VueRouter();
-       // router.push('/');
+        Cookie.unset('xmgd');
+        Cookie.unset('xmgdname');
+        router.push('/');
     }
     return response.data;
 }, function (error) {

@@ -72,14 +72,14 @@
                     </Col>
                     <Col span="24">
                     <Form-item class="iputout" prop="user">
-                        <Input class="input" type="text" v-model="formInline.user" size="large" autocomplete="off" placeholder="Username">
+                        <Input class="input" type="text" v-model="formInline.user" size="large" autocomplete="off" placeholder="用户名">
                         <Icon type="ios-person-outline" slot="prepend"></Icon>
                         </Input>
                     </Form-item>
                     </Col>
                     <Col span="24">
                     <Form-item prop="password">
-                        <Input type="password" v-model="formInline.password" size="large" placeholder="Password">
+                        <Input type="password" v-model="formInline.password" size="large" placeholder="密码">
                         <Icon type="ios-locked-outline" slot="prepend"></Icon>
                         </Input>
                     </Form-item>
@@ -163,7 +163,7 @@ export default {
                                 if (that.$route.query.redirect) {
                                     router.push(that.$route.query.redirect);
                                 } else {
-                                    router.push({path: '/system/SYS_MANAGE'});
+                                    router.push({path: '/platform'});
                                 }
                             }
                             else {
