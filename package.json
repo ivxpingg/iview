@@ -9,7 +9,8 @@
     "ibuild": "webpack --progress --hide-modules --config webpack.prod.config.js",
     "ilint": "eslint --fix --ext .js,.vue src",
     "dev": "node --throw-deprecation build/dev-server.js",
-    "build": "node  build/pro-server.js"
+    "build": "node  build/pro-server.js",
+    "sass": "set SASS_BINARY_PATH=E:/web/win32-x64-57_binding.node"
   },
   "repository": {
     "type": "git",
