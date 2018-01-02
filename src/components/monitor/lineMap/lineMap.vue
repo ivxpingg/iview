@@ -5,7 +5,7 @@
 
         <div class="station station-24">岩内</div>
         <div class="station station-1">镇海路</div>
-        
+
     </div>
 </template>
 
