@@ -65,6 +65,7 @@
                 }, false);
             },
             switchFullScreen () {
+                var that = this;
                 this.fullScreen = !this.fullScreen;
                 if (this.fullScreen) {
                     document.body.appendChild(this.$el);
@@ -90,7 +91,7 @@
                     }
                 } else {
                     this.parentDom.appendChild(this.$el);
-                    this.$refs.canvasBox.style.height = document.querySelector("#layout-content").clientHeight + 'px';
+
                     if (document.exitFullscreen) {
                         document.exitFullscreen();
                     }
@@ -103,6 +104,13 @@
                     else if (document.msExitFullscreen) {
                         document.msExitFullscreen();
                     }
+
+                    setTimeout(function () {
+                        that.$refs.canvasBox.style.height = document.querySelector("#layout-content").clientHeight + 'px';
+                        if (that.$store.state.systemScroll) {
+                            that.$store.state.systemScroll.refresh();
+                        }
+                    }, 100);
                 }
 
                 // this.$store.commit('setCancelScroll', this.fullScreen);
@@ -152,6 +160,7 @@
             background-color: rgba(0,0,0,.6);
             color: #FFF;
             border-radius: 4px;
+            z-index: 1;
             &:hover {
                 background-color: rgba(0,0,0,.7);
             }

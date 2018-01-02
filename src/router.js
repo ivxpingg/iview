@@ -14,6 +14,52 @@ const routers = [{
         },
         component: (resolve) => require(['./views/platform/platform.vue'], resolve)
     }, {
+    path: '/platform2',
+    // name: '/platform',
+    meta: {
+        title: '厦门轨道行业监管系统',
+        requireAuth: true  // 添加该字段，表示进入这个路由是需要登录的
+    },
+    component: (resolve) => require(['./views/platform/platform2.vue'], resolve)
+    },
+    {
+        path: '/monitor',
+        meta: {
+            title: '厦门市轨道交通行业运行监视子系统',
+            requireAuth: true
+        },
+        component: (resolve) => require(['./views/subSystem/monitor/monitor.vue'], resolve),
+        children: [
+            {
+                path: 'runMonitor',
+                name: 'runMonitor',
+                meta: {
+                    title: '运行监视',
+                    requireAuth: true
+                },
+                component: (resolve) => require(['./components/monitor/routerView/runMonitor.vue'], resolve)
+            },
+            {
+                path: 'flowMonitor',
+                name: 'flowMonitor',
+                meta: {
+                    title: '客流监视',
+                    requireAuth: true
+                },
+                component: (resolve) => require(['./components/monitor/routerView/flowMonitor.vue'], resolve)
+            },
+            {
+                path: 'videoMonitor',
+                name: 'videoMonitor',
+                meta: {
+                    title: '视频监视',
+                    requireAuth: true
+                },
+                component: (resolve) => require(['./components/monitor/routerView/videoMonitor.vue'], resolve)
+            }
+        ]
+    },
+    {
         path: '/system/:funcId',
         meta: {
             title: '厦门轨道行业监管系统',

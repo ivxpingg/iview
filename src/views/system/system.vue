@@ -45,26 +45,6 @@
 
             </Col>
             <Col :span="spanRight" style="height: 100%">
-                <!--<div class="layout-header">-->
-                    <!--<Button class="btn-layout" type="text" icon="log-out" title="退出" @click="logout"></Button>-->
-                    <!--<div class="userInfo">-->
-                        <!--<Avatar class="userImg" :src="userHeaderImgUrl" size="large" icon="person"/>-->
-                        <!--&lt;!&ndash;<Avatar src="../../images/avatar.jpg" />&ndash;&gt;-->
-                        <!--&lt;!&ndash;<div class="userImg"><img src="../../images/avatar.jpg" alt=""></div>&ndash;&gt;-->
-                        <!--<Dropdown class="userDrown">-->
-                            <!--<a href="javascript:void(0)">-->
-                                <!--{{userName}}-->
-                                <!--<Icon type="arrow-down-b"></Icon>-->
-                            <!--</a>-->
-                            <!--<DropdownMenu slot="list">-->
-                                <!--<DropdownItem>个人信息</DropdownItem>-->
-                                <!--<DropdownItem>修改密码</DropdownItem>-->
-                                <!--<DropdownItem>我的通知</DropdownItem>-->
-                            <!--</DropdownMenu>-->
-                        <!--</Dropdown>-->
-                    <!--</div>-->
-
-                <!--</div>-->
                 <vHeader></vHeader>
                 <div class="layout-breadcrumb">
                     <Breadcrumb>
@@ -78,6 +58,65 @@
                 </div>
             </Col>
         </Row>
+
+        <!--<Layout>-->
+            <!--<vHeader></vHeader>-->
+
+            <!--<Layout style="height: 100%">-->
+                <!--<Sider hide-trigger>-->
+                    <!--<Menu ref="menu" theme="dark" :active-name="menuActiveName" :open-names="openNames" @on-select="menuLink" accordion width="auto">-->
+                        <!--<div class="layout-logo-left">-->
+                            <!--<img class="logo-img" src="../../images/xmgd.png" alt="">-->
+                            <!--<div class="logo-title">{{ meunList.appFunction.funcName }}</div>-->
+                        <!--</div>-->
+                        <!--<template v-if="!!meunList.children">-->
+                            <!--<Submenu v-for="lv1 in meunList.children" name="1">-->
+                                <!--<template v-if="!lv1.appFunction.url">-->
+                                    <!--<template slot="title">-->
+                                        <!--<Icon type="ios-navigate" :size="iconSize"></Icon>-->
+                                        <!--<span class="layout-text">{{lv1.appFunction.funcName}}</span>-->
+                                    <!--</template>-->
+                                    <!--<template v-if="!!lv1.children">-->
+                                        <!--<template v-for="lv2 in lv1.children">-->
+                                            <!--<template v-if="!lv2.appFunction.url">-->
+                                                <!--<MenuGroup :title="lv2.appFunction.funcName">-->
+                                                    <!--<template v-if="!!lv2.children">-->
+                                                        <!--<MenuItem v-for="lv3 in lv2.children" :name="lv3.appFunction.url">{{lv3.appFunction.funcName}}</MenuItem>-->
+                                                    <!--</template>-->
+                                                <!--</MenuGroup>-->
+                                            <!--</template>-->
+                                            <!--<template v-else>-->
+                                                <!--<MenuItem :name="lv2.appFunction.url">{{lv2.appFunction.funcName}}</MenuItem>-->
+                                            <!--</template>-->
+                                        <!--</template>-->
+                                    <!--</template>-->
+
+                                <!--</template>-->
+                                <!--<template v-else>-->
+                                    <!--<template slot="title">-->
+                                        <!--<Icon type="ios-navigate" :size="iconSize"></Icon>-->
+                                        <!--<span class="layout-text">{{lv1.appFunction.funcName}}</span>-->
+                                    <!--</template>-->
+                                    <!--<MenuItem :name="lv1.appFunction.url">{{lv1.appFunction.funcName}}</MenuItem>-->
+                                <!--</template>-->
+                            <!--</Submenu>-->
+                        <!--</template>-->
+                    <!--</Menu>-->
+                <!--</Sider>-->
+                <!--<Layout style="height: 100%">-->
+                    <!--<div class="layout-breadcrumb">-->
+                        <!--<Breadcrumb>-->
+                            <!--<BreadcrumbItem href="#">{{breadcrumbItem}}</BreadcrumbItem>-->
+                        <!--</Breadcrumb>-->
+                    <!--</div>-->
+                    <!--<div class="layout-content"  id="layout-content">-->
+                        <!--<div class="layout-content-main" id="layout-content-main">-->
+                            <!--<router-view></router-view>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</Layout>-->
+            <!--</Layout>-->
+        <!--</Layout>-->
     </div>
 
 </template>

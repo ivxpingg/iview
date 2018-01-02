@@ -69,12 +69,15 @@
                         <div class="station-name station-name-left">集美学村<span>8</span><span class="unit">min</span></div>
                         <div class="station-name station-name-right">杏锦路<span>7</span><span class="unit">min</span></div>
                     </div>
+                    <div class="dotted-vertical-line"></div>
                     <div class="station-wait  station-wait-up">
                         <div class="station-name station-name-left">集美学村<span>8</span><span class="unit">min</span></div>
                         <div class="station-name station-name-right">杏锦路<span>7</span><span class="unit">min</span></div>
                     </div>
                     <div class="explain">等待时间最长站点</div>
                 </div>
+
+
 
                 <div class="wait-info-box">
                     <div class="title title-left"><span>上</span><span>行</span></div>
@@ -84,6 +87,7 @@
                         <div class="station-name station-name-left">集美学村<span>8</span><span class="unit">min</span></div>
                         <div class="station-name station-name-right">杏锦路<span>7</span><span class="unit">min</span></div>
                     </div>
+                    <div class="dotted-vertical-line"></div>
                     <div class="station-wait  station-wait-up">
                         <div class="station-name station-name-left">集美学村<span>8</span><span class="unit">min</span></div>
                         <div class="station-name station-name-right">杏锦路<span>7</span><span class="unit">min</span></div>
@@ -173,46 +177,47 @@
 <style lang="scss" rel="stylesheet/scss"  scoped>
 
     .info-panel {
-        transform: scale(0.7, 0.7);
-        transform-origin: 100% 50%;
+        /*transform: scale(0.7, 0.7);*/
+        /*transform-origin: 100% 50%;*/
         position: relative;
         .top-panel {
             position: relative;
             background: #ffffff;
-            padding: 40px 18px;
-            width: 488px;
+            padding: 10px 18px 13px;
+            width: 340px;
             border: 4px solid #01977d;
             border-radius: 10px;
 
             .info-item {
-                margin: 2px 0px;
+                /*margin: 2px 0px;*/
                 display: flex;
                 height: 30px;
                 line-height: 30px;
                 .title {
-                    padding-left: 7px;
-                    width: 93px;
+                    /*padding-left: 7px;*/
+                    width: 63px;
                     color: #4fa896;
-                    font-size: 16px;
+                    font-size: 14px;
+                    font-weight: 700;
                 }
                 .sub-title {
-                    padding-right: 18px;
+                    padding-right: 15px;
                     width: 50px;
                     text-align: right;
                     color: #3c3c3c;
-                    font-size: 14px;
+                    font-size: 12px;
                 }
                 .percent {
                     position: relative;
                     flex: 1;
-                    margin: 8px 0;
-                    height: 12px;
+                    margin: 9px 0;
+                    height: 10px;
                     background: #727071;
                     border: 1px solid #676465;
                     border-radius: 7px;
                     .percent-value {
                         position: absolute;
-                        height: 12px;
+                        height: 10px;
                         top: -1px;
                         left: -1px;
                         border-radius: 7px;
@@ -228,8 +233,8 @@
                     }
                 }
                 .value{
-                    padding-right: 7px;
-                    width: 79px;
+                    /*padding-right: 7px;*/
+                    width: 56px;
                     text-align: right;
                     color: #3c3c3c;
                     font-size: 12px;
@@ -237,14 +242,14 @@
             }
 
             .dotted-line1 {
-                 margin: 10px 22px 10px 70px;
+                 margin: 5px 0px 5px 55px;
                  height: 0;
                  border-top-width: 1px;
                  border-top-color: #c5c5c5;
                  border-top-style: dotted;
             }
             .dotted-line2 {
-                margin: 10px 0px;
+                margin: 5px 0px 12px;
                 height: 0;
                 border-top-width: 1px;
                 border-top-color: #c5c5c5;
@@ -256,40 +261,52 @@
                 .wait-info-box {
                     position: relative;
                     flex: 1;
-                    padding: 0 22px 40px;
+                    padding: 24px 0px 20px;
                     display: flex;
                     width: 208px;
 
                     &:first-child {
-                        margin-right: 28px;
+                        margin-right: 18px;
                     }
+
+                    .dotted-vertical-line {
+                        margin: 8px 0px 28px 0px;
+                        width: 1px;
+                        border-left-width: 1px;
+                        border-left-color: #c5c5c5;
+                        border-left-style: dotted;
+                    }
+
                     .title {
                         position: absolute;
-                        width: 22px;
-                        height: 46px;
+                        width: 50px;
+                        height: 24px;
                         line-height: 22px;
+                        text-align: center;
                         color: #FFF;
-                        font-size: 14px;
-                        background-color: #233e97;
-                        border: 1px solid #09298c;
+                        font-size: 13px;
                         > span {
-                            display: block;
-                            text-align: center;
+                            /*display: block;*/
+                            /*text-align: center;*/
                         }
 
                         &.title-left {
                             top: 0;
-                            left: 0;
+                            left: 11px;
+                            border: 1px solid #de7323;
+                            background-color: #de7323;
                         }
                         &.title-right {
                             top: 0;
-                            right: 0;
+                            right: 3px;
+                            background-color: #279999;
+                            border: 1px solid #279999
                         }
                     }
 
                     .station-wait {
                         position: relative;
-                        margin: 0 13px;
+                        margin: 0 0px;
                         width: 56px;
                         padding-top: 22px;
                         padding-bottom: 20px;
@@ -299,8 +316,10 @@
                         &.station-wait-down {
                             background: url('./images/station-down.gif') no-repeat top center;
                             background-size: 100%;
+                            margin: 0 9px 0 8px;
                         }
                         &.station-wait-up {
+                            margin-left: 9px;
                             background: url('./images/station-up.gif') no-repeat top center;
                             background-size: 100%;
                         }
@@ -341,9 +360,11 @@
                         right: 0;
                         bottom: 0;
                         height: 20px;
+                        font-size: 14px;
                         line-height:20px;
                         color: #4fa896;
                         text-align: center;
+                        font-weight: 700;
                     }
                 }
             }
@@ -353,9 +374,9 @@
             position: relative;
             margin-top: 10px;
             background: #ffffff;
-            width: 488px;
+            width: 340px;
             color: #403e3b;
-            font-size: 16px;
+            font-size: 12px;
             border: 4px solid #01977d;
             border-radius: 10px;
             overflow: hidden;
@@ -394,12 +415,12 @@
 
                         .col {
                             margin: 0 1px 1px 0;
-                            height: 56px;
-                            line-height: 56px;
+                            height: 32px;
+                            line-height: 32px;
                         }
                         .col2 {
-                            height: 113px;
-                            line-height: 113px;
+                            height: 65px;
+                            line-height: 65px;
                         }
                     }
                 }
@@ -440,8 +461,8 @@
                         .col {
                             margin: 0 1px 0 0;
                             width: 100%;
-                            height: 56px;
-                            line-height: 56px;
+                            height: 32px;
+                            line-height: 32px;
 
                             &:last-child {
                                 margin-right: 0;
