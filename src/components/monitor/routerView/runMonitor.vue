@@ -4,7 +4,7 @@
         <vLineMap></vLineMap>
         <vInfoTable></vInfoTable>
 
-        <vSubwayLines ref="subwayLines" :class="fullScreen ? 'fullScreenBox': ''" :fullScreen="fullScreen"></vSubwayLines>
+        <vSubwayLines v-show="fullScreen" ref="subwayLines" :class="fullScreen ? 'fullScreenBox': ''" :fullScreen="fullScreen"></vSubwayLines>
         <i class="ivu-icon icon-fullScreen"
            :class="fullScreen ? 'ivu-icon-android-contract' : 'ivu-icon-android-expand'"
            :title="fullScreen ? '退出全屏' : '全屏'"
@@ -65,9 +65,9 @@
                 var that = this;
                 this.fullScreen = !this.fullScreen;
                 if (this.fullScreen) {
-                    debugger
-                    document.body.appendChild(this.$refs.subwayLines.$el);
+                    this.setFullScreenFor_subwayLines();
 
+                    document.body.appendChild(this.$refs.subwayLines.$el);
 
                     var docElm = document.documentElement;
                     //W3C
@@ -111,6 +111,19 @@
                 }
 
                 // this.$store.commit('setCancelScroll', this.fullScreen);
+            },
+
+            setFullScreenFor_subwayLines() {
+                var screenWidth = window.screen.width;
+                var screenHeight = window.screen.height;
+
+                var dom_canvas = this.$refs.subwayLines.$el.children[0];
+                var scale = 1;
+
+                scale = screenHeight / 1500;
+
+                dom_canvas.style.transform = 'scale('+scale+')';
+                dom_canvas.style.left = (-150 * scale) + 'px';
             }
         }
     }
