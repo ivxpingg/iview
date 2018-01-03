@@ -1,12 +1,12 @@
 <template>
     <div ref="canvasBox" class="canvasBox" :class="fullScreen ? 'fullScreenBox': ''">
         <div id="canvas" style="border: 0 solid #000; width: 3000px; height: 1500px;"></div>
-        <i class="ivu-icon icon-fullScreen"
-           :class="fullScreen ? 'ivu-icon-android-contract' : 'ivu-icon-android-expand'"
-           :title="fullScreen ? '退出全屏' : '全屏'"
-           @click="switchFullScreen"></i>
+        <!--<i class="ivu-icon icon-fullScreen"-->
+           <!--:class="fullScreen ? 'ivu-icon-android-contract' : 'ivu-icon-android-expand'"-->
+           <!--:title="fullScreen ? '退出全屏' : '全屏'"-->
+           <!--@click="switchFullScreen"></i>-->
 
-        <vInfoPanel class="info-position"></vInfoPanel>
+        <vInfoPanel v-if="fullScreen" class="info-position"></vInfoPanel>
     </div>
 </template>
 
@@ -17,17 +17,25 @@
     export default {
         data() {
             return {
-                fullScreen: false,
+               // fullScreen: false,
                 scale: 1,    // canvas 被缩放的比例 默认1
                 parentDom: null
             };
         },
+        props: {
+            fullScreen: {
+                type: Boolean,
+                default() {
+                    return false;
+                }
+            }
+        },
         components: {vInfoPanel},
         mounted () {
             var that = this;
-            this.browserFullInit();
-            this.parentDom = this.$el.parentNode;
-            this.pageInit();
+            // this.browserFullInit();
+            // this.parentDom = this.$el.parentNode;
+            // this.pageInit();
             metro_main(that);
         },
         methods: {
