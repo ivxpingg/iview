@@ -1,7 +1,7 @@
 <template>
     <div class="monitor-container">
         <vHeader></vHeader>
-        <router-view></router-view>
+        <router-view class="router-view"></router-view>
     </div>
 </template>
 
@@ -23,4 +23,12 @@
     }
 </script>
 
-<style lang="scss" rel="stylesheet/scss" scoped></style>
+<style lang="scss" rel="stylesheet/scss" scoped>
+    .monitor-container {
+        height: 100%;
+
+        .router-view {
+            width: 100%;
+        }
+    }
+</style>

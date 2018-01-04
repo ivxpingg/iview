@@ -24,6 +24,7 @@ const routers = [{
     },
     {
         path: '/monitor',
+        name: 'monitor',
         meta: {
             title: '厦门市轨道交通行业运行监视子系统',
             requireAuth: true
