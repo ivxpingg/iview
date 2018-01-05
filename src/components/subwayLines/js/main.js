@@ -11,8 +11,8 @@ export default function (v) {
 
     var canvas = document.querySelector('#canvas');
 
-    scrollScale(v, canvas, 0.1, 2, 0.3);
-    startDrag(v, canvas,canvas,null);
+    //scrollScale(v, canvas, 0.1, 2, 0.3);
+    //startDrag(v, canvas,canvas,null);
 
     // baseLinesMap(v, zr);
 

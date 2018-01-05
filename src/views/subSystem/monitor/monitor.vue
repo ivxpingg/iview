@@ -14,6 +14,7 @@
         data () {
             return {}
         },
+
         components: {
             vHeader,
             vRunMonitor,
@@ -25,9 +26,15 @@
 
 <style lang="scss" rel="stylesheet/scss" scoped>
     .monitor-container {
+        position: relative;
         height: 100%;
 
         .router-view {
+            position: relative;
+            top: 0px;
+            right: 0;
+            bottom: 0;
+            left: 0;
             width: 100%;
         }
     }

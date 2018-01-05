@@ -16,6 +16,7 @@
 
 <script>
     import echarts from 'echarts';
+    import Util from '../../'
     export default {
         data () {
             return {}
@@ -26,6 +27,10 @@
             this.barEchart();
         },
         methods: {
+            getData(){
+
+            },
+
             lineEchart() {
                 var myChart = echarts.init(this.$refs.lineFlowEchart);
                 var option = {
