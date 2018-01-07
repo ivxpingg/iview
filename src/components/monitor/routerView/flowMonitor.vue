@@ -16,7 +16,7 @@
 
 <script>
     import echarts from 'echarts';
-    import Util from '../../'
+    import Util from '../../../libs/util';
     export default {
         data () {
             return {}
