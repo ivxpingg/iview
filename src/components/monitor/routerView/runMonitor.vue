@@ -1,7 +1,9 @@
 <template>
     <div class="container">
-        <vInfoPanel></vInfoPanel>
-        <vLineMap></vLineMap>
+        <div class="line-map-bg">
+            <vInfoPanel></vInfoPanel>
+            <vLineMap class="v-line-map"></vLineMap>
+        </div>
         <vInfoTable></vInfoTable>
 
         <vSubwayLines v-show="fullScreen" ref="subwayLines" :class="fullScreen ? 'fullScreenBox': ''" :fullScreen="fullScreen"></vSubwayLines>
@@ -132,6 +134,19 @@
 <style lang="scss" rel="stylesheet/scss" scoped>
     .container {
         position: relative;
+
+        .line-map-bg {
+            padding-top: 7px;
+            width: 100%;
+            background: #dfdddc url(./images/line-map-bg.png) no-repeat;
+            background-size: 1440px auto;
+            background-position: top center;
+
+            .v-line-map {
+                margin: 5px 40px 0px 30px;
+                padding-bottom: 3px;
+            }
+        }
 
         .icon-fullScreen {
             position: absolute;

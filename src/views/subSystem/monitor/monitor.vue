@@ -2,6 +2,7 @@
     <div class="monitor-container">
         <vHeader></vHeader>
         <router-view class="router-view"></router-view>
+
     </div>
 </template>
 

@@ -490,50 +490,58 @@
         overflow: hidden;
         .up-line {
             position: absolute;
-            top: 141px;
-            left: 100px;
-            right: 100px;
-            height: 1px;
-            background-color: #333;
+            top: 150px;
+            left: 66px;
+            right: 66px;
+            height: 4px;
+            background-color: #3da088;
+            border: 1px solid #f4f4f4;
         }
         .down-line {
             position: absolute;
-            bottom: 141px;
-            left: 100px;
-            right: 100px;
-            height: 1px;
-            background-color: #333;
+            bottom: 150px;
+            left: 66px;
+            right: 66px;
+            height: 4px;
+            background-color: #f39950;
+            border: 1px solid #f4f4f4;
         }
 
         .station-out {
             position: absolute;
-            font-size: 24px;
-            line-height: 32px;
-            width: 30px;
+            padding: 10px 0;
+            width: 50px;
+            height: 160px;
+            font-size: 32px;
+            color: #474f5f;
             text-align: center;
-
+            background-color: #c9cacb;
+            border: 1px solid #ececec;
+            border-radius: 25px;
 
             &.station-24 {
-                top: 168px;
-                left: 100px;
+                top: 127px;
+                left: 0px;
+                line-height: 70px;
             }
             &.station-1 {
-                top: 152px;
-                right: 100px;
+                top: 127px;
+                right: 0px;
+                line-height: 46px;
             }
         }
 
         .up-station-box{
             box-sizing: border-box;
             position: relative;
-            margin: 0 100px;
+            margin: 0 66px;
             background-color: transparent;
-            height: 200px;
+            height: 207px;
             /*border: 1px solid #666;*/
             z-index: 1;
 
             .station {
-                margin-top: 50px;
+                margin-top: 47px;
                 position: relative;
                 overflow: hidden;
                 .circle {
@@ -543,8 +551,8 @@
                     margin-left: -($station_circle_size / 2) ;
                     width: $station_circle_size;
                     height: $station_circle_size;
-                    background-color: #fff;
-                    border: 2px solid #3c3c3c;
+                    background-color: #f39950;
+                    border: 3px solid #FFF;
                     border-radius: 50%;
                 }
                 .name {
@@ -564,14 +572,14 @@
         .down-station-box{
             box-sizing: border-box;
             position: relative;
-            margin: 0 100px;
+            margin: 0 66px;
             background-color: transparent;
-            height: 200px;
+            height: 207px;
             z-index: 1;
 
             .station {
                 position: relative;
-                bottom: 50px;
+                bottom: 47px;
                 overflow: hidden;
                 .circle {
                     position: absolute;
@@ -580,8 +588,8 @@
                     margin-left: -($station_circle_size / 2);
                     width: $station_circle_size;
                     height: $station_circle_size;
-                    background-color: #fff;
-                    border: 2px solid #3c3c3c;
+                    background-color: #3da088;
+                    border: 3px solid #FFF;
                     border-radius: 50%;
                 }
                 .name {
@@ -601,30 +609,10 @@
 
     }
 </style>
-<style>
-    /*.train {*/
-        /*position: absolute;*/
-        /*width: $train_width;*/
-        /*height: $train_height;*/
-        /*background-repeat: no-repeat;*/
-        /*background-size: 100%;*/
-        /*z-index: 2;*/
-        /*transition: left 2s ease-in-out 0s;*/
-    /*&.train-down{*/
-         /*bottom: 25px;*/
-         /*margin-left: -($train_width / 2);*/
-         /*background-image: url(./images/car-down-small.png);*/
-     /*}*/
-
-    /*&.train-up{*/
-         /*top: 25px;*/
-         /*margin-left: -($train_width / 2);*/
-         /*background-image: url(./images/car-up-small.png);*/
-     /*}*/
-    /*}*/
+<style lang="scss" rel="stylesheet/scss">
     .train {
         position: absolute;
-        width: 20px;
+        width: 33px;
         height: 20px;
         background-repeat: no-repeat;
         background-size: 100%;
@@ -635,13 +623,13 @@
 
     .train.train-down{
          bottom: 25px;
-         margin-left: -10px;
-         background-image: url(./images/car-down-small.png);
+         margin-left: -16.5px;
+         background-image: url(images/car-down-small.png);
      }
 
     .train.train-up{
          top: 25px;
-         margin-left: -10px;
-         background-image: url(./images/car-up-small.png);
+         margin-left: -16.5px;
+         background-image: url(images/car-up-small.png);
      }
 </style>

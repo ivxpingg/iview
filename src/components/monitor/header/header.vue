@@ -1,10 +1,16 @@
 <template>
-    <div class="container">
-        <div class="title">厦门市轨道交通行业运行监视子系统</div>
+    <div class="header-container">
+        <div class="header-inner">
+            <div class="title"></div>
 
-        <div class="m-btn" :class="routeName == 'videoMonitor' ? 'm-active':''" @click="btnLink('videoMonitor', $event)">视频监视</div>
-        <div class="m-btn" :class="routeName == 'flowMonitor' ? 'm-active':''" @click="btnLink('flowMonitor', $event)">客流监视</div>
-        <div class="m-btn" :class="routeName == 'runMonitor' ? 'm-active':''" @click="btnLink('runMonitor', $event)">运行监视</div>
+            <Button class="btn-layout" type="text" icon="log-out" title="退出" @click="logout"></Button>
+            <div class="btn-panel">
+                <div class="m-btn" :class="routeName == 'runMonitor' ? 'm-active':''" @click="btnLink('runMonitor', $event)">运行监视</div>
+                <div class="m-btn" :class="routeName == 'flowMonitor' ? 'm-active':''" @click="btnLink('flowMonitor', $event)">客流监视</div>
+                <div class="m-btn" :class="routeName == 'videoMonitor' ? 'm-active':''" @click="btnLink('videoMonitor', $event)">视频监视</div>
+            </div>
+
+        </div>
     </div>
 </template>
 
@@ -47,42 +53,69 @@
                     name: routerName,  // 路由名称
                     params: {}
                 });
-            }
+            },
+
+            logout() {}
         }
     }
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
-    .container {
+    .header-container {
         position: relative;
-        height: 80px;
         width: 100%;
-        border-bottom: 1px solid #aaa;
+        background: linear-gradient(to right, #eaa467 50%, #7cacda 50%);
 
+        .header-inner {
+            width: 100%;
+            height: 87px;
+            background-image: url(./images/header-bg.png);
+            background-position: center;
+            background-repeat: no-repeat;
+        }
         .title {
             position: absolute;
-            top: 0;
-            left:0;
-            padding-left:20px;
-            font-size: 20px;
-            font-weight: 700;
-            line-height: 80px;
+            top: 13px;
+            left:40px;
+            width: 601px;
+            height: 60px;
+            background: url(./images/run-system-text-logo.png) no-repeat;
+            background-size: auto 100%;
         }
-        .m-btn {
-            float: right;
-            margin-top: 26px;
-            margin-right: 20px;
-            width: 120px;
-            height: 28px;
-            text-align: center;
-            line-height: 28px;
-            color: #333;
-            background-color: #FFF;
-            border: 1px solid #333;
-
-            &.m-active {
+        .btn-panel {
+            position: absolute;
+            top: 26px;
+            right: 102px;
+            height: 35px;
+            overflow: hidden;
+            .m-btn {
+                display: inline-block;
+                margin-left: 23px;
+                width: 107px;
+                height: 35px;
+                text-align: center;
+                line-height: 35px;
                 color: #FFF;
-                background-color: #51bf08;
+                background-color: transparent;
+                border: 1px solid #FFF;
+                border-radius: 19px;
+
+                &.m-active {
+                    background-color: #f39950;
+                }
+            }
+        }
+
+        .btn-layout {
+            position: absolute;
+            top: 2px;
+            right: 0;
+            width: 102px;
+            font-size: 46px;
+            color: #FFF;
+
+            &:hover {
+                color: #57a3f3;
             }
         }
     }
