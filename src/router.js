@@ -61,6 +61,43 @@ const routers = [{
         ]
     },
     {
+        path: '/employee',
+        name: 'employee',
+        meta: {
+            title: '厦门市轨道交通从业人员管理子系统',
+            requireAuth: true
+        },
+        component: (resolve) => require(['./views/subSystem/employee/employee.vue'], resolve),
+        children: [
+            {
+                path: 'employeeList',
+                name: 'employeeList',
+                meta: {
+                    title: '从业人员信息',
+                    requireAuth: true
+                },
+                component: (resolve) => require(['./components/employee/routerView/employeeList.vue'], resolve)
+            },
+            {
+                path: 'employeeAdd',
+                name: 'employeeAdd',
+                meta: {
+                    title: '添加从业人员',
+                    requireAuth: true
+                },
+                component: (resolve) => require(['./components/employee/routerView/employeeAdd.vue'], resolve)
+            },
+            {
+                path: 'employeeeEdit',
+                name: 'employeeEdit',
+                meta: {
+                    title: '修改从业人员信息',
+                    requireAuth: true
+                },
+                component: (resolve) => require(['./components/employee/routerView/employeeEdit.vue'], resolve)
+            }]
+    },
+    {
         path: '/system/:funcId',
         meta: {
             title: '厦门轨道行业监管系统',
