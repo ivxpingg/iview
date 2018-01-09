@@ -5,202 +5,256 @@
 
         <div class="station-out station-24">岩内</div>
         <div class="station-out station-1">镇海路</div>
-        <div ref="downBox" class="down-station-box sxc-flex">
-            <div class="station sxc-flex__item">
-                <div class="name">岩内</div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">厦门北站</div>
-                <div class="circle"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">天水路</div>
-                <div class="circle"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">集美大道</div>
-                <div class="circle"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">集美软件园</div>
-                <div class="circle"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">诚毅广场</div>
-                <div class="circle"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">官任</div>
-                <div class="circle"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">杏锦路</div>
-                <div class="circle"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">杏林村</div>
-                <div class="circle"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">园博苑</div>
-                <div class="circle"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">集美学村</div>
-                <div class="circle"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">高崎</div>
-                <div class="circle"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">殿前</div>
-                <div class="circle"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">火炬园</div>
-                <div class="circle"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">塘边</div>
-                <div class="circle"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">乌石浦</div>
-                <div class="circle"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">吕厝</div>
-                <div class="circle"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">莲花路口</div>
-                <div class="circle"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">莲坂</div>
-                <div class="circle"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">湖滨东路</div>
-                <div class="circle"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">文灶</div>
-                <div class="circle"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">将军祠</div>
-                <div class="circle"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">中山公园</div>
-                <div class="circle"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">镇海路</div>
-            </div>
-
-            <!--<div class="train train-down" style="left: 25%;"></div>-->
-            <!--<div class="train train-down" style="left: 52.083325%;"></div>-->
-        </div>
         <div ref="upBox" class="up-station-box sxc-flex">
+            <div class="station sxc-flex__item">
+                <!--<div class="name">岩内</div>-->
+                <div class="circle"></div>
+                <div class="circle2 circle-up-24 00101-show"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">厦门北站</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-23"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">天水路</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-22"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">集美大道</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-21"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">集美软件园</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-20"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">诚毅广场</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-19"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">官任</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-18"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">杏锦路</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-17"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">杏林村</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-16"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">园博苑</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-15"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">集美学村</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-14"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">高崎</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-13"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">殿前</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-12"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">火炬园</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-11"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">塘边</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-10"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">乌石浦</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-9"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">吕厝</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-8"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">莲花路口</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-7"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">莲坂</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-6"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">湖滨东路</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-5"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">文灶</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-4"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">将军祠</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-3"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">中山公园</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-2"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <!--<div class="name">镇海路</div>-->
+                <div class="circle"></div>
+                <div class="circle2 circle-up-1"></div>
+            </div>
 
-            <div class="train train-up" style="left: 8.3333%;"></div>
+
+            <!--<div class="train train-up" style="left: 8.3333%;"></div>-->
+            <!--<div class="train train-up" style="left: 8.3333%;"></div>-->
+
+            <!--<div class="circle circle-up"></div>-->
+        </div>
+        <div ref="downBox" class="down-station-box sxc-flex">
+            <!--<div class="circle circle-down"></div>-->
 
             <div class="station sxc-flex__item">
-                <div class="name">岩内</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-down-24"></div>
+                <!--<div class="name">岩内</div>-->
             </div>
             <div class="station sxc-flex__item">
                 <div class="circle"></div>
+                <div class="circle2 circle-down-23"></div>
                 <div class="name">厦门北站</div>
             </div>
             <div class="station sxc-flex__item">
                 <div class="circle"></div>
+                <div class="circle2 circle-down-22"></div>
                 <div class="name">天水路</div>
             </div>
             <div class="station sxc-flex__item">
                 <div class="circle"></div>
+                <div class="circle2 circle-down-21"></div>
                 <div class="name">集美大道</div>
             </div>
             <div class="station sxc-flex__item">
                 <div class="circle"></div>
+                <div class="circle2 circle-down-20"></div>
                 <div class="name">集美软件园</div>
             </div>
             <div class="station sxc-flex__item">
                 <div class="circle"></div>
+                <div class="circle2 circle-down-19"></div>
                 <div class="name">诚毅广场</div>
             </div>
             <div class="station sxc-flex__item">
                 <div class="circle"></div>
+                <div class="circle2 circle-down-18"></div>
                 <div class="name">官任</div>
             </div>
             <div class="station sxc-flex__item">
                 <div class="circle"></div>
+                <div class="circle2 circle-down-17"></div>
                 <div class="name">杏锦路</div>
             </div>
             <div class="station sxc-flex__item">
                 <div class="circle"></div>
+                <div class="circle2 circle-down-16"></div>
                 <div class="name">杏林村</div>
             </div>
             <div class="station sxc-flex__item">
                 <div class="circle"></div>
+                <div class="circle2 circle-down-15"></div>
                 <div class="name">园博苑</div>
             </div>
             <div class="station sxc-flex__item">
                 <div class="circle"></div>
+                <div class="circle2 circle-down-14"></div>
                 <div class="name">集美学村</div>
             </div>
             <div class="station sxc-flex__item">
                 <div class="circle"></div>
+                <div class="circle2 circle-down-13"></div>
                 <div class="name">高崎</div>
             </div>
             <div class="station sxc-flex__item">
                 <div class="circle"></div>
+                <div class="circle2 circle-down-12"></div>
                 <div class="name">殿前</div>
             </div>
             <div class="station sxc-flex__item">
                 <div class="circle"></div>
+                <div class="circle2 circle-down-11"></div>
                 <div class="name">火炬园</div>
             </div>
             <div class="station sxc-flex__item">
                 <div class="circle"></div>
+                <div class="circle2 circle-down-10"></div>
                 <div class="name">塘边</div>
             </div>
             <div class="station sxc-flex__item">
                 <div class="circle"></div>
+                <div class="circle2 circle-down-9"></div>
                 <div class="name">乌石浦</div>
             </div>
             <div class="station sxc-flex__item">
                 <div class="circle"></div>
+                <div class="circle2 circle-down-8"></div>
                 <div class="name">吕厝</div>
             </div>
             <div class="station sxc-flex__item">
                 <div class="circle"></div>
+                <div class="circle2 circle-down-7"></div>
                 <div class="name">莲花路口</div>
             </div>
             <div class="station sxc-flex__item">
                 <div class="circle"></div>
+                <div class="circle2 circle-down-6"></div>
                 <div class="name">莲坂</div>
             </div>
             <div class="station sxc-flex__item">
                 <div class="circle"></div>
+                <div class="circle2 circle-down-5"></div>
                 <div class="name">湖滨东路</div>
             </div>
             <div class="station sxc-flex__item">
                 <div class="circle"></div>
+                <div class="circle2 circle-down-4"></div>
                 <div class="name">文灶</div>
             </div>
             <div class="station sxc-flex__item">
                 <div class="circle"></div>
+                <div class="circle2 circle-down-3"></div>
                 <div class="name">将军祠</div>
             </div>
             <div class="station sxc-flex__item">
                 <div class="circle"></div>
+                <div class="circle2 circle-down-2"></div>
                 <div class="name">中山公园</div>
             </div>
             <div class="station sxc-flex__item">
-                <div class="name">镇海路</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-down-1"></div>
+                <!--<div class="name">镇海路</div>-->
             </div>
         </div>
 
@@ -213,21 +267,113 @@
     export default {
         data () {
             return {
+                timeOut: null,
+                prefixClassNameUp: 'circle-up-',   // 到站线路前置样式名称
+                prefixClassNameDown: 'circle-down-',   // 到站线路前置样式名称
+                prefixClassNameShow: 'show-',
                 trainLeftRatio: 2.083333,   // 列车距离
                 trainPosition: { },
-                test_d: '2017-12-20 08:20:00',
+                test_d: '2017-12-20 08:40:00',
 
                 o_dom_list: {},  // 存放当前页面上实时列车元素对象 { '00101': dom }
                 // 存放从后台获取的最新列车位置信息。
-                train_list: {}
+                train_list: {},
+
+
+                upLeft: {},
+                downLeft: {},
+            }
+        },
+        beforeDestroy() {
+            if (this.timeOut) {
+                clearTimeout(this.timeOut);
             }
         },
         mounted() {
 
-//             console.dir(lineData);
+            this.getUpLeft();
+            this.getDownLeft();
             this.getData();
         },
         methods: {
+            getUpLeft() {
+                var that = this;
+                var o = {};
+
+                var id = '';
+                var pass = false;
+                var left = 0;
+
+                lineData.up_line.forEach(function (val) {
+                    var stationId = parseInt(val.station_Id);
+
+                    if (stationId != id) {
+                        id = stationId;
+                        pass = false;
+                    }
+
+                    if (val.is_station) {
+                        left = ((24 - stationId) * 2 * that.trainLeftRatio) + that.trainLeftRatio;
+                    }
+                    else if (pass) {
+                        left = ((24 - stationId) * 2 * that.trainLeftRatio);
+                    }
+                    else {
+                        left = ((24 - stationId) * 2 * that.trainLeftRatio) + that.trainLeftRatio * 2;
+                    }
+
+                    o[val.section_name] = {
+                        left: left,
+                        pass: pass
+                    }
+
+                    if (val.is_station) {
+                        pass = true;
+                    }
+
+                });
+
+                this.upLeft = o;
+            },
+            getDownLeft() {
+                var that = this;
+                var o = {};
+
+                var id = '';
+                var pass = false;
+                var left = 0;
+
+                lineData.down_line.forEach(function (val) {
+                    var stationId = parseInt(val.station_Id);
+
+                    if (stationId != id) {
+                        id = stationId;
+                        pass = false;
+                    }
+
+                    if (val.is_station) {
+                        left = ((24 - stationId) * 2 * that.trainLeftRatio) + that.trainLeftRatio;
+                    }
+                    else if (pass) {
+                        left = ((24 - stationId) * 2 * that.trainLeftRatio) + that.trainLeftRatio * 2;
+                    }
+                    else {
+                        left = ((24 - stationId) * 2 * that.trainLeftRatio);
+                    }
+
+                    o[val.section_name] = {
+                        left: left,
+                        pass: pass
+                    }
+
+                    if (val.is_station) {
+                        pass = true;
+                    }
+
+                });
+
+                this.downLeft = o;
+            },
             getData() {
                 var that = this;
 
@@ -263,13 +409,13 @@
                         console.dir(response.errMsg);
                     }
 
-                    setTimeout(function () {
+                    that.timeOut = setTimeout(function () {
                         that.getData();
                     }, 5000);
                 }).catch(function (err) {
                     console.dir(err);
 
-                    setTimeout(function () {
+                    that.timeOut =setTimeout(function () {
                         that.getData();
                     }, 1000);
                 });
@@ -329,111 +475,63 @@
             },
             train_update(o_data, old_o_data, o_element) {
 
-                var that = this;
                 var dom = o_element;
+                var dom_arrive_circle;
 
-                var passStation = false; // 是否经过了站点
-                var left = 0;
+                var dom_re = document.querySelector('.' + this.prefixClassNameShow + old_o_data.trainId);
+
+                if (!!dom_re) {
+                    var re = new RegExp('\\s' + this.prefixClassNameShow + old_o_data.trainId , 'g');
+                    dom_re.className = dom_re.className.replace(re, '');
+                }
 
                 if (o_data.direction == '0') {
-
                     for(var i = 0; i < lineData.up_line.length; i++) {
 
-                        if(o_data.stationId != lineData.up_line[i].station_Id) {
-                            passStation = false;
-                        }
-
                         if (lineData.up_line[i].section_name == o_data.sectionName) {
-                            if (o_data.arriveFlag == '1') {  // 到站
-                                left = (24 - parseInt(o_data.stationId)) * 2 * that.trainLeftRatio;
+                            if (lineData.up_line[i].is_station) {  // 到站
+                                dom_arrive_circle = document.querySelector('.' + this.prefixClassNameUp + o_data.stationId);
+                                dom_arrive_circle.className += ' ' + this.prefixClassNameShow + o_data.trainId;
                             }
-                            else if (!passStation && lineData.up_line[i].is_station) {
-                                left = ((24 - parseInt(o_data.stationId)) * 2 * that.trainLeftRatio) + that.trainLeftRatio;
-                            }
-                            else {
-                                left = ((24 - parseInt(o_data.stationId)) * 2 * that.trainLeftRatio) - that.trainLeftRatio;
-                            }
-
-                            break;
-                        }
-
-                        if( o_data.stationId == lineData.up_line[i].station_Id && lineData.up_line[i].is_station) {
-                            passStation = true;
                         }
                     }
 
-                    dom.style.left = left + '%';
+                    dom.style.left =  this.upLeft[o_data.sectionName].left + '%';
                 }
                 else {
 
                     for(var i = 0; i < lineData.down_line.length; i++) {
 
-                        if(o_data.stationId != lineData.up_line[i].station_Id) {
-                            passStation = false;
-                        }
-
                         if (lineData.down_line[i].section_name == o_data.sectionName) {
-                            if (o_data.arriveFlag == '1') {  // 到站
-                                left = (24 - parseInt(o_data.stationId)) * 2 * that.trainLeftRatio;
+                            if (lineData.down_line[i].is_station) {  // 到站
+                                dom_arrive_circle = document.querySelector('.' + this.prefixClassNameDown + o_data.stationId);
+                                dom_arrive_circle.className += ' ' + this.prefixClassNameShow + o_data.trainId;
                             }
-                            else if (passStation && lineData.down_line[i].is_station) {
-                                left = ((24 - parseInt(o_data.stationId)) * 2 * that.trainLeftRatio) + that.trainLeftRatio;
-                            }
-                            else if(!passStation && lineData.down_line[i].is_station) {
-                                left = ((24 - parseInt(o_data.stationId)) * 2 * that.trainLeftRatio) - that.trainLeftRatio;
-                            }
-                            else {
-                                left = ((24 - parseInt(o_data.stationId)) * 2 * that.trainLeftRatio) - that.trainLeftRatio;
-                            }
-
-                            break;
-                        }
-
-                        if( o_data.stationId == lineData.down_line[i].station_Id && lineData.down_line[i].is_station) {
-                            passStation = true;
                         }
                     }
 
-                    dom.style.left = left + '%';
+                    dom.style.left =  this.downLeft[o_data.sectionName].left + '%';
                 }
             },
             train_add(o_data) {
-                var that = this;
                 var dom = document.createElement('div');
-
-                var passStation = false; // 是否经过了站点
-
-                var left = 0;
+                var dom_arrive_circle;
 
                 if (o_data.direction == '0') {
-                    dom.className = 'train train-up';
+                    dom.className = 'train train-up ';
 
                     for(var i = 0; i < lineData.up_line.length; i++) {
 
-                        if(o_data.stationId != lineData.up_line[i].station_Id) {
-                            passStation = false;
-                        }
-
                         if (lineData.up_line[i].section_name == o_data.sectionName) {
-                            if (o_data.arriveFlag == '1') {  // 到站
-                                left = (24 - parseInt(o_data.stationId)) * 2 * that.trainLeftRatio;
+                            if (lineData.up_line[i].is_station) {  // 到站
+                                dom_arrive_circle = document.querySelector('.' + this.prefixClassNameUp + o_data.stationId);
+                                dom_arrive_circle.className += ' ' + this.prefixClassNameShow + o_data.trainId;
                             }
-                            else if (passStation) {
-                                left = ((24 - parseInt(o_data.stationId)) * 2 * that.trainLeftRatio) - that.trainLeftRatio;
-                            }
-                            else {
-                                left = ((24 - parseInt(o_data.stationId)) * 2 * that.trainLeftRatio) + that.trainLeftRatio;
-                            }
-
                             break;
-                        }
-
-                        if( o_data.stationId == lineData.up_line[i].station_Id && lineData.up_line[i].is_station) {
-                            passStation = true;
                         }
                     }
 
-                    dom.style.left = left + '%';
+                    dom.style.left = this.upLeft[o_data.sectionName].left + '%';
                     this.$refs.upBox.appendChild(dom);
                 }
                 else {
@@ -441,30 +539,16 @@
 
                     for(var i = 0; i < lineData.down_line.length; i++) {
 
-                        if(o_data.stationId != lineData.up_line[i].station_Id) {
-                            passStation = false;
-                        }
-
                         if (lineData.down_line[i].section_name == o_data.sectionName) {
-                            if (o_data.arriveFlag == '1') {  // 到站
-                                left = (24 - parseInt(o_data.stationId)) * 2 * that.trainLeftRatio;
-                            }
-                            else if (!passStation && lineData.down_line[i].is_station) {
-                                left = ((24 - parseInt(o_data.stationId)) * 2 * that.trainLeftRatio) + that.trainLeftRatio;
-                            }
-                            else {
-                                left = ((24 - parseInt(o_data.stationId)) * 2 * that.trainLeftRatio) - that.trainLeftRatio;
-                            }
 
-                            break;
-                        }
-
-                        if( o_data.stationId == lineData.down_line[i].station_Id && lineData.down_line[i].is_station) {
-                            passStation = true;
+                            if (lineData.down_line[i].is_station) {  // 到站
+                                dom_arrive_circle = document.querySelector('.' + this.prefixClassNameDown + o_data.stationId);
+                                dom_arrive_circle.className += ' ' + this.prefixClassNameShow + o_data.stationId;
+                            }
                         }
                     }
 
-                    dom.style.left = left + '%';
+                    dom.style.left = this.downLeft[o_data.sectionName].left + '%';
                     this.$refs.downBox.appendChild(dom);
                 }
 
@@ -482,6 +566,8 @@
 
     $station_circle_size: 18px;
 
+    $station_circle2_size: 8px;
+
     $train_width: 20px;
     $train_height: 20px;
 
@@ -490,21 +576,75 @@
         overflow: hidden;
         .up-line {
             position: absolute;
-            top: 150px;
+            top: 149px;
             left: 66px;
             right: 66px;
             height: 4px;
             background-color: #3da088;
             border: 1px solid #f4f4f4;
+
+            &:after {
+                position: absolute;
+                left: 0;
+                top: 0;
+                content: " ";
+                display: block;
+                width: 16px;
+                height: 4px;
+                background-color: #3da088;
+                border: 1px solid #f4f4f4;
+                transform-origin: 0% 50%;
+                transform: rotate(-35deg);
+                z-index: 1;
+            }
+            &:before {
+                position: absolute;
+                left: 1px;
+                top: 0;
+                content: " ";
+                display: block;
+                width: 16px;
+                height: 2px;
+                background-color: #3da088;
+                border: 1px solid transparent;
+                z-index: 2;
+            }
         }
         .down-line {
             position: absolute;
-            bottom: 150px;
+            bottom: 152px;
             left: 66px;
             right: 66px;
             height: 4px;
             background-color: #f39950;
             border: 1px solid #f4f4f4;
+
+            &:after {
+                position: absolute;
+                right: 0;
+                top: -1px;
+                content: " ";
+                display: block;
+                width: 16px;
+                height: 4px;
+                background-color: #f39950;
+                border: 1px solid #f4f4f4;
+                transform-origin: 100% 50%;
+                transform: rotate(-35deg);
+                z-index: 1;
+            }
+            &:before {
+                position: absolute;
+                right: 0px;
+                top: 0;
+                content: " ";
+                display: block;
+                width: 16px;
+                height: 2px;
+                background-color: #f39950;
+                border: 1px solid transparent;
+                z-index: 2;
+            }
         }
 
         .station-out {
@@ -531,7 +671,7 @@
             }
         }
 
-        .up-station-box{
+        .down-station-box{
             box-sizing: border-box;
             position: relative;
             margin: 0 66px;
@@ -555,6 +695,22 @@
                     border: 3px solid #FFF;
                     border-radius: 50%;
                 }
+                .circle2 {
+                    display: none;
+                    position: absolute;
+                    top: ($station_circle_size - $station_circle2_size) / 2;
+                    left: 50%;
+                    margin-left: -($station_circle2_size / 2);
+                    width: $station_circle2_size;
+                    height: $station_circle2_size;
+                    background-color: #23ac38;
+                    border: 1px solid #f7f7f7;
+                    border-radius: 50%;
+
+                    &[class*='show-'] {
+                        display: block;
+                    }
+                }
                 .name {
                     position: absolute;
                     top: 32px;
@@ -569,7 +725,7 @@
             }
         }
 
-        .down-station-box{
+        .up-station-box{
             box-sizing: border-box;
             position: relative;
             margin: 0 66px;
@@ -591,6 +747,22 @@
                     background-color: #3da088;
                     border: 3px solid #FFF;
                     border-radius: 50%;
+                }
+                .circle2 {
+                    position: absolute;
+                    display: none;
+                    bottom: ($station_circle_size - $station_circle2_size) / 2;
+                    left: 50%;
+                    margin-left: -($station_circle2_size / 2);
+                    width: $station_circle2_size;
+                    height: $station_circle2_size;
+                    background-color: #f39700;
+                    border: 1px solid #f7f7f7;
+                    border-radius: 50%;
+
+                    &[class*='show-'] {
+                        display: block;
+                    }
                 }
                 .name {
                     position: absolute;
@@ -619,17 +791,43 @@
         z-index: 2;
         transition: left 2s ease-in-out 0s;
 
+
+        &.train-up{
+            bottom: 25px;
+            margin-left: -16.5px;
+            background-image: url(images/car-up-small.png);
+        }
+        &.train-down{
+            top: 25px;
+            margin-left: -16.5px;
+            background-image: url(images/car-down-small.png);
+        }
+
     }
 
-    .train.train-down{
-         bottom: 25px;
-         margin-left: -16.5px;
-         background-image: url(images/car-down-small.png);
-     }
+    .circle-attain {
+        position: absolute;
+        display: none;
+        width: 8px;
+        height: 8px;
+        border: 1px solid #f7f7f7;
+        border-radius: 50%;
+        z-index: 2;
 
-    .train.train-up{
-         top: 25px;
-         margin-left: -16.5px;
-         background-image: url(images/car-up-small.png);
-     }
+        &.show {
+            display: block;
+        }
+
+        &.circle-up {
+            bottom: 52px;
+            margin-left: -4px;
+            background-color: #f39700;
+        }
+        &.circle-down {
+            top: 52px;
+            margin-left: -4px;
+            background-color: #23ac38;
+        }
+    }
+
 </style>

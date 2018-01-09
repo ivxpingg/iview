@@ -1,12 +1,7 @@
 <template>
-    <div ref="canvasBox" class="canvasBox" :class="fullScreen ? 'fullScreenBox': ''">
+    <div ref="canvasBox" class="canvasBox">
         <div id="canvas" style="border: 0 solid #000; width: 3000px; height: 1500px;"></div>
-        <!--<i class="ivu-icon icon-fullScreen"-->
-           <!--:class="fullScreen ? 'ivu-icon-android-contract' : 'ivu-icon-android-expand'"-->
-           <!--:title="fullScreen ? '退出全屏' : '全屏'"-->
-           <!--@click="switchFullScreen"></i>-->
-
-        <vInfoPanel v-if="fullScreen" class="info-position"></vInfoPanel>
+        <vInfoPanel class="info-position"></vInfoPanel>
     </div>
 </template>
 
@@ -17,112 +12,43 @@
     export default {
         data() {
             return {
-               // fullScreen: false,
                 scale: 1,    // canvas 被缩放的比例 默认1
-                parentDom: null
+                parentDom: null,
+                timeOut: null
             };
         },
-        props: {
-            fullScreen: {
-                type: Boolean,
-                default() {
-                    return false;
-                }
+        components: {vInfoPanel},
+        beforeDestroy() {
+            if (this.timeOut) {
+                clearTimeout(this.timeOut);
             }
         },
-        components: {vInfoPanel},
         mounted () {
             var that = this;
-            // this.browserFullInit();
-            // this.parentDom = this.$el.parentNode;
             // this.pageInit();
+            this.setFullScreenFor_subwayLines();
             metro_main(that);
+
         },
         methods: {
             pageInit() {
-                this.$refs.canvasBox.style.height = document.querySelector("#layout-content").clientHeight + 'px';
 
                 if (this.$store.state.systemScroll) {
                     this.$store.state.systemScroll.refresh();
                 }
             },
-            /**
-             * 浏览器全屏设置
-             */
-            browserFullInit() {
-                document.addEventListener("fullscreenchange", function () {
+            setFullScreenFor_subwayLines() {
+                var screenWidth = window.screen.width;
+                var screenHeight = window.screen.height;
 
-                    fullscreenState.innerHTML = (document.fullscreen) ? "" : "not ";
-                }, false);
+                var dom_canvas = this.$el.children[0];
+                var scale = 1;
 
-                document.addEventListener("mozfullscreenchange", function () {
+                scale = screenHeight / 1500;
 
-                    fullscreenState.innerHTML = (document.mozFullScreen) ? "" : "not ";
-                }, false);
-
-
-
-                document.addEventListener("webkitfullscreenchange", function () {
-
-                    fullscreenState.innerHTML = (document.webkitIsFullScreen) ? "" : "not ";
-                }, false);
-
-                document.addEventListener("msfullscreenchange", function () {
-
-                    fullscreenState.innerHTML = (document.msFullscreenElement) ? "" : "not ";
-                }, false);
-            },
-            switchFullScreen () {
-                var that = this;
-                this.fullScreen = !this.fullScreen;
-                if (this.fullScreen) {
-                    document.body.appendChild(this.$el);
-
-                    this.$refs.canvasBox.style.height = '';
-
-                    var docElm = document.documentElement;
-                    //W3C
-                    if (docElm.requestFullscreen) {
-                        docElm.requestFullscreen();
-                    }
-                    //FireFox
-                    else if (docElm.mozRequestFullScreen) {
-                        docElm.mozRequestFullScreen();
-                    }
-                    //Chrome等
-                    else if (docElm.webkitRequestFullScreen) {
-                        docElm.webkitRequestFullScreen();
-                    }
-                    //IE11
-                    else if (elem.msRequestFullscreen) {
-                        elem.msRequestFullscreen();
-                    }
-                } else {
-                    this.parentDom.appendChild(this.$el);
-
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    }
-                    else if (document.mozCancelFullScreen) {
-                        document.mozCancelFullScreen();
-                    }
-                    else if (document.webkitCancelFullScreen) {
-                        document.webkitCancelFullScreen();
-                    }
-                    else if (document.msExitFullscreen) {
-                        document.msExitFullscreen();
-                    }
-
-                    setTimeout(function () {
-                        that.$refs.canvasBox.style.height = document.querySelector("#layout-content").clientHeight + 'px';
-                        if (that.$store.state.systemScroll) {
-                            that.$store.state.systemScroll.refresh();
-                        }
-                    }, 100);
-                }
-
-                // this.$store.commit('setCancelScroll', this.fullScreen);
-            },
+                dom_canvas.style.transform = 'scale('+scale+')';
+                dom_canvas.style.left = (-150 * scale) + 'px';
+            }
         }
     }
 </script>

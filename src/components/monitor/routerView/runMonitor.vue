@@ -6,7 +6,7 @@
         </div>
         <vInfoTable></vInfoTable>
 
-        <vSubwayLines v-show="fullScreen" ref="subwayLines" :class="fullScreen ? 'fullScreenBox': ''" :fullScreen="fullScreen"></vSubwayLines>
+        <vSubwayLines v-if="fullScreen" ref="subwayLines" class="fullScreenBox"></vSubwayLines>
         <i class="ivu-icon icon-fullScreen"
            :class="fullScreen ? 'ivu-icon-android-contract' : 'ivu-icon-android-expand'"
            :title="fullScreen ? '退出全屏' : '全屏'"
@@ -64,12 +64,9 @@
                 }, false);
             },
             switchFullScreen () {
-                var that = this;
                 this.fullScreen = !this.fullScreen;
+                var that = this;
                 if (this.fullScreen) {
-                    this.setFullScreenFor_subwayLines();
-
-                    document.body.appendChild(this.$refs.subwayLines.$el);
 
                     var docElm = document.documentElement;
                     //W3C
@@ -89,7 +86,6 @@
                         elem.msRequestFullscreen();
                     }
                 } else {
-                    this.parentDom.appendChild(this.$refs.subwayLines.$el);
 
                     if (document.exitFullscreen) {
                         document.exitFullscreen();
@@ -104,15 +100,7 @@
                         document.msExitFullscreen();
                     }
 
-//                    setTimeout(function () {
-//                        that.$refs.canvasBox.style.height = document.querySelector("#layout-content").clientHeight + 'px';
-//                        if (that.$store.state.systemScroll) {
-//                            that.$store.state.systemScroll.refresh();
-//                        }
-//                    }, 100);
                 }
-
-                // this.$store.commit('setCancelScroll', this.fullScreen);
             },
 
             setFullScreenFor_subwayLines() {
@@ -149,22 +137,30 @@
         }
 
         .icon-fullScreen {
-            position: absolute;
-            top: 20px;
+            position: fixed;
+            top: 242px;
             right: 20px;
             font-size: 28px;
             cursor: pointer;
             padding: 8px 12px;
-            background-color: rgba(0,0,0,.6);
-            color: #FFF;
+            /*background-color: rgba(0,0,0,.6);*/
+            color: #454e5e;
             border-radius: 4px;
             z-index: 10001;
             &:hover {
-                background-color: rgba(0,0,0,.7);
+                background-color: rgba(0,0,0,.4);
+            }
+
+            &.ivu-icon-android-contract {
+                top: 20px;
             }
         }
         .fullScreenBox {
             position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             z-index: 10000;
         }
     }

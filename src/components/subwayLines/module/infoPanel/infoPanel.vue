@@ -330,8 +330,8 @@
                             width: 20px;
                             line-height: 20px;
                             text-align: center;
-                            word-wrap: break-word;
-                            overflow: hidden;
+                            /*word-wrap: break-word;*/
+                            /*overflow: hidden;*/
 
                             & > span {
                                 display: inline-block;

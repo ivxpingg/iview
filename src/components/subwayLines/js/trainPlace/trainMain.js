@@ -180,13 +180,13 @@ var getData = function () {
             console.dir(response.errMsg);
         }
 
-        setTimeout(function () {
+        vm.timeOut = setTimeout(function () {
             getData();
         }, 5000);
     }).catch(function (err) {
         console.dir(err);
 
-        setTimeout(function () {
+        vm.timeOut = setTimeout(function () {
             getData();
         }, 1000);
     });
@@ -202,7 +202,9 @@ export default function (v, z) {
     vm = v;
     zr = z;
 
-   train_zr = new train(v, z, {});
+    o_zr_list = {};
+    train_list = {};
+    train_zr = new train(v, z, {});
 
-   getData();
+    getData();
 }

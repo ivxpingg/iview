@@ -1,11 +1,14 @@
 <template>
     <div class="infoTable-container">
         <div class="btn-panel">
-            <div class="btn-com btn-up"><span>上</span><span>行</span></div>
-            <div class="btn-com btn-down"><span>下</span><span>行</span></div>
+            <div class="btn-com btn-up" @click="upTable()"><span>上</span><span>行</span></div>
+            <div class="btn-com btn-down" @click="downTable()"><span>下</span><span>行</span></div>
         </div>
-        <div class="table-box">
-            <Table border stripe :columns="tableColumns" :data="tableData"></Table>
+        <div class="table-box" v-if="upOrDownTable">
+            <Table border stripe :columns="tableColumns" :height="tableHeight" :data="tableDataUp"></Table>
+        </div>
+        <div class="table-box" v-if="!upOrDownTable">
+            <Table border stripe :columns="tableColumns" :height="tableHeight" :data="tableDataDown"></Table>
         </div>
     </div>
 </template>
@@ -16,9 +19,12 @@
         data () {
             var that = this;
             return {
+                upOrDownTable: true,  // 默认展示上行表格
+                tableHeight: '0',
                 tableColumns: [
                     {
                         type: 'index',
+                        width: 30,
                         title: '序号',
                         align: 'center'
                     },
@@ -29,6 +35,7 @@
                     },
                     {
                         title: '状态',
+
                         key: 'state',
                         align: 'center',
                         render(h, params) {
@@ -68,35 +75,213 @@
                         render(h, params) {
                             return that.morningTrain(h, params, 'tianshuilu', '0');
                         }
+                    },
+                    {
+                        title: '集美大道',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '集美软件园',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '诚毅广场站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '官任站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '杏锦路站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '杏林村站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '园博苑站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '集美学村站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '高崎站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '殿前站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '火炬园站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '塘边站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '乌石浦站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '吕厝站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '莲花路口站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '莲坂站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '湖滨东路站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '文灶站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '将军祠站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '中山公园站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '镇海路站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
                     }
+
                 ],
-                tableData: [
+                tableDataUp: [
                     {
                         trainId: '00101',
                         state: '0',
                         yanNei: '07:30',
                         xiamenbei: '08:08',
-                        tianshuilu: '09:08'
+                        tianshuilu: '09:08',
+                        jimeiruanjianyuan: '09:08'
                     },
                     {
                         trainId: '00102',
                         state: '1',
                         yanNei: '07:30',
                         xiamenbei: '08:08',
-                        tianshuilu: '09:08'
+                        tianshuilu: '09:08',
+                        jimeiruanjianyuan: '09:08'
                     },
                     {
                         trainId: '00103',
                         state: '2',
                         yanNei: '07:30',
                         xiamenbei: '08:08',
-                        tianshuilu: '09:08'
+                        tianshuilu: '09:08',
+                        jimeiruanjianyuan: '09:08'
+                    },
+                    {
+                        trainId: '00104',
+                        state: '2',
+                        yanNei: '07:30',
+                        xiamenbei: '08:08',
+                        tianshuilu: '09:08',
+                        jimeiruanjianyuan: '09:08'
+                    },
+                    {
+                        trainId: '00105',
+                        state: '2',
+                        yanNei: '07:30',
+                        xiamenbei: '08:08',
+                        tianshuilu: '09:08',
+                        jimeiruanjianyuan: '09:08'
                     }
-                ]
+                ],
+                tableDataDown: [
+                    {
+                        trainId: '00502',
+                        state: '0',
+                        yanNei: '07:30',
+                        xiamenbei: '08:08',
+                        tianshuilu: '09:08',
+                        jimeiruanjianyuan: '09:08'
+                    },
+                    {
+                        trainId: '00102',
+                        state: '1',
+                        yanNei: '07:30',
+                        xiamenbei: '08:08',
+                        tianshuilu: '09:08',
+                        jimeiruanjianyuan: '09:08'
+                    },
+                    {
+                        trainId: '00103',
+                        state: '2',
+                        yanNei: '07:30',
+                        xiamenbei: '08:08',
+                        tianshuilu: '09:08',
+                        jimeiruanjianyuan: '09:08'
+                    },
+                    {
+                        trainId: '00104',
+                        state: '2',
+                        yanNei: '07:30',
+                        xiamenbei: '08:08',
+                        tianshuilu: '09:08',
+                        jimeiruanjianyuan: '09:08'
+                    },
+                    {
+                        trainId: '00105',
+                        state: '2',
+                        yanNei: '07:30',
+                        xiamenbei: '08:08',
+                        tianshuilu: '09:08',
+                        jimeiruanjianyuan: '09:08'
+                    }
+                ],
+
+                upTrainPosition: {}
             }
         },
-        mounted() {},
+        mounted() {
+            this.tableHeight = document.querySelector('.infoTable-container').clientHeight;
+        },
         methods: {
+
+            upTable() {
+                this.upOrDownTable = true;
+            },
+            downTable() {
+                this.upOrDownTable = false;
+            },
 
             morningTrain(h, params, key, type) {
                 //var type = '0';
@@ -149,12 +334,13 @@
                 width: 33px;
                 height: 50%;
                 text-align: center;
+                cursor: pointer;
 
                 &.btn-up {
-                    background-color: #f39950;
+                    background-color: #3da088;
                 }
                 &.btn-down {
-                    background-color: #3da088;
+                    background-color: #f39950;
                 }
                 span:first-child {
                     position: absolute;
@@ -188,6 +374,7 @@
             right: 0;
             left: 33px;
             bottom: 0;
+            overflow-y: auto;
         }
     }
 </style>
@@ -209,7 +396,7 @@
             vertical-align: middle;
         }
         .random-error {
-            margin-left: 5px;
+            margin-left: 0px;
             color: red;
         }
     }
@@ -241,9 +428,16 @@
 
             th {
                 background-color: #f7f7f7;
+
+                .ivu-table-cell {
+                    padding: 0;
+                }
             }
             td {
                 background-color: #f7f7f7;
+                .ivu-table-cell {
+                    padding: 0;
+                }
             }
         }
 

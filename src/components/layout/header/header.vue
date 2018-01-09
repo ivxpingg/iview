@@ -38,7 +38,6 @@
         },
         methods: {
             logout () {
-                debugger
                 const that = this;
                 Util.ajax.get('/xm/sys/logout')
                     .then(function (response){

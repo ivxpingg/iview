@@ -2,12 +2,13 @@
     <div class="monitor-container">
         <vHeader></vHeader>
         <router-view class="router-view"></router-view>
-
+        <vFooter class="footer"></vFooter>
     </div>
 </template>
 
 <script>
     import vHeader from '../../../components/monitor/header/header.vue';
+    import vFooter from '../../../components/layout/footer/footer.vue';
     import vRunMonitor from '../../../components/monitor/routerView/runMonitor.vue';
     import vFlowMonitor from '../../../components/monitor/routerView/flowMonitor.vue';
     import vVideoMonitor from '../../../components/monitor/routerView/videoMonitor.vue';
@@ -18,6 +19,7 @@
 
         components: {
             vHeader,
+            vFooter,
             vRunMonitor,
             vFlowMonitor,
             vVideoMonitor
@@ -37,6 +39,14 @@
             bottom: 0;
             left: 0;
             width: 100%;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 2;
         }
     }
 </style>

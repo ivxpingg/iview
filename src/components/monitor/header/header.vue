@@ -3,7 +3,7 @@
         <div class="header-inner">
             <div class="title"></div>
 
-            <Button class="btn-layout" type="text" icon="log-out" title="退出" @click="logout"></Button>
+            <Button class="btn-layout" type="text" icon="log-out" title="返回导航页" @click="goBack"></Button>
             <div class="btn-panel">
                 <div class="m-btn" :class="routeName == 'runMonitor' ? 'm-active':''" @click="btnLink('runMonitor', $event)">运行监视</div>
                 <div class="m-btn" :class="routeName == 'flowMonitor' ? 'm-active':''" @click="btnLink('flowMonitor', $event)">客流监视</div>
@@ -55,7 +55,12 @@
                 });
             },
 
-            logout() {}
+            goBack () {
+                this.$router.replace({
+                    name: 'platform',  // 路由名称
+                    params: {}
+                });
+            }
         }
     }
 </script>
@@ -99,6 +104,12 @@
                 background-color: transparent;
                 border: 1px solid #FFF;
                 border-radius: 19px;
+                cursor: pointer;
+                transition: background-color .2s linear;
+
+                &:hover {
+                    background-color: rgba(243,153,80, 1);
+                }
 
                 &.m-active {
                     background-color: #f39950;
