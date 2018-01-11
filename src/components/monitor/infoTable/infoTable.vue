@@ -1,14 +1,14 @@
 <template>
     <div class="infoTable-container">
         <div class="btn-panel">
-            <div class="btn-com btn-up" @click="upTable()"><span>上</span><span>行</span></div>
-            <div class="btn-com btn-down" @click="downTable()"><span>下</span><span>行</span></div>
+            <div class="btn-com btn-up" :class="upOrDownTable ? 'active': ''" @click="upTable()"><span>上</span><span>行</span></div>
+            <div class="btn-com btn-down" :class="upOrDownTable ? '': 'active'" @click="downTable()"><span>下</span><span>行</span></div>
         </div>
         <div class="table-box" v-if="upOrDownTable">
-            <Table border stripe :columns="tableColumns" :height="tableHeight" :data="tableDataUp"></Table>
+            <Table border stripe :columns="tableColumnsUp" :height="tableHeight" :data="tableDataUp"></Table>
         </div>
         <div class="table-box" v-if="!upOrDownTable">
-            <Table border stripe :columns="tableColumns" :height="tableHeight" :data="tableDataDown"></Table>
+            <Table border stripe :columns="tableColumnsDown" :height="tableHeight" :data="tableDataDown"></Table>
         </div>
     </div>
 </template>
@@ -19,9 +19,172 @@
         data () {
             var that = this;
             return {
+                tabsActive: true,
                 upOrDownTable: true,  // 默认展示上行表格
                 tableHeight: '0',
-                tableColumns: [
+                tableColumnsUp: [
+                    {
+                        type: 'index',
+                        width: 30,
+                        title: '序号',
+                        align: 'center'
+                    },
+                    {
+                        title: '车次号',
+                        key: 'trainId',
+                        align: 'center'
+                    },
+                    {
+                        title: '状态',
+
+                        key: 'state',
+                        align: 'center',
+                        render(h, params) {
+                            var value = '', clsName = '';
+
+                            switch(params.row.state) {
+                                case '0': value = '未发班'; clsName = ''; break;
+                                case '1': value = '运行中'; clsName = 'table-row-text-blue'; break;
+                                case '2': value = '已完成'; clsName = 'table-row-text-green'; break;
+                            }
+                            return h('span', {
+                                "class": clsName
+                            }, value);
+                        }
+                    },
+                    {
+                        title: '镇海路站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '中山公园站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '将军祠站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '文灶站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '湖滨东路站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '莲坂站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '莲花路口站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '吕厝站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '乌石浦站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '塘边站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '火炬园站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '殿前站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '高崎站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '集美学村站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '园博苑站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '杏林村站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '杏锦路站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '官任站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '诚毅广场站',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '集美软件园',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '集美大道',
+                        key: 'jimeiruanjianyuan',
+                        align: 'center'
+                    },
+                    {
+                        title: '天水路',
+                        key: 'tianshuilu',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, 'tianshuilu', '0');
+                        }
+                    },
+                    {
+                        title: '厦门北站',
+                        key: 'xiamenbei',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, 'xiamenbei', '1');
+                        }
+                    },
+                    {
+                        title: '岩内',
+                        key: 'yanNei',
+                        align: 'center',
+                        render(h, params) {
+
+                            return that.morningTrain(h, params, 'yanNei', '2');
+                        }
+                    }
+
+                ],
+                tableColumnsDown: [
                     {
                         type: 'index',
                         width: 30,
@@ -268,6 +431,7 @@
                     }
                 ],
 
+
                 upTrainPosition: {}
             }
         },
@@ -328,19 +492,44 @@
             height: 100%;
             color: #FFF;
             font-size: 16px;
-
+            background-color: #dfdddb;
             .btn-com {
                 position: relative;
                 width: 33px;
-                height: 50%;
+                height: 103px;
+                color: #495060;
                 text-align: center;
                 cursor: pointer;
+                background-color: #FFF;
+                border: 1px solid #b9b8b8;
+                border-right: 0;
+                border-radius: 10px 0 0 10px;
 
                 &.btn-up {
-                    background-color: #3da088;
+                    margin-bottom: 20px;
+
+                    &.active{
+                        color: #3da088;
+                    }
                 }
                 &.btn-down {
-                    background-color: #f39950;
+
+                    &.active {
+                        color: #f39950;
+                    }
+                }
+                &.active {
+                    z-index: 10;
+                    &:after {
+                        content: "";
+                        display: block;
+                        position: absolute;
+                        top: 0;
+                        bottom: 0;
+                        right: -1px;
+                        width: 1px;
+                        background-color: #FFF;
+                    }
                 }
                 span:first-child {
                     position: absolute;
@@ -435,6 +624,7 @@
             }
             td {
                 background-color: #f7f7f7;
+                height: 37px;
                 .ivu-table-cell {
                     padding: 0;
                 }

@@ -2,7 +2,13 @@
     <div class="header-container">
         <div class="header-inner">
             <div class="title"></div>
+
             <Button class="btn-layout" type="text" icon="log-out" title="返回导航页" @click="goBack"></Button>
+            <div class="btn-panel">
+                <div class="m-btn" :class="routeName == 'trainAnalysis' ? 'm-active':''" @click="btnLink('trainAnalysis', $event)">行车分析</div>
+                <div class="m-btn" :class="routeName == 'passengerAnalysis' ? 'm-active':''" @click="btnLink('passengerAnalysis', $event)">客流分析</div>
+            </div>
+
         </div>
     </div>
 </template>
@@ -11,12 +17,44 @@
     import Util from '../../../libs/util';
     export default {
         data () {
-            return {}
+            return {
+                activeName: 'm-active',  // 激活样式名
+                routeName: ''            // 当前路由路径
+            }
         },
         mounted() {
-
+            this.redirectUrl();
         },
         methods: {
+            // 重定向，未指定菜单，默认指定运行监视
+            redirectUrl() {
+                this.routeName = this.$route.name;
+                if (this.$route.name == 'comAnalysis') {
+                    this.routeName = 'trainAnalysis';
+                    this.$router.replace({
+                        name: 'trainAnalysis',  // 路由名称
+                        params: {}
+                    });
+                }
+            },
+            /**
+             * // 菜单按钮事件
+             * @param routerName  路由名
+             * @param event 事件对象
+             */
+            btnLink(routerName, event) {
+                var re = new RegExp('\\s'+ this.activeName +'|'+ this.activeName +'', 'g');
+                document.querySelectorAll('.m-active').forEach(function (dom) {
+                    dom.className = dom.className.replace(re, '');
+                });
+
+                event.target.className += ' ' + this.activeName;
+                this.$router.push({
+                    name: routerName,  // 路由名称
+                    params: {}
+                });
+            },
+
             goBack () {
                 this.$router.replace({
                     name: 'platform',  // 路由名称

@@ -31,6 +31,7 @@
             redirectUrl() {
                 this.routeName = this.$route.name;
                 if (this.$route.name == 'monitor') {
+                    this.routeName = 'runMonitor';
                     this.$router.replace({
                         name: 'runMonitor',  // 路由名称
                         params: {}

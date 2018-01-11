@@ -1,61 +1,139 @@
 <template>
 
     <div class="my-list">
+        <div class="top-panel">
+            <div class="top-left-panel">
+                <div class="search-panel">
+                    <div class="col">
+                        <Form :model="searchParams" inline :label-width="75">
+                            <FormItem prop="name"  label="模糊条件">
+                                <Input v-model="searchParams.name" placeholder="请输入姓名或工号" style="width: 130px"></Input>
+                            </FormItem>
+                            <FormItem prop="postCategory" label="人员状态">
+                                <Select transfer placeholder="请选择"  style="width: 130px">
+                                    <Option :value="''" :label="'全选'"></Option>
+                                </Select>
+                            </FormItem>
+                        </Form>
+                        <Form :model="searchParams" inline :label-width="75">
+                            <FormItem prop="postCategory" label="岗位">
+                                <Select v-model="searchParams.postCategory" transfer placeholder="请选择岗位"  style="width: 130px">
+                                    <Option :value="''" :label="'全选'"></Option>
+                                    <Option v-for="(item, index) in dict_post_type_List" :value="item.value">{{item.label}}</Option>
+                                </Select>
+                            </FormItem>
+
+                            <FormItem v-if="searchParams.postCategory !=''" prop="postName" label="岗位名称">
+                                <Select v-if="searchParams.postCategory != 'other'" v-model="searchParams.postName" transfer placeholder="请选择岗位名称" style="width: 130px">
+                                    <Option :value="''">全选</Option>
+                                    <Option v-for="item in dict_post_name_List" :value="item.value">{{item.label}}</Option>
+                                </Select>
+                                <Input class="ms-input" v-else v-model="searchParams.otherPost" placeholder="请输入岗位名称" style="width: 130px"></Input>
+                            </FormItem>
+                        </Form>
+                        <Form :model="searchParams" inline :label-width="75">
+                            <FormItem prop="entryDate" label="取证日期">
+                                <DatePicker type="daterange" format="MM-dd" :editable="false" placeholder="取证日期" v-model="entryDate" style="width: 130px"></DatePicker>
+                            </FormItem>
+                            <FormItem  label="证有效期" prop="entryDate">
+                                <DatePicker type="daterange" format="MM-dd" :editable="false" placeholder="证有效期" v-model="entryDate" style="width: 130px"></DatePicker>
+                            </FormItem>
+                        </Form>
+                    </div>
+                    <div class="col">
+                        <Form inline :label-width="75">
+                            <FormItem prop="updateDate"  label="更新日期">
+                                <DatePicker type="daterange" format="MM-dd" :editable="false" placeholder="更新日期" v-model="updateDate" style="width: 130px"></DatePicker>
+                            </FormItem>
+                        </Form>
+                        <div class="search-btn-panel">
+                            <Button type="success">查询</Button>
+                            <Button type="success">导出</Button>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-panel">
+
+                    <router-link class="ivu-btn ivu-btn-success" to="employeeAdd">新增从业人员信息</router-link>
+                    <Button type="success">导入从业人员报备表</Button>
+                    <Button type="success">导入从业人员异动报备表</Button>
+                </div>
+            </div>
+            <div class="top-right-panel">
+                <div ref="echartPie1" class="echartPie"></div>
+                <div ref="echartPie2" class="echartPie"></div>
+                <div class="updateInfo">
+                    <div>更新10</div>
+                    <div>更新10</div>
+                </div>
+            </div>
+        </div>
+        <div class="table-panel"></div>
+
         <Row>
-            <Col span="24" class="ms-col-btn-panel">
-                <Button type="primary" icon="ios-cloud-upload-outline" @click="showModalExport">导入从业人员</Button>
-                <Button type="primary" icon="ios-cloud-upload-outline" @click="showModalExportReocrd">导入从业人员培训记录</Button>
-            </Col>
-            <Col span="24">
-                <Form class="ms-form-search" :model="searchParams" inline :label-width="0">
-                    <FormItem prop="name"  label="">
-                        <Input v-model="searchParams.name" placeholder="请输入姓名" style="width: 160px"></Input>
-                    </FormItem>
+            <!--<Col span="24" class="ms-col-btn-panel">-->
+                <!--<Button type="primary" icon="ios-cloud-upload-outline" @click="showModalExport">导入从业人员</Button>-->
+                <!--<Button type="primary" icon="ios-cloud-upload-outline" @click="showModalExportReocrd">导入从业人员培训记录</Button>-->
+            <!--</Col>-->
+            <!--<Col span="24">-->
+                <!--<Form class="ms-form-search" :model="searchParams" inline :label-width="0">-->
+                    <!--<FormItem prop="name"  label="模糊条件">-->
+                        <!--<Input v-model="searchParams.name" placeholder="请输入姓名或工号" style="width: 160px"></Input>-->
+                    <!--</FormItem>-->
 
-                    <FormItem prop="postCategory" label="">
-                        <Select v-model="searchParams.postCategory" transfer placeholder="请选择岗位"  style="width: 160px">
-                            <Option :value="''" :label="'全选'"></Option>
-                            <Option v-for="(item, index) in dict_post_type_List" :value="item.value">{{item.label}}</Option>
-                        </Select>
-                    </FormItem>
+                    <!--<FormItem prop="postCategory" label="人员状态">-->
+                        <!--<Select v-model="searchParams.postCategory" transfer placeholder="请选择"  style="width: 160px">-->
+                            <!--<Option :value="''" :label="'全选'"></Option>-->
+                            <!--<Option v-for="(item, index) in dict_post_type_List" :value="item.value">{{item.label}}</Option>-->
+                        <!--</Select>-->
+                    <!--</FormItem>-->
 
-                    <FormItem v-if="searchParams.postCategory !=''" prop="postName" label="">
-                        <Select v-if="searchParams.postCategory != 'other'" v-model="searchParams.postName" transfer placeholder="请选择岗位名称" style="width: 220px">
-                            <Option :value="''">全选</Option>
-                            <Option v-for="item in dict_post_name_List" :value="item.value">{{item.label}}</Option>
-                        </Select>
-                        <Input class="ms-input" v-else v-model="searchParams.otherPost" placeholder="请输入岗位名称" style="width: 220px"></Input>
-                    </FormItem>
+                    <!--<FormItem prop="postCategory" label="">-->
+                        <!--<Select v-model="searchParams.postCategory" transfer placeholder="请选择岗位"  style="width: 160px">-->
+                            <!--<Option :value="''" :label="'全选'"></Option>-->
+                            <!--<Option v-for="(item, index) in dict_post_type_List" :value="item.value">{{item.label}}</Option>-->
+                        <!--</Select>-->
+                    <!--</FormItem>-->
 
-                    <FormItem prop="sex"  label="">
-                        <Select v-model="searchParams.sex" placeholder="性别" transfer  style="width: 80px">
-                            <Option v-for="item in dict_sex" :value="item.value">{{item.label}}</Option>
-                        </Select>
-                    </FormItem>
+                    <!--<FormItem v-if="searchParams.postCategory !=''" prop="postName" label="">-->
+                        <!--<Select v-if="searchParams.postCategory != 'other'" v-model="searchParams.postName" transfer placeholder="请选择岗位名称" style="width: 220px">-->
+                            <!--<Option :value="''">全选</Option>-->
+                            <!--<Option v-for="item in dict_post_name_List" :value="item.value">{{item.label}}</Option>-->
+                        <!--</Select>-->
+                        <!--<Input class="ms-input" v-else v-model="searchParams.otherPost" placeholder="请输入岗位名称" style="width: 220px"></Input>-->
+                    <!--</FormItem>-->
 
-                    <FormItem label="">
-                        <FormItem prop="entryDate">
-                            <DatePicker type="daterange" format="yyyy-MM-dd" :editable="false" placeholder="入职时间" v-model="entryDate" style="width: 190px"></DatePicker>
-                        </FormItem>
-                    </FormItem>
+                    <!--&lt;!&ndash;<FormItem prop="sex"  label="">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<Select v-model="searchParams.sex" placeholder="性别" transfer  style="width: 80px">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<Option v-for="item in dict_sex" :value="item.value">{{item.label}}</Option>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</Select>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</FormItem>&ndash;&gt;-->
 
-                    <FormItem label="">
-                        <FormItem prop="updateDate">
-                            <DatePicker
-                                    type="datetimerange"
-                                    :confirm="false"
-                                    :options="DatePickerOptions"
-                                    format="yyyy-MM-dd HH:mm:ss"
-                                    :editable="false"
-                                    placeholder="选择日期"
-                                    v-model="updateDate"
-                                    style="width: 290px"></DatePicker>
-                        </FormItem>
-                    </FormItem>
-                    <Button type="primary" @click="search" icon="ios-search">查询</Button>
-                    <a :href="exportFileUrl" class="ivu-btn ivu-btn-primary"><span>导出</span></a>
-                </Form>
-            </Col>
+
+
+                    <!--<FormItem label="">-->
+                        <!--<FormItem prop="entryDate">-->
+                            <!--<DatePicker type="daterange" format="yyyy-MM-dd" :editable="false" placeholder="入职时间" v-model="entryDate" style="width: 190px"></DatePicker>-->
+                        <!--</FormItem>-->
+                    <!--</FormItem>-->
+
+                    <!--<FormItem label="">-->
+                        <!--<FormItem prop="updateDate">-->
+                            <!--<DatePicker-->
+                                    <!--type="datetimerange"-->
+                                    <!--:confirm="false"-->
+                                    <!--:options="DatePickerOptions"-->
+                                    <!--format="yyyy-MM-dd HH:mm:ss"-->
+                                    <!--:editable="false"-->
+                                    <!--placeholder="选择日期"-->
+                                    <!--v-model="updateDate"-->
+                                    <!--style="width: 290px"></DatePicker>-->
+                        <!--</FormItem>-->
+                    <!--</FormItem>-->
+                    <!--<Button type="primary" @click="search" icon="ios-search">查询</Button>-->
+                    <!--<a :href="exportFileUrl" class="ivu-btn ivu-btn-primary"><span>导出</span></a>-->
+                <!--</Form>-->
+            <!--</Col>-->
 
             <Col span="24">
                 <Table border :columns="columns" stripe :data="listData"></Table>
@@ -227,27 +305,27 @@
             </div>
         </Modal>
 
-        <Modal v-model="modalExport" title="导入从业人员">
-            <div>
-                <Row v-if="modalExportType == '1'">
-                    <Col class="text-center" span="12">
-                        <a :href="exportFileUrl1" class="ivu-btn ivu-btn-primary"><span>下载从业人员模版</span></a>
-                    </Col>
-                    <Col class="text-center" span="12">
-                        <vFileUpload :url="importFileUrl1"  bText="导入从业人员信息"></vFileUpload>
-                    </Col>
-                </Row>
-                <Row v-else>
-                    <Col class="text-center" span="12">
-                    <a :href="exportFileUrl2" class="ivu-btn ivu-btn-primary"><span>下载从业人员模版</span></a>
-                    </Col>
-                    <Col class="text-center" span="12">
-                        <vFileUpload :url="importFileUrl2" bText="导入从业人员培训记录信息" ></vFileUpload>
-                    </Col>
-                </Row>
-            </div>
-            <div slot="footer"></div>
-        </Modal>
+        <!--<Modal v-model="modalExport" title="导入从业人员">-->
+            <!--<div>-->
+                <!--<Row v-if="modalExportType == '1'">-->
+                    <!--<Col class="text-center" span="12">-->
+                        <!--<a :href="exportFileUrl1" class="ivu-btn ivu-btn-primary"><span>下载从业人员模版</span></a>-->
+                    <!--</Col>-->
+                    <!--<Col class="text-center" span="12">-->
+                        <!--<vFileUpload :url="importFileUrl1"  bText="导入从业人员信息"></vFileUpload>-->
+                    <!--</Col>-->
+                <!--</Row>-->
+                <!--<Row v-else>-->
+                    <!--<Col class="text-center" span="12">-->
+                    <!--<a :href="exportFileUrl2" class="ivu-btn ivu-btn-primary"><span>下载从业人员模版</span></a>-->
+                    <!--</Col>-->
+                    <!--<Col class="text-center" span="12">-->
+                        <!--<vFileUpload :url="importFileUrl2" bText="导入从业人员培训记录信息" ></vFileUpload>-->
+                    <!--</Col>-->
+                <!--</Row>-->
+            <!--</div>-->
+            <!--<div slot="footer"></div>-->
+        <!--</Modal>-->
 
         <Modal title="查看图片" v-model="visible">
             <img :src="previewImgSrc" v-if="visible" style="width: 100%">
@@ -260,6 +338,7 @@
     import Util from '../../../libs/util';
     import MOMENT from 'moment';
     import vFileUpload from '../../upload/fileUpload/fileUpload.vue';
+    import echarts from 'echarts';
     export default {
         data() {
             return {
@@ -543,14 +622,17 @@
         mounted() {
             var that = this;
             // 初始化设置system父窗体滚动条
-            setTimeout(function (){
-                if(that.$store.state.systemScroll) {
-                    that.$store.state.systemScroll.scrollTo(0, 0);
-                    that.$store.state.systemScroll.refresh();
-                }
-            }, 0);
+//            setTimeout(function (){
+//                if(that.$store.state.systemScroll) {
+//                    that.$store.state.systemScroll.scrollTo(0, 0);
+//                    that.$store.state.systemScroll.refresh();
+//                }
+//            }, 0);
             this.getDictData();
             this.getData();
+
+            this.setEchartPie1();
+            this.setEchartPie2();
         },
 
         methods: {
@@ -628,9 +710,10 @@
                         that.searchParams.pageCount = Math.ceil(response.result.count / response.result.pageSize);
                         that.listData = response.result.list;
 
-                        setTimeout(function () {
-                            that.$store.state.systemScroll.refresh();
-                        }, 0);
+//                        setTimeout(function () {
+//                            debugger
+//                            that.$store.state.systemScroll.refresh();
+//                        }, 0);
                     }
                     else {
                         console.log(response.errMsg);
@@ -790,13 +873,145 @@
                         // this.$Message.info('点击了取消');
                     }
                 });
+            },
+
+            //
+            setEchartPie1() {
+
+                var myChart = echarts.init(this.$refs.echartPie1);
+                var option = {
+                    title : {
+                    },
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    legend: {
+                    },
+                    series : [
+                        {
+                            name: '访问来源',
+                            type: 'pie',
+                            radius : '55%',
+                            center: ['50%', '50%'],
+                            data:[
+                                {value:335, name:'直接访问'},
+                                {value:310, name:'邮件营销'},
+                                {value:234, name:'联盟广告'},
+                                {value:135, name:'视频广告'},
+                                {value:1548, name:'搜索引擎'}
+                            ],
+                            itemStyle: {
+                                emphasis: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        }
+                    ]
+                };
+
+                myChart.setOption(option);
+            },
+            setEchartPie2() {
+
+                var myChart = echarts.init(this.$refs.echartPie2);
+                var option = {
+                    title : {
+                    },
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    legend: {
+
+                    },
+                    series : [
+                        {
+                            name: '访问来源',
+                            type: 'pie',
+                            radius : '55%',
+                            center: ['50%', '60%'],
+                            data:[
+                                {value:335, name:'直接访问'},
+                                {value:310, name:'邮件营销'},
+                                {value:234, name:'联盟广告'},
+                                {value:135, name:'视频广告'},
+                                {value:1548, name:'搜索引擎'}
+                            ],
+                            itemStyle: {
+                                emphasis: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        }
+                    ]
+                };
+
+                myChart.setOption(option);
             }
+
         }
     }
 </script>
-<style lang="scss" type="stylesheet/scss" scoped>
+<style lang="scss" rel="stylesheet/scss" scoped>
     .my-list {
         padding-bottom: 120px;
+
+        .top-panel {
+            display: flex;
+            width: 1440px;
+            height: 200px;
+
+            .top-left-panel {
+                flex: 1;
+
+                .search-panel {
+                    display: flex;
+                    margin-bottom: 5px;
+                    height: 150px;
+                    border: 1px solid #999;
+                    border-radius: 10px;
+                    .col {
+
+                        &:first-child {
+                            flex: 2;
+                        }
+                        &:last-child {
+                            flex: 1;
+                        }
+
+                        .search-btn-panel {
+
+                        }
+                    }
+                }
+                .btn-panel {
+                    height: 40px;
+                }
+            }
+            .top-right-panel {
+                flex: 1;
+                display: flex;
+
+                .echartPie {
+                    flex: 1;
+                    height: 150px;
+                }
+
+                .updateInfo {
+                    flex: 1;
+                    height: 200px;
+                }
+            }
+
+        }
+        .table-panel {
+
+        }
     }
 
     .text-center {
@@ -834,11 +1049,11 @@
         }
     }
 
-.ms-col-btn-panel {
-    margin-top: 24px;
-    margin-bottom: 24px;
-    text-align: left;
-}
+    .ms-col-btn-panel {
+        margin-top: 24px;
+        margin-bottom: 24px;
+        text-align: left;
+    }
     .ms-table-page{
         margin: 18px 0;
         text-align: center;
@@ -881,4 +1096,7 @@
         cursor: pointer;
         margin: 0 2px;
     }
+</style>
+<style lang="scss" rel="stylesheet/scss">
+
 </style>

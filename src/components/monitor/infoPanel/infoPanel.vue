@@ -345,7 +345,7 @@
                             background-color: #9dcea6;
                             .title {
                                 padding: 15px 0;
-                                background-color: #dc7e77;
+                                background-color: #82bb8f;
                             }
                         }
 
