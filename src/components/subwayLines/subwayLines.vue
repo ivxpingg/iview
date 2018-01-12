@@ -1,7 +1,7 @@
 <template>
     <div ref="canvasBox" class="canvasBox">
         <div id="canvas" style="border: 0 solid #000; width: 3000px; height: 1500px;"></div>
-        <vInfoPanel class="info-position"></vInfoPanel>
+        <vInfoPanel :datas="datas" class="info-position"></vInfoPanel>
     </div>
 </template>
 
@@ -16,6 +16,39 @@
                 parentDom: null,
                 timeOut: null
             };
+        },
+        props: {
+            datas: {
+                type: Object,
+                default() {
+                    return {
+                        "upAverageClass": "7.5",        //上行平均发班间隔
+                        "downLatePeak": 0,              //下行晚高峰完成班次
+                        "downAverageClass": "0",        //下行平均发班间隔
+                        "upLatePeak": 0,                //上行晚高峰完成班次
+                        "upAverageRunTime": "0",        //上行平均运行时长
+                        "downAverageRunTime": "0",      //下行平均运行时长
+                        "upWaitLongSecondStation": "",  //上行平均等待时间最长的站点
+                        "downAverageSpeed": "0",        //下行平均运行速度
+                        "upNight": 0,                   //上行夜间完成班次
+                        "downAverageWait": "0",         //下行站间平均等待时长
+                        "upFlatPeak": 0,                // 上行平峰完成班次数
+                        "upWaitShortSecondStation": "", //上行平均等待时间最短的站点
+                        "downNight": 0,                 //下行夜间完成班次
+                        "upEarlyPeak": 0,               //上行早高峰完成班次数
+                        "upAverageWait": "0",           //上行站间平均等待时长
+                        "downWaitLongFirstStation": "", //下行平均等待时间最长的站点
+                        "upWaitLongFirstStation": "",   //上行平均等待时间最长的站点
+                        "downWaitShortFirstStation": "",// 下行平均等待时间最短的站点
+                        "downFlatPeak": 0,              //下行平峰完成班次数
+                        "downWaitShortSecondStation": "", //下行平均等待时间最短的站点
+                        "upWaitShortFirstStation": "",  //上行平均等待时间最短的站点
+                        "downEarlyPeak": 0,             //下行早高峰完成班次数
+                        "upAverageSpeed": "0",          //上行平均运行速度
+                        "downWaitLongSecondStation": "" //下行平均等待时间最长的站点
+                    }
+                }
+            }
         },
         components: {vInfoPanel},
         beforeDestroy() {

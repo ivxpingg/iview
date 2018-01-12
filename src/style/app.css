@@ -31,3 +31,30 @@ a {
 .sxc-flex__item{
   flex: 1;
 }
+
+/*iview表格样式 .myTableIview*/
+.myTableIview {
+
+}
+
+.myTableIview .ivu-table th {
+  border-right: 1px solid #7babd4;
+  border-bottom: 1px solid #7babd4;
+  color: #FFF;
+  background-color: #64a2d1;
+}
+
+.myTableIview .ivu-table-border td {
+  border-right: 1px solid #fafafa;
+  border-bottom: 1px solid #fafafa;
+}
+
+.myTableIview .ivu-table-border tr:nth-child(4n + 1) td,
+.myTableIview .ivu-table-border tr:nth-child(4n + 2) td{
+  background-color: #FFF;
+}
+.myTableIview .ivu-table-border tr:nth-child(4n + 3) td,
+.myTableIview .ivu-table-border tr:nth-child(4n + 4) td{
+  background-color: #def0fa;
+}
+

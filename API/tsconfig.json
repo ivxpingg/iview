@@ -1,0 +1,52 @@
+{
+  "API": [
+    {
+      "title": "获取列车运行的统计信息",
+      "src": "http://localhost:8080/metrosupervision/xm/run/runCount/getRunCount",
+      "result":  {
+        "upAverageRunTime": "0",  //上行平均运行时长
+        "downAverageRunTime": "0", //下行平均运行时长
+        "upAverageSpeed": "0",         //上行平均运行速度
+        "downAverageSpeed": "0",    //下行平均运行速度
+        "downAverageWait": "0",     //下行站间平均等待时长
+        "upAverageWait": "0",         //上行站间平均等待时长
+
+        "upLatePeak": 0,          //上行完成班次数（晚高峰）
+        "downLatePeak": 0,        //下行完成班次数（晚高峰）
+        "upEarlyPeak": 0,	  //上行完成班次数（早高峰）
+        "downEarlyPeak": 0,        //下行完成班次数（早高峰）
+        "upFlatPeak": 0,           // 上行完成班次数（平峰）
+        "downFlatPeak": 0,            //下行完成班次数 （平峰）
+        "upNight": 0,               //上行完成班次（夜间）
+        "downNight": 0,              //下行完成班次（夜间）
+
+        "upEarlyAverageClass": "0",  //上行平均发班间隔（早高峰）
+        "downEarlyAverageClass": "7.5",  //下行平均发班间隔（早高峰）
+        "upFlatAverageClass":"0",     //上行平均发班间隔（平峰）
+        "downFlatAverageClass":"0",    //下行平均发班间隔（平峰）
+        "upLateAverageClass":"0",     //上行平均发班间隔（晚高峰）
+        "downLateAverageClass":"0",    //下行平均发班间隔（晚高峰）
+        "upNightAverageClass":"0",     //上行平均发班间隔（夜间）
+        "downNightAverageClass":"0",    //下行平均发班间隔（夜间）
+
+        "downWaitLongFirstStation": "", //下行平均等待时间最长的站点
+        "upWaitLongFirstStation": "",    //上行平均等待时间最长的站点
+        "upWaitLongSecondStation": "", //上行平均等待时间最长的站点
+        "upWaitShortSecondStation": "",//上行平均等待时间最短的站点
+        "downWaitShortFirstStation": "", // 下行平均等待时间最短的站点
+        "downWaitShortSecondStation": "", //下行平均等待时间最短的站点
+        "upWaitShortFirstStation": "",  //上行平均等待时间最短的站点
+        "downWaitLongSecondStation": ""  //下行平均等待时间最长的站点
+
+        "downWaitLongFirstWaitTime": "", //下行平均等待时间最长的时间
+        "upWaitLongFirstWaitTime": "",    //上行平均等待时间最长的时间
+        "upWaitLongSecondWaitTime": "", //上行平均等待时间最长的时间
+        "upWaitShortSecondWaitTime": "",//上行平均等待时间最短的时间
+        "downWaitShortFirstWaitTime": "", // 下行平均等待时间最短的时间
+        "downWaitShortSecondWaitTime": "", //下行平均等待时间最短的时间
+        "upWaitShortFirstWaitTime": "",  //上行平均等待时间最短的时间
+        "downWaitLongSecondWaitTime": ""  //下行平均等待时间最长的时间
+      }
+    }
+  ]
+}

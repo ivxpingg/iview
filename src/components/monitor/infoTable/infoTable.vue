@@ -5,10 +5,10 @@
             <div class="btn-com btn-down" :class="upOrDownTable ? '': 'active'" @click="downTable()"><span>下</span><span>行</span></div>
         </div>
         <div class="table-box" v-if="upOrDownTable">
-            <Table border stripe :columns="tableColumnsUp" :height="tableHeight" :data="tableDataUp"></Table>
+            <Table class="myTableIview" border stripe :columns="tableColumnsUp" :height="tableHeight" :data="tableDataUp"></Table>
         </div>
         <div class="table-box" v-if="!upOrDownTable">
-            <Table border stripe :columns="tableColumnsDown" :height="tableHeight" :data="tableDataDown"></Table>
+            <Table class="myTableIview" border stripe :columns="tableColumnsDown" :height="tableHeight" :data="tableDataDown"></Table>
         </div>
     </div>
 </template>
@@ -616,7 +616,7 @@
             }
 
             th {
-                background-color: #f7f7f7;
+                //background-color: #f7f7f7;
 
                 .ivu-table-cell {
                     padding: 0;

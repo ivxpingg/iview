@@ -8,7 +8,7 @@
                 <div class="percent">
                     <div class="percent-value orange" style="width: 60%"></div>
                 </div>
-                <div class="value"><span class="text">86.1</span>km/h</div>
+                <div class="value"><span class="text">{{datas.upAverageSpeed}}</span>km/h</div>
             </div>
             <div class="info-item">
                 <div class="title">运行速度</div>
@@ -16,7 +16,7 @@
                 <div class="percent">
                     <div class="percent-value green" style="width: 60%"></div>
                 </div>
-                <div class="value"><span class="text">86.1</span>km/h</div>
+                <div class="value"><span class="text">{{datas.downAverageSpeed}}</span>km/h</div>
             </div>
 
             <div class="dotted-line1"></div>
@@ -27,7 +27,7 @@
                 <div class="percent">
                     <div class="percent-value orange" style="width: 60%"></div>
                 </div>
-                <div class="value"><span class="text">42.1</span>min</div>
+                <div class="value"><span class="text">{{datas.upAverageRunTime}}</span>min</div>
             </div>
             <div class="info-item">
                 <div class="title">运行时长</div>
@@ -35,7 +35,7 @@
                 <div class="percent">
                     <div class="percent-value green" style="width: 60%"></div>
                 </div>
-                <div class="value"><span class="text">45.1</span>min</div>
+                <div class="value"><span class="text">{{datas.downAverageRunTime}}</span>min</div>
             </div>
 
             <div class="dotted-line1"></div>
@@ -46,7 +46,7 @@
                 <div class="percent">
                     <div class="percent-value orange" style="width: 40%"></div>
                 </div>
-                <div class="value"><span class="text">5</span>min</div>
+                <div class="value"><span class="text">{{datas.upAverageWait}}</span>min</div>
             </div>
             <div class="info-item">
                 <div class="title">等待时长</div>
@@ -54,7 +54,7 @@
                 <div class="percent">
                     <div class="percent-value green" style="width: 60%"></div>
                 </div>
-                <div class="value"><span class="text">7</span>min</div>
+                <div class="value"><span class="text">{{datas.downAverageWait}}</span>min</div>
             </div>
 
             <div class="dotted-line2"></div>
@@ -131,26 +131,26 @@
                         <div class="col col-subtitle sxc-flex__item">下行</div>
                     </div>
                     <div class="row sxc-flex">
-                        <div class="col col-odd sxc-flex__item">50</div>
-                        <div class="col col-odd sxc-flex__item">52</div>
+                        <div class="col col-odd sxc-flex__item">{{datas.upEarlyPeak}}</div>
+                        <div class="col col-odd sxc-flex__item">{{datas.downEarlyPeak}}</div>
                         <div class="col col-odd sxc-flex__item">10</div>
                         <div class="col col-odd sxc-flex__item">8</div>
                     </div>
                     <div class="row sxc-flex">
-                        <div class="col col-even sxc-flex__item">50</div>
-                        <div class="col col-even sxc-flex__item">52</div>
+                        <div class="col col-even sxc-flex__item">{{datas.upFlatPeak}}</div>
+                        <div class="col col-even sxc-flex__item">{{datas.downFlatPeak}}</div>
                         <div class="col col-even sxc-flex__item">10</div>
                         <div class="col col-even sxc-flex__item">8</div>
                     </div>
                     <div class="row sxc-flex">
-                        <div class="col col-odd sxc-flex__item">50</div>
-                        <div class="col col-odd sxc-flex__item">52</div>
+                        <div class="col col-odd sxc-flex__item">{{datas.upLatePeak}}</div>
+                        <div class="col col-odd sxc-flex__item">{{datas.downLatePeak}}</div>
                         <div class="col col-odd sxc-flex__item">10</div>
                         <div class="col col-odd sxc-flex__item">8</div>
                     </div>
                     <div class="row sxc-flex">
-                        <div class="col col-even sxc-flex__item">50</div>
-                        <div class="col col-even sxc-flex__item">52</div>
+                        <div class="col col-even sxc-flex__item">{{datas.upNight}}</div>
+                        <div class="col col-even sxc-flex__item">{{datas.downNight}}</div>
                         <div class="col col-even sxc-flex__item">10</div>
                         <div class="col col-even sxc-flex__item">8</div>
                     </div>
@@ -168,7 +168,39 @@
 
             }
         },
-        props: {},
+        props: {
+            datas: {
+                type: Object,
+                default() {
+                    return {
+                        "upAverageClass": "7.5",        //上行平均发班间隔
+                        "downLatePeak": 0,              //下行晚高峰完成班次
+                        "downAverageClass": "0",        //下行平均发班间隔
+                        "upLatePeak": 0,                //上行晚高峰完成班次
+                        "upAverageRunTime": "0",        //上行平均运行时长
+                        "downAverageRunTime": "0",      //下行平均运行时长
+                        "upWaitLongSecondStation": "",  //上行平均等待时间最长的站点
+                        "downAverageSpeed": "0",        //下行平均运行速度
+                        "upNight": 0,                   //上行夜间完成班次
+                        "downAverageWait": "0",         //下行站间平均等待时长
+                        "upFlatPeak": 0,                // 上行平峰完成班次数
+                        "upWaitShortSecondStation": "", //上行平均等待时间最短的站点
+                        "downNight": 0,                 //下行夜间完成班次
+                        "upEarlyPeak": 0,               //上行早高峰完成班次数
+                        "upAverageWait": "0",           //上行站间平均等待时长
+                        "downWaitLongFirstStation": "", //下行平均等待时间最长的站点
+                        "upWaitLongFirstStation": "",   //上行平均等待时间最长的站点
+                        "downWaitShortFirstStation": "",// 下行平均等待时间最短的站点
+                        "downFlatPeak": 0,              //下行平峰完成班次数
+                        "downWaitShortSecondStation": "", //下行平均等待时间最短的站点
+                        "upWaitShortFirstStation": "",  //上行平均等待时间最短的站点
+                        "downEarlyPeak": 0,             //下行早高峰完成班次数
+                        "upAverageSpeed": "0",          //上行平均运行速度
+                        "downWaitLongSecondStation": "" //下行平均等待时间最长的站点
+                    }
+                }
+            }
+        }
 
     };
 

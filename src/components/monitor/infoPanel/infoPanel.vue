@@ -19,27 +19,27 @@
                     <div class="title">列车平均</br>运行速度</div>
                     <div class="value-panel">
                         <div class="sub-title">上行：</div>
-                        <div class="value"> <span>86.1</span><span class="unit">km/h</span> </div>
+                        <div class="value"> <span>{{datas.upAverageSpeed}}</span><span class="unit">km/h</span> </div>
                         <div class="sub-title">下行：</div>
-                        <div class="value"> <span>85.0</span><span class="unit">km/h</span> </div>
+                        <div class="value"> <span>{{datas.downAverageSpeed}}</span><span class="unit">km/h</span> </div>
                     </div>
                 </div>
                 <div class="info-content">
                     <div class="title">列车平均</br>运行时长</div>
                     <div class="value-panel">
                         <div class="sub-title">上行：</div>
-                        <div class="value"> <span>86.1</span><span class="unit">min</span> </div>
+                        <div class="value"> <span>{{datas.upAverageRunTime}}</span><span class="unit">min</span> </div>
                         <div class="sub-title">下行：</div>
-                        <div class="value"> <span>85.0</span><span class="unit">min</span> </div>
+                        <div class="value"> <span>{{datas.downAverageRunTime}}</span><span class="unit">min</span> </div>
                     </div>
                 </div>
                 <div class="info-content">
                     <div class="title">列车平均</br>等待时长</div>
                     <div class="value-panel">
                         <div class="sub-title">上行：</div>
-                        <div class="value"> <span>86.1</span><span class="unit">min</span> </div>
+                        <div class="value"> <span>{{datas.upAverageWait}}</span><span class="unit">min</span> </div>
                         <div class="sub-title">下行：</div>
-                        <div class="value"> <span>85.0</span><span class="unit">min</span> </div>
+                        <div class="value"> <span>{{datas.downAverageWait}}</span><span class="unit">min</span> </div>
                     </div>
                 </div>
             </div>
@@ -54,29 +54,29 @@
                     <div class="box box-1">
                         <div class="title">早高峰</div>
                         <div class="value-panel">
-                            <div class="value"><span class="tit">上行:</span><span class="num">50</span></div>
-                            <div class="value"><span class="tit">下行:</span><span class="num">52</span></div>
+                            <div class="value"><span class="tit">上行:</span><span class="num">{{datas.upEarlyPeak}}</span></div>
+                            <div class="value"><span class="tit">下行:</span><span class="num">{{datas.downEarlyPeak}}</span></div>
                         </div>
                     </div>
                     <div class="box box-2">
                         <div class="title">平峰</div>
                         <div class="value-panel">
-                            <div class="value"><span class="tit">上行:</span><span class="num">50</span></div>
-                            <div class="value"><span class="tit">下行:</span><span class="num">52</span></div>
+                            <div class="value"><span class="tit">上行:</span><span class="num">{{datas.upFlatPeak}}</span></div>
+                            <div class="value"><span class="tit">下行:</span><span class="num">{{datas.downFlatPeak}}</span></div>
                         </div>
                     </div>
                     <div class="box box-3">
                         <div class="title">晚高峰</div>
                         <div class="value-panel">
-                            <div class="value"><span class="tit">上行:</span><span class="num">50</span></div>
-                            <div class="value"><span class="tit">下行:</span><span class="num">52</span></div>
+                            <div class="value"><span class="tit">上行:</span><span class="num">{{datas.upLatePeak}}</span></div>
+                            <div class="value"><span class="tit">下行:</span><span class="num">{{datas.downLatePeak}}</span></div>
                         </div>
                     </div>
                     <div class="box box-4">
                         <div class="title">夜间</div>
                         <div class="value-panel">
-                            <div class="value"><span class="tit">上行:</span><span class="num">50</span></div>
-                            <div class="value"><span class="tit">下行:</span><span class="num">52</span></div>
+                            <div class="value"><span class="tit">上行:</span><span class="num">{{datas.upNight}}</span></div>
+                            <div class="value"><span class="tit">下行:</span><span class="num">{{datas.downNight}}</span></div>
                         </div>
                     </div>
                 </div>
@@ -89,29 +89,29 @@
                     <div class="box box-1">
                         <div class="title">早高峰</div>
                         <div class="value-panel">
-                            <div class="value"><span>上行:</span><span class="num">50</span></div>
-                            <div class="value"><span>下行:</span><span class="num">52</span></div>
+                            <div class="value"><span>上行:</span><span class="num">{{datas.upAverageWait}}</span></div>
+                            <div class="value"><span>下行:</span><span class="num">{{datas.upAverageWait}}</span></div>
                         </div>
                     </div>
                     <div class="box box-2">
                         <div class="title">平峰</div>
                         <div class="value-panel">
-                            <div class="value"><span>上行:</span><span class="num">50</span></div>
-                            <div class="value"><span>下行:</span><span class="num">52</span></div>
+                            <div class="value"><span>上行:</span><span class="num">{{datas.upAverageWait}}</span></div>
+                            <div class="value"><span>下行:</span><span class="num">{{datas.upAverageWait}}</span></div>
                         </div>
                     </div>
                     <div class="box box-3">
                         <div class="title">晚高峰</div>
                         <div class="value-panel">
-                            <div class="value"><span>上行:</span><span class="num">50</span></div>
-                            <div class="value"><span>下行:</span><span class="num">52</span></div>
+                            <div class="value"><span>上行:</span><span class="num">{{datas.upAverageWait}}</span></div>
+                            <div class="value"><span>下行:</span><span class="num">{{datas.upAverageWait}}</span></div>
                         </div>
                     </div>
                     <div class="box box-4">
                         <div class="title">夜间</div>
                         <div class="value-panel">
-                            <div class="value"><span>上行:</span><span class="num">50</span></div>
-                            <div class="value"><span>下行:</span><span class="num">52</span></div>
+                            <div class="value"><span>上行:</span><span class="num">{{datas.upAverageWait}}</span></div>
+                            <div class="value"><span>下行:</span><span class="num">{{datas.upAverageWait}}</span></div>
                         </div>
                     </div>
                 </div>
@@ -125,6 +125,39 @@
     export default {
         data () {
             return {}
+        },
+        props: {
+            datas: {
+                type: Object,
+                default() {
+                    return {
+                        "upAverageClass": "7.5",        //上行平均发班间隔
+                        "downLatePeak": 0,              //下行晚高峰完成班次
+                        "downAverageClass": "0",        //下行平均发班间隔
+                        "upLatePeak": 0,                //上行晚高峰完成班次
+                        "upAverageRunTime": "0",        //上行平均运行时长
+                        "downAverageRunTime": "0",      //下行平均运行时长
+                        "upWaitLongSecondStation": "",  //上行平均等待时间最长的站点
+                        "downAverageSpeed": "0",        //下行平均运行速度
+                        "upNight": 0,                   //上行夜间完成班次
+                        "downAverageWait": "0",         //下行站间平均等待时长
+                        "upFlatPeak": 0,                // 上行平峰完成班次数
+                        "upWaitShortSecondStation": "", //上行平均等待时间最短的站点
+                        "downNight": 0,                 //下行夜间完成班次
+                        "upEarlyPeak": 0,               //上行早高峰完成班次数
+                        "upAverageWait": "0",           //上行站间平均等待时长
+                        "downWaitLongFirstStation": "", //下行平均等待时间最长的站点
+                        "upWaitLongFirstStation": "",   //上行平均等待时间最长的站点
+                        "downWaitShortFirstStation": "",// 下行平均等待时间最短的站点
+                        "downFlatPeak": 0,              //下行平峰完成班次数
+                        "downWaitShortSecondStation": "", //下行平均等待时间最短的站点
+                        "upWaitShortFirstStation": "",  //上行平均等待时间最短的站点
+                        "downEarlyPeak": 0,             //下行早高峰完成班次数
+                        "upAverageSpeed": "0",          //上行平均运行速度
+                        "downWaitLongSecondStation": "" //下行平均等待时间最长的站点
+                    }
+                }
+            }
         }
     }
 </script>
