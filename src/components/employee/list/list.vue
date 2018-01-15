@@ -59,6 +59,7 @@
                     <Button type="success">导入从业人员异动报备表</Button>
                 </div>
             </div>
+            <div class="top-center-panel"></div>
             <div class="top-right-panel">
                 <div ref="echartPie1" class="echartPie"></div>
                 <div ref="echartPie2" class="echartPie"></div>
@@ -136,7 +137,7 @@
             <!--</Col>-->
 
             <Col span="24">
-                <Table border :columns="columns" stripe :data="listData"></Table>
+                <Table  class="myTableIview" border :columns="columns" stripe :data="listData"></Table>
                 <div class="ms-table-page">
                     <Page
                         :total="searchParams.count"
@@ -371,7 +372,7 @@
                     { title: '成绩', key: 'achievement', width: 80 }],
                 searchParams: {
                     pageNo: 1,                   // 当前页数
-                    pageSize: 15,                // 每页记录数
+                    pageSize: 10,                // 每页记录数
                     count: 0,                    // 总数据量
                     pageCount: 0,                // 总页数
                     name: '',                      // 姓名
@@ -959,21 +960,20 @@
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
     .my-list {
-        padding-bottom: 120px;
 
         .top-panel {
             display: flex;
             width: 1440px;
-            height: 200px;
-
+            box-sizing: border-box;
             .top-left-panel {
-                flex: 1;
+                width: 671px;
+                height: 162px;
 
                 .search-panel {
                     display: flex;
-                    margin-bottom: 5px;
-                    height: 150px;
-                    border: 1px solid #999;
+                    width: 100%;
+                    height: 126px;
+                    border: 2px solid #b0cbe6;
                     border-radius: 10px;
                     .col {
 
@@ -992,6 +992,9 @@
                 .btn-panel {
                     height: 40px;
                 }
+            }
+            .top-center-panel {
+                flex: 1;
             }
             .top-right-panel {
                 flex: 1;

@@ -1,12 +1,13 @@
 <template>
     <div class="tablePanel-container">
-        <Table border stripe :columns="tableColumnsUp" :data="tableDataUp"></Table>
+        <Table class="myTableIview" border stripe :columns="tableColumnsUp" :data="tableDataUp" :height="tableHeight"></Table>
     </div>
 </template>
 <script>
     export default{
         data() {
             return {
+                tableHeight: 300,
                 tableColumnsUp: [
                     {
                         type: 'index',

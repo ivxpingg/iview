@@ -42,11 +42,11 @@
         }
         .title {
             position: absolute;
-            top: 13px;
+            top: 26px;
             left:40px;
-            width: 601px;
-            height: 60px;
-            background: url(./images/run-system-text-logo.png) no-repeat;
+            width: 576px;
+            height: 34px;
+            background: url(./images/logo-title.png) no-repeat;
             background-size: auto 100%;
         }
         .btn-panel {

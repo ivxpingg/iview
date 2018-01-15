@@ -1,7 +1,8 @@
 <template>
     <div class="trainAnalysis-container">
-        <vSearchPanel :dates="time" :dim="dim" @changeDate="changeDate"></vSearchPanel>
-        <vTabsTable :dates="time" :dim="dim"></vTabsTable>
+        <vSearchPanel class="v-search-panel" :dates="time" :dim="dim" @changeDate="changeDate"></vSearchPanel>
+        <vTabsTable class="v-tabs-table" :dates="time" :dim="dim"></vTabsTable>
+        <div class="separate-line"></div>
         <vEchartsPanel :dates="time" :dim="dim"></vEchartsPanel>
     </div>
 </template>
@@ -30,5 +31,28 @@
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
+    .trainAnalysis-container {
+        position: relative;
+        padding-top: 12px;
+        .v-search-panel {
+            position: absolute;
+            top: 0;
+            left: 32px;
+            z-index: 1;
+        }
+
+        .v-tabs-table {
+        }
+
+        .separate-line {
+            height: 28px;
+            background: url('./images/line-bg.png') no-repeat;
+            background-position: center;
+            background-size: auto 4px;
+        }
+    }
+</style>
+
+<style lang="scss" rel="stylesheet/scss">
 
 </style>

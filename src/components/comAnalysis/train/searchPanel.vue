@@ -1,6 +1,6 @@
 <template>
     <div class="searchPanel-container">
-        <Form inline :label-width="75">
+        <Form inline :label-width="90">
             <FormItem label="查询时间段:">
                 <DatePicker type="daterange" :format="format" :value="dates" @on-change="onDatePickerChange"  placeholder="选择日期" style="width: 200px"></DatePicker>
             </FormItem>
@@ -58,5 +58,20 @@
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
+    .searchPanel-container {
+        height: 44px;
+    }
+</style>
+
+<style lang="scss" rel="stylesheet/scss">
+    .searchPanel-container {
+        .ivu-form-item {
+            margin-bottom: 0;
+        }
+
+        .ivu-form .ivu-form-item-label {
+            font-size: 14px;
+        }
+    }
 
 </style>

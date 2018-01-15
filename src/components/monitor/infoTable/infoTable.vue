@@ -15,10 +15,13 @@
 
 <script>
     import Util from '../../../libs/util';
+    import MOMENT from  'moment';
     export default {
         data () {
             var that = this;
             return {
+                setTimeOutInfoPanelDataTime: 30000,
+                setTimeOutInfoPanelData: null,
                 tabsActive: true,
                 upOrDownTable: true,  // 默认展示上行表格
                 tableHeight: '0',
@@ -37,15 +40,15 @@
                     {
                         title: '状态',
 
-                        key: 'state',
+                        key: 'status',
                         align: 'center',
                         render(h, params) {
                             var value = '', clsName = '';
 
-                            switch(params.row.state) {
-                                case '0': value = '未发班'; clsName = ''; break;
-                                case '1': value = '运行中'; clsName = 'table-row-text-blue'; break;
-                                case '2': value = '已完成'; clsName = 'table-row-text-green'; break;
+                            switch(params.row.status) {
+                                case -1: value = '未发班'; clsName = ''; break;
+                                case 0: value = '运行中'; clsName = 'table-row-text-blue'; break;
+                                case 1: value = '已完成'; clsName = 'table-row-text-green'; break;
                             }
                             return h('span', {
                                 "class": clsName
@@ -54,132 +57,197 @@
                     },
                     {
                         title: '镇海路站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '1',
+                        align: 'center',
+                        render(h, params) {
+//                            if (!params.row['1']) { return '- -';}
+
+                            return that.morningTrain(h, params, '1');
+                        }
                     },
                     {
                         title: '中山公园站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '2',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '2');
+                        }
                     },
                     {
                         title: '将军祠站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '3',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '3');
+                        }
                     },
                     {
                         title: '文灶站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '4',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '4');
+                        }
                     },
                     {
                         title: '湖滨东路站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '5',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '5');
+                        }
                     },
                     {
                         title: '莲坂站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '6',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '6');
+                        }
                     },
                     {
                         title: '莲花路口站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '7',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '7');
+                        }
                     },
                     {
                         title: '吕厝站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '8',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '8');
+                        }
                     },
                     {
                         title: '乌石浦站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '9',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '9');
+                        }
                     },
                     {
                         title: '塘边站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '10',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '10');
+                        }
                     },
                     {
                         title: '火炬园站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '11',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '11');
+                        }
                     },
                     {
                         title: '殿前站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '12',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '12');
+                        }
                     },
                     {
                         title: '高崎站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '13',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '13');
+                        }
                     },
                     {
                         title: '集美学村站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '14',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '14');
+                        }
                     },
                     {
                         title: '园博苑站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '15',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '15');
+                        }
                     },
                     {
                         title: '杏林村站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '16',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '16');
+                        }
                     },
                     {
                         title: '杏锦路站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '17',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '17');
+                        }
                     },
                     {
                         title: '官任站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '18',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '18');
+                        }
                     },
                     {
                         title: '诚毅广场站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '19',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '19');
+                        }
                     },
                     {
                         title: '集美软件园',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '20',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '20');
+                        }
                     },
                     {
                         title: '集美大道',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '21',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '21');
+                        }
                     },
                     {
                         title: '天水路',
-                        key: 'tianshuilu',
+                        key: '22',
                         align: 'center',
                         render(h, params) {
-                            return that.morningTrain(h, params, 'tianshuilu', '0');
+                            return that.morningTrain(h, params, '22');
                         }
                     },
                     {
                         title: '厦门北站',
-                        key: 'xiamenbei',
+                        key: '23',
                         align: 'center',
                         render(h, params) {
-                            return that.morningTrain(h, params, 'xiamenbei', '1');
+                            return that.morningTrain(h, params, '23');
                         }
                     },
                     {
                         title: '岩内',
-                        key: 'yanNei',
+                        key: '24',
                         align: 'center',
+                        width: 40,
                         render(h, params) {
-
-                            return that.morningTrain(h, params, 'yanNei', '2');
+                            return that.morningTrain(h, params, '24');
                         }
                     }
 
@@ -198,16 +266,15 @@
                     },
                     {
                         title: '状态',
-
-                        key: 'state',
+                        key: 'status',
                         align: 'center',
                         render(h, params) {
                             var value = '', clsName = '';
 
-                            switch(params.row.state) {
-                                case '0': value = '未发班'; clsName = ''; break;
-                                case '1': value = '运行中'; clsName = 'table-row-text-blue'; break;
-                                case '2': value = '已完成'; clsName = 'table-row-text-green'; break;
+                            switch(params.row.status) {
+                                case -1: value = '未发班'; clsName = ''; break;
+                                case 0: value = '运行中'; clsName = 'table-row-text-blue'; break;
+                                case 1: value = '已完成'; clsName = 'table-row-text-green'; break;
                             }
                             return h('span', {
                                 "class": clsName
@@ -216,133 +283,196 @@
                     },
                     {
                         title: '岩内',
-                        key: 'yanNei',
+                        key: '24',
                         align: 'center',
                         render(h, params) {
-
-                            return that.morningTrain(h, params, 'yanNei', '2');
+                            return that.morningTrain(h, params, '24');
                         }
                     },
                     {
                         title: '厦门北站',
-                        key: 'xiamenbei',
+                        key: '23',
                         align: 'center',
                         render(h, params) {
-                            return that.morningTrain(h, params, 'xiamenbei', '1');
+                            return that.morningTrain(h, params, '23');
                         }
                     },
                     {
                         title: '天水路',
-                        key: 'tianshuilu',
+                        key: '22',
                         align: 'center',
                         render(h, params) {
-                            return that.morningTrain(h, params, 'tianshuilu', '0');
+                            return that.morningTrain(h, params, '22');
                         }
                     },
                     {
                         title: '集美大道',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '21',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '21');
+                        }
                     },
                     {
                         title: '集美软件园',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '20',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '20');
+                        }
                     },
                     {
                         title: '诚毅广场站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '19',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '19');
+                        }
                     },
                     {
                         title: '官任站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '18',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '18');
+                        }
                     },
                     {
                         title: '杏锦路站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '17',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '17');
+                        }
                     },
                     {
                         title: '杏林村站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '16',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '16');
+                        }
                     },
                     {
                         title: '园博苑站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '15',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '15');
+                        }
                     },
                     {
                         title: '集美学村站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '14',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '14');
+                        }
                     },
                     {
                         title: '高崎站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '13',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '13');
+                        }
                     },
                     {
                         title: '殿前站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '12',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '12');
+                        }
                     },
                     {
                         title: '火炬园站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '11',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '11');
+                        }
                     },
                     {
                         title: '塘边站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '10',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '10');
+                        }
                     },
                     {
                         title: '乌石浦站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '9',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '9');
+                        }
                     },
                     {
                         title: '吕厝站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '8',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '8');
+                        }
                     },
                     {
                         title: '莲花路口站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '7',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '7');
+                        }
                     },
                     {
                         title: '莲坂站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '6',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '6');
+                        }
                     },
                     {
                         title: '湖滨东路站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '5',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '5');
+                        }
                     },
                     {
                         title: '文灶站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '4',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '4');
+                        }
                     },
                     {
                         title: '将军祠站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '3',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '3');
+                        }
                     },
                     {
                         title: '中山公园站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '2',
+                        align: 'center',
+                        render(h, params) {
+                            return that.morningTrain(h, params, '2');
+                        }
                     },
                     {
                         title: '镇海路站',
-                        key: 'jimeiruanjianyuan',
-                        align: 'center'
+                        key: '1',
+                        align: 'center',
+                        width: 40,
+                        render(h, params) {
+                            return that.morningTrain(h, params, '1');
+                        }
                     }
 
                 ],
@@ -350,42 +480,42 @@
                     {
                         trainId: '00101',
                         state: '0',
-                        yanNei: '07:30',
-                        xiamenbei: '08:08',
-                        tianshuilu: '09:08',
-                        jimeiruanjianyuan: '09:08'
+                        "24": '2018-01-01 07:30|2018-01-01 07:32',
+                        "23": '2018-01-01 08:08|2018-01-01 07:25',
+                        "22": '2018-01-01 09:08|2018-01-01 09:08',
+                        "21": '2018-01-01 09:08'
                     },
                     {
                         trainId: '00102',
                         state: '1',
-                        yanNei: '07:30',
-                        xiamenbei: '08:08',
-                        tianshuilu: '09:08',
-                        jimeiruanjianyuan: '09:08'
+                        "24": '2018-01-01 07:30',
+                        "23": '2018-01-01 08:08',
+                        "22": '2018-01-01 09:08',
+                        "21": '2018-01-01 09:08'
                     },
                     {
                         trainId: '00103',
                         state: '2',
-                        yanNei: '07:30',
-                        xiamenbei: '08:08',
-                        tianshuilu: '09:08',
-                        jimeiruanjianyuan: '09:08'
+                        "24": '2018-01-01 07:30',
+                        "23": '2018-01-01 08:08',
+                        "22": '2018-01-01 09:08',
+                        "21": '2018-01-01 09:08'
                     },
                     {
                         trainId: '00104',
                         state: '2',
-                        yanNei: '07:30',
-                        xiamenbei: '08:08',
-                        tianshuilu: '09:08',
-                        jimeiruanjianyuan: '09:08'
+                        "24": '2018-01-01 07:30',
+                        "23": '2018-01-01 08:08',
+                        "22": '2018-01-01 09:08',
+                        "21": '2018-01-01 09:08'
                     },
                     {
                         trainId: '00105',
                         state: '2',
-                        yanNei: '07:30',
-                        xiamenbei: '08:08',
-                        tianshuilu: '09:08',
-                        jimeiruanjianyuan: '09:08'
+                        "24": '2018-01-01 07:30',
+                        "23": '2018-01-01 08:08',
+                        "22": '2018-01-01 09:08',
+                        "21": '2018-01-01 09:08'
                     }
                 ],
                 tableDataDown: [
@@ -430,13 +560,18 @@
                         jimeiruanjianyuan: '09:08'
                     }
                 ],
-
-
                 upTrainPosition: {}
+            }
+        },
+        beforeDestroy() {
+            if (this.setTimeOutInfoPanelData) {
+                clearTimeout(this.setTimeOutInfoPanelData);
             }
         },
         mounted() {
             this.tableHeight = document.querySelector('.infoTable-container').clientHeight;
+
+            this.getTrainRun();
         },
         methods: {
 
@@ -449,27 +584,78 @@
 
             morningTrain(h, params, key, type) {
                 //var type = '0';
+                // 如果没有值
 
-                if (type == '0') { // 早点
-                    return h('span', {
-                        'class': 'row-complete'
-                    }, [params.row[key], h('span', {
-                        'class': 'random-error'
-                    }, '-2')]);
+                var value, value1, value2;
+                var hh1, hh2, mm1, mm2, mVal = 0;
+                if (!params.row[key]) {
+                    return '- -';
                 }
-                else if (type == '1'){
+                else {
+                    value = params.row[key];
+                }
+
+                value1 = value.split('|')[0];
+                value2 = value.split('|')[1] || '';
+
+                if (value2 == '') {
+                    return MOMENT(value1).format('hh:mm');
+                }
+                else {
+                    hh1 = MOMENT(value1).hour();
+                    mm1 = MOMENT(value1).minute();
+                    hh2 = MOMENT(value2).hour();
+                    mm2 = MOMENT(value2).minute();
+
+                    mVal = (hh2 - hh1) * 60 + (mm2 - mm1);
+                }
+
+                if (mVal < 0) { // 早点
                     return h('span', {
                         'class': 'row-complete'
-                    }, [params.row[key], h('span', {
+                    }, [MOMENT(value1).format('hh:mm'), h('span', {
                         'class': 'random-error'
-                    }, '+5')]);
+                    }, mVal)]);
+                }
+                else if (mVal > 0){
+                    return h('span', {
+                        'class': 'row-complete'
+                    }, [MOMENT(value1).format('hh:mm'), h('span', {
+                        'class': 'random-error'
+                    }, '+' + mVal)]);
                 }
                 else {
                     return h('span',
                              {'class': 'row-complete'},
-                             [params.row[key], h('span',{ 'class': 'icon-complete'})]
+                             [MOMENT(value1).format('hh:mm'), h('span',{ 'class': 'icon-complete'})]
                             );
                 }
+            },
+
+            // 获取
+            getTrainRun() {
+                var that = this;
+                Util.ajax({
+                    method: "get",
+                    url: '/xm/run/runCount/getPlanAndActualRunInfo',
+                    data: {}
+                }).then(function(response){
+                    if (response.status === 1) {
+                        console.dir(response.result);
+                        that.tableDataUp = response.result.upPlanAndActual;
+                        that.tableDataDown = response.result.downPlanAndActual;
+                    }
+                    else {}
+
+                    that.setTimeOutInfoPanelData = setTimeout(function () {
+                        that.getTrainRun();
+                    }, that.setTimeOutInfoPanelDataTime);
+                }).catch(function (error) {
+                    console.log(error);
+                    that.setTimeOutInfoPanelData = setTimeout(function () {
+                        that.getTrainRun();
+                    }, that.setTimeOutInfoPanelDataTime);
+                })
             }
         }
     }
@@ -617,7 +803,6 @@
 
             th {
                 //background-color: #f7f7f7;
-
                 .ivu-table-cell {
                     padding: 0;
                 }

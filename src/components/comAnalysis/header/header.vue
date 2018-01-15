@@ -80,12 +80,12 @@
         }
         .title {
             position: absolute;
-            top: 13px;
+            top: 25px;
             left:40px;
-            width: 601px;
-            height: 60px;
-            background: url(./images/run-system-text-logo.png) no-repeat;
-            background-size: auto 100%;
+            width: 504px;
+            height: 35px;
+            background: url(./images/logo-title.png) no-repeat;
+            background-size: auto 35px;
         }
         .btn-panel {
             position: absolute;

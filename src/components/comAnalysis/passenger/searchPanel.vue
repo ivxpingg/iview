@@ -1,17 +1,17 @@
 <template>
     <div class="searchPanel-container">
-        <Form inline :label-width="75">
-            <FormItem label="查询时间段:">
+        <Form inline >
+            <FormItem label="查询时间段:" :label-width="90">
                 <DatePicker type="daterange" :format="format" :value="dates" @on-change="onDatePickerChange"  placeholder="选择日期" style="width: 200px"></DatePicker>
             </FormItem>
-            <FormItem label="有效时段:">
+            <FormItem label="有效时段:" :label-width="80">
                 <Select :value="timeFrame" @on-change="onSelectTimeFrameChange">
                     <Option value="0">全日</Option>
                     <Option value="1">早高峰</Option>
                     <Option value="2">晚高峰</Option>
                 </Select>
             </FormItem>
-            <FormItem label="统计维度:">
+            <FormItem label="统计维度:":label-width="80">
                 <Select :value="dim" @on-change="onSelectDimChange">
                     <Option value="day">日</Option>
                     <Option value="week">周</Option>
@@ -67,5 +67,20 @@
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
+    .searchPanel-container {
+        height: 60px;
+    }
 
+</style>
+
+<style lang="scss" rel="stylesheet/scss" scoped>
+    .searchPanel-container {
+        .ivu-form-item {
+            margin-bottom: 0;
+        }
+
+        .ivu-form .ivu-form-item-label {
+            font-size: 14px;
+        }
+    }
 </style>

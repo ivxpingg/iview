@@ -21,6 +21,8 @@
             setChart1() {
                 var myChart = echarts.init(this.$refs.chart1);
                 var option = {
+                    color: ['#ea5550', '#65aadd', '#8e81bc'],
+                    backgroundColor: '#FFF',
                     tooltip: {
                         trigger: 'axis',
                         axisPointer: {
@@ -39,7 +41,8 @@
                         }
                     },
                     legend: {
-                        data:['蒸发量','降水量','平均温度']
+                        data:['计划列次','实际列次','正点率'],
+                        left: 10
                     },
                     xAxis: [
                         {
@@ -47,47 +50,92 @@
                             data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
                             axisPointer: {
                                 type: 'shadow'
+                            },
+                            axisLabel: {
+                                textStyle: {
+                                    color: '#454e5e'
+                                }
+                            },
+                            axisTick: {
+                                length: 3
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    color: '#187fc4',
+                                    width: 1
+                                }
                             }
                         }
                     ],
                     yAxis: [
                         {
                             type: 'value',
-                            name: '水量',
-                            min: 0,
-                            max: 250,
-                            interval: 50,
+                            name: '列次数',
+                            nameTextStyle: {
+                                color: '#4d8dcb'
+                            },
+//                            min: 0,
+//                            max: 250,
+//                            interval: 50,
                             axisLabel: {
-                                formatter: '{value} ml'
+                                formatter: '{value}个',
+                                textStyle: {
+                                    color: '#454e5e'
+                                }
+                            },
+                            axisTick: {
+                                length: 3
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    color: '#187fc4',
+                                    width: 1
+                                }
                             }
+
                         },
                         {
                             type: 'value',
-                            name: '温度',
+                            name: '正点率',
+                            nameTextStyle: {
+                                color: '#4d8dcb'
+                            },
                             min: 0,
-                            max: 25,
-                            interval: 5,
+                            max: 100,
+                            interval: 10,
                             axisLabel: {
-                                formatter: '{value} °C'
+                                formatter: '{value}%',
+                                textStyle: {
+                                    color: '#454e5e'
+                                }
+                            },
+                            axisTick: {
+                                length: 3
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    color: '#187fc4',
+                                    width: 1
+                                }
                             }
                         }
                     ],
                     series: [
                         {
-                            name:'蒸发量',
+                            name:'计划列次',
                             type:'bar',
                             data:[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
                         },
                         {
-                            name:'降水量',
+                            name:'实际列次',
                             type:'bar',
                             data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
                         },
                         {
-                            name:'平均温度',
+                            name:'正点率',
                             type:'line',
                             yAxisIndex: 1,
-                            data:[2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+                            data:[92, 95, 94, 99, 98, 95, 92, 92, 95, 94, 99, 98]
                         }
                     ]
                 };
@@ -98,6 +146,8 @@
             setChart2() {
                 var myChart = echarts.init(this.$refs.chart2);
                 var option = {
+                    color: ['#ef857d', '#8e81bc', '#65aadd', '#f4ad70', '#8dca9a', '#779ad0', '#8072b2', '#decd59'],
+                    backgroundColor: '#FFF',
                     tooltip: {
                         trigger: 'item',
                         formatter: "{a} <br/>{b}: {c} ({d}%)"
@@ -105,11 +155,11 @@
                     legend: {
                         orient: 'vertical',
                         x: 'left',
-                        data:['直达','营销广告','搜索引擎','邮件营销','联盟广告','视频广告','百度','谷歌','必应','其他']
+                        data:['5分及以上晚点','加开列次','救援列次']
                     },
                     series: [
                         {
-                            name:'访问来源',
+                            name:'',
                             type:'pie',
                             selectedMode: 'single',
                             radius: [0, '30%'],
@@ -125,20 +175,20 @@
                                 }
                             },
                             data:[
-                                {value:335, name:'直达', selected:true},
-                                {value:679, name:'营销广告'},
-                                {value:1548, name:'搜索引擎'}
+                                {value:679, name:'其它', selected:true},
+                                {value:335, name:'晚点列次'},
+                                {value:1548, name:'正点列次'}
                             ]
                         },
                         {
-                            name:'访问来源',
+                            name:'分项说明',
                             type:'pie',
                             radius: ['40%', '55%'],
                             label: {
                                 normal: {
                                     formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
                                     backgroundColor: '#eee',
-                                    borderColor: '#aaa',
+                                    borderColor: '#7e7b86',
                                     borderWidth: 1,
                                     borderRadius: 4,
                                     // shadowBlur:3,
@@ -148,9 +198,10 @@
                                     // padding: [0, 7],
                                     rich: {
                                         a: {
-                                            color: '#999',
-                                            lineHeight: 22,
-                                            align: 'center'
+                                            color: '#454e5e',
+                                            lineHeight: 16,
+                                            padding: [0,0,0,8]
+
                                         },
                                         // abg: {
                                         //     backgroundColor: '#333',
@@ -160,14 +211,14 @@
                                         //     borderRadius: [4, 4, 0, 0]
                                         // },
                                         hr: {
-                                            borderColor: '#aaa',
-                                            width: '100%',
+                                            borderColor: '#7e7b86',
+                                            width: 56,
                                             borderWidth: 0.5,
                                             height: 0
                                         },
                                         b: {
-                                            fontSize: 16,
-                                            lineHeight: 33
+                                            fontSize: 12,
+                                            lineHeight: 20
                                         },
                                         per: {
                                             color: '#eee',
@@ -178,15 +229,19 @@
                                     }
                                 }
                             },
+                            labelLine: {
+                                normal: {
+                                    length: 10,
+                                    length2: 10,
+                                    smooth: true
+                                }
+                            },
                             data:[
-                                {value:335, name:'直达'},
-                                {value:310, name:'邮件营销'},
-                                {value:234, name:'联盟广告'},
-                                {value:135, name:'视频广告'},
-                                {value:1048, name:'百度'},
-                                {value:251, name:'谷歌'},
-                                {value:147, name:'必应'},
-                                {value:102, name:'其他'}
+                                {value:335, name:'加开列次'},
+                                {value:310, name:'救援列次'},
+                                {value:234, name:'2-5分晚点'},
+                                {value:135, name:'5分及以上晚点'},
+                                {value:1548, name:'计划列次'}
                             ]
                         }
                     ]
@@ -197,6 +252,8 @@
             setChart3() {
                 var myChart = echarts.init(this.$refs.chart3);
                 var option = {
+                    color: ['#ea5550', '#8e81bc'],
+                    backgroundColor: '#FFF',
                     tooltip : {
                         trigger: 'axis',
                         axisPointer : {            // 坐标轴指示器，坐标轴触发有效
@@ -204,7 +261,7 @@
                         }
                     },
                     legend: {
-                        data: ['直接访问', '邮件营销','联盟广告','视频广告','搜索引擎']
+                        data: ['空载里程', '空驾里程']
                     },
                     grid: {
                         left: '3%',
@@ -214,15 +271,43 @@
                     },
                     xAxis:  {
                         type: 'category',
-                        data: ['周一','周二','周三','周四','周五','周六','周日']
+                        data: ['1月','2月','3月','4月','5月','6月','7月'],
+                        axisLabel: {
+                            textStyle: {
+                                color: '#454e5e'
+                            }
+                        },
+                        axisTick: {
+                            length: 3
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: '#187fc4',
+                                width: 1
+                            }
+                        }
                     },
                     yAxis: {
-                        type: 'value'
+                        type: 'value',
+                        axisLabel: {
+                            textStyle: {
+                                color: '#454e5e'
+                            }
+                        },
+                        axisTick: {
+                            length: 3
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: '#187fc4',
+                                width: 1
+                            }
+                        }
 
                     },
                     series: [
                         {
-                            name: '直接访问',
+                            name: '空载里程',
                             type: 'bar',
                             stack: '总量',
                             label: {
@@ -234,7 +319,7 @@
                             data: [320, 302, 301, 334, 390, 330, 320]
                         },
                         {
-                            name: '邮件营销',
+                            name: '空驾里程',
                             type: 'bar',
                             stack: '总量',
                             label: {
@@ -244,42 +329,6 @@
                                 }
                             },
                             data: [120, 132, 101, 134, 90, 230, 210]
-                        },
-                        {
-                            name: '联盟广告',
-                            type: 'bar',
-                            stack: '总量',
-                            label: {
-                                normal: {
-                                    show: true,
-                                    position: 'insideRight'
-                                }
-                            },
-                            data: [220, 182, 191, 234, 290, 330, 310]
-                        },
-                        {
-                            name: '视频广告',
-                            type: 'bar',
-                            stack: '总量',
-                            label: {
-                                normal: {
-                                    show: true,
-                                    position: 'insideRight'
-                                }
-                            },
-                            data: [150, 212, 201, 154, 190, 330, 410]
-                        },
-                        {
-                            name: '搜索引擎',
-                            type: 'bar',
-                            stack: '总量',
-                            label: {
-                                normal: {
-                                    show: true,
-                                    position: 'insideRight'
-                                }
-                            },
-                            data: [820, 832, 901, 934, 1290, 1330, 1320]
                         }
                     ]
                 };
@@ -293,10 +342,17 @@
 <style lang="scss" rel="stylesheet/scss" scoped>
     .echartsPanel-container {
         display: flex;
-        height: 300px;
+        height: 350px;
         .chart {
             flex: 1;
+            margin-left: 9px;
             height: 100%;
+            border: 1px solid #dcdddd;
+            background-color: #f7f7f7;
+
+            &:first-child {
+                margin-left: 0;
+            }
         }
     }
 </style>

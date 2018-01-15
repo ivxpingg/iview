@@ -2,16 +2,16 @@
     <div class="tabsTable-container">
         <Tabs type="card" :animated="false">
             <TabPane label="行车指标">
-                <Table :data="tableData1" :columns="columns1" border></Table>
+                <Table class="myTableIview" :data="tableData1" :columns="columns1" :height="tableHight" border></Table>
             </TabPane>
             <TabPane label="指标记录">
-                <Table :data="tableData1" :columns="columns1" border></Table>
+                <Table class="myTableIview" :data="tableData1" :columns="columns1" :height="tableHight" border></Table>
             </TabPane>
             <TabPane label="运营事件">
-                <Table :data="tableData1" :columns="columns1" border></Table>
+                <Table class="myTableIview" :data="tableData1" :columns="columns1" :height="tableHight" border></Table>
             </TabPane>
             <TabPane label="其它事项">
-                <Table :data="tableData1" :columns="columns1" border></Table>
+                <Table class="myTableIview" :data="tableData1" :columns="columns1" :height="tableHight" border></Table>
             </TabPane>
         </Tabs>
     </div>
@@ -21,6 +21,7 @@
     export default {
         data() {
             return {
+                tableHight: 330,
                 tableData1: [
                     {
                         date: '2018-01-01',
@@ -165,4 +166,16 @@
 
 <style lang="scss" rel="stylesheet/scss" scoped>
 
+</style>
+<style lang="scss" rel="stylesheet/scss">
+    .tabsTable-container {
+         height: 372px;
+        .ivu-tabs-nav{
+            float: right;
+        }
+
+        .ivu-tabs-bar {
+            margin-bottom: 10px;
+        }
+    }
 </style>

@@ -21,14 +21,16 @@
     .comAnalysis-container {
         position: relative;
         height: 100%;
+        background-color: #ecebeb;
 
         .router-view {
             position: relative;
-            top: 0px;
+            padding-left: 32px;
+            padding-right: 32px;
+            top: 0;
             right: 0;
             bottom: 0;
             left: 0;
-            width: 100%;
         }
 
         .footer {
