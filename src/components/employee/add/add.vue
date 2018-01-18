@@ -34,7 +34,7 @@
 
                     <FormItem label="取证日期" class="ivu-form-item-required">
                         <FormItem prop="getCertificateTime">
-                            <DatePicker type="date" :editable="false" placeholder="选择日期" v-model="getCertificateTime"></DatePicker>
+                            <DatePicker type="date" :editable="false" :transfer="true" placeholder="选择日期" v-model="getCertificateTime"></DatePicker>
                         </FormItem>
                     </FormItem>
 
@@ -50,7 +50,7 @@
 
                     <FormItem label="入职时间"  class="ivu-form-item-required">
                         <FormItem prop="entryDate">
-                            <DatePicker type="date" :editable="false" placeholder="选择日期" v-model="entryDate"></DatePicker>
+                            <DatePicker type="date" :editable="false" :transfer="true" placeholder="选择日期" v-model="entryDate"></DatePicker>
                         </FormItem>
                     </FormItem>
 
@@ -60,6 +60,19 @@
                     <FormItem prop=""  label="照片">
                         <vImgUpload :defaultList="defaultHeadPortrait" :onSuccess="onSuccessForHeadPortrait"></vImgUpload>
                     </FormItem>
+                    <FormItem prop="certificateName"  label="从业资格证名称">
+                        <Select v-model="employee.certificateName" transfer placeholder="请选择">
+                            <Option v-for="(item, index) in dict_certificateName" :value="item.value">{{item.label}}</Option>
+                        </Select>
+                    </FormItem>
+                    <FormItem prop="certificateUseDate"  label="从业资格证有效期">
+                        <DatePicker type="date" :editable="false" placeholder="选择日期" :transfer="true" v-model="certificateUseDate"></DatePicker>
+                    </FormItem>
+                    <FormItem prop="issuingUnit"  label="发证单位">
+                        <Select v-model="employee.issuingUnit" transfer placeholder="请选择">
+                            <Option v-for="(item, index) in dict_issuingUnit" :value="item.value">{{item.label}}</Option>
+                        </Select>
+                    </FormItem>
                     <FormItem prop="phone"  label="联系电话">
                         <Input v-model="employee.phone" placeholder="手机号或者固话"></Input>
                     </FormItem>
@@ -68,6 +81,13 @@
                             <Option v-for="item in dict_status" :value="item.value">{{item.label}}</Option>
                         </Select>
                     </FormItem>
+                    <FormItem prop="leaveJobDate"  label="离职时间">
+                        <DatePicker type="date" :editable="false" :transfer="true" placeholder="选择日期" v-model="leaveJobDate"></DatePicker>
+                    </FormItem>
+                    <FormItem prop="leaveJobDate"  label="离职原因">
+                        <Input v-model="employee.leaveJobDate" type="textarea" placeholder="离职原因..." :rows="3"></Input>
+                    </FormItem>
+
                 <!--</Form>-->
             </Col>
             </Form>
@@ -87,8 +107,9 @@
                         </Button>
                     </FormItem>
                     <FormItem prop=""  label="">
-                        <Table
+                        <Table  class="myTableIview"
                                 width=""
+                                height="200"
                                 border
                                 stripe
                                 :columns="oTrainRecordColumns"
@@ -105,6 +126,7 @@
 
         <Modal
                 v-model="trainRecordModal"
+                transfer
                 title="添加培训记录"
                 :okText="okText"
                 @on-ok="editTrainRecord"
@@ -138,8 +160,8 @@
     export default {
         data() {
             return {
-                // 当前页面是添加(add)或者是编辑(edit)状态
-                status: 'add',
+                //
+
                 // 从业人员信息
                 employee: {
                     employeeId: '',
@@ -148,6 +170,9 @@
                     sex: '',                    // 性别     select
                     education: '',              // 文化程度  select
                     getCertificateTime: '',     // 取证日期
+                    certificateUseDate: '',     // 证有效期
+                    certificateName: '',        // 从业资格证名称
+                    issuingUnit: '',            // 发证单位
                     idNumber: '',               // 身份证号
                     entryDate: '',              // 入职时间
                     phone: '',                  // 联系电话
@@ -156,11 +181,13 @@
                     otherPost: '',              // 其他岗位名称 注：选择其他时，手动输入
                     status: '',                 // 人员状态 select
                     trainRecord: [],            // 培训记录
-                    pictureRelation: []       // 图片
+                    pictureRelation: [],        // 图片
+                    leaveJobDate: '',           // 离职时间
+                    leaveJobReason: '',         // 离职原因
                 },
 
-                defaultHeadPortrait: [],
-                defaultHeadCertificate: [],
+                defaultHeadPortrait: [],        //头像
+                defaultHeadCertificate: [],     //从业资格证
                 pictureRelationForHeadPortrait: [],
                 pictureRelationForCertificate: [],
 
@@ -170,9 +197,15 @@
                 dict_sex: [],
                 dict_status: [],
 
+                dict_certificateName: [],  //
+                dict_issuingUnit: [],
+
+
                 //　日期,接收日期控件的返回值，为Date类型
                 getCertificateTime: new Date(),
                 entryDate: new Date(),
+                certificateUseDate: new Date(),
+                leaveJobDate: '',
 
                 // 添加培训记录表单
                 oTrainRecord: {
@@ -253,6 +286,21 @@
                 trainRecordModal: false
             }
         },
+        props: {
+            // 当前页面是添加(add)或者是编辑(edit)状态
+            status: {
+                type: String,
+                default() {
+                    return 'add';
+                }
+            },
+            employeeId: {
+                type: String,
+                default() {
+                    return '';
+                }
+            }
+        },
         computed: {
             okText() {
                 return this.isEditStatus ? '确定' : '添加';
@@ -300,38 +348,69 @@
         },
         watch: {
             getCertificateTime(val, oldVal) {
-
                 this.employee.getCertificateTime = MOMENT(val).format('YYYY-MM-DD');
             },
             entryDate(val, oldVal) {
                 this.employee.entryDate = MOMENT(val).format('YYYY-MM-DD');
             },
-
+            certificateUseDate(val, oldVal) {
+                if (val == "") {
+                    this.employee.certificateUseDate = "";
+                }
+                else {
+                    this.employee.certificateUseDate = MOMENT(val).format('YYYY-MM-DD');
+                }
+            },
+            leaveJobDate(val, oldVal) {
+                if (val == "") {
+                    this.employee.leaveJobDate = "";
+                }
+                else {
+                    this.employee.leaveJobDate = MOMENT(val).format('YYYY-MM-DD');
+                }
+            },
+            employeeId(val, oldVal) {
+                var that = this;
+                this.employee.employeeId = this.employeeId;
+                if (this.status == 'edit') {
+                    this.getDictData(() => {
+                        that.getEmployeeInfo();
+                    });
+                }
+                else {
+                    this.getDictData();
+                }
+            }
         },
         components: {vImgUpload},
+        created() {
+            this.employee.employeeId = this.employeeId;
+        },
+
         mounted() {
-            //this.save();
             var that = this;
-            // 初始化设置system父窗体滚动条
-            setTimeout(function (){
-                if(that.$store.state.systemScroll) {
-                    that.$store.state.systemScroll.scrollTo(0, 0);
-                    that.$store.state.systemScroll.refresh();
-                }
-            }, 0);
 
             this.getCertificateTime = new Date();
             this.entryDate = new Date();
 
-            if (this.$route.params.employeeId) {
-                this.employee.employeeId = this.$route.params.employeeId;
-                this.status = 'edit';
+//            if (this.$route.params.employeeId) {
+//                this.employee.employeeId = this.$route.params.employeeId;
+//                this.status = 'edit';
+//                this.getDictData(() => {
+//                    that.getEmployeeInfo();
+//                });
+//            }
+//            else {
+//                this.status = 'add';
+//                this.getDictData();
+//            }
+
+            if (this.status == 'edit') {
                 this.getDictData(() => {
                     that.getEmployeeInfo();
                 });
             }
             else {
-                this.status = 'add';
                 this.getDictData();
             }
         },
@@ -463,6 +542,42 @@
                     console.dir(err);
                 });
 
+                // 获取从业资格证名称字典数据
+                Util.ajax({
+                    method: "get",
+                    url: '/xm/sys/dict/listData',
+                    params: {
+                        type: 'certificate_type'
+                    }
+                }).then(function (response) {
+                    if (response.status == 1) {
+                        that.dict_certificateName = response.result;
+                    }
+                    else {
+                        console.dir(response.errMsg);
+                    }
+                }).catch(function (err) {
+                    console.dir(err);
+                });
+
+                // 获取发证单位字典数据
+                Util.ajax({
+                    method: "get",
+                    url: '/xm/sys/dict/listData',
+                    params: {
+                        type: 'issuing_unit'
+                    }
+                }).then(function (response) {
+                    if (response.status == 1) {
+                        that.dict_issuingUnit = response.result;
+                    }
+                    else {
+                        console.dir(response.errMsg);
+                    }
+                }).catch(function (err) {
+                    console.dir(err);
+                });
+
             },
 
             // 根据employeeId获取从业人员信息
@@ -482,6 +597,9 @@
                         that.employee.sex = response.result.sex;
                         that.employee.education = response.result.education;
                         that.employee.getCertificateTime = response.result.getCertificateTime;
+                        that.employee.certificateUseDate = response.result.certificateUseDate;
+                        that.employee.certificateName = response.result.certificateName;
+                        that.employee.issuingUnit = response.result.issuingUnit;
                         that.employee.idNumber = response.result.idNumber;
                         that.employee.entryDate = response.result.entryDate;
                         that.employee.phone = response.result.phone;
@@ -494,6 +612,9 @@
 
                         that.getCertificateTime = MOMENT(response.result.getCertificateTime);
                         that.entryDate = MOMENT(response.result.entryDate);
+                        that.certificateUseDate = MOMENT(response.result.certificateUseDate);
+                        that.employee.leaveJobDate = response.result.leaveJobDate;
+                        that.employee.leaveJobReason = response.result.leaveJobReason;
 
 //                        that.defaultHeadPortrait = [{ url: "http://10.131.1.222:8088//upload/image/2017/10/2017101814310000253633.jpg" }];
 //                        that.defaultHeadCertificate = [{ url: "http://10.131.1.222:8088//upload/image/2017/10/2017101814310000253633.jpg" }];
@@ -501,6 +622,11 @@
                         that.employee.pictureRelation.forEach(function(val){
                             val.url = val.pictureUrl;
                             val.name = val.pictureId;
+
+                            that.defaultHeadPortrait = [];
+                            that.defaultHeadCertificate = [];
+                            that.pictureRelationForHeadPortrait = [];
+                            that.pictureRelationForCertificate = [];
                             if (val.pictureType == 'HeadPortrait') {
                                 that.defaultHeadPortrait = [val];
                                 that.pictureRelationForHeadPortrait = [val];
@@ -526,7 +652,7 @@
             },
 
             save() {
-                debugger
+
                 var that = this;
                 var url = this.status == 'add'? '/xm/sys/employee/add' : '/xm/sys/employee/update';
 
@@ -545,12 +671,7 @@
                                     that.$Message.success({
                                         content: '新增成功!',
                                         onClose() {
-                                            that.$router.push({
-                                                name: 'employeeList',  // 路由名称
-                                                params: {
-                                                    funcId: that.$route.params.funcId
-                                                }
-                                            });
+                                              that.$emit('hideModalAdd');
                                         }
                                     });
                                 }
@@ -558,12 +679,7 @@
                                     that.$Message.success({
                                         content: '修改成功!',
                                         onClose() {
-                                            that.$router.push({
-                                                name: 'employeeList',  // 路由名称
-                                                params: {
-                                                    funcId: that.$route.params.funcId
-                                                }
-                                            });
+                                            that.$emit('hideModalEdit');
                                         }
                                     });
                                 }

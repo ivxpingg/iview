@@ -1,7 +1,9 @@
 <template>
     <div class="employee-container">
-        <vHeader></vHeader>
-        <router-view class="router-view"></router-view>
+        <vHeader class="v-header"></vHeader>
+        <div ref="routerViewBox" class="router-view">
+            <router-view></router-view>
+        </div>
         <vFooter class="footer"></vFooter>
     </div>
 </template>
@@ -13,14 +15,40 @@
         data() {
             return {}
         },
-        components: {vHeader, vFooter}
+        components: {vHeader, vFooter},
+        mounted() {
+            this.init();
+        },
+        methods: {
+            init() {
+                var that = this;
+                that.initStyle();
+                window.onresize = function() {
+                    that.initStyle();
+                }
+            },
+            initStyle() {
+                if (!!this.$refs.routerViewBox) {
+                    this.$refs.routerViewBox.style.minHeight = (this.$el.clientHeight - 87 - 30)+ 'px';
+                }
+            }
+        }
     }
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
     .employee-container {
         position: relative;
-        height: 100%;
+        min-height: 100%;
+        padding-top: 87px;
+        padding-bottom: 30px;
+        .v-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
 
         .router-view {
             position: relative;
@@ -40,7 +68,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            z-index: 2;
+            z-index: 100;
         }
     }
 </style>

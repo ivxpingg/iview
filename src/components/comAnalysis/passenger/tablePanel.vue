@@ -1,13 +1,21 @@
 <template>
     <div class="tablePanel-container">
-        <Table class="myTableIview" border stripe :columns="tableColumnsUp" :data="tableDataUp" :height="tableHeight"></Table>
+        <Tabs type="card" :animated="false">
+            <TabPane label="进站客流">
+                <Table class="myTableIview" :data="tableDataUp" :columns="tableColumnsUp" :height="tableHeight" border></Table>
+            </TabPane>
+            <TabPane label="出站客流">
+                <Table class="myTableIview" :data="tableDataUp" :columns="tableColumnsUp" :height="tableHeight" border></Table>
+            </TabPane>
+        </Tabs>
+        <!--<Table class="myTableIview" border stripe :columns="tableColumnsUp" :data="tableDataUp" :height="tableHeight"></Table>-->
     </div>
 </template>
 <script>
     export default{
         data() {
             return {
-                tableHeight: 300,
+                tableHeight: 330,
                 tableColumnsUp: [
                     {
                         type: 'index',
@@ -196,7 +204,65 @@
 
 
     .tablePanel-container {
+        height: 372px;
+        .ivu-tabs-nav{
+            float: right;
+        }
 
+        .ivu-tabs-bar {
+            margin-bottom: 10px;
+        }
+        .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-nav-container {
+            padding-top: 5px;
+            height: 32px;
+        }
+        .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab {
+            position: relative;
+            margin-right: 18px;
+            height: 26px;
+            padding: 0 16px;
+            line-height: 26px;
+            border-radius: 0;
+            border-color: #cccccd;
+
+            &:before {
+                content: " ";
+                position: absolute;
+                display: block;
+                top: -1px;
+                left: -8px;
+                width: 9px;
+                height: 26px;
+                background: url(./images/tabs-nav-bg-left.png) no-repeat center;
+                z-index: 1;
+            }
+            &:after {
+                content: " ";
+                display: block;
+                position: absolute;
+                top: -1px;
+                right: -8px;
+                width: 9px;
+                height: 26px;
+                background: url(./images/tabs-nav-bg-right.png) no-repeat center;
+                z-index: 1;
+                transition: all .3s ease-in-out;
+            }
+        }
+        .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab-active {
+            height: 27px;
+            &:after {
+                content: " ";
+                display: block;
+                position: absolute;
+                top: -1px;
+                right: -8px;
+                width: 9px;
+                height: 27px;
+                background: url(./images/tabs-nav-bg-right-active.png) no-repeat center;
+                z-index: 1;
+            }
+        }
         .table-row-text-green {
             color: #28a868;
         }

@@ -682,40 +682,53 @@
             .btn-com {
                 position: relative;
                 width: 33px;
-                height: 103px;
+                height: 113px;
                 color: #495060;
                 text-align: center;
                 cursor: pointer;
                 background-color: #FFF;
                 border: 1px solid #b9b8b8;
                 border-right: 0;
-                border-radius: 10px 0 0 10px;
+                /*border-radius: 10px 0 0 10px;*/
 
                 &.btn-up {
-                    margin-bottom: 20px;
-
+                    border-bottom: 0;
                     &.active{
-                        color: #3da088;
+                        color: #FFF;
+                        background-color: #3da088;
+
+                        &:after {
+                            content: "";
+                            display: block;
+                            position: absolute;
+                            top: 0;
+                            bottom: 0;
+                            right: -1px;
+                            width: 1px;
+                            background-color: #3da088;
+                        }
                     }
                 }
                 &.btn-down {
 
                     &.active {
-                        color: #f39950;
+                        color: #FFF;
+                        background-color: #f39950;
+
+                        &:after {
+                            content: "";
+                            display: block;
+                            position: absolute;
+                            top: 0;
+                            bottom: 0;
+                            right: -1px;
+                            width: 1px;
+                            background-color: #f39950;
+                        }
                     }
                 }
                 &.active {
                     z-index: 10;
-                    &:after {
-                        content: "";
-                        display: block;
-                        position: absolute;
-                        top: 0;
-                        bottom: 0;
-                        right: -1px;
-                        width: 1px;
-                        background-color: #FFF;
-                    }
                 }
                 span:first-child {
                     position: absolute;

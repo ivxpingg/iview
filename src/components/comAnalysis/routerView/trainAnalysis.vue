@@ -1,6 +1,6 @@
 <template>
     <div class="trainAnalysis-container">
-        <vSearchPanel class="v-search-panel" :dates="time" :dim="dim" @changeDate="changeDate"></vSearchPanel>
+        <vSearchPanel class="v-search-panel" :dates="time" :dim="dim" @changeDate="changeDate" @changeDim="changeDim"></vSearchPanel>
         <vTabsTable class="v-tabs-table" :dates="time" :dim="dim"></vTabsTable>
         <div class="separate-line"></div>
         <vEchartsPanel :dates="time" :dim="dim"></vEchartsPanel>
@@ -24,6 +24,9 @@
         methods: {
             changeDate(date) {
                 this.time = date;
+            },
+            changeDim(type) {
+                this.dim = type;
             }
         }
 
@@ -33,11 +36,11 @@
 <style lang="scss" rel="stylesheet/scss" scoped>
     .trainAnalysis-container {
         position: relative;
-        padding-top: 12px;
+        padding-top: 22px;
         .v-search-panel {
             position: absolute;
             top: 0;
-            left: 32px;
+            left: 0;
             z-index: 1;
         }
 

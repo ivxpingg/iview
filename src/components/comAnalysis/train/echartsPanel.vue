@@ -155,7 +155,7 @@
                     legend: {
                         orient: 'vertical',
                         x: 'left',
-                        data:['5分及以上晚点','加开列次','救援列次']
+                        data:['2-5分晚点', '5分及以上晚点']
                     },
                     series: [
                         {
@@ -175,22 +175,24 @@
                                 }
                             },
                             data:[
-                                {value:679, name:'其它', selected:true},
-                                {value:335, name:'晚点列次'},
+//                                {value:679, name:'其它', selected:true},
+                                {value:335, name:'晚点列次', selected:true},
                                 {value:1548, name:'正点列次'}
                             ]
                         },
                         {
-                            name:'分项说明',
+//                            name:'分项说明',
                             type:'pie',
                             radius: ['40%', '55%'],
                             label: {
                                 normal: {
-                                    formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
+//                                    formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
+                                    formatter: '{b|{b}}\n{hr|}\n{per|  {c} ({d}%)}  ',
                                     backgroundColor: '#eee',
                                     borderColor: '#7e7b86',
                                     borderWidth: 1,
                                     borderRadius: 4,
+//                                    position: '',
                                     // shadowBlur:3,
                                     // shadowOffsetX: 2,
                                     // shadowOffsetY: 2,
@@ -212,19 +214,22 @@
                                         // },
                                         hr: {
                                             borderColor: '#7e7b86',
-                                            width: 56,
+                                            width: '100%',
+
                                             borderWidth: 0.5,
                                             height: 0
                                         },
                                         b: {
                                             fontSize: 12,
-                                            lineHeight: 20
+                                            lineHeight: 20,
+                                            align: 'center',
                                         },
                                         per: {
-                                            color: '#eee',
-                                            backgroundColor: '#334455',
+//                                            color: '#454e5e',
+//                                            backgroundColor: '#334455',
                                             padding: [2, 4],
-                                            borderRadius: 2
+                                            borderRadius: 2,
+                                            align: 'center'
                                         }
                                     }
                                 }
@@ -237,11 +242,11 @@
                                 }
                             },
                             data:[
-                                {value:335, name:'加开列次'},
-                                {value:310, name:'救援列次'},
+//                                {value:335, name:'加开列次'},
+//                                {value:310, name:'救援列次'},
                                 {value:234, name:'2-5分晚点'},
                                 {value:135, name:'5分及以上晚点'},
-                                {value:1548, name:'计划列次'}
+                                {value:1548, name:'正点列次'}
                             ]
                         }
                     ]

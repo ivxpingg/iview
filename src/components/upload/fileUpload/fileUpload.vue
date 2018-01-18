@@ -56,9 +56,7 @@
         },
         mounted () {
             this.headers = {
-                common: {
-                    Authorization: Util.cookie.get('xmgd') || ''
-                }
+                 Authorization: Util.cookie.get('xmgd') || ''
             }
         },
         methods: {

@@ -44,6 +44,11 @@ a {
   background-color: #64a2d1;
 }
 
+.myTableIview .ivu-table-cell {
+  padding-left: 0;
+  padding-right: 0;
+}
+
 .myTableIview .ivu-table-border td {
   border-right: 1px solid #fafafa;
   border-bottom: 1px solid #fafafa;
