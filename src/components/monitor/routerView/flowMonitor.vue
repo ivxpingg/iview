@@ -27,6 +27,10 @@
     export default {
         data () {
             return {
+                oSetTimeOut1: null,
+                oSetTimeOut2: null,
+                oSetTimeOut3: null,
+                setTimeOutInfoPanelDataTime: 30000,
                 defaultSelect: '2',
                 stationData: [
                      { name: '镇海路站', id: '1' },
@@ -53,21 +57,246 @@
                      { name: '天水路站', id: '22' },
                      { name: '厦门北站', id: '23' },
                      { name: '岩内站', id: '24' }
-                 ]
+                 ],
+
+                myChart1: null,
+                myChart2: null,
+                myChart3: null,
+
+                option1: { series:
+                    [
+                        {
+                            name:'今日进站量',
+                            type:'bar',
+                            data: []
+                            // data:[150, 232, 201, 154, 190, 330, 410, 150, 232, 201, 154, 190, 330, 410, 150, 232, 201, 154, 190, 220]
+                        },
+                        {
+                            name:'上周同期进站量',
+                            type:'bar',
+                            data: []
+                            // data:[220, 182, 191, 234, 290, 330, 310, 220, 182, 191, 234, 290, 220, 182, 191, 234, 290, 330, 310, 220]
+                        },
+                        {
+                            name:'今日出站量',
+                            type:'line',
+                            data: []
+                            // data:[120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 120, 132, 101, 134, 90, 230, 210, 120, 220]
+                        },
+                        {
+                            name:'上周同期出站量',
+                            type:'line',
+                            data: []
+                            // data:[220, 182, 191, 234, 290, 330, 310, 220, 182, 191, 234, 290, 220, 182, 191, 234, 290, 330, 310, 220]
+                        }
+                ]},
+                result1: {
+                    lastWeekOutList: [],
+                    lastWeekInList: [],
+                    todayOutList: [],
+                    todayInList: []
+                },
+
+                option2: {
+                    series: [
+                                {
+                                    name:'今日进站量',
+                                    type:'bar',
+                                    data: []
+                                },
+                                {
+                                    name:'上周同期进站量',
+                                    type:'bar',
+                                    data: []
+                                },
+                                {
+                                    name:'今日出站量',
+                                    type:'line',
+                                    data: []
+                                },
+                                {
+                                    name:'上周同期出站量',
+                                    type:'line',
+                                    data: []
+                                }
+                    ]
+                },
+                result2: {
+                    lastWeekOutList: [],
+                    lastWeekInList: [],
+                    todayOutList: [],
+                    todayInList: []
+                },
+
+                option3: {
+                    series: [{data: []}, {data: []}, {data: []}]
+                },
+                result3: {
+                    todayPassengerOutList: [],
+                    todayPassengerInList: []
+                }
             }
+        },
+        beforeDestroy() {
+            if (this.oSetTimeOut1) {
+                clearTimeout(this.oSetTimeOut1);
+            }
+
+            if (this.oSetTimeOut2) {
+                clearTimeout(this.oSetTimeOut1);
+            }
+
+            if (this.oSetTimeOut3) {
+                clearTimeout(this.oSetTimeOut1);
+            }
+        },
+        watch: {
+            defaultSelect(val, oldVal) {
+                this.getData22();
+            },
+            result1: {
+                handler: function (val, oldVal) {
+                    this.option1.series[0].data = val.todayInList;
+                    this.option1.series[1].data = val.lastWeekInList;
+                    this.option1.series[2].data = val.todayOutList;
+                    this.option1.series[3].data = val.lastWeekOutList;
+                    this.myChart1.setOption(this.option1);  // 更新图表数据
+                },
+                deep: true
+            },
+            result2: {
+                handler: function (val, oldVal) {
+                    this.option2.series[0].data = val.todayInList;
+                    this.option2.series[1].data = val.lastWeekInList;
+                    this.option2.series[2].data = val.todayOutList;
+                    this.option2.series[3].data = val.lastWeekOutList;
+                    this.myChart2.setOption(this.option2);  // 更新图表数据
+                },
+                deep: true
+            },
+            result3: {
+                handler: function (val, oldVal) {
+                    var data1 = [],
+                        data2 = [],
+                        data3 = [];
+
+                    val.todayPassengerInList.forEach(function (v, idx) {
+                        data1.push(val.todayPassengerOutList[idx] + val.todayPassengerInList[idx]);
+
+                        data2.push(val.todayPassengerInList[idx]);
+
+                        data3.push(~val.todayPassengerOutList[idx] + 1);
+                    });
+
+
+                    this.option3.series[0].data = data1;
+                    this.option3.series[1].data = data2;
+                    this.option3.series[2].data = data3;
+
+                    this.myChart3.setOption(this.option3);  // 更新图表数据
+                },
+                deep: true
+            }
+
         },
         mounted() {
             this.lineEchart();
             this.stationEchart();
             this.barEchart();
+
+            this.getData1();
+            this.getData2();
+            this.getData3();
         },
         methods: {
-            getData(){
+            getData1(){
+                var that = this;
+                Util.ajax({
+                    method: "get",
+                    url: '/xm/run/passengerCount/getPassengerInfoByTime',
+                    data: {}
+                }).then(function(response){
+                    if (response.status === 1) {
+                        that.result1 = response.result;
+                    }
+                    else {}
 
+                    that.oSetTimeOut1 = setTimeout(function () {
+                        that.getData1();
+                    }, that.setTimeOutInfoPanelDataTime);
+                }).catch(function (error) {
+                    console.log(error);
+                    that.oSetTimeOut1 = setTimeout(function () {
+                        that.getData1();
+                    }, that.setTimeOutInfoPanelDataTime);
+                })
+            },
+            getData2(){
+                var that = this;
+                Util.ajax({
+                    method: "get",
+                    url: '/xm/run/passengerCount/getPassengerInfoByTime',
+                    params: {
+                        stationId: that.defaultSelect
+                    }
+                }).then(function(response){
+                    if (response.status === 1) {
+                        that.result2 = response.result;
+                    }
+                    else {}
+
+                    that.oSetTimeOut2 = setTimeout(function () {
+                        that.getData2();
+                    }, that.setTimeOutInfoPanelDataTime);
+                }).catch(function (error) {
+                    console.log(error);
+                    that.oSetTimeOut2 = setTimeout(function () {
+                        that.getData2();
+                    }, that.setTimeOutInfoPanelDataTime);
+                })
+            },
+            getData22(){
+                var that = this;
+                Util.ajax({
+                    method: "get",
+                    url: '/xm/run/passengerCount/getPassengerInfoByTime',
+                    params: {
+                        stationId: that.defaultSelect
+                    }
+                }).then(function(response){
+                    if (response.status === 1) {
+                        that.result2 = response.result;
+                    }
+                    else {}
+                }).catch(function (error) {
+                    console.log(error);
+                })
+            },
+            getData3(){
+                var that = this;
+                Util.ajax({
+                    method: "get",
+                    url: '/xm/run/passengerCount/getTodayPassengerInfo',
+                    data: {}
+                }).then(function(response){
+                    if (response.status === 1) {
+                        that.result3 = response.result;
+                    }
+                    else {}
+
+                    that.oSetTimeOut3 = setTimeout(function () {
+                        that.getData3();
+                    }, that.setTimeOutInfoPanelDataTime);
+                }).catch(function (error) {
+                    console.log(error);
+                    that.oSetTimeOut3 = setTimeout(function () {
+                        that.getData3();
+                    }, that.setTimeOutInfoPanelDataTime);
+                })
             },
 
             lineEchart() {
-                var myChart = echarts.init(this.$refs.lineFlowEchart);
+                this.myChart1 = echarts.init(this.$refs.lineFlowEchart);
                 var option = {
                     color: ['#ea5550','#69a2d8','#ea5550','#69a2d8', '#8e81bc'],
                     title: {
@@ -142,33 +371,32 @@
                         {
                             name:'今日进站量',
                             type:'bar',
-                            data:[150, 232, 201, 154, 190, 330, 410, 150, 232, 201, 154, 190, 330, 410, 150, 232, 201, 154, 190, 220]
+                            data: []
                         },
                         {
                             name:'上周同期进站量',
                             type:'bar',
-                            data:[220, 182, 191, 234, 290, 330, 310, 220, 182, 191, 234, 290, 220, 182, 191, 234, 290, 330, 310, 220]
+                            data: []
                         },
                         {
                             name:'今日出站量',
                             type:'line',
-                            data:[120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 120, 132, 101, 134, 90, 230, 210, 120, 220]
+                            data: []
                         },
                         {
                             name:'上周同期出站量',
                             type:'line',
-                            data:[220, 182, 191, 234, 290, 330, 310, 220, 182, 191, 234, 290, 220, 182, 191, 234, 290, 330, 310, 220]
+                            data: []
                         }
                     ]
                 };
-                myChart.setOption(option);
-
-
+                this.myChart1.setOption(option);
             },
+
             stationEchart() {
-                var myChart = echarts.init(this.$refs.stationFlowEchart);
+                this.myChart2 = echarts.init(this.$refs.stationFlowEchart);
                 var option = {
-                    color: ['#ea5550','#69a2d8', '#8e81bc'],
+                    color: ['#ea5550','#69a2d8','#ea5550','#69a2d8', '#8e81bc'],
                     title: {
                         text: ''
                     },
@@ -176,7 +404,7 @@
                         trigger: 'axis'
                     },
                     legend: {
-                        data:['今日','昨日','上周同期']
+                        data:['今日进站量','上周同期进站量','今日出站量', '上周同期出站量']
                     },
                     grid: {
                         show: true,
@@ -238,32 +466,34 @@
                     },
                     series: [
                         {
-                            name:'今日',
-                            type:'line',
-                            stack: '总量',
-                            data:[120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90]
+                            name:'今日进站量',
+                            type:'bar',
+                            data: []
                         },
                         {
-                            name:'昨日',
-                            type:'line',
-                            stack: '总量',
-                            data:[220, 182, 191, 234, 290, 330, 310, 220, 182, 191, 234, 290, 220, 182, 191, 234, 290, 330, 310, 220, 182, 191, 234, 290]
+                            name:'上周同期进站量',
+                            type:'bar',
+                            data: []
                         },
                         {
-                            name:'上周同期',
+                            name:'今日出站量',
                             type:'line',
-                            stack: '总量',
-                            data:[150, 232, 201, 154, 190, 330, 410, 150, 232, 201, 154, 190, 330, 410, 150, 232, 201, 154, 190, 330, 410, 190, 330, 410]
+                            data: []
+                        },
+                        {
+                            name:'上周同期出站量',
+                            type:'line',
+                            data: []
                         }
                     ]
                 };
-                myChart.setOption(option);
+                this.myChart2.setOption(option);
             },
 
             barEchart(){
                 var that = this;
 
-                var myChart = echarts.init(this.$refs.barEchart);
+                this.myChart3 = echarts.init(this.$refs.barEchart);
 
                 var option = {
                     color: ['#ea5550','#69a2d8','#8e81bc'],
@@ -345,7 +575,7 @@
                                     position: 'left'
                                 }
                             },
-                            data:[120, 132, 101, 134, 190, 230, 210, 120, 132, 101, 134, 190, 230, 210, 120, 132, 101, 134, 190, 230, 210, 120, 132, 101]
+                            data:[]
                         },
                         {
                             name:'进站客流量',
@@ -357,7 +587,7 @@
                                     position: 'inside'
                                 }
                             },
-                            data:[200, 170, 240, 244, 200, 220, 210, 200, 170, 240, 244, 200, 220, 210, 200, 170, 240, 244, 200, 220, 210, 200, 170, 240]
+                            data:[]
                         },
                         {
                             name:'出站客流量',
@@ -368,14 +598,14 @@
                                     show: true
                                 }
                             },
-                            data:[-320, -302, -341, -374, -390, -450, -420, -320, -302, -341, -374, -390, -450, -420, -320, -302, -341, -374, -390, -450, -420, -320, -302, -341]
+                            data:[]
                         }
                     ]
                 };
 
-                myChart.setOption(option);
+                this.myChart3.setOption(option);
 
-                myChart.on('click', function (params) {
+                this.myChart3.on('click', function (params) {
                    for (var i = 0; i < that.stationData.length; i++) {
 
                        if (that.stationData[i].name == params.name || that.stationData[i].name.replace('站','') == params.name) {

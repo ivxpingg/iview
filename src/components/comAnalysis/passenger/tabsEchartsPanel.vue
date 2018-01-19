@@ -287,7 +287,7 @@
                     yAxis: [
                         {
                             type: 'value',
-                            name: '',
+                            name: '人次',
                             axisLabel: {
                                 formatter: '{value}',
                                 textStyle: {
@@ -303,7 +303,27 @@
                                     width: 1
                                 }
                             }
+                        },
+                        {
+                            type: 'value',
+                            name: '平均运距',
+                            axisLabel: {
+                                formatter: '{value}km',
+                                textStyle: {
+                                    color: '#454e5e'
+                                }
+                            },
+                            axisTick: {
+                                length: 3
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    color: '#187fc4',
+                                    width: 1
+                                }
+                            }
                         }
+
                     ],
                     series: [
                         {
@@ -314,6 +334,7 @@
                         {
                             name:'平均运距',
                             type:'line',
+                            yAxisIndex: 1,
                             data:[220, 182, 191, 234, 290, 330, 310]
                         }
                     ]
