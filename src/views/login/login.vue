@@ -1,107 +1,49 @@
-<style lang="scss" type="stylesheet/scss" scoped>
 
-    .login-bg {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-
-        .login-panel-title {
-            height: 55px;
-            line-height: 55px;
-            border-bottom: 1px solid #eee;
-            margin-bottom: 24px;
-            span {
-                font-size: 18px;
-                border-bottom: 3px solid #e56124;
-                color: #666;
-                padding-bottom: 14px;
-            }
-        }
-
-        .swiper-container {
-            position: absolute;
-            z-index: 1;
-            width: 100%;
-            img {
-                width: 100%;
-            }
-        }
-
-    }
-
-
-    .login-panel {
-        position: absolute;
-        z-index: 2;
-        top: 50%;
-        left: 50%;
-        margin-top: -260px;
-        margin-left: -187px;
-        padding: 0 24px 0;
-        width: 374px;
-        border: 1px solid #eee;
-        background: #fff;
-        border-radius: 5px;
-    }
-
-</style>
 <template>
 
-    <div class="login-bg">
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <img src="../../images/login-bg2.jpeg" alt="" />
-                </div>
-                <div class="swiper-slide">
-                    <img src="../../images/login-bg3.jpeg" alt="" />
-                </div>
-                <div class="swiper-slide">
-                    <img src="../../images/login-bg4.jpeg" alt="" />
-                </div>
-            </div>
+    <div ref="loginBg" class="login-bg">
+        <div class="login-bg-inner">
+            <img class="login-bg1" src="./images/login-bg1.png" alt="">
+            <div ref="loginBg2" class="login-bg2"></div>
+            <img class="login-bg3" src="./images/login-bg3.png" alt="">
         </div>
-        <div class="login-panel">
+        <div ref="loginPanel" class="login-panel">
             <Form ref="formInline" :model="formInline" :rules="ruleInline" >
                 <Row>
                     <Col span="24">
-                        <div class="login-panel-title">
-                            <span>账号登录</span>
-                        </div>
-                    </Col>
-                    <Col span="24">
-                    <Form-item class="iputout" prop="user">
-                        <Input class="input" type="text" v-model="formInline.user" size="large" autocomplete="off" placeholder="用户名">
-                        <Icon type="ios-person-outline" slot="prepend"></Icon>
+                    <Form-item class="iputout" prop="user" label="用户名：" :label-width="75">
+                        <Input class="input" type="text" v-model="formInline.user" autocomplete="off" placeholder="用户名">
+                        <Icon type="ios-person" slot="prepend"></Icon>
                         </Input>
                     </Form-item>
                     </Col>
                     <Col span="24">
-                    <Form-item prop="password">
-                        <Input type="password" v-model="formInline.password" size="large" placeholder="密码">
-                        <Icon type="ios-locked-outline" slot="prepend"></Icon>
+                    <Form-item prop="password" label="密  码：" :label-width="75">
+                        <Input type="password" v-model="formInline.password" placeholder="密码">
+                        <Icon type="ios-locked" slot="prepend"></Icon>
                         </Input>
                     </Form-item>
                     </Col>
                     <Col span="24">
-                    <Form-item>
-                        <Button long type="primary" size="large" @click="handleSubmit('formInline')">登录</Button>
+                    <Form-item :label-width="75">
+                        <Button long type="primary" @click="handleSubmit('formInline')">登录</Button>
                     </Form-item>
                     </Col>
                 </Row>
             </Form>
+        </div>
+
+        <div ref="msg" class="msg">
+            <span>版权所有：厦门市交通运输局</span>
+            <span>版权所有：技术支持：背景北大干方科技有限公司</span>
         </div>
     </div>
 </template>
 <script>
     import Util from '../../libs/util';
     import VueRouter from 'vue-router';
-    import $ from 'jquery';
-    import Swiper from 'swiper';
-    import 'swiper/dist/css/swiper.css';
     import MOMENT from 'moment';
-export default {
+    export default {
         data () {
             return {
                 formInline: {
@@ -121,15 +63,6 @@ export default {
         },
         mounted() {
             var that =this;
-            new Swiper ('.swiper-container', {
-                autoplay: 3000,
-                effect : 'fade',
-                speed: 1000,
-                autoplayDisableOnInteraction: false,
-                loop: true
-            });
-
-//            debugger
             document.onkeyup = function (e) {
                 if (window.event)//如果window.event对象存在，就以此事件对象为准
                     e = window.event;
@@ -138,8 +71,36 @@ export default {
                     that.handleSubmit();
                 }
             }
+
+            this.init();
         },
         methods:{
+            init() {
+
+                this.initStyle();
+                this.initEvent();
+
+            },
+            initEvent() {
+                var that = this;
+                window.onresize = function () {
+                    that.initStyle()
+                }
+            },
+            initStyle() {
+                var top = 377;
+                var msgTop = 700;
+                var clientWidth = this.$refs.loginBg.clientWidth;
+                var clientHeight = this.$refs.loginBg.clientHeight;
+
+                this.$refs.loginPanel.style.top = (top / 1440) * clientWidth + 'px';
+                this.$refs.msg.style.top = (msgTop / 1440) * clientWidth + 'px';
+
+                if (clientHeight > 900) {
+                    this.$refs.loginBg2.style.height = (clientHeight - 900) + 'px';
+                }
+
+            },
             handleSubmit() {
                 let that = this;
 
@@ -187,3 +148,127 @@ export default {
         }
     }
 </script>
+<style lang="scss" rel="stylesheet/scss" scoped>
+
+    .login-bg {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        min-width: 1440px;
+        min-height: 900px;
+
+        .login-bg-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+
+            .login-bg1 {
+                width: 100%;
+                display: block;
+            }
+
+            .login-bg2 {
+                width: 100%;
+                height: 0;
+                background: url('./images/login-bg2.png') repeat-y center;
+                background-size: 100% auto;
+            }
+
+            .login-bg3 {
+                display: block;
+                width: 100%;
+            }
+
+        }
+
+        .login-panel {
+            position: absolute;
+            z-index: 2;
+            top: 377px;
+            left: 50%;
+            margin-left: -150px;
+            width: 300px;
+            background: transparent;
+        }
+
+        .msg {
+            position: absolute;
+            top: 700px;
+            width: 100%;
+            height: 20px;
+            color: #FFFFFF;
+            font-size: 12px;
+            line-height: 20px;
+            text-align: center;
+
+            span:first-child{
+                padding-right: 30px;
+            }
+        }
+    }
+
+</style>
+
+<style lang="scss" rel="stylesheet/scss">
+    .login-panel {
+
+        .ivu-btn {
+            font-size: 14px;
+            background-color: #f3994f;
+            border-color: #f3994f;
+            border-radius: 16px;
+
+            &:hover {
+                 background-color: rgba(243, 153, 79, 0.8);
+                 border-color: rgba(243, 153, 79, 0.8);
+            }
+        }
+
+
+        .ivu-form-item-required {
+
+            .ivu-form-item-label {
+                padding-right: 7px;
+                color: #FFFFFF;
+                font-size: 16px;
+
+                &:before {
+                    display: none;
+                }
+            }
+
+            .ivu-form-item-content {
+                line-height: 30px;
+                .ivu-input-wrapper {
+                    font-size: 16px;
+
+                    .ivu-input-group-prepend {
+                        padding: 3px 7px 3px 16px;
+                        height: 32px;
+                        color: #008ccf;
+                        text-align: center;
+                        background-color: #fff;
+                        border: 1px solid #c8daf1;
+                        border-right: 0;
+                        border-radius: 16px;
+                    }
+
+                    .ivu-input {
+                        font-size: 14px;
+                        padding: 3px 7px;
+                        height: 32px;
+                        border: 1px solid #c8daf1;
+                        line-height: 24px;
+                        border-left: 0;
+                        border-radius: 16px;
+
+                        &:active, &:focus {
+                            box-shadow: none;
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+</style>

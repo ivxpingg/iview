@@ -41,7 +41,7 @@
     }
 </script>
 
-<style lang="scss" type="stylesheet/scss" scoped>
+<style lang="scss" rel="stylesheet/scss" scoped>
     .platforms {
          height: 100%;
         .subSystem-panel {
