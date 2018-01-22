@@ -575,6 +575,7 @@
         },
         methods: {
 
+
             upTable() {
                 this.upOrDownTable = true;
             },
@@ -682,7 +683,7 @@
             .btn-com {
                 position: relative;
                 width: 33px;
-                height: 113px;
+                height: 50%;
                 color: #495060;
                 text-align: center;
                 cursor: pointer;

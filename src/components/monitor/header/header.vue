@@ -86,10 +86,10 @@
         }
         .title {
             position: absolute;
-            top: 13px;
+            top: 16px;
             left:40px;
-            width: 601px;
-            height: 60px;
+            width: 518px;
+            height: 54px;
             background: url(./images/run-system-text-logo.png) no-repeat;
             background-size: auto 100%;
         }

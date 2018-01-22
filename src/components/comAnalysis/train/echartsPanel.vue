@@ -32,14 +32,14 @@
                             }
                         }
                     },
-                    toolbox: {
-                        feature: {
-                            dataView: {show: true, readOnly: false},
-                            magicType: {show: true, type: ['line', 'bar']},
-                            restore: {show: true},
-                            saveAsImage: {show: true}
-                        }
-                    },
+//                    toolbox: {
+//                        feature: {
+//                            dataView: {show: true, readOnly: false},
+//                            magicType: {show: true, type: ['line', 'bar']},
+//                            restore: {show: true},
+//                            saveAsImage: {show: true}
+//                        }
+//                    },
                     legend: {
                         data:['计划列次','实际列次','正点率'],
                         left: 10

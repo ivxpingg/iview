@@ -2,7 +2,7 @@
     <div class="monitor-container">
         <vHeader></vHeader>
         <div ref="routerViewBox" class="router-view">
-            <router-view></router-view>
+            <router-view :domHeight="domHeight"></router-view>
         </div>
         <vFooter class="footer"></vFooter>
     </div>
@@ -16,7 +16,9 @@
     import vVideoMonitor from '../../../components/monitor/routerView/videoMonitor.vue';
     export default {
         data () {
-            return {}
+            return {
+                domHeight: 783
+            }
         },
         components: {
             vHeader,
@@ -31,14 +33,21 @@
         methods: {
             init() {
                 var that = this;
-                that.initStyle();
+
                 window.onresize = function() {
                     that.initStyle();
                 }
+                that.initStyle();
             },
             initStyle() {
-                if (!!this.$refs.routerViewBox) {
-                    this.$refs.routerViewBox.style.minHeight = (this.$el.clientHeight - 87 - 30)+ 'px';
+                var clientHeight = this.$el.clientHeight;
+
+                if (clientHeight < 900) {
+                    this.$refs.routerViewBox.style.height = (900 - 87 - 30)+ 'px';
+                }
+                else {
+                    this.domHeight = (this.$el.clientHeight - 87 - 30)+ 'px';
+                    this.$refs.routerViewBox.style.height = (this.$el.clientHeight - 87 - 30)+ 'px';
                 }
             }
         }
@@ -57,6 +66,7 @@
             bottom: 0;
             left: 0;
             width: 100%;
+            min-height: 783px;
         }
 
         .footer {

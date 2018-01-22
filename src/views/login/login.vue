@@ -4,8 +4,6 @@
     <div ref="loginBg" class="login-bg">
         <div class="login-bg-inner">
             <img class="login-bg1" src="./images/login-bg1.png" alt="">
-            <div ref="loginBg2" class="login-bg2"></div>
-            <img class="login-bg3" src="./images/login-bg3.png" alt="">
         </div>
         <div ref="loginPanel" class="login-panel">
             <Form ref="formInline" :model="formInline" :rules="ruleInline" >
@@ -35,7 +33,7 @@
 
         <div ref="msg" class="msg">
             <span>版权所有：厦门市交通运输局</span>
-            <span>版权所有：技术支持：背景北大干方科技有限公司</span>
+            <span>技术支持：北京北大干方科技有限公司</span>
         </div>
     </div>
 </template>
@@ -95,11 +93,6 @@
 
                 this.$refs.loginPanel.style.top = (top / 1440) * clientWidth + 'px';
                 this.$refs.msg.style.top = (msgTop / 1440) * clientWidth + 'px';
-
-                if (clientHeight > 900) {
-                    this.$refs.loginBg2.style.height = (clientHeight - 900) + 'px';
-                }
-
             },
             handleSubmit() {
                 let that = this;
@@ -155,12 +148,13 @@
         width: 100%;
         height: 100%;
         min-width: 1440px;
-        min-height: 900px;
+        min-height: 770px;
 
         .login-bg-inner {
             position: relative;
             width: 100%;
             height: 100%;
+            background-color: #FCFCFC;
 
             .login-bg1 {
                 width: 100%;

@@ -389,10 +389,11 @@
         }
         .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab {
             position: relative;
-            margin-right: 18px;
+            margin-right: 15px;
             height: 26px;
             padding: 0 16px;
             line-height: 26px;
+            background-color: #FFFFFF;
             border-radius: 0;
             border-color: #cccccd;
 

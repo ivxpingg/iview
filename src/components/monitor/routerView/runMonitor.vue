@@ -1,10 +1,10 @@
 <template>
-    <div class="container">
+    <div class="runMonitor-container">
         <div class="line-map-bg">
             <vInfoPanel :datas="infoPanelData"></vInfoPanel>
             <vLineMap class="v-line-map"></vLineMap>
         </div>
-        <vInfoTable></vInfoTable>
+        <vInfoTable ref="vInfoTable" class="v-info-table"></vInfoTable>
 
         <vSubwayLines v-if="fullScreen" ref="subwayLines" class="fullScreenBox"></vSubwayLines>
         <i class="ivu-icon icon-fullScreen"
@@ -74,6 +74,19 @@
                 }
             }
         },
+        props: {
+            domHeight: {
+                type: Number,
+                default() {
+                    return 0;
+                },
+            }
+        },
+        watch: {
+            domHeight(val, valOld) {
+                console.log(val);
+            }
+        },
         components: {
             vInfoPanel,
             vLineMap,
@@ -90,6 +103,7 @@
             this.parentDom = this.$el.parentNode;
 
             this.getRunMonitorInfo();
+
         },
         methods: {
             /**
@@ -199,12 +213,13 @@
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
-    .container {
+    .runMonitor-container {
         position: relative;
-
+        height: 100%;
         .line-map-bg {
             padding-top: 7px;
             width: 100%;
+            height:557px;
             background: #dfdddc url(./images/line-map-bg.png) no-repeat;
             background-size: 1440px auto;
             background-position: top center;
@@ -213,6 +228,10 @@
                 margin: 5px 40px 0px 30px;
                 padding-bottom: 3px;
             }
+        }
+
+        .vInfoTable {
+
         }
 
         .icon-fullScreen {
