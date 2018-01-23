@@ -1,5 +1,5 @@
 <template>
-    <div class="infoTable-container">
+    <div class="infoTable-container" :style="{height: height + 'px'}">
         <div class="btn-panel">
             <div class="btn-com btn-up" :class="upOrDownTable ? 'active': ''" @click="upTable()"><span>上</span><span>行</span></div>
             <div class="btn-com btn-down" :class="upOrDownTable ? '': 'active'" @click="downTable()"><span>下</span><span>行</span></div>
@@ -563,19 +563,31 @@
                 upTrainPosition: {}
             }
         },
+        props: {
+            height: {
+                type: Number,
+                default() {
+                    return 226;
+                }
+            }
+        },
+        watch: {
+            height(val, valOld) {
+                this.tableHeight = val;
+            }
+        },
         beforeDestroy() {
             if (this.setTimeOutInfoPanelData) {
                 clearTimeout(this.setTimeOutInfoPanelData);
             }
         },
         mounted() {
+
             this.tableHeight = document.querySelector('.infoTable-container').clientHeight;
 
             this.getTrainRun();
         },
         methods: {
-
-
             upTable() {
                 this.upOrDownTable = true;
             },
@@ -666,7 +678,6 @@
     .infoTable-container {
         position: relative;
         width: 100%;
-        height: 100%;
         min-height: 226px;
 
         .btn-panel {
@@ -729,7 +740,7 @@
                     }
                 }
                 &.active {
-                    z-index: 10;
+                    z-index: 1;
                 }
                 span:first-child {
                     position: absolute;

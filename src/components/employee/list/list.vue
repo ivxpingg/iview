@@ -84,72 +84,8 @@
         <div class="table-panel"></div>
 
         <Row>
-            <!--<Col span="24" class="ms-col-btn-panel">-->
-                <!--<Button type="primary" icon="ios-cloud-upload-outline" @click="showModalExport">导入从业人员</Button>-->
-                <!--<Button type="primary" icon="ios-cloud-upload-outline" @click="showModalExportReocrd">导入从业人员培训记录</Button>-->
-            <!--</Col>-->
-            <!--<Col span="24">-->
-                <!--<Form class="ms-form-search" :model="searchParams" inline :label-width="0">-->
-                    <!--<FormItem prop="name"  label="模糊条件">-->
-                        <!--<Input v-model="searchParams.name" placeholder="请输入姓名或工号" style="width: 160px"></Input>-->
-                    <!--</FormItem>-->
-
-                    <!--<FormItem prop="postCategory" label="人员状态">-->
-                        <!--<Select v-model="searchParams.postCategory" transfer placeholder="请选择"  style="width: 160px">-->
-                            <!--<Option :value="''" :label="'全选'"></Option>-->
-                            <!--<Option v-for="(item, index) in dict_post_type_List" :value="item.value">{{item.label}}</Option>-->
-                        <!--</Select>-->
-                    <!--</FormItem>-->
-
-                    <!--<FormItem prop="postCategory" label="">-->
-                        <!--<Select v-model="searchParams.postCategory" transfer placeholder="请选择岗位"  style="width: 160px">-->
-                            <!--<Option :value="''" :label="'全选'"></Option>-->
-                            <!--<Option v-for="(item, index) in dict_post_type_List" :value="item.value">{{item.label}}</Option>-->
-                        <!--</Select>-->
-                    <!--</FormItem>-->
-
-                    <!--<FormItem v-if="searchParams.postCategory !=''" prop="postName" label="">-->
-                        <!--<Select v-if="searchParams.postCategory != 'other'" v-model="searchParams.postName" transfer placeholder="请选择岗位名称" style="width: 220px">-->
-                            <!--<Option :value="''">全选</Option>-->
-                            <!--<Option v-for="item in dict_post_name_List" :value="item.value">{{item.label}}</Option>-->
-                        <!--</Select>-->
-                        <!--<Input class="ms-input" v-else v-model="searchParams.otherPost" placeholder="请输入岗位名称" style="width: 220px"></Input>-->
-                    <!--</FormItem>-->
-
-                    <!--&lt;!&ndash;<FormItem prop="sex"  label="">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<Select v-model="searchParams.sex" placeholder="性别" transfer  style="width: 80px">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<Option v-for="item in dict_sex" :value="item.value">{{item.label}}</Option>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</Select>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</FormItem>&ndash;&gt;-->
-
-
-
-                    <!--<FormItem label="">-->
-                        <!--<FormItem prop="entryDate">-->
-                            <!--<DatePicker type="daterange" format="yyyy-MM-dd" :editable="false" placeholder="入职时间" v-model="entryDate" style="width: 190px"></DatePicker>-->
-                        <!--</FormItem>-->
-                    <!--</FormItem>-->
-
-                    <!--<FormItem label="">-->
-                        <!--<FormItem prop="updateDate">-->
-                            <!--<DatePicker-->
-                                    <!--type="datetimerange"-->
-                                    <!--:confirm="false"-->
-                                    <!--:options="DatePickerOptions"-->
-                                    <!--format="yyyy-MM-dd HH:mm:ss"-->
-                                    <!--:editable="false"-->
-                                    <!--placeholder="选择日期"-->
-                                    <!--v-model="updateDate"-->
-                                    <!--style="width: 290px"></DatePicker>-->
-                        <!--</FormItem>-->
-                    <!--</FormItem>-->
-                    <!--<Button type="primary" @click="search" icon="ios-search">查询</Button>-->
-                    <!--<a :href="exportFileUrl" class="ivu-btn ivu-btn-primary"><span>导出</span></a>-->
-                <!--</Form>-->
-            <!--</Col>-->
-
             <Col span="24">
-                <Table  class="myTableIview" border :columns="columns" stripe :data="listData"></Table>
+                <Table  class="myTableIview" border :columns="columns" stripe :data="listData" :height="521"></Table>
                 <div class="ms-table-page">
                     <Page
                         :total="searchParams.count"
@@ -524,19 +460,19 @@
                 listData: [],                       // 表格数据，接收ajax返回的数据
                 columns: [
                     { title: '序号', type: 'index', width: 80, align: 'center' },
-                    { title: '姓名', key: 'name'},
-                    { title: '人员状态', key: 'status' },
+                    { title: '姓名', key: 'name', align: 'center'},
+                    { title: '人员状态', key: 'status', align: 'center' },
 //                    { title: '工号', key: 'jobNum' },
 //                    { title: '性别', key: 'sex' },
-                    { title: '岗位类别', key: 'postCategory', sortable: true },
-                    { title: '岗位名称', key: 'postName', sortable: true },
-                    { title: '从业资格证名称', key: 'shortCertificateName' },
-                    { title: '发证单位', key: 'shortIssuingUnit' },
-                    { title: '取证日期', key: 'getCertificateTime', sortable: true },
-                    { title: '从业资格证有效期', key: 'certificateUseDate', sortable: true },
-                    { title: '更新日期', key: 'modTime', sortable: true },
+                    { title: '岗位类别', key: 'postCategory', sortable: true, align: 'center' },
+                    { title: '岗位名称', key: 'postName', sortable: true, align: 'center' },
+                    { title: '从业资格证名称', key: 'shortCertificateName', align: 'center' },
+                    { title: '发证单位', key: 'shortIssuingUnit', align: 'center' },
+                    { title: '取证日期', key: 'getCertificateTime', sortable: true, align: 'center' },
+                    { title: '从业资格证有效期', key: 'certificateUseDate', sortable: true, align: 'center' },
+                    { title: '更新日期', key: 'modTime', sortable: true, align: 'center' },
 //                    { title: '联系电话', key: 'phone' },
-                    { title: '操作', key: 'action', width: 180, render: (h, params) => {
+                    { title: '操作', align: 'center', key: 'action', width: 180, render: (h, params) => {
                         var that = this;
                         return h('div', [
                             h('Button', {

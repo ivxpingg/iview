@@ -16,7 +16,7 @@
         data() {
             return {
                 time: [MOMENT().subtract(9, 'days').format('YYYY-MM-DD'), MOMENT().format('YYYY-MM-DD')],
-                dim: 'day',
+                dim: 'day'
             }
         },
         components: {vSearchPanel, vTabsTable, vEchartsPanel},

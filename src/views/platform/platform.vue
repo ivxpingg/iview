@@ -152,7 +152,7 @@
             init(){
                 var that = this;
                 window.onresize = function () {
-                    debugger
+
                     var images = that.figure.children,
                         n = images.length;
 

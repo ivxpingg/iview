@@ -4,7 +4,7 @@
             <vInfoPanel :datas="infoPanelData"></vInfoPanel>
             <vLineMap class="v-line-map"></vLineMap>
         </div>
-        <vInfoTable ref="vInfoTable" class="v-info-table"></vInfoTable>
+        <vInfoTable :height="height" ref="vInfoTable" class="v-info-table"></vInfoTable>
 
         <vSubwayLines v-if="fullScreen" ref="subwayLines" class="fullScreenBox"></vSubwayLines>
         <i class="ivu-icon icon-fullScreen"
@@ -23,6 +23,7 @@
     export default {
         data () {
             return {
+                height: 226,
                 fullScreen: false,
                 parentDom: null,
 
@@ -84,7 +85,12 @@
         },
         watch: {
             domHeight(val, valOld) {
-                console.log(val);
+                if ((val - 557) > 226) {
+                    this.height = val - 557;
+                }
+                else {
+                    this.height = 226;
+                }
             }
         },
         components: {
@@ -106,6 +112,7 @@
 
         },
         methods: {
+
             /**
              * 浏览器全屏设置
              */

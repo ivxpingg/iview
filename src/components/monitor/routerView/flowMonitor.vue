@@ -1,5 +1,5 @@
 <template>
-    <div class="flowMonitor-container">
+    <div class="flowMonitor-container" style="height: 100%">
         <div class="panel-left">
             <div class="echart-top">
                 <div ref="lineFlowEchart" class="line-line-flow-echart"></div>
@@ -137,6 +137,8 @@
                 }
             }
         },
+        props: {},
+        watch: {},
         beforeDestroy() {
             if (this.oSetTimeOut1) {
                 clearTimeout(this.oSetTimeOut1);
@@ -621,10 +623,11 @@
 
 <style lang="scss" rel="stylesheet/scss" scoped>
     .flowMonitor-container {
+        position: relative;
         display: flex;
         margin: 0;
         padding: 0;
-        height: 783px;
+        height: 100%;
         background-color: #ecebeb;
 
         .panel-left {

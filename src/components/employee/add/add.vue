@@ -217,11 +217,11 @@
                 },
                 // 培训记录表格配置信息
                 oTrainRecordColumns: [
-                    { title: '时间', key: 'trainDate', width: 180},
-                    { title: '学时', key: 'period' },
-                    { title: '培训内容', key: 'trainContent' },
-                    { title: '成绩', key: 'achievement', width: 80 },
-                    { title: '操作', key: 'action', width: 120, render: (h, params) => {
+                    { title: '时间', align: 'center', key: 'trainDate', width: 180},
+                    { title: '学时', align: 'center', key: 'period' },
+                    { title: '培训内容', align: 'center', key: 'trainContent' },
+                    { title: '成绩', align: 'center', key: 'achievement', width: 80 },
+                    { title: '操作', align: 'center', key: 'action', width: 120, render: (h, params) => {
                             var that = this;
                             return h('div', [
                                 h('Button', {

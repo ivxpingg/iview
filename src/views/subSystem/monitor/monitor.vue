@@ -1,10 +1,10 @@
 <template>
     <div class="monitor-container">
-        <vHeader></vHeader>
+        <vHeader class="v-header"></vHeader>
         <div ref="routerViewBox" class="router-view">
             <router-view :domHeight="domHeight"></router-view>
         </div>
-        <vFooter class="footer"></vFooter>
+        <vFooter class="v-footer"></vFooter>
     </div>
 </template>
 
@@ -43,11 +43,11 @@
                 var clientHeight = this.$el.clientHeight;
 
                 if (clientHeight < 900) {
-                    this.$refs.routerViewBox.style.height = (900 - 87 - 30)+ 'px';
+//                    this.$refs.routerViewBox.style.height = (900 - 87 - 30)+ 'px';
                 }
                 else {
-                    this.domHeight = (this.$el.clientHeight - 87 - 30)+ 'px';
-                    this.$refs.routerViewBox.style.height = (this.$el.clientHeight - 87 - 30)+ 'px';
+                    this.domHeight = (this.$el.clientHeight - 87 - 30);
+                    this.$refs.routerViewBox.style.minHeight = (this.$el.clientHeight - 87 - 30)+ 'px';
                 }
             }
         }
@@ -59,17 +59,28 @@
         position: relative;
         height: 100%;
 
+        .v-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 2;
+        }
+
         .router-view {
             position: relative;
-            top: 0px;
+            padding-top: 87px;
+            padding-bottom: 30px;
+            top: 0;
             right: 0;
             bottom: 0;
             left: 0;
             width: 100%;
-            min-height: 783px;
+            height: 100%;
+            min-height: 900px;
         }
 
-        .footer {
+        .v-footer {
             position: fixed;
             bottom: 0;
             left: 0;

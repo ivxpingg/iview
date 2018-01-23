@@ -17,37 +17,21 @@
         },
         components: {vHeader, vFooter},
         mounted() {
-            this.init();
         },
-        methods: {
-            init() {
-                var that = this;
-                that.initStyle();
-                window.onresize = function() {
-                    that.initStyle();
-                }
-            },
-            initStyle() {
-                if (!!this.$refs.routerViewBox) {
-                    this.$refs.routerViewBox.style.minHeight = (this.$el.clientHeight - 87 - 30)+ 'px';
-                }
-            }
-        }
+        methods: { }
     }
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
     .employee-container {
         position: relative;
-        min-height: 100%;
-        padding-top: 87px;
-        padding-bottom: 30px;
+        height: 100%;
         .v-header {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            z-index: 100;
+            z-index: 2;
         }
 
         .router-view {
@@ -59,8 +43,10 @@
             width: 100%;
             padding-left: 14px;
             padding-right: 14px;
-            padding-top: 12px;
+            padding-top: 99px;
+            padding-bottom: 30px;
             background-color: #ecebeb;
+            min-height: 900px;
         }
 
         .footer {
@@ -68,7 +54,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            z-index: 100;
+            z-index: 2;
         }
     }
 </style>

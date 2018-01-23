@@ -24,7 +24,7 @@
 <style scoped>
     .container {
         width: 100%;
-        min-width: 1440px;
+        min-width: 1400px;
         height: 100%;
         overflow-x: auto;
     }

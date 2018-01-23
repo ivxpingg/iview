@@ -1,6 +1,6 @@
 <template>
     <div class="comAnalysis-container">
-        <vHeader></vHeader>
+        <vHeader class="v-header"></vHeader>
         <div ref="routerViewBox" class="router-view">
             <router-view></router-view>
         </div>
@@ -21,16 +21,16 @@
         },
         methods: {
             init() {
-                var that = this;
-                that.initStyle();
-                window.onresize = function() {
-                    that.initStyle();
-                }
+//                var that = this;
+//                that.initStyle();
+//                window.onresize = function() {
+//                    that.initStyle();
+//                }
             },
             initStyle() {
-                if (!!this.$refs.routerViewBox) {
-                    this.$refs.routerViewBox.style.minHeight = (this.$el.clientHeight - 87 - 30)+ 'px';
-                }
+//                if (!!this.$refs.routerViewBox) {
+//                    this.$refs.routerViewBox.style.minHeight = (this.$el.clientHeight - 87 - 30)+ 'px';
+//                }
             }
         }
     }
@@ -42,14 +42,26 @@
         height: 100%;
         background-color: #ecebeb;
 
+        .v-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 2;
+        }
+
         .router-view {
             position: relative;
             padding-left: 32px;
             padding-right: 32px;
+            padding-top: 87px;
+            padding-bottom: 30px;
             top: 0;
             right: 0;
             bottom: 0;
             left: 0;
+            height: 100%;
+            min-height: 900px;
         }
 
         .footer {
