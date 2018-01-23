@@ -18,11 +18,12 @@
 </template>
 <script>
     import echarts from 'echarts';
+    import MOMENT from 'moment';
     import Util from '../../../libs/util';
     export default {
         data() {
             return {
-                defaultSelect: '2',
+                defaultSelect: '1',
                 stationData: [
                     { name: '镇海路站', id: '1' },
                     { name: '中山公园站', id: '2' },
@@ -55,7 +56,7 @@
                 myChart3: null,
 
                 option1: {
-                    xAxis: [ { data: [] } ],
+//                    xAxis: [ { data: [] } ],
                     series: [
                         { data: [] },
                         { data: [] },
@@ -76,6 +77,15 @@
                         { data: [] },
                         { data: [] }
                     ]
+                },
+
+                echartData2: {
+                    inSinglePassengerFlow: [],
+                    outSinglePassengerFlow: []
+                },
+
+                echartData3: {
+                    averageDistanceList: []
                 }
             }
         },
@@ -102,9 +112,94 @@
         watch: {
             dates(val, valOld) {
                 this.getData1();
+                this.getData2();
+                this.getData3();
             },
             timeFrame(val) {
                 this.getData1();
+                this.getData2();
+            },
+            defaultSelect (val) {
+                this.getData2();
+            },
+            echartData2: {
+                handler: function (val, oldVal) {
+                    var that = this;
+                    that.option2.xAxis[0].data = [];
+                    that.option2.series[0].data = [];
+                    that.option2.series[1].data = [];
+
+                    var smoment = MOMENT(that.dates[0]);
+                    var emoment = MOMENT(that.dates[1]);
+                    var format = 'YYYY-MM-DD';
+                    var type = 'd';
+
+                    switch (that.dim) {
+                        case 'day': format = 'YYYY-MM-DD'; type = 'days'; break;
+                        case 'week': format = 'YYYY-MM-DD'; type = 'weeks'; break;
+                        case 'month': format = 'YYYY-MM'; type = 'months'; break;
+                        case 'year':  format = 'YYYY'; type = 'years'; break;
+                    }
+
+                    if (smoment.isAfter(emoment)) { return;}
+
+                    while (!smoment.isAfter(emoment)) {
+                        that.option2.xAxis[0].data.push(smoment.format(format));
+                        that.option2.series[0].data.push(0);
+                        that.option2.series[1].data.push(0);
+                        smoment.add(type, 1);
+                    }
+
+                    val.inSinglePassengerFlow.forEach(function (value) {
+                        that.option2.series[0].data[that.option2.xAxis[0].data.indexOf(value.insTime)] = value.passengerFlow;
+                    });
+                    val.outSinglePassengerFlow.forEach(function (value) {
+                        that.option2.series[1].data[that.option2.xAxis[0].data.indexOf(value.insTime)] = value.passengerFlow;
+                    });
+                    that.myChart2.setOption(that.option2);
+                },
+                deep: true
+            },
+
+            echartData3: {
+                handler: function (val, oldVal) {
+                    var that = this;
+                    that.option3.xAxis[0].data = [];
+                    that.option3.series[0].data = [];
+                    that.option3.series[1].data = [];
+
+                    var smoment = MOMENT(that.dates[0]);
+                    var emoment = MOMENT(that.dates[1]);
+                    var format = 'YYYY-MM-DD';
+                    var type = 'd';
+
+                    switch (that.dim) {
+                        case 'day': format = 'YYYY-MM-DD'; type = 'days'; break;
+                        case 'week': format = 'YYYY-MM-DD'; type = 'weeks'; break;
+                        case 'month': format = 'YYYY-MM'; type = 'months'; break;
+                        case 'year':  format = 'YYYY'; type = 'years'; break;
+                    }
+
+                    if (smoment.isAfter(emoment)) { return;}
+
+                    while (!smoment.isAfter(emoment)) {
+                        that.option3.xAxis[0].data.push(smoment.format(format));
+                        that.option3.series[0].data.push(0);
+                        that.option3.series[1].data.push(0);
+                        smoment.add(type, 1);
+                    }
+
+                    val.averageDistanceList.forEach(function (value) {
+                        that.option3.series[0].data[that.option3.xAxis[0].data.indexOf(value.insTime)] = value.passengerFlow;
+                        that.option3.series[1].data[that.option3.xAxis[0].data.indexOf(value.insTime)] = value.averageDistance || 0;
+                    });
+
+//                    val.averageDistance.forEach(function (value) {
+//                        that.option3.series[1].data[that.option3.xAxis[0].data.indexOf(value.insTime)] = value.averageDistance;
+//                    });
+                    that.myChart3.setOption(that.option3);
+                },
+                deep: true
             }
         },
         mounted() {
@@ -416,11 +511,12 @@
                     }
                 }).then(function(response){
                     if (response.status === 1) {
-                        console.dir(response.result);
-//                        that.tableDataIn = response.result.avgInPassengerFlowList;
-//                        that.tableDataOut = response.result.maxInPassengerFlowList;
-//                        that.tableDataIn = response.result.avgOutPassengerFlowList;
-//                        that.tableDataOut = response.result.maxOutPassengerFlowList;
+
+                        that.option1.series[0].data =  response.result.avgInPassengerFlowList;
+                        that.option1.series[1].data =  response.result.maxInPassengerFlowList;
+                        that.option1.series[2].data =  response.result.avgOutPassengerFlowList;
+                        that.option1.series[3].data =  response.result.maxOutPassengerFlowList;
+                        that.myChart1.setOption(that.option1);
                     }
                     else {}
                 }).catch(function (error) {
@@ -436,19 +532,39 @@
                         beginDate: that.dates[0],
                         endDate: that.dates[1],
                         type: that.dim,
-                        timeType: that.timeFrame
+                        timeType: that.timeFrame,
+                        stationId: that.defaultSelect
                     }
                 }).then(function(response){
                     if (response.status === 1) {
-                        console.dir(response.result);
-//                        that.tableDataIn = response.result.singlePassengerFlow;
+                        that.echartData2 = response.result;
                     }
                     else {}
                 }).catch(function (error) {
                     console.log(error);
                 })
             },
-            getData3() {}
+            getData3() {
+                var that = this;
+                Util.ajax({
+                    method: "get",
+                    url: '/xm/inte/passengerAnalysis/getAverageDistance',
+                    params: {
+                        beginDate: that.dates[0],
+                        endDate: that.dates[1],
+                        type: that.dim,
+                        timeType: that.timeFrame
+                    }
+                }).then(function(response){
+                    if (response.status === 1) {
+                        console.dir(response.result);
+                        that.echartData3 = response.result;
+                    }
+                    else {}
+                }).catch(function (error) {
+                    console.log(error);
+                })
+            }
         }
     }
 </script>

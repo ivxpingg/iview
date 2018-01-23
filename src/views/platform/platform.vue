@@ -3,11 +3,12 @@
         <div class="title-img"></div>
         <div ref="panel" class="subSystem-panel">
             <ul ref="subBox" class="subSystem-ul">
-                <li name="运营考评"><span class="subSystem subSystem1" @click="goto(systemList['1'])" ></span></li>
+
                 <li name="运行监视"><span class="subSystem subSystem2" @click="goto(systemList['2'])" ></span></li>
                 <li name="综合分析"><span class="subSystem subSystem3" @click="goto(systemList['3'])" ></span></li>
                 <li name="舆情分析"><span class="subSystem subSystem4" @click="goto(systemList['4'])" ></span></li>
                 <li name="应急管理"><span class="subSystem subSystem5" @click="goto(systemList['5'])" ></span></li>
+                <li name="运营考评"><span class="subSystem subSystem1" @click="goto(systemList['1'])" ></span></li>
 
                 <li name="用户权限"><span class="subSystem subSystem11" ></span></li>
                 <li name="用户权限"><span class="subSystem subSystem11" ></span></li>
@@ -19,10 +20,10 @@
                 <li name="用户权限"><span class="subSystem subSystem11" ></span></li>
                 <li name="用户权限"><span class="subSystem subSystem11" ></span></li>
 
-                <li name="从业人员"><span class="subSystem subSystem6" @click="goto(systemList['6'])" ></span></li>
                 <li name="交通衔接"><span class="subSystem subSystem7" @click="goto(systemList['7'])" ></span></li>
                 <li name="综合展示"><span class="subSystem subSystem8" @click="goto(systemList['8'])" ></span></li>
                 <li name="用户权限"><span class="subSystem subSystem9" @click="goto(systemList['9'])" ></span></li>
+                <li name="从业人员"><span class="subSystem subSystem6" @click="goto(systemList['6'])" ></span></li>
 
             </ul>
         </div>

@@ -180,6 +180,9 @@
         watch: {
             dates(val, valOld) {
                 this.getDataTable();
+            },
+            timeFrame(val) {
+                this.getDataTable();
             }
         },
         mounted() {
@@ -199,7 +202,6 @@
                     }
                 }).then(function(response){
                     if (response.status === 1) {
-                        console.dir(response.result);
                         that.tableDataIn = response.result.inPassengerIndexList;
                         that.tableDataOut = response.result.outPassengerIndexList;
                     }

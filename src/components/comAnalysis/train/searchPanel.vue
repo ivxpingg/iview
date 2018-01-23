@@ -103,9 +103,8 @@
                         reDate = [MOMENT(this.day.startTime).format('YYYY-MM-DD'), MOMENT(this.day.endTime).format('YYYY-MM-DD')];
                         break;
                     case 'week':
-                        var w = MOMENT().days() - 1;
-                        this.week.startTime = MOMENT().subtract(w, 'days')._d;
-                        this.week.endTime =  MOMENT()._d;
+                        this.week.startTime = MOMENT().startOf('isoWeek').subtract(4, 'weeks')._d;
+                        this.week.endTime =  MOMENT().startOf('isoWeek').add(6, 'days')._d;
                         reDate = [MOMENT(this.week.startTime).format('YYYY-MM-DD'), MOMENT(this.week.endTime).format('YYYY-MM-DD')];
                         break;
                     case 'month':
@@ -137,7 +136,8 @@
                         reDate = [date, MOMENT(this.day.endTime).format('YYYY-MM-DD')];
                         break;
                     case 'week':
-                        reDate = [date, MOMENT(this.week.endTime).format('YYYY-MM-DD')];
+                        this.week.startTime = MOMENT(date).startOf('isoWeek')._d;
+                        reDate = [MOMENT(date).startOf('isoWeek').format('YYYY-MM-DD'), MOMENT(this.week.endTime).format('YYYY-MM-DD')];
                         break;
                     case 'month':
                         reDate = [date, MOMENT(this.month.endTime).format('YYYY-MM')];
@@ -155,7 +155,8 @@
                         reDate = [MOMENT(this.day.startTime).format('YYYY-MM-DD'), date];
                         break;
                     case 'week':
-                        reDate = [MOMENT(this.week.startTime).format('YYYY-MM-DD'),date];
+                        this.week.endTime = MOMENT(date).startOf('isoWeek').add(6, 'days')._d;
+                        reDate = [MOMENT(this.week.startTime).format('YYYY-MM-DD'),MOMENT(date).startOf('isoWeek').add(6, 'days').format('YYYY-MM-DD')];
                         break;
                     case 'month':
                         reDate = [MOMENT(this.month.startTime).format('YYYY-MM'), date];
