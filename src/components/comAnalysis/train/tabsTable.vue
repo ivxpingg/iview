@@ -5,19 +5,20 @@
                 <Table class="myTableIview" :data="tableData1" :columns="columns1" :height="tableHeight" border></Table>
             </TabPane>
             <TabPane :label="'指标记录(' + tableData2Count + ')'">
-                <Table class="myTableIview" :data="tableData6" :columns="columns2" :height="tableHeight" border></Table>
+                <Table class="myTableIview" :data="tableData2" :columns="columns2" :height="tableHeight" border></Table>
             </TabPane>
             <TabPane :label="'运营事件(' + tableData3Count + ')'">
-                <Table class="myTableIview" :data="tableData6" :columns="columns3" :height="tableHeight" border></Table>
+                <Table class="myTableIview" :data="tableData3" :columns="columns3" :height="tableHeight" border></Table>
             </TabPane>
             <TabPane :label="'其它事项(' + tableData4Count + ')'">
-                <Table class="myTableIview" :data="tableData6" :columns="columns3" :height="tableHeight" border></Table>
+                <Table class="myTableIview" :data="tableData4" :columns="columns4" :height="tableHeight" border></Table>
             </TabPane>
         </Tabs>
     </div>
 </template>
 
 <script>
+    import Util from '../../../libs/util';
     export default {
         data() {
             return {
@@ -31,48 +32,48 @@
                     },
                     {
                         title: '日期',
-                        key: 'date',
+                        key: 'insTime',
                         width: 100,
                         align: 'center'
                     },
                     {
                         title: '总开行列次',
-                        key: 'col1',
+                        key: 'totalTrainNum',
                         align: 'center'
                     },
                     {
                         title: '计划列次',
-                        key: 'col1',
+                        key: 'planTrainNum',
                         align: 'center'
                     },
                     {
                         title: '实际列次',
-                        key: 'col1',
+                        key: 'actualTrainNum',
                         align: 'center'
                     },
                     {
                         title: '兑现率',
-                        key: 'col1',
+                        key: 'fulfillmentRate',
                         align: 'center'
                     },
                     {
                         title: '正点列次',
-                        key: 'col1',
+                        key: 'onTime',
                         align: 'center'
                     },
                     {
                         title: '晚点列次',
-                        key: 'col1',
+                        key: 'lateTime',
                         align: 'center'
                     },
                     {
                         title: '2-5分晚点',
-                        key: 'col1',
+                        key: 'twoToFiveLate',
                         align: 'center'
                     },
                     {
                         title: '5分及以上晚点',
-                        key: 'col1',
+                        key: 'overFiveLate',
                         align: 'center',
                         renderHeader(h, params) {
                             return [h('span','5分及'),h('br'), h('span','以上晚点')];
@@ -80,47 +81,48 @@
                     },
                     {
                         title: '正点率',
-                        key: 'col1',
+                        key: 'onTimeRate',
                         align: 'center'
                     },
                     {
                         title: '加开列次',
-                        key: 'col1',
+                        key: 'addTrain',
                         align: 'center'
                     },
                     {
                         title: '抽线列次',
-                        key: 'col1',
+                        key: 'pumpLineTrain',
                         align: 'center'
                     },
                     {
                         title: '清客列次',
-                        key: 'col1',
+                        key: 'cleanTrain',
                         align: 'center'
                     },
                     {
                         title: '救援列次',
-                        key: 'col1',
+                        key: 'saveTrain',
                         align: 'center'
                     },
                     {
                         title: '下线列次',
-                        key: 'col1',
+                        key: 'offlineTrain',
                         align: 'center'
                     },
                     {
                         title: '运营列次',
-                        key: 'col1',
+                        key: 'operateMile',
                         align: 'center'
                     },
                     {
-                        title: '载客列次',
-                        key: 'col1',
+                        title: '载客里程',
+                        key: 'carryMile',
                         align: 'center'
                     },
                     {
-                        title: '空驶列次',
-                        key: 'col1',
+                        title: '空驶里程',
+                        width: 80,
+                        key: 'notCarryMile',
                         align: 'center'
                     }],
                 columns2: [
@@ -132,43 +134,44 @@
                     },
                     {
                         title: '时间',
-                        key: 'date',
+                        key: 'insTime',
                         width: 100,
                         align: 'center'
                     },
                     {
                         title: '列次类型',
-                        key: 'col1',
+                        key: 'trainType',
                         align: 'center'
                     },
                     {
                         title: '车次（车底）',
-                        key: 'col1',
+                        key: 'trainNumber',
                         align: 'center'
                     },
                     {
                         title: '开行区段',
-                        key: 'col1',
+                        key: 'sectionName',
                         align: 'center'
                     },
                     {
                         title: '载客/空驶',
-                        key: 'col1',
+                        key: 'carryOrNot',
                         align: 'center'
                     },
                     {
                         title: '晚点时分',
-                        key: 'col1',
+                        key: 'lateTime',
                         align: 'center'
                     },
                     {
                         title: '下线地点',
-                        key: 'col1',
+                        key: 'offlinePlace',
                         align: 'center'
                     },
                     {
                         title: '原因/备注',
-                        key: 'col1',
+                        key: 'remark',
+                        width: 200,
                         align: 'center'
                     }
                 ],
@@ -181,102 +184,40 @@
                     },
                     {
                         title: '时间',
-                        key: 'date',
+                        key: 'insTime',
                         width: 100,
                         align: 'center'
                     },
                     {
                         title: '概述',
-                        key: 'col1',
+                        key: 'description',
+                        align: 'center'
+                    }
+                ],
+                columns4: [
+                    {
+                        type: 'index',
+                        title: '序号',
+                        width: 50,
+                        align: 'center'
+                    },
+                    {
+                        title: '时间',
+                        key: 'insTime',
+                        width: 100,
+                        align: 'center'
+                    },
+                    {
+                        title: '概述',
+                        key: 'description',
                         align: 'center'
                     }
                 ],
 
-                tableData1: [
-                    {
-                        date: '2018-01-01',
-                        col1: '25'
-                    },
-                    {
-                        date: '2018-01-01',
-                        col1: '25'
-                    },
-                    {
-                        date: '2018-01-01',
-                        col1: '25'
-                    },
-                    {
-                        date: '2018-01-01',
-                        col1: '25'
-                    },
-                    {
-                        date: '2018-01-01',
-                        col1: '25'
-                    },
-                    {
-                        date: '2018-01-01',
-                        col1: '25'
-                    },
-                    {
-                        date: '2018-01-01',
-                        col1: '25'
-                    },
-                    {
-                        date: '2018-01-01',
-                        col1: '25'
-                    },
-                    {
-                        date: '2018-01-01',
-                        col1: '25'
-                    },
-                    {
-                        date: '2018-01-01',
-                        col1: '25'
-                    }],
+                tableData1: [],
                 tableData2: [],
                 tableData3: [],
-                tableData4: [],
-                tableData6: [
-                    {
-                        date: '2018-01-01',
-                        col1: '25'
-                    },
-                    {
-                        date: '2018-01-01',
-                        col1: '25'
-                    },
-                    {
-                        date: '2018-01-01',
-                        col1: '25'
-                    },
-                    {
-                        date: '2018-01-01',
-                        col1: '25'
-                    },
-                    {
-                        date: '2018-01-01',
-                        col1: '25'
-                    },
-                    {
-                        date: '2018-01-01',
-                        col1: '25'
-                    },
-                    {
-                        date: '2018-01-01',
-                        col1: '25'
-                    },
-                    {
-                        date: '2018-01-01',
-                        col1: '25'
-                    },
-                    {
-                        date: '2018-01-01',
-                        col1: '25'
-                    },
-                    {
-                        date: '2018-01-01',
-                        col1: '25'
-                    }],
+                tableData4: []
             }
         },
         props: {
@@ -293,6 +234,14 @@
                 }
             }
         },
+        watch: {
+            dates(val, valOld) {
+                this.getData1();
+                this.getData2();
+                this.getData3();
+                this.getData4();
+            }
+        },
         computed: {
             tableData2Count() {
                 return this.tableData2.length;
@@ -304,9 +253,93 @@
                 return this.tableData4.length;
             }
         },
-        mounted() {},
+        mounted() {
+            this.getData1();
+            this.getData2();
+            this.getData3();
+            this.getData4();
+        },
         methods: {
+            getData1() {
+                var that = this;
+                Util.ajax({
+                    method: "get",
+                    url: '/xm/inte/driveAnalysis/getDriveIndex',
+                    params: {
+                        beginDate: this.dates[0],
+                        endDate: this.dates[1],
+                        type: this.dim
+                    }
+                }).then(function(response){
+                    if (response.status === 1) {
+                        that.tableData1 = response.result.driveIndexList;
+                    }
+                    else {}
+                }).catch(function (error) {
+                    console.log(error);
+                })
+            },
+            getData2() {
+                var that = this;
+                Util.ajax({
+                    method: "get",
+                    url: '/xm/inte/driveAnalysis/getIndexRecord',
+                    params: {
+                        beginDate: this.dates[0],
+                        endDate: this.dates[1],
+                        type: this.dim
+                    }
+                }).then(function(response){
+                    if (response.status === 1) {
+                        that.tableData2 = response.result.indexRecordList;
+                    }
+                    else {}
+                }).catch(function (error) {
+                    console.log(error);
+                })
+            },
+            getData3() {
+                var that = this;
 
+
+                Util.ajax({
+                    method: "get",
+                    url: '/xm/inte/driveAnalysis/getOperateEvent',
+                    params: {
+                        beginDate: this.dates[0],
+                        endDate: this.dates[1],
+                        type: this.dim
+                    }
+                }).then(function(response){
+                    if (response.status === 1) {
+                        that.tableData3 = response.result.operateEventList;
+                    }
+                    else {}
+                }).catch(function (error) {
+                    console.log(error);
+                })
+            },
+            getData4() {
+                var that = this;
+
+
+                Util.ajax({
+                    method: "get",
+                    url: '/xm/inte/driveAnalysis/getOperateEvent',
+                    params: {
+                        beginDate: this.dates[0],
+                        endDate: this.dates[1],
+                        type: this.dim
+                    }
+                }).then(function(response){
+                    if (response.status === 1) {
+                        that.tableData4 = response.result.operateEventList;
+                    }
+                    else {}
+                }).catch(function (error) {
+                    console.log(error);
+                })
+            }
         }
     }
 </script>

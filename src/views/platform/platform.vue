@@ -289,17 +289,28 @@
             },
             logout () {
                 const that = this;
-                Util.ajax.get('/xm/sys/logout')
-                    .then(function (response){
-                        var router = new VueRouter();
-                        Util.cookie.unset('xmgd');
-                        Util.cookie.unset('xmgdname');
-                        that.$store.commit('setToken', null);
-                        router.push({ path: '/' });
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+
+                this.$Modal.confirm({
+                    title: '提示',
+                    content: '<p>确定要退出当前用户？</p>',
+                    onOk: () => {
+                        Util.ajax.get('/xm/sys/logout')
+                            .then(function (response){
+                                var router = new VueRouter();
+                                Util.cookie.unset('xmgd');
+                                Util.cookie.unset('xmgdname');
+                                that.$store.commit('setToken', null);
+                                router.push({ path: '/' });
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            });
+                    },
+                    onCancel: () => {
+                    }
+                });
+
+
             },
 
             goto(info) {

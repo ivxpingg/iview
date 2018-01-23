@@ -8,18 +8,138 @@
 
 <script>
     import echarts from 'echarts';
+    import Util from '../../../libs/util';
     export default {
         data() {
-            return {}
+            return {
+                tableData: [],
+
+                myChart1: null,
+                myChart2: null,
+                myChart3: null,
+
+                option1: {
+                    xAxis: [
+                        {
+                            data: []
+                        }
+                    ],
+                    yAxis: [{ min: 0, max: 100, interval: 10}],
+                    series: [
+                        { data: [] },
+                        { data: [] },
+                        { data: [] }
+                    ]
+                },
+                option2: {
+                    series: [
+                        {
+                            data: [
+                                { value:0, name:'晚点列次' },
+                                { value:0, name:'正点列次' }
+                            ]
+                        },
+                        {
+                            data: [
+                                {value:0, name:'2-5分晚点'},
+                                {value:0, name:'5分及以上晚点'},
+                                {value:0, name:'正点列次'}
+                            ]
+                        }
+
+                    ]
+                },
+
+                option3: {
+                    xAxis: [
+                        {
+                            data: []
+                        }
+                    ],
+                    series: [
+                        { data: [] },
+                        { data: [] }
+                    ]
+                },
+            }
+        },
+        props: {
+            dates: {
+                type: Array,
+                default() {
+                    return [];
+                }
+            },
+            dim: {
+                type: String,
+                default() {
+                    return 'day';
+                }
+            }
+        },
+        watch: {
+            dates(val, valOld) {
+                this.getData();
+            },
+            tableData(val) {
+                var that = this;
+                that.option1.xAxis[0].data = [];
+                that.option1.series[0].data = [];
+                that.option1.series[1].data = [];
+                that.option1.series[2].data = [];
+
+                that.option2.series[0].data[0].value = 0;
+                that.option2.series[0].data[1].value = 0;
+                that.option2.series[1].data[0].value = 0;
+                that.option2.series[1].data[1].value = 0;
+                that.option2.series[1].data[2].value = 0;
+
+                that.option3.xAxis[0].data = [];
+                that.option3.series[0].data = [];
+                that.option3.series[1].data = [];
+                val.forEach(function (val) {
+                    that.option1.xAxis[0].data.push(val.insTime);
+                    that.option1.series[0].data.push(val.planTrainNum);
+                    that.option1.series[1].data.push(val.actualTrainNum);
+                    that.option1.series[2].data.push(val.fulfillmentRate);
+
+                    that.option2.series[0].data[0].value += val.lateTime;
+                    that.option2.series[0].data[1].value += val.onTime;
+                    that.option2.series[1].data[0].value += val.twoToFiveLate;
+                    that.option2.series[1].data[1].value += val.overFiveLate;
+                    that.option2.series[1].data[2].value += val.onTime;
+
+                    that.option3.xAxis[0].data.push(val.insTime);
+                    that.option3.series[0].data.push(val.carryMile);
+                    that.option3.series[1].data.push(val.notCarryMile);
+                });
+
+                that.option1.yAxis[0].max = 0;
+
+                that.option1.series[0].data.forEach(function (value) {
+                    if (value > that.option1.yAxis[0].max) {
+                        that.option1.yAxis[0].max = value;
+                    }
+                });
+
+                that.option1.yAxis[0].interval = parseInt(that.option1.yAxis[0].max / 9);
+                that.option1.yAxis[0].max = that.option1.yAxis[0].max + that.option1.yAxis[0].interval;
+
+                that.myChart1.setOption(that.option1);
+                that.myChart2.setOption(that.option2);
+                that.myChart3.setOption(that.option3);
+            }
         },
         mounted() {
+            this.getData();
+
             this.setChart1();
             this.setChart2();
             this.setChart3();
         },
         methods: {
             setChart1() {
-                var myChart = echarts.init(this.$refs.chart1);
+                this.myChart1 = echarts.init(this.$refs.chart1);
                 var option = {
                     color: ['#ea5550', '#65aadd', '#8e81bc'],
                     backgroundColor: '#FFF',
@@ -32,22 +152,13 @@
                             }
                         }
                     },
-//                    toolbox: {
-//                        feature: {
-//                            dataView: {show: true, readOnly: false},
-//                            magicType: {show: true, type: ['line', 'bar']},
-//                            restore: {show: true},
-//                            saveAsImage: {show: true}
-//                        }
-//                    },
                     legend: {
-                        data:['计划列次','实际列次','正点率'],
-                        left: 10
+                        data:['计划列次','实际列次','正点率']
                     },
                     xAxis: [
                         {
                             type: 'category',
-                            data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+                            data: [],
                             axisPointer: {
                                 type: 'shadow'
                             },
@@ -74,11 +185,11 @@
                             nameTextStyle: {
                                 color: '#4d8dcb'
                             },
-//                            min: 0,
-//                            max: 250,
-//                            interval: 50,
+                            min: 0,
+                            max: 280,
+                            interval: 28,
                             axisLabel: {
-                                formatter: '{value}个',
+                                formatter: '{value}',
                                 textStyle: {
                                     color: '#454e5e'
                                 }
@@ -124,27 +235,27 @@
                         {
                             name:'计划列次',
                             type:'bar',
-                            data:[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
+                            data:[]
                         },
                         {
                             name:'实际列次',
                             type:'bar',
-                            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
+                            data:[]
                         },
                         {
                             name:'正点率',
                             type:'line',
                             yAxisIndex: 1,
-                            data:[92, 95, 94, 99, 98, 95, 92, 92, 95, 94, 99, 98]
+                            data:[]
                         }
                     ]
                 };
 
 
-                myChart.setOption(option);
+                this.myChart1.setOption(option);
             },
             setChart2() {
-                var myChart = echarts.init(this.$refs.chart2);
+                this.myChart2 = echarts.init(this.$refs.chart2);
                 var option = {
                     color: ['#ef857d', '#8e81bc', '#65aadd', '#f4ad70', '#8dca9a', '#779ad0', '#8072b2', '#decd59'],
                     backgroundColor: '#FFF',
@@ -175,9 +286,8 @@
                                 }
                             },
                             data:[
-//                                {value:679, name:'其它', selected:true},
-                                {value:335, name:'晚点列次', selected:true},
-                                {value:1548, name:'正点列次'}
+                                { value:0, name:'晚点列次', selected:true},
+                                { value:0, name:'正点列次' }
                             ]
                         },
                         {
@@ -242,20 +352,18 @@
                                 }
                             },
                             data:[
-//                                {value:335, name:'加开列次'},
-//                                {value:310, name:'救援列次'},
-                                {value:234, name:'2-5分晚点'},
-                                {value:135, name:'5分及以上晚点'},
-                                {value:1548, name:'正点列次'}
+                                {value:0, name:'2-5分晚点'},
+                                {value:0, name:'5分及以上晚点'},
+                                {value:0, name:'正点列次'}
                             ]
                         }
                     ]
                 };
 
-                myChart.setOption(option);
+                this.myChart2.setOption(option);
             },
             setChart3() {
-                var myChart = echarts.init(this.$refs.chart3);
+                this.myChart3 = echarts.init(this.$refs.chart3);
                 var option = {
                     color: ['#ea5550', '#8e81bc'],
                     backgroundColor: '#FFF',
@@ -266,7 +374,7 @@
                         }
                     },
                     legend: {
-                        data: ['空载里程', '空驾里程']
+                        data: ['载客里程', '空驶里程']
                     },
                     grid: {
                         left: '3%',
@@ -276,7 +384,7 @@
                     },
                     xAxis:  {
                         type: 'category',
-                        data: ['1月','2月','3月','4月','5月','6月','7月'],
+                        data: [],
                         axisLabel: {
                             textStyle: {
                                 color: '#454e5e'
@@ -312,7 +420,7 @@
                     },
                     series: [
                         {
-                            name: '空载里程',
+                            name: '载客里程',
                             type: 'bar',
                             stack: '总量',
                             label: {
@@ -324,7 +432,7 @@
                             data: [320, 302, 301, 334, 390, 330, 320]
                         },
                         {
-                            name: '空驾里程',
+                            name: '空驶里程',
                             type: 'bar',
                             stack: '总量',
                             label: {
@@ -338,7 +446,28 @@
                     ]
                 };
 
-                myChart.setOption(option);
+                this.myChart3.setOption(option);
+            },
+
+            getData(){
+                var that = this;
+                Util.ajax({
+                    method: "get",
+                    url: '/xm/inte/driveAnalysis/getDriveIndex',
+                    params: {
+                        beginDate: this.dates[0],
+                        endDate: this.dates[1],
+                        type: this.dim
+                    }
+                }).then(function(response){
+                    if (response.status === 1) {
+                        console.dir(response.result);
+                        that.tableData = response.result.driveIndexList;
+                    }
+                    else {}
+                }).catch(function (error) {
+                    console.log(error);
+                })
             }
         }
     }

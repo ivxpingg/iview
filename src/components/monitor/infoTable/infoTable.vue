@@ -654,7 +654,6 @@
                     data: {}
                 }).then(function(response){
                     if (response.status === 1) {
-                        console.dir(response.result);
                         that.tableDataUp = response.result.upPlanAndActual;
                         that.tableDataDown = response.result.downPlanAndActual;
                     }

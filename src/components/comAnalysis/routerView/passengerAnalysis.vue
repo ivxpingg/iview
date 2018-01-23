@@ -1,9 +1,9 @@
 <template>
     <div class="passengerAnalysis-container">
         <vSearchPanel class="v-search-panel" :dates="time" :dim="dim" :timeFrame="timeFrame" @changeTimeFrame="changeTimeFrame" @changeDate="changeDate" @changeDim="changeDim"></vSearchPanel>
-        <vTablePanel></vTablePanel>
+        <vTablePanel :dates="time" :dim="dim" :timeFrame="timeFrame" ></vTablePanel>
         <div class="separate-line"></div>
-        <vTabsEchartsPanel  class="v-tabs-echarts-panel"></vTabsEchartsPanel>
+        <vTabsEchartsPanel :dates="time" :dim="dim" :timeFrame="timeFrame"  class="v-tabs-echarts-panel"></vTabsEchartsPanel>
     </div>
 </template>
 
@@ -17,7 +17,7 @@
             return {
                 time: [MOMENT().subtract(9, 'days').format('YYYY-MM-DD'), MOMENT().format('YYYY-MM-DD')],
                 dim: 'day',
-                timeFrame: '0'
+                timeFrame: 'allDay'
             }
         },
         components: {vSearchPanel, vTablePanel, vTabsEchartsPanel},

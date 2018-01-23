@@ -18,6 +18,7 @@
 </template>
 <script>
     import echarts from 'echarts';
+    import Util from '../../../libs/util';
     export default {
         data() {
             return {
@@ -47,17 +48,77 @@
                     { name: '天水路站', id: '22' },
                     { name: '厦门北站', id: '23' },
                     { name: '岩内站', id: '24' }
-                ]
+                ],
+
+                myChart1: null,
+                myChart2: null,
+                myChart3: null,
+
+                option1: {
+                    xAxis: [ { data: [] } ],
+                    series: [
+                        { data: [] },
+                        { data: [] },
+                        { data: [] },
+                        { data: [] }
+                    ]
+                },
+                option2: {
+                    xAxis: [ { data: [] } ],
+                    series: [
+                        { data: [] },
+                        { data: [] }
+                    ]
+                },
+                option3: {
+                    xAxis: [ { data: [] } ],
+                    series: [
+                        { data: [] },
+                        { data: [] }
+                    ]
+                }
+            }
+        },
+        props: {
+            dates: {
+                type: Array,
+                default() {
+                    return [];
+                }
+            },
+            dim: {
+                type: String,
+                default() {
+                    return 'day';
+                }
+            },
+            timeFrame: {
+                type: String,
+                default() {
+                    return 'allDay';
+                }
+            }
+        },
+        watch: {
+            dates(val, valOld) {
+                this.getData1();
+            },
+            timeFrame(val) {
+                this.getData1();
             }
         },
         mounted() {
             this.setChart1();
             this.setChart2();
             this.setChart3();
+
+            this.getData1();
+            this.getData2();
+            this.getData3();
         },
         methods: {
             setChart1() {
-                var myChart = echarts.init(this.$refs.chart1);
+                this.myChart1 = echarts.init(this.$refs.chart1);
                 var option = {
                     color: ['#ea5550','#69a2d8','#ea5550','#69a2d8', '#8e81bc'],
                     backgroundColor: '#FFF',
@@ -148,11 +209,10 @@
                     ]
                 };
 
-
-                myChart.setOption(option);
+                this.myChart1.setOption(option);
             },
             setChart2() {
-                var myChart = echarts.init(this.$refs.chart2);
+                this.myChart2 = echarts.init(this.$refs.chart2);
                 var option = {
                     color: ['#ea5550', '#65aadd', '#8e81bc'],
                     backgroundColor: '#FFF',
@@ -235,10 +295,10 @@
                     ]
                 };
 
-                myChart.setOption(option);
+                this.myChart2.setOption(option);
             },
             setChart3() {
-                var myChart = echarts.init(this.$refs.chart3);
+                this.myChart3 = echarts.init(this.$refs.chart3);
                 var option = {
                     color: ['#ea5550','#69a2d8','#ea5550','#69a2d8', '#8e81bc'],
                     backgroundColor: '#FFF',
@@ -329,20 +389,66 @@
                         {
                             name:'进站客流量',
                             type:'bar',
-                            data:[150, 232, 201, 154, 190, 330, 410]
+                            data:[]
                         },
                         {
                             name:'平均运距',
                             type:'line',
                             yAxisIndex: 1,
-                            data:[220, 182, 191, 234, 290, 330, 310]
+                            data:[]
                         }
                     ]
                 };
 
+                this.myChart3.setOption(option);
+            },
 
-                myChart.setOption(option);
-            }
+            getData1() {
+                var that = this;
+                Util.ajax({
+                    method: "get",
+                    url: '/xm/inte/passengerAnalysis/getAllPassengerFlow',
+                    params: {
+                        beginDate: that.dates[0],
+                        endDate: that.dates[1],
+                        type: that.dim,
+                        timeType: that.timeFrame
+                    }
+                }).then(function(response){
+                    if (response.status === 1) {
+                        console.dir(response.result);
+//                        that.tableDataIn = response.result.avgInPassengerFlowList;
+//                        that.tableDataOut = response.result.maxInPassengerFlowList;
+//                        that.tableDataIn = response.result.avgOutPassengerFlowList;
+//                        that.tableDataOut = response.result.maxOutPassengerFlowList;
+                    }
+                    else {}
+                }).catch(function (error) {
+                    console.log(error);
+                })
+            },
+            getData2() {
+                var that = this;
+                Util.ajax({
+                    method: "get",
+                    url: '/xm/inte/passengerAnalysis/getSinglePassengerFlow',
+                    params: {
+                        beginDate: that.dates[0],
+                        endDate: that.dates[1],
+                        type: that.dim,
+                        timeType: that.timeFrame
+                    }
+                }).then(function(response){
+                    if (response.status === 1) {
+                        console.dir(response.result);
+//                        that.tableDataIn = response.result.singlePassengerFlow;
+                    }
+                    else {}
+                }).catch(function (error) {
+                    console.log(error);
+                })
+            },
+            getData3() {}
         }
     }
 </script>

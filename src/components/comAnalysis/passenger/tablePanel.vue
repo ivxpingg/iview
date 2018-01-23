@@ -2,21 +2,22 @@
     <div class="tablePanel-container">
         <Tabs type="card" :animated="false">
             <TabPane label="进站客流">
-                <Table class="myTableIview" :data="tableDataUp" :columns="tableColumnsUp" :height="tableHeight" border></Table>
+                <Table class="myTableIview" :data="tableDataIn" :columns="tableColumns" :height="tableHeight" border></Table>
             </TabPane>
             <TabPane label="出站客流">
-                <Table class="myTableIview" :data="tableDataUp" :columns="tableColumnsUp" :height="tableHeight" border></Table>
+                <Table class="myTableIview" :data="tableDataOut" :columns="tableColumns" :height="tableHeight" border></Table>
             </TabPane>
         </Tabs>
         <!--<Table class="myTableIview" border stripe :columns="tableColumnsUp" :data="tableDataUp" :height="tableHeight"></Table>-->
     </div>
 </template>
 <script>
+    import Util from '../../../libs/util';
     export default{
         data() {
             return {
                 tableHeight: 330,
-                tableColumnsUp: [
+                tableColumns: [
                     {
                         type: 'index',
                         width: 30,
@@ -25,174 +26,187 @@
                     },
                     {
                         title: '时期',
-                        key: 'date',
+                        key: 'insTime',
                         width: 90,
                         align: 'center'
                     },
                     {
                         title: '镇海路站',
-                        key: 'jimeiruanjianyuan',
+                        key: '1',
                         align: 'center'
                     },
                     {
                         title: '中山公园站',
-                        key: 'jimeiruanjianyuan',
+                        key: '2',
                         align: 'center'
                     },
                     {
                         title: '将军祠站',
-                        key: 'jimeiruanjianyuan',
+                        key: '3',
                         align: 'center'
                     },
                     {
                         title: '文灶站',
-                        key: 'jimeiruanjianyuan',
+                        key: '4',
                         align: 'center'
                     },
                     {
                         title: '湖滨东路站',
-                        key: 'jimeiruanjianyuan',
+                        key: '5',
                         align: 'center'
                     },
                     {
                         title: '莲坂站',
-                        key: 'jimeiruanjianyuan',
+                        key: '6',
                         align: 'center'
                     },
                     {
                         title: '莲花路口站',
-                        key: 'jimeiruanjianyuan',
+                        key: '7',
                         align: 'center'
                     },
                     {
                         title: '吕厝站',
-                        key: 'jimeiruanjianyuan',
+                        key: '8',
                         align: 'center'
                     },
                     {
                         title: '乌石浦站',
-                        key: 'jimeiruanjianyuan',
+                        key: '9',
                         align: 'center'
                     },
                     {
                         title: '塘边站',
-                        key: 'jimeiruanjianyuan',
+                        key: '10',
                         align: 'center'
                     },
                     {
                         title: '火炬园站',
-                        key: 'jimeiruanjianyuan',
+                        key: '11',
                         align: 'center'
                     },
                     {
                         title: '殿前站',
-                        key: 'jimeiruanjianyuan',
+                        key: '12',
                         align: 'center'
                     },
                     {
                         title: '高崎站',
-                        key: 'jimeiruanjianyuan',
+                        key: '13',
                         align: 'center'
                     },
                     {
                         title: '集美学村站',
-                        key: 'jimeiruanjianyuan',
+                        key: '14',
                         align: 'center'
                     },
                     {
                         title: '园博苑站',
-                        key: 'jimeiruanjianyuan',
+                        key: '15',
                         align: 'center'
                     },
                     {
                         title: '杏林村站',
-                        key: 'jimeiruanjianyuan',
+                        key: '16',
                         align: 'center'
                     },
                     {
                         title: '杏锦路站',
-                        key: 'jimeiruanjianyuan',
+                        key: '17',
                         align: 'center'
                     },
                     {
                         title: '官任站',
-                        key: 'jimeiruanjianyuan',
+                        key: '18',
                         align: 'center'
                     },
                     {
                         title: '诚毅广场站',
-                        key: 'jimeiruanjianyuan',
+                        key: '19',
                         align: 'center'
                     },
                     {
                         title: '集美软件园',
-                        key: 'jimeiruanjianyuan',
+                        key: '20',
                         align: 'center'
                     },
                     {
                         title: '集美大道',
-                        key: 'jimeiruanjianyuan',
+                        key: '21',
                         align: 'center'
                     },
                     {
                         title: '天水路',
-                        key: 'tianshuilu',
+                        key: '22',
                         align: 'center'
                     },
                     {
                         title: '厦门北站',
-                        key: 'xiamenbei',
+                        key: '23',
                         align: 'center'
                     },
                     {
                         title: '岩内',
-                        key: 'yanNei',
+                        key: '24',
+                        width: 30,
                         align: 'center'
                     }
 
                 ],
-                tableDataUp: [
-                    {
-                        trainId: '00101',
-                        date: '2018-10-01',
-                        yanNei: '200',
-                        xiamenbei: '150',
-                        tianshuilu: '33',
-                        jimeiruanjianyuan: '345'
-                    },
-                    {
-                        trainId: '00102',
-                        date: '2018-10-02',
-                        yanNei: '200',
-                        xiamenbei: '150',
-                        tianshuilu: '33',
-                        jimeiruanjianyuan: '345'
-                    },
-                    {
-                        trainId: '00103',
-                        date: '2018-10-03',
-                        yanNei: '200',
-                        xiamenbei: '150',
-                        tianshuilu: '33',
-                        jimeiruanjianyuan: '345'
-                    },
-                    {
-                        trainId: '00104',
-                        date: '2018-10-04',
-                        yanNei: '200',
-                        xiamenbei: '150',
-                        tianshuilu: '33',
-                        jimeiruanjianyuan: '345'
-                    },
-                    {
-                        trainId: '00105',
-                        date: '2018-10-05',
-                        yanNei: '200',
-                        xiamenbei: '150',
-                        tianshuilu: '33',
-                        jimeiruanjianyuan: '345'
+                tableDataIn: [],
+                tableDataOut: [],
+            }
+        },
+        props: {
+            dates: {
+                type: Array,
+                default() {
+                    return [];
+                }
+            },
+            dim: {
+                type: String,
+                default() {
+                    return 'day';
+                }
+            },
+            timeFrame: {
+                type: String,
+                default() {
+                    return 'allDay';
+                }
+            }
+        },
+        watch: {
+            dates(val, valOld) {
+                this.getDataTable();
+            }
+        },
+        mounted() {
+            this.getDataTable();
+        },
+        methods: {
+            getDataTable() {
+                var that = this;
+                Util.ajax({
+                    method: "get",
+                    url: '/xm/inte/passengerAnalysis/getPassengerIndex',
+                    params: {
+                        beginDate: that.dates[0],
+                        endDate: that.dates[1],
+                        type: that.dim,
+                        timeType: that.timeFrame
                     }
-                ]
+                }).then(function(response){
+                    if (response.status === 1) {
+                        console.dir(response.result);
+                        that.tableDataIn = response.result.inPassengerIndexList;
+                        that.tableDataOut = response.result.outPassengerIndexList;
+                    }
+                    else {}
+                }).catch(function (error) {
+                    console.log(error);
+                })
             }
         }
     }

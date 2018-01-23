@@ -15,5 +15,8 @@
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
-
+    .employeeList-container {
+        min-width: 1440px;
+        overflow: hidden;
+    }
 </style>

@@ -15,9 +15,9 @@
             </FormItem>
             <FormItem label="有效时段:" :label-width="80">
                 <Select v-model="myTimeFrame" @on-change="onSelectTimeFrameChange">
-                    <Option value="0">全日</Option>
-                    <Option value="1">早高峰</Option>
-                    <Option value="2">晚高峰</Option>
+                    <Option value="allDay">全日</Option>
+                    <Option value="earlyPeak">早高峰</Option>
+                    <Option value="latePeak">晚高峰</Option>
                 </Select>
             </FormItem>
             <FormItem label="统计维度:":label-width="80">
@@ -41,7 +41,7 @@
     export default {
         data() {
             return {
-                myTimeFrame: '0',
+                myTimeFrame: 'allDay',
                 myDim: 'day',
                 day: {
                     format: 'yyyy-MM-dd',
@@ -81,7 +81,7 @@
             timeFrame: {
                 type: String,
                 default() {
-                    return '0';
+                    return 'allDay';
                 }
             }
         },

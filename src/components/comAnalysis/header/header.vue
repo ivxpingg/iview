@@ -56,9 +56,16 @@
             },
 
             goBack () {
-                this.$router.replace({
-                    name: 'platform',  // 路由名称
-                    params: {}
+                this.$Modal.confirm({
+                    title: '提示',
+                    content: '<p>确定要返回系统菜单？</p>',
+                    onOk: () => {
+                        this.$router.push({
+                            name: 'platform',  // 路由名称
+                            params: {}
+                        });
+                    },
+                    onCancel: () => {}
                 });
             }
         }
