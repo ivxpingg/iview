@@ -185,13 +185,28 @@
                     {
                         title: '时间',
                         key: 'insTime',
-                        width: 100,
+                        width: 120,
                         align: 'center'
                     },
                     {
                         title: '概述',
                         key: 'description',
-                        align: 'center'
+                        align: 'left',
+                        renderHeader(h) {
+                            return h('span', {
+                                style: {
+                                    paddingLeft: '10px'
+                                }
+                            }, '概述');
+                        },
+                        render(h, params) {
+                            return h('span', {
+                                style: {
+                                    paddingLeft: '10px',
+                                    paddingRight: '10px'
+                                }
+                            }, params.row[params.column.key]);
+                        }
                     }
                 ],
                 columns4: [
@@ -204,13 +219,28 @@
                     {
                         title: '时间',
                         key: 'insTime',
-                        width: 100,
+                        width: 120,
                         align: 'center'
                     },
                     {
                         title: '概述',
                         key: 'description',
-                        align: 'center'
+                        align: 'left',
+                        renderHeader(h) {
+                            return h('span', {
+                                style: {
+                                    paddingLeft: '10px'
+                                }
+                            }, '概述');
+                        },
+                        render(h, params) {
+                            return h('span', {
+                                style: {
+                                    paddingLeft: '10px',
+                                    paddingRight: '10px'
+                                }
+                            }, params.row[params.column.key]);
+                        }
                     }
                 ],
 
@@ -325,7 +355,7 @@
 
                 Util.ajax({
                     method: "get",
-                    url: '/xm/inte/driveAnalysis/getOperateEvent',
+                    url: '/xm/inte/driveAnalysis/getOtherEvent',
                     params: {
                         beginDate: this.dates[0],
                         endDate: this.dates[1],
@@ -333,7 +363,7 @@
                     }
                 }).then(function(response){
                     if (response.status === 1) {
-                        that.tableData4 = response.result.operateEventList;
+                        that.tableData4 = response.result.otherEventList;
                     }
                     else {}
                 }).catch(function (error) {

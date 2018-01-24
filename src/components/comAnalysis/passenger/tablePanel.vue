@@ -148,8 +148,8 @@
                     {
                         title: '岩内',
                         key: '24',
-                        width: 30,
-                        align: 'center'
+                        width: 40,
+                        align: 'left'
                     }
 
                 ],

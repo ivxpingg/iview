@@ -147,7 +147,7 @@
                         that.option2.xAxis[0].data.push(smoment.format(format));
                         that.option2.series[0].data.push(0);
                         that.option2.series[1].data.push(0);
-                        smoment.add(type, 1);
+                        smoment.add(1, type);
                     }
 
                     val.inSinglePassengerFlow.forEach(function (value) {
@@ -186,7 +186,7 @@
                         that.option3.xAxis[0].data.push(smoment.format(format));
                         that.option3.series[0].data.push(0);
                         that.option3.series[1].data.push(0);
-                        smoment.add(type, 1);
+                        smoment.add(1, type);
                     }
 
                     val.averageDistanceList.forEach(function (value) {
@@ -231,9 +231,9 @@
                         data:['平均进站量','最高进站量','平均出站量', '最高出站量']
                     },
                     grid: {
-                        left: '0%',
+                        left: 5,
                         right: '0%',
-                        bottom: '0%',
+                        bottom: 10,
                         containLabel: true
                     },
                     xAxis: [
@@ -284,22 +284,22 @@
                         {
                             name:'平均进站量',
                             type:'bar',
-                            data:[150, 232, 201, 154, 190, 330, 410, 150, 232, 201, 154, 190, 330, 410, 150, 232, 201, 154, 190, 220]
+                            data:[]
                         },
                         {
                             name:'最高进站量',
                             type:'bar',
-                            data:[220, 182, 191, 234, 290, 330, 310, 220, 182, 191, 234, 290, 220, 182, 191, 234, 290, 330, 310, 220]
+                            data:[]
                         },
                         {
                             name:'平均出站量',
                             type:'line',
-                            data:[120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 120, 132, 101, 134, 90, 230, 210, 120, 220]
+                            data:[]
                         },
                         {
                             name:'最高出站量',
                             type:'line',
-                            data:[220, 182, 191, 234, 290, 330, 310, 220, 182, 191, 234, 290, 220, 182, 191, 234, 290, 330, 310, 220]
+                            data:[]
                         }
                     ]
                 };
@@ -321,14 +321,14 @@
                         data: ['进站量', '出站量']
                     },
                     grid: {
-                        left: '0%',
+                        left: 5,
                         right: '0%',
-                        bottom: '0%',
+                        bottom: 10,
                         containLabel: true
                     },
                     xAxis:  {
                         type: 'category',
-                        data: ['1月','2月','3月','4月','5月','6月','7月'],
+                        data: [],
                         axisLabel: {
                             textStyle: {
                                 color: '#454e5e'
@@ -373,7 +373,7 @@
                                     position: 'insideRight'
                                 }
                             },
-                            data: [320, 302, 301, 334, 390, 330, 320]
+                            data: []
                         },
                         {
                             name: '出站量',
@@ -385,7 +385,7 @@
                                     position: 'insideRight'
                                 }
                             },
-                            data: [120, 132, 101, 134, 90, 230, 210]
+                            data: []
                         }
                     ]
                 };
@@ -411,15 +411,15 @@
                         data:['进站客流量','平均运距']
                     },
                     grid: {
-                        left: '0%',
+                        left: 5,
                         right: '0%',
-                        bottom: '0%',
+                        bottom: 10,
                         containLabel: true
                     },
                     xAxis: [
                         {
                             type: 'category',
-                            data: ['1月','2月','3月','4月','5月','6月','7月'],
+                            data: [],
                             axisPointer: {
                                 type: 'shadow'
                             },
@@ -461,7 +461,7 @@
                         },
                         {
                             type: 'value',
-                            name: '平均运距',
+                            name: '平均运距(km)',
                             axisLabel: {
                                 formatter: '{value}km',
                                 textStyle: {
@@ -511,6 +511,7 @@
                     }
                 }).then(function(response){
                     if (response.status === 1) {
+                        console.dir(response.result);
 
                         that.option1.series[0].data =  response.result.avgInPassengerFlowList;
                         that.option1.series[1].data =  response.result.maxInPassengerFlowList;
@@ -557,7 +558,6 @@
                     }
                 }).then(function(response){
                     if (response.status === 1) {
-                        console.dir(response.result);
                         that.echartData3 = response.result;
                     }
                     else {}

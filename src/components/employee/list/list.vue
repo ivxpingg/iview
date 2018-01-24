@@ -1225,7 +1225,7 @@
                             type: 'pie',
                             radius : '70%',
                             center: ['50%', '50%'],
-                            data:that.issuingUnitList,
+                            data: that.issuingUnitList,
                             itemStyle: {
                                 emphasis: {
                                     shadowBlur: 10,

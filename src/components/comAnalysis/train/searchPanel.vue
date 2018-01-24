@@ -22,7 +22,7 @@
                 </Select>
             </FormItem>
             <FormItem  :label-width="10">
-                <Button type="success">查询</Button>
+                <Button type="success" @click="onSearch">查询</Button>
             </FormItem>
         </Form>
 
@@ -146,7 +146,7 @@
                         reDate = [date, MOMENT(this.year.endTime).format('YYYY')];
                         break;
                 }
-                this.$emit('changeDate' , reDate);
+//                this.$emit('changeDate' , reDate);
             },
             onDatePickerChangeEnd(date) {
                 var reDate = [];
@@ -163,6 +163,26 @@
                         break;
                     case 'year':
                         reDate = [MOMENT(this.year.startTime).format('YYYY'), date];
+                        break;
+                }
+//                this.$emit('changeDate' , reDate);
+            },
+
+            onSearch() {
+                var reDate = [];
+
+                switch (this.dim) {
+                    case 'day':
+                        reDate = [MOMENT(this.day.startTime).format('YYYY-MM-DD'), MOMENT(this.day.endTime).format('YYYY-MM-DD')];
+                        break;
+                    case 'week':
+                        reDate = [MOMENT(this.week.startTime).format('YYYY-MM-DD'), MOMENT(this.week.endTime).format('YYYY-MM-DD')];
+                        break;
+                    case 'month':
+                        reDate = [MOMENT(this.month.startTime).format('YYYY-MM'), MOMENT(this.month.endTime).format('YYYY-MM')];
+                        break;
+                    case 'year':
+                        reDate = [MOMENT(this.year.startTime).format('YYYY'), MOMENT(this.year.endTime).format('YYYY')];
                         break;
                 }
                 this.$emit('changeDate' , reDate);

@@ -44,9 +44,11 @@
              */
             btnLink(routerName, event) {
                 var re = new RegExp('\\s'+ this.activeName +'|'+ this.activeName +'', 'g');
-                document.querySelectorAll('.m-active').forEach(function (dom) {
-                    dom.className = dom.className.replace(re, '');
-                });
+
+                var dom = document.querySelectorAll('.m-active');
+                for (var i = 0; i < dom.length; i++) {
+                    dom[i].className = dom[i].className.replace(re, '');
+                }
 
                 event.target.className += ' ' + this.activeName;
                 this.$router.push({
