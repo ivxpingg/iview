@@ -430,13 +430,14 @@
                       }
 
                     .subSystem {
+                        position: relative;
                         display: inline-block;
                         margin: 0;
                         width: 100%;
                         height: 100%;
-
                         background-size: 100%;
                         background-repeat: no-repeat;
+
 
                         &.subSystem1 {
                             background-image: url(./images/1.png);

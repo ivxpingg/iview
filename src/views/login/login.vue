@@ -147,7 +147,7 @@
         position: relative;
         width: 100%;
         height: 100%;
-        min-width: 1440px;
+        min-width: 1400px;
         min-height: 770px;
 
         .login-bg-inner {
