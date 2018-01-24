@@ -264,6 +264,7 @@
 <script>
     import Util from '../../../libs/util.js';
     import lineData from '../../subwayLines/js/baseData';
+    import MOMENT from 'moment';
     export default {
         data () {
             return {
@@ -377,21 +378,12 @@
             getData() {
                 var that = this;
 
-                var sTime = this.test_d;
+                var sTime = that.test_d;
 
-                var d = new Date(sTime);
-                d = new Date(d.getTime() + 30000);
+                var d = MOMENT(sTime).add(30, 'seconds');
 
-                var Y = d.getFullYear();
-                var M = d.getMonth() < 9 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1;
-                var D =  d.getDate() < 10 ? '0' + d.getDate() : d.getDate();
+                that.test_d = d.format('YYYY-MM-DD hh:mm:ss');
 
-                var h = d.getHours() < 9 ? '0' + d.getHours()  : d.getHours();
-                var m = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
-                var s = d.getSeconds() < 10 ? '0' + d.getSeconds() : d.getSeconds();
-
-                this.test_d = Y + '-' + M + '-' + D + ' '
-                    + h + ':' + m + ':' + s;
 
                 Util.ajax({
                     method: "get",
@@ -402,7 +394,6 @@
                 }).then(function (response) {
 
                     if (response.status == 1) {
-                        // train_list = response.result;
                         that.refresh_train_position(response.result);
                     }
                     else {
@@ -426,10 +417,11 @@
                 this.train_update_exist(new_train_list);
             },
             train_remove_nonexits(new_train_list) {
+                var that = this;
                 var list = Object.keys(this.o_dom_list);
-
                 var exit = false;
                 list.forEach(function (val) {
+
                     exit = false;
 
                     for(var i = 0; i < new_train_list.length; i++) {
@@ -440,14 +432,11 @@
                     }
 
                     if(!exit) {
-                        var element = o_zr_list[val];
-//                        zr_element_list.forEach(function (key) {
-////                            zr.remove(o_zr_list[val][key]);
-//
-//                        });
+
+                        var element = that.o_dom_list[val];
                         element.parentNode.removeChild(element);
 
-                        delete o_zr_list[val];
+                        delete that.o_dom_list[val];
                     }
                 });
             },
@@ -474,7 +463,6 @@
                 this.train_list = train_list2;
             },
             train_update(o_data, old_o_data, o_element) {
-
                 var dom = o_element;
                 var dom_arrive_circle;
 
@@ -495,6 +483,11 @@
                             }
                         }
                     }
+
+//                    console.log(o_data.sectionName);
+//                    console.dir(this.upLeft);
+//                    console.log(this.upLeft[o_data.sectionName].left);
+//                    console.log(1);
 
                     dom.style.left =  this.upLeft[o_data.sectionName].left + '%';
                 }

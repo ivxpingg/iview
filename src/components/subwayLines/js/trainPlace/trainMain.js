@@ -1,5 +1,6 @@
 import Util from '../../../../libs/util';
 import train from './trainCreateZR';
+import MOMENT from 'moment';
 
 
 /**
@@ -149,20 +150,9 @@ var getData = function () {
     // }, 5000);
 
 
-    var d = new Date(sTime);
+    var d = MOMENT(sTime).add(30, 'seconds');
 
-    d = new Date(d.getTime() + 30000);
-
-    var Y = d.getFullYear();
-    var M = d.getMonth() < 9 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1;
-    var D =  d.getDate() < 10 ? '0' + d.getDate() : d.getDate();
-
-    var h = d.getHours() < 9 ? '0' + d.getHours()  : d.getHours();
-    var m = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
-    var s = d.getSeconds() < 10 ? '0' + d.getSeconds() : d.getSeconds();
-
-    sTime = Y + '-' + M + '-' + D + ' '
-        + h + ':' + m + ':' + s;
+    sTime = d.format('YYYY-MM-DD hh:mm:ss');
 
     Util.ajax({
         method: "get",

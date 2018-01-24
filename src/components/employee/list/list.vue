@@ -24,7 +24,7 @@
                                 </Select>
                             </FormItem>
 
-                            <FormItem v-if="searchParams.postCategory !=''" prop="postName" label="岗位名称:">
+                            <FormItem prop="postName" label="岗位名称:">
                                 <Select v-if="searchParams.postCategory != 'other'" v-model="searchParams.postName" transfer placeholder="请选择岗位名称" style="width: 140px">
                                     <Option :value="''">全选</Option>
                                     <Option v-for="item in dict_post_name_List" :value="item.value">{{item.label}}</Option>
@@ -638,11 +638,20 @@
                         id = val.id;
                     }
                 });
-                this.dict_post.forEach(function (val) {
-                    if(val.parentId == id) {
-                        nameList.push(val);
-                    }
-                });
+
+                if(id == ''){
+                    this.dict_post.forEach(function (val) {
+                         nameList.push(val);
+                    });
+                }
+                else {
+                    this.dict_post.forEach(function (val) {
+                        if(val.parentId == id) {
+                            nameList.push(val);
+                        }
+                    });
+                }
+
                 return nameList;
             },
             headImageUrl() {
@@ -893,7 +902,8 @@
                 var that = this;
 
                 if (that.searchParams.postCategory == "") {
-                    that.searchParams.postName = "";
+                    //that.searchParams.postName = "";
+                    that.searchParams.otherPost = "";
                 }
 
                 var params = type == undefined ? this.searchParams : this['searchParams' + type];
