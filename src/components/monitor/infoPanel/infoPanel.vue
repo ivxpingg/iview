@@ -274,10 +274,11 @@
                         }
                     }
                     .value-panel{
-                        padding-top: 15px;
+                        padding-top: 8px;
                         flex: 1;
                         color: #FFF;
                         .sub-title {
+                            padding-top: 10px;
                             width: 84px;
                             margin: 0 auto;
                             font-size: 12px;

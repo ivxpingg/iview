@@ -115,10 +115,10 @@
                 this.getData2();
                 this.getData3();
             },
-            timeFrame(val) {
-                this.getData1();
-                this.getData2();
-            },
+//            timeFrame(val) {
+//                this.getData1();
+//                this.getData2();
+//            },
             defaultSelect (val) {
                 this.getData2();
             },

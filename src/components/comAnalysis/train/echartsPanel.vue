@@ -155,6 +155,12 @@
                     legend: {
                         data:['计划列次','实际列次','正点率']
                     },
+                    grid: {
+                        left: 5,
+                        right: '0%',
+                        bottom: 10,
+                        containLabel: true
+                    },
                     xAxis: [
                         {
                             type: 'category',
@@ -268,6 +274,12 @@
                         x: 'left',
                         data:['2-5分晚点', '5分及以上晚点']
                     },
+                    grid: {
+                        left: 5,
+                        right: '0%',
+                        bottom: 10,
+                        containLabel: true
+                    },
                     series: [
                         {
                             name:'',
@@ -293,7 +305,7 @@
                         {
 //                            name:'分项说明',
                             type:'pie',
-                            radius: ['40%', '55%'],
+                            radius: ['45%', '65%'],
                             label: {
                                 normal: {
 //                                    formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
@@ -377,9 +389,9 @@
                         data: ['载客里程', '空驶里程']
                     },
                     grid: {
-                        left: '3%',
-                        right: '4%',
-                        bottom: '3%',
+                        left: 5,
+                        right: '0%',
+                        bottom: 10,
                         containLabel: true
                     },
                     xAxis:  {

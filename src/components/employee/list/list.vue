@@ -326,6 +326,7 @@
                :transfer="false"
                width="900">
             <vEmployeeAdd :v-if="visibleAdd" status="add" @hideModalAdd="hideModalAdd"></vEmployeeAdd>
+            <div slot="footer"></div>
         </Modal>
 
         <Modal title="修改从业人员"
@@ -334,6 +335,7 @@
                :transfer="false"
                width="900">
             <vEmployeeEdit :v-if="visibleEdit" status="edit" :employeeId="editEmployeeId" @hideModalEdit="hideModalEdit"></vEmployeeEdit>
+            <div slot="footer"></div>
         </Modal>
     </div>
 

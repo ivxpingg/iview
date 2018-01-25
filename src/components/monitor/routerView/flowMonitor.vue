@@ -509,9 +509,10 @@
                         data:['站点乘降量', '进站客流量', '出站客流量']
                     },
                     grid: {
-                        left: '3%',
-                        right: '4%',
-                        bottom: '3%',
+                        top: '44',
+                        left: '20',
+                        right: '15',
+                        bottom: '10',
                         containLabel: true,
                         backgroundColor: '#FFF',
                         borderColor: '#FFF'

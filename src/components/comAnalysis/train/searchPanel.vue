@@ -1,7 +1,15 @@
 <template>
     <div class="searchPanel-container">
-        <Form class="form" inline :label-width="90">
-            <FormItem label="查询时间段:" style="margin-right: 3px;">
+        <Form class="form" inline :label-width="75">
+            <FormItem label="统计维度:">
+                <Select v-model="myDim" @on-change="onSelectDimChange">
+                    <Option value="day">日</Option>
+                    <Option value="week">周</Option>
+                    <Option value="month">月</Option>
+                    <Option value="year">年</Option>
+                </Select>
+            </FormItem>
+            <FormItem label="查询时间段:"  :label-width="95" style="margin-right: 3px;">
                 <DatePicker v-if="dim=='day'" type="date" :format="day.format" v-model="day.startTime" :editable="false" :clearable="false" @on-change="onDatePickerChangeStart"  placeholder="开始时间" style="width: 110px"></DatePicker>
                 <DatePicker v-else-if="dim=='week'" type="date" :format="week.format" v-model="week.startTime" :editable="false" :clearable="false" @on-change="onDatePickerChangeStart"  placeholder="开始时间" style="width: 110px"></DatePicker>
                 <DatePicker v-else-if="dim=='month'" type="month" :format="month.format" v-model="month.startTime" :editable="false" :clearable="false" @on-change="onDatePickerChangeStart"  placeholder="开始时间" style="width: 100px"></DatePicker>
@@ -13,14 +21,7 @@
                 <DatePicker v-else-if="dim=='month'" type="month" :format="month.format" v-model="month.endTime" :editable="false" :clearable="false" @on-change="onDatePickerChangeEnd"  placeholder="结束时间" style="width: 110px"></DatePicker>
                 <DatePicker v-else-if="dim=='year'" type="year" :format="year.format" v-model="year.endTime" :editable="false" :clearable="false" @on-change="onDatePickerChangeEnd"  placeholder="结束时间" style="width: 110px"></DatePicker>
             </FormItem>
-            <FormItem label="统计维度:">
-                <Select v-model="myDim" @on-change="onSelectDimChange">
-                    <Option value="day">日</Option>
-                    <Option value="week">周</Option>
-                    <Option value="month">月</Option>
-                    <Option value="year">年</Option>
-                </Select>
-            </FormItem>
+
             <FormItem  :label-width="10">
                 <Button type="success" @click="onSearch">查询</Button>
             </FormItem>
@@ -94,6 +95,7 @@
         },
         watch: {
             myDim(val, oldVal) {
+
                 var reDate = [];
                 switch(val) {
                     case 'day':
@@ -119,7 +121,7 @@
                         break;
                 }
 
-                this.$emit('changeDate' , reDate);
+                 this.$emit('changeDate' , reDate);
             }
         },
         mounted() {
@@ -127,7 +129,7 @@
         },
         methods: {
             onSelectDimChange() {
-                this.$emit('changeDim' , this.myDim);
+                 this.$emit('changeDim' , this.myDim);
             },
             onDatePickerChangeStart(date) {
                 var reDate = [];
@@ -146,7 +148,7 @@
                         reDate = [date, MOMENT(this.year.endTime).format('YYYY')];
                         break;
                 }
-//                this.$emit('changeDate' , reDate);
+                this.$emit('changeDate' , reDate);
             },
             onDatePickerChangeEnd(date) {
                 var reDate = [];
@@ -165,27 +167,28 @@
                         reDate = [MOMENT(this.year.startTime).format('YYYY'), date];
                         break;
                 }
-//                this.$emit('changeDate' , reDate);
+                this.$emit('changeDate' , reDate);
             },
 
             onSearch() {
-                var reDate = [];
-
-                switch (this.dim) {
-                    case 'day':
-                        reDate = [MOMENT(this.day.startTime).format('YYYY-MM-DD'), MOMENT(this.day.endTime).format('YYYY-MM-DD')];
-                        break;
-                    case 'week':
-                        reDate = [MOMENT(this.week.startTime).format('YYYY-MM-DD'), MOMENT(this.week.endTime).format('YYYY-MM-DD')];
-                        break;
-                    case 'month':
-                        reDate = [MOMENT(this.month.startTime).format('YYYY-MM'), MOMENT(this.month.endTime).format('YYYY-MM')];
-                        break;
-                    case 'year':
-                        reDate = [MOMENT(this.year.startTime).format('YYYY'), MOMENT(this.year.endTime).format('YYYY')];
-                        break;
-                }
-                this.$emit('changeDate' , reDate);
+//                var reDate = [];
+//
+//                switch (this.dim) {
+//                    case 'day':
+//                        reDate = [MOMENT(this.day.startTime).format('YYYY-MM-DD'), MOMENT(this.day.endTime).format('YYYY-MM-DD')];
+//                        break;
+//                    case 'week':
+//                        reDate = [MOMENT(this.week.startTime).format('YYYY-MM-DD'), MOMENT(this.week.endTime).format('YYYY-MM-DD')];
+//                        break;
+//                    case 'month':
+//                        reDate = [MOMENT(this.month.startTime).format('YYYY-MM'), MOMENT(this.month.endTime).format('YYYY-MM')];
+//                        break;
+//                    case 'year':
+//                        reDate = [MOMENT(this.year.startTime).format('YYYY'), MOMENT(this.year.endTime).format('YYYY')];
+//                        break;
+//                }
+//                this.$emit('changeDate' , reDate, this.myDim);
+                this.$emit('search');
             }
         }
 

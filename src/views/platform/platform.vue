@@ -4,11 +4,11 @@
         <div ref="panel" class="subSystem-panel">
             <ul ref="subBox" class="subSystem-ul">
 
-                <li name="运行监视"><span class="subSystem subSystem2" @click="goto(systemList['2'])" ></span></li>
-                <li name="综合分析"><span class="subSystem subSystem3" @click="goto(systemList['3'])" ></span></li>
-                <li name="舆情分析"><span class="subSystem subSystem4" @click="goto(systemList['4'])" ></span></li>
-                <li name="应急管理"><span class="subSystem subSystem5" @click="goto(systemList['5'])" ></span></li>
-                <li name="运营考评"><span class="subSystem subSystem1" @click="goto(systemList['1'])" ></span></li>
+                <li name="运行监视"><span class="subSystem subSystem2" :class="systemList['2'].auth ? '':'noauth'" @click="goto(systemList['2'])" ></span></li>
+                <li name="综合分析"><span class="subSystem subSystem3" :class="systemList['3'].auth ? '':'noauth'" @click="goto(systemList['3'])" ></span></li>
+                <li name="舆情分析"><span class="subSystem subSystem4" :class="systemList['4'].auth ? '':'noauth'" @click="goto(systemList['4'])" ></span></li>
+                <li name="应急管理"><span class="subSystem subSystem5" :class="systemList['5'].auth ? '':'noauth'" @click="goto(systemList['5'])" ></span></li>
+                <li name="运营考评"><span class="subSystem subSystem1" :class="systemList['1'].auth ? '':'noauth'" @click="goto(systemList['1'])" ></span></li>
 
                 <li name="用户权限"><span class="subSystem subSystem11" ></span></li>
                 <li name="用户权限"><span class="subSystem subSystem11" ></span></li>
@@ -20,10 +20,10 @@
                 <li name="用户权限"><span class="subSystem subSystem11" ></span></li>
                 <li name="用户权限"><span class="subSystem subSystem11" ></span></li>
 
-                <li name="交通衔接"><span class="subSystem subSystem7" @click="goto(systemList['7'])" ></span></li>
-                <li name="综合展示"><span class="subSystem subSystem8" @click="goto(systemList['8'])" ></span></li>
-                <li name="用户权限"><span class="subSystem subSystem9" @click="goto(systemList['9'])" ></span></li>
-                <li name="从业人员"><span class="subSystem subSystem6" @click="goto(systemList['6'])" ></span></li>
+                <li name="交通衔接"><span class="subSystem subSystem7" :class="systemList['7'].auth ? '':'noauth'" @click="goto(systemList['7'])" ></span></li>
+                <li name="综合展示"><span class="subSystem subSystem8" :class="systemList['8'].auth ? '':'noauth'" @click="goto(systemList['8'])" ></span></li>
+                <li name="用户权限"><span class="subSystem subSystem9" :class="systemList['9'].auth ? '':'noauth'" @click="goto(systemList['9'])" ></span></li>
+                <li name="从业人员"><span class="subSystem subSystem6" :class="systemList['6'].auth ? '':'noauth'" @click="goto(systemList['6'])" ></span></li>
 
             </ul>
         </div>
@@ -56,39 +56,48 @@
                 systemList: {
                     '1': {
                         name: '运营考评子系统',
-                        url: ''
+                        url: '',
+                        auth: false
                     },
                     '2': {
                         name: '运行监视子系统',
-                        url: ''
+                        url: '',
+                        auth: false
                     },
                     '3': {
                         name: '综合分析子系统',
-                        url: ''
+                        url: '',
+                        auth: false
                     },
                     '4': {
                         name: '舆情分析子系统',
-                        url: ''
+                        url: '',
+                        auth: false
                     },
                     '5': {
                         name: '应急管理子系统',
-                        url: ''
+                        url: '',
+                        auth: false
                     },
                     '6': {
                         name: '从业人员管理子系统',
-                        url: ''
+                        url: '',
+                        auth: false
                     },
                     '7': {
                         name: '交通衔接子系统',
-                        url: ''
+                        url: '',
+                        auth: false
                     },
                     '8': {
                         name: '综合展示子系统',
-                        url: ''
+                        url: '',
+                        auth: false
                     },
                     '9': {
                         name: '用户权限',
-                        url: ''
+                        url: '',
+                        auth: false
                     }
                 }
 
@@ -103,42 +112,51 @@
                         // 运行监视子系统
                         case "RUN_SUPERVISION_SYSTEM":
                             that.systemList['2'].url = val.appFunction.url;
+                            that.systemList['2'].auth = true;
                             break;
                         // 综合分析子系统
                         case "COM_ANALYSIS_SYSTEM":
                             that.systemList['3'].url = val.appFunction.url;
+                            that.systemList['3'].auth = true;
                             break;
                         // 运营考评子系统
                         case "RUN_EVALUATION_SYSTEM":
                             that.systemList['1'].url = val.appFunction.url;
+                            that.systemList['1'].auth = true;
                             break;
                         // 应急管理子系统
                         case "YJ_MANAGE_SYSTEM":
                             that.systemList['5'].url = val.appFunction.url;
+                            that.systemList['5'].auth = true;
                             break;
                         // 舆情分析子系统
                         case "YQ_ANALYSIS_SYSTEM":
                             that.systemList['4'].url = val.appFunction.url;
+                            that.systemList['4'].auth = true;
                             break;
 
                         // 综合展示子系统
                         case "ZH_SHOW_SYSTEM":
                             that.systemList['8'].url = val.appFunction.url;
+                            that.systemList['8'].auth = true;
                             break;
 
                         // 交通衔接子系统
                         case "TRAFFIC_CONN_SYSTEM":
                             that.systemList['7'].url = val.appFunction.url;
+                            that.systemList['7'].auth = true;
                             break;
 
                         // 用户权限
                         case "SYS_MANAGE":
                             that.systemList['9'].url = val.appFunction.url;
+                            that.systemList['9'].auth = true;
                             break;
 
                         // 从业人员管理子系统
                         case "XM_METRO_SUPERVISION_EMPLOYEE":
                             that.systemList['6'].url = val.appFunction.url;
+                            that.systemList['6'].auth = true;
                             break;
                     }
                 })
@@ -169,7 +187,6 @@
                     }
                 }
 
-
                 document.onkeyup = function (e) {
                     if (window.event)//如果window.event对象存在，就以此事件对象为准
                         e = window.event;
@@ -189,7 +206,6 @@
                 Util.ajax.get('/xm/sys/auth/menuList')
                     .then(function (response) {
                         that.mList = response.result || null;
-                        console.dir(that.mList);
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -230,6 +246,7 @@
                 for (var i = 1; i < n; i++) {
                     this.figure.children[i].style.transformOrigin = '50% 50% ' + -apothem + 'px';
                     this.figure.children[i].style.transform = 'rotateY(' + i * this.theta + 'rad)';
+
                 }
 
                 this.figure.style.transform = 'rotateY(' + this.currImage * -this.theta + 'rad)';
@@ -318,7 +335,7 @@
                 var third = false;  // 是否是第三方地址
                 var url = info.url;
 
-                if (url == "") {
+                if (!info.auth) {
                     this.$Message.error('您没有《'+ info.name +'》权限,如有需要,请与管理员联系！');
                     return;
                 }
@@ -419,7 +436,7 @@
                 > li {
                     position: relative;
                     width: 100%;
-                    height: 590px;
+                    height: 580px;
                     min-height: 429px;
                     transition: top 0.3s;
 
@@ -437,7 +454,19 @@
                         height: 100%;
                         background-size: 100%;
                         background-repeat: no-repeat;
+                        cursor: pointer;
 
+                        &.noauth:after {
+                            position: absolute;
+                            display: block;
+                            content: " ";
+                            width: 100%;
+                            height: 100%;
+                            top: 0;
+                            left: 0;
+                            background: url(./images/locked.png) no-repeat center top;
+                            background-size: 100% auto;
+                        }
 
                         &.subSystem1 {
                             background-image: url(./images/1.png);

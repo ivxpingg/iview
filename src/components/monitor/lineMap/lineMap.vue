@@ -6,7 +6,7 @@
         <div class="station-out station-24">岩内</div>
         <div class="station-out station-1">镇海路</div>
         <div ref="upBox" class="up-station-box sxc-flex">
-            <div class="station sxc-flex__item">
+            <div class="station sxc-flex__item" style="opacity: 0;">
                 <!--<div class="name">岩内</div>-->
                 <div class="circle"></div>
                 <div class="circle2 circle-up-24 00101-show"></div>
@@ -121,7 +121,7 @@
                 <div class="circle"></div>
                 <div class="circle2 circle-up-2"></div>
             </div>
-            <div class="station sxc-flex__item">
+            <div class="station sxc-flex__item" style="opacity: 0;">
                 <!--<div class="name">镇海路</div>-->
                 <div class="circle"></div>
                 <div class="circle2 circle-up-1"></div>
@@ -136,7 +136,7 @@
         <div ref="downBox" class="down-station-box sxc-flex">
             <!--<div class="circle circle-down"></div>-->
 
-            <div class="station sxc-flex__item">
+            <div class="station sxc-flex__item"  style="opacity: 0;">
                 <div class="circle"></div>
                 <div class="circle2 circle-down-24"></div>
                 <!--<div class="name">岩内</div>-->
@@ -251,7 +251,7 @@
                 <div class="circle2 circle-down-2"></div>
                 <div class="name">中山公园</div>
             </div>
-            <div class="station sxc-flex__item">
+            <div class="station sxc-flex__item" style="opacity: 0;">
                 <div class="circle"></div>
                 <div class="circle2 circle-down-1"></div>
                 <!--<div class="name">镇海路</div>-->

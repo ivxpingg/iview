@@ -1,9 +1,16 @@
 <template>
     <div class="passengerAnalysis-container">
-        <vSearchPanel class="v-search-panel" :dates="time" :dim="dim" :timeFrame="timeFrame" @changeTimeFrame="changeTimeFrame" @changeDate="changeDate" @changeDim="changeDim"></vSearchPanel>
-        <vTablePanel :dates="time" :dim="dim" :timeFrame="timeFrame" ></vTablePanel>
+        <vSearchPanel class="v-search-panel"
+                      :dates="time"
+                      :dim="dim"
+                      :timeFrame="timeFrame"
+                      @changeTimeFrame="changeTimeFrame"
+                      @changeDate="changeDate"
+                      @changeDim="changeDim"
+                      @search="search"></vSearchPanel>
+        <vTablePanel :dates="comTime" :dim="dim" :timeFrame="timeFrame" ></vTablePanel>
         <div class="separate-line"></div>
-        <vTabsEchartsPanel :dates="time" :dim="dim" :timeFrame="timeFrame"  class="v-tabs-echarts-panel"></vTabsEchartsPanel>
+        <vTabsEchartsPanel :dates="comTime" :dim="dim" :timeFrame="timeFrame"  class="v-tabs-echarts-panel"></vTabsEchartsPanel>
     </div>
 </template>
 
@@ -17,10 +24,17 @@
             return {
                 time: [MOMENT().subtract(9, 'days').format('YYYY-MM-DD'), MOMENT().format('YYYY-MM-DD')],
                 dim: 'day',
-                timeFrame: 'allDay'
+                timeFrame: 'allDay',
+                comTime: []
             }
         },
         components: {vSearchPanel, vTablePanel, vTabsEchartsPanel},
+        created() {
+            this.comTime = this.time;
+        },
+        mounted() {
+
+        },
         methods: {
             changeTimeFrame(val) {
                 this.timeFrame = val;
@@ -30,6 +44,9 @@
             },
             changeDim(type) {
                 this.dim = type;
+            },
+            search() {
+                this.comTime = this.time;
             }
         }
     }

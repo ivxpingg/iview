@@ -1,9 +1,9 @@
 <template>
     <div class="trainAnalysis-container">
-        <vSearchPanel class="v-search-panel" :dates="time" :dim="dim" @changeDate="changeDate" @changeDim="changeDim"></vSearchPanel>
-        <vTabsTable class="v-tabs-table" :dates="time" :dim="dim"></vTabsTable>
+        <vSearchPanel class="v-search-panel" :dates="time" :dim="dim" @changeDate="changeDate" @changeDim="changeDim" @search="search"></vSearchPanel>
+        <vTabsTable class="v-tabs-table" :dates="comTime" :dim="dim"></vTabsTable>
         <div class="separate-line"></div>
-        <vEchartsPanel :dates="time" :dim="dim"></vEchartsPanel>
+        <vEchartsPanel :dates="comTime" :dim="dim"></vEchartsPanel>
     </div>
 </template>
 
@@ -16,17 +16,26 @@
         data() {
             return {
                 time: [MOMENT().subtract(9, 'days').format('YYYY-MM-DD'), MOMENT().format('YYYY-MM-DD')],
-                dim: 'day'
+                dim: 'day',
+                comTime: []
             }
         },
         components: {vSearchPanel, vTabsTable, vEchartsPanel},
-        created() {},
+        created() {
+            this.comTime = this.time;
+        },
+        mounted() {
+
+        },
         methods: {
             changeDate(date) {
                 this.time = date;
             },
             changeDim(type) {
                 this.dim = type;
+            },
+            search() {
+                this.comTime = this.time;
             }
         }
 
