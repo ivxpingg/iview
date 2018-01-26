@@ -226,7 +226,7 @@
         .line-map-bg {
             padding-top: 7px;
             width: 100%;
-            height:557px;
+            height:497px;
             background: #dfdddc url(./images/line-map-bg.png) no-repeat;
             background-size: 1440px auto;
             background-position: top center;

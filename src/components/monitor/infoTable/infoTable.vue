@@ -56,7 +56,7 @@
                         }
                     },
                     {
-                        title: '镇海路站',
+                        title: '镇海路',
                         key: '1',
                         align: 'center',
                         render(h, params) {
@@ -66,7 +66,7 @@
                         }
                     },
                     {
-                        title: '中山公园站',
+                        title: '中山公园',
                         key: '2',
                         align: 'center',
                         render(h, params) {
@@ -74,7 +74,7 @@
                         }
                     },
                     {
-                        title: '将军祠站',
+                        title: '将军祠',
                         key: '3',
                         align: 'center',
                         render(h, params) {
@@ -82,7 +82,7 @@
                         }
                     },
                     {
-                        title: '文灶站',
+                        title: '文灶',
                         key: '4',
                         align: 'center',
                         render(h, params) {
@@ -90,7 +90,7 @@
                         }
                     },
                     {
-                        title: '湖滨东路站',
+                        title: '湖滨东路',
                         key: '5',
                         align: 'center',
                         render(h, params) {
@@ -98,7 +98,7 @@
                         }
                     },
                     {
-                        title: '莲坂站',
+                        title: '莲坂',
                         key: '6',
                         align: 'center',
                         render(h, params) {
@@ -106,7 +106,7 @@
                         }
                     },
                     {
-                        title: '莲花路口站',
+                        title: '莲花路口',
                         key: '7',
                         align: 'center',
                         render(h, params) {
@@ -114,7 +114,7 @@
                         }
                     },
                     {
-                        title: '吕厝站',
+                        title: '吕厝',
                         key: '8',
                         align: 'center',
                         render(h, params) {
@@ -122,7 +122,7 @@
                         }
                     },
                     {
-                        title: '乌石浦站',
+                        title: '乌石浦',
                         key: '9',
                         align: 'center',
                         render(h, params) {
@@ -130,7 +130,7 @@
                         }
                     },
                     {
-                        title: '塘边站',
+                        title: '塘边',
                         key: '10',
                         align: 'center',
                         render(h, params) {
@@ -138,7 +138,7 @@
                         }
                     },
                     {
-                        title: '火炬园站',
+                        title: '火炬园',
                         key: '11',
                         align: 'center',
                         render(h, params) {
@@ -146,7 +146,7 @@
                         }
                     },
                     {
-                        title: '殿前站',
+                        title: '殿前',
                         key: '12',
                         align: 'center',
                         render(h, params) {
@@ -154,7 +154,7 @@
                         }
                     },
                     {
-                        title: '高崎站',
+                        title: '高崎',
                         key: '13',
                         align: 'center',
                         render(h, params) {
@@ -162,7 +162,7 @@
                         }
                     },
                     {
-                        title: '集美学村站',
+                        title: '集美学村',
                         key: '14',
                         align: 'center',
                         render(h, params) {
@@ -170,7 +170,7 @@
                         }
                     },
                     {
-                        title: '园博苑站',
+                        title: '园博苑',
                         key: '15',
                         align: 'center',
                         render(h, params) {
@@ -178,7 +178,7 @@
                         }
                     },
                     {
-                        title: '杏林村站',
+                        title: '杏林村',
                         key: '16',
                         align: 'center',
                         render(h, params) {
@@ -186,7 +186,7 @@
                         }
                     },
                     {
-                        title: '杏锦路站',
+                        title: '杏锦路',
                         key: '17',
                         align: 'center',
                         render(h, params) {
@@ -194,7 +194,7 @@
                         }
                     },
                     {
-                        title: '官任站',
+                        title: '官任',
                         key: '18',
                         align: 'center',
                         render(h, params) {
@@ -202,7 +202,7 @@
                         }
                     },
                     {
-                        title: '诚毅广场站',
+                        title: '诚毅广场',
                         key: '19',
                         align: 'center',
                         render(h, params) {
@@ -246,6 +246,13 @@
                         key: '24',
                         align: 'center',
                         width: 40,
+                        renderHeader(h, params) {
+                            return h('span', {
+                                style: {
+                                    paddingRight: '11px'
+                                }
+                            }, '岩内');
+                        },
                         render(h, params) {
                             return that.morningTrain(h, params, '24');
                         }
@@ -290,7 +297,7 @@
                         }
                     },
                     {
-                        title: '厦门北站',
+                        title: '厦门北',
                         key: '23',
                         align: 'center',
                         render(h, params) {
@@ -322,7 +329,7 @@
                         }
                     },
                     {
-                        title: '诚毅广场站',
+                        title: '诚毅广场',
                         key: '19',
                         align: 'center',
                         render(h, params) {
@@ -330,7 +337,7 @@
                         }
                     },
                     {
-                        title: '官任站',
+                        title: '官任',
                         key: '18',
                         align: 'center',
                         render(h, params) {
@@ -338,7 +345,7 @@
                         }
                     },
                     {
-                        title: '杏锦路站',
+                        title: '杏锦路',
                         key: '17',
                         align: 'center',
                         render(h, params) {
@@ -346,7 +353,7 @@
                         }
                     },
                     {
-                        title: '杏林村站',
+                        title: '杏林村',
                         key: '16',
                         align: 'center',
                         render(h, params) {
@@ -354,7 +361,7 @@
                         }
                     },
                     {
-                        title: '园博苑站',
+                        title: '园博苑',
                         key: '15',
                         align: 'center',
                         render(h, params) {
@@ -362,7 +369,7 @@
                         }
                     },
                     {
-                        title: '集美学村站',
+                        title: '集美学村',
                         key: '14',
                         align: 'center',
                         render(h, params) {
@@ -370,7 +377,7 @@
                         }
                     },
                     {
-                        title: '高崎站',
+                        title: '高崎',
                         key: '13',
                         align: 'center',
                         render(h, params) {
@@ -378,7 +385,7 @@
                         }
                     },
                     {
-                        title: '殿前站',
+                        title: '殿前',
                         key: '12',
                         align: 'center',
                         render(h, params) {
@@ -386,7 +393,7 @@
                         }
                     },
                     {
-                        title: '火炬园站',
+                        title: '火炬园',
                         key: '11',
                         align: 'center',
                         render(h, params) {
@@ -394,7 +401,7 @@
                         }
                     },
                     {
-                        title: '塘边站',
+                        title: '塘边',
                         key: '10',
                         align: 'center',
                         render(h, params) {
@@ -402,7 +409,7 @@
                         }
                     },
                     {
-                        title: '乌石浦站',
+                        title: '乌石浦',
                         key: '9',
                         align: 'center',
                         render(h, params) {
@@ -410,7 +417,7 @@
                         }
                     },
                     {
-                        title: '吕厝站',
+                        title: '吕厝',
                         key: '8',
                         align: 'center',
                         render(h, params) {
@@ -418,7 +425,7 @@
                         }
                     },
                     {
-                        title: '莲花路口站',
+                        title: '莲花路口',
                         key: '7',
                         align: 'center',
                         render(h, params) {
@@ -426,7 +433,7 @@
                         }
                     },
                     {
-                        title: '莲坂站',
+                        title: '莲坂',
                         key: '6',
                         align: 'center',
                         render(h, params) {
@@ -434,7 +441,7 @@
                         }
                     },
                     {
-                        title: '湖滨东路站',
+                        title: '湖滨东路',
                         key: '5',
                         align: 'center',
                         render(h, params) {
@@ -442,7 +449,7 @@
                         }
                     },
                     {
-                        title: '文灶站',
+                        title: '文灶',
                         key: '4',
                         align: 'center',
                         render(h, params) {
@@ -450,7 +457,7 @@
                         }
                     },
                     {
-                        title: '将军祠站',
+                        title: '将军祠',
                         key: '3',
                         align: 'center',
                         render(h, params) {
@@ -458,7 +465,7 @@
                         }
                     },
                     {
-                        title: '中山公园站',
+                        title: '中山公园',
                         key: '2',
                         align: 'center',
                         render(h, params) {
@@ -466,100 +473,25 @@
                         }
                     },
                     {
-                        title: '镇海路站',
+                        title: '镇海路',
                         key: '1',
                         align: 'center',
                         width: 40,
+                        renderHeader(h, params) {
+                            return h('span', {
+                                style: {
+                                    paddingRight: '11px'
+                                }
+                            }, '镇海路');
+                        },
                         render(h, params) {
                             return that.morningTrain(h, params, '1');
                         }
                     }
 
                 ],
-                tableDataUp: [
-                    {
-                        trainId: '00101',
-                        state: '0',
-                        "24": '2018-01-01 07:30|2018-01-01 07:32',
-                        "23": '2018-01-01 08:08|2018-01-01 07:25',
-                        "22": '2018-01-01 09:08|2018-01-01 09:08',
-                        "21": '2018-01-01 09:08'
-                    },
-                    {
-                        trainId: '00102',
-                        state: '1',
-                        "24": '2018-01-01 07:30',
-                        "23": '2018-01-01 08:08',
-                        "22": '2018-01-01 09:08',
-                        "21": '2018-01-01 09:08'
-                    },
-                    {
-                        trainId: '00103',
-                        state: '2',
-                        "24": '2018-01-01 07:30',
-                        "23": '2018-01-01 08:08',
-                        "22": '2018-01-01 09:08',
-                        "21": '2018-01-01 09:08'
-                    },
-                    {
-                        trainId: '00104',
-                        state: '2',
-                        "24": '2018-01-01 07:30',
-                        "23": '2018-01-01 08:08',
-                        "22": '2018-01-01 09:08',
-                        "21": '2018-01-01 09:08'
-                    },
-                    {
-                        trainId: '00105',
-                        state: '2',
-                        "24": '2018-01-01 07:30',
-                        "23": '2018-01-01 08:08',
-                        "22": '2018-01-01 09:08',
-                        "21": '2018-01-01 09:08'
-                    }
-                ],
-                tableDataDown: [
-                    {
-                        trainId: '00502',
-                        state: '0',
-                        yanNei: '07:30',
-                        xiamenbei: '08:08',
-                        tianshuilu: '09:08',
-                        jimeiruanjianyuan: '09:08'
-                    },
-                    {
-                        trainId: '00102',
-                        state: '1',
-                        yanNei: '07:30',
-                        xiamenbei: '08:08',
-                        tianshuilu: '09:08',
-                        jimeiruanjianyuan: '09:08'
-                    },
-                    {
-                        trainId: '00103',
-                        state: '2',
-                        yanNei: '07:30',
-                        xiamenbei: '08:08',
-                        tianshuilu: '09:08',
-                        jimeiruanjianyuan: '09:08'
-                    },
-                    {
-                        trainId: '00104',
-                        state: '2',
-                        yanNei: '07:30',
-                        xiamenbei: '08:08',
-                        tianshuilu: '09:08',
-                        jimeiruanjianyuan: '09:08'
-                    },
-                    {
-                        trainId: '00105',
-                        state: '2',
-                        yanNei: '07:30',
-                        xiamenbei: '08:08',
-                        tianshuilu: '09:08',
-                        jimeiruanjianyuan: '09:08'
-                    }
-                ],
+                tableDataUp: [],
+                tableDataDown: [],
                 upTrainPosition: {}
             }
         },
@@ -567,7 +499,7 @@
             height: {
                 type: Number,
                 default() {
-                    return 226;
+                    return 286;
                 }
             }
         },
@@ -677,7 +609,7 @@
     .infoTable-container {
         position: relative;
         width: 100%;
-        min-height: 226px;
+        min-height: 286px;
 
         .btn-panel {
             position: absolute;

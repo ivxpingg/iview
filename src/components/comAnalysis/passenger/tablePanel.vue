@@ -149,7 +149,14 @@
                         title: '岩内',
                         key: '24',
                         width: 40,
-                        align: 'left'
+                        align: 'center',
+                        renderHeader(h, params) {
+                            return h('span', {
+                                style: {
+                                    paddingRight: '11px'
+                                }
+                            }, '岩内');
+                        }
                     }
 
                 ],
@@ -312,7 +319,7 @@
             }
             td {
                 background-color: #f7f7f7;
-                height: 37px;
+                height: 29px;
                 .ivu-table-cell {
                     padding: 0;
                 }

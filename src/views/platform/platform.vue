@@ -20,9 +20,9 @@
                 <li name="用户权限"><span class="subSystem subSystem11" ></span></li>
                 <li name="用户权限"><span class="subSystem subSystem11" ></span></li>
 
+                <li name="用户权限"><span class="subSystem subSystem9" :class="systemList['9'].auth ? '':'noauth'" @click="goto(systemList['9'])" ></span></li>
                 <li name="交通衔接"><span class="subSystem subSystem7" :class="systemList['7'].auth ? '':'noauth'" @click="goto(systemList['7'])" ></span></li>
                 <li name="综合展示"><span class="subSystem subSystem8" :class="systemList['8'].auth ? '':'noauth'" @click="goto(systemList['8'])" ></span></li>
-                <li name="用户权限"><span class="subSystem subSystem9" :class="systemList['9'].auth ? '':'noauth'" @click="goto(systemList['9'])" ></span></li>
                 <li name="从业人员"><span class="subSystem subSystem6" :class="systemList['6'].auth ? '':'noauth'" @click="goto(systemList['6'])" ></span></li>
 
             </ul>
@@ -302,9 +302,6 @@
                 this.refreshCarousel();
             },
 
-            selectSubSystem(url) {
-                this.$router.push(url);
-            },
             logout () {
                 const that = this;
 

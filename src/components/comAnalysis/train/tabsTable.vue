@@ -191,7 +191,7 @@
                     {
                         title: '概述',
                         key: 'description',
-                        align: 'left',
+                        align: 'center',
                         renderHeader(h) {
                             return h('span', {
                                 style: {
@@ -200,10 +200,11 @@
                             }, '概述');
                         },
                         render(h, params) {
-                            return h('span', {
+                            return h('div', {
                                 style: {
                                     paddingLeft: '10px',
-                                    paddingRight: '10px'
+                                    paddingRight: '10px',
+                                    textAlign: 'left'
                                 }
                             }, params.row[params.column.key]);
                         }
@@ -225,7 +226,7 @@
                     {
                         title: '概述',
                         key: 'description',
-                        align: 'left',
+                        align: 'center',
                         renderHeader(h) {
                             return h('span', {
                                 style: {
@@ -234,10 +235,11 @@
                             }, '概述');
                         },
                         render(h, params) {
-                            return h('span', {
+                            return h('div', {
                                 style: {
                                     paddingLeft: '10px',
-                                    paddingRight: '10px'
+                                    paddingRight: '10px',
+                                    textAlign: 'left'
                                 }
                             }, params.row[params.column.key]);
                         }
@@ -438,6 +440,11 @@
                 background: url(./images/tabs-nav-bg-right-active.png) no-repeat center;
                 z-index: 1;
             }
+        }
+
+
+        .ivu-table td {
+            height: 29px;
         }
     }
 </style>

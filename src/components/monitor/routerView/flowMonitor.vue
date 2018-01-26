@@ -8,7 +8,7 @@
 
             <div class="echart-bottom">
                 <div ref="stationFlowEchart" class="station-line-flow-echart"></div>
-                <Select v-model="defaultSelect" class="select-station" style="width:117px">
+                <Select v-model="defaultSelect" class="select-station" style="width:107px">
                     <Option v-for="item in stationData" :value="item.id">{{ item.name }}</Option>
                 </Select>
             </div>
@@ -33,30 +33,30 @@
                 setTimeOutInfoPanelDataTime: 30000,
                 defaultSelect: '2',
                 stationData: [
-                     { name: '镇海路站', id: '1' },
-                     { name: '中山公园站', id: '2' },
-                     { name: '将军祠站', id: '3' },
-                     { name: '文灶站', id: '4' },
-                     { name: '湖滨东路站', id: '5' },
-                     { name: '莲坂站', id: '6' },
-                     { name: '莲花路口站', id: '7' },
-                     { name: '吕厝站', id: '8' },
-                     { name: '乌石浦站', id: '9' },
-                     { name: '塘边站', id: '10' },
-                     { name: '火炬园站', id: '11' },
-                     { name: '殿前站', id: '12' },
-                     { name: '高崎站', id: '13' },
-                     { name: '集美学村站', id: '14' },
-                     { name: '园博苑站', id: '15' },
-                     { name: '杏林村站', id: '16' },
-                     { name: '杏锦路站', id: '17' },
-                     { name: '官任站', id: '18' },
-                     { name: '诚毅广场站', id: '19' },
-                     { name: '集美软件园站', id: '20' },
-                     { name: '集美大道站', id: '21' },
-                     { name: '天水路站', id: '22' },
-                     { name: '厦门北站', id: '23' },
-                     { name: '岩内站', id: '24' }
+                     { name: '镇海路', id: '1' },
+                     { name: '中山公园', id: '2' },
+                     { name: '将军祠', id: '3' },
+                     { name: '文灶', id: '4' },
+                     { name: '湖滨东路', id: '5' },
+                     { name: '莲坂', id: '6' },
+                     { name: '莲花路口', id: '7' },
+                     { name: '吕厝', id: '8' },
+                     { name: '乌石浦', id: '9' },
+                     { name: '塘边', id: '10' },
+                     { name: '火炬园', id: '11' },
+                     { name: '殿前', id: '12' },
+                     { name: '高崎', id: '13' },
+                     { name: '集美学村', id: '14' },
+                     { name: '园博苑', id: '15' },
+                     { name: '杏林村', id: '16' },
+                     { name: '杏锦路', id: '17' },
+                     { name: '官任', id: '18' },
+                     { name: '诚毅广场', id: '19' },
+                     { name: '集美软件园', id: '20' },
+                     { name: '集美大道', id: '21' },
+                     { name: '天水路', id: '22' },
+                     { name: '厦门北', id: '23' },
+                     { name: '岩内', id: '24' }
                  ],
 
                 myChart1: null,
@@ -308,6 +308,7 @@
                         trigger: 'axis'
                     },
                     legend: {
+                        top: 10,
                         data:['今日进站量','上周同期进站量','今日出站量', '上周同期出站量']
                     },
                     grid: {
@@ -317,7 +318,7 @@
                         right: '15',
                         bottom: '10',
                         containLabel: true,
-//                        backgroundColor: '#FFF',
+                        backgroundColor: '#FFF',
                         borderColor: 'transparent'
                     },
                     xAxis: {
@@ -406,6 +407,7 @@
                         trigger: 'axis'
                     },
                     legend: {
+                        top: 10,
                         data:['今日进站量','上周同期进站量','今日出站量', '上周同期出站量']
                     },
                     grid: {
@@ -415,7 +417,7 @@
                         right: '15',
                         bottom: '10',
                         containLabel: true,
-//                        backgroundColor: '#FFF',
+                        backgroundColor: '#FFF',
                         borderColor: 'transparent'
                     },
                     xAxis: {
@@ -506,9 +508,11 @@
                         }
                     },
                     legend: {
+                        top: 10,
                         data:['站点乘降量', '进站客流量', '出站客流量']
                     },
                     grid: {
+                        show: true,
                         top: '44',
                         left: '20',
                         right: '15',
@@ -633,10 +637,10 @@
 
         .panel-left {
             flex: 1;
-            margin: 19px;
+            margin: 19px 19px 0;
 
             .echart-top {
-                height: 333px;
+                height: 342px;
                 background-color: #eeeeee;
                 border: 2px solid #e2e3e3;
                 .line-line-flow-echart {
@@ -646,7 +650,7 @@
             }
             .echart-bottom {
                 position: relative;
-                height: 332px;
+                height: 342px;
                 background-color: #eeeeee;
                 border: 2px solid #e2e3e3;
                 .station-line-flow-echart {
@@ -655,7 +659,7 @@
                 }
                 .select-station {
                     position: absolute;
-                    top: 13px;
+                    top: 6px;
                     right: 14px;
                 }
             }
@@ -664,8 +668,8 @@
 
         .panel-right {
             flex: 1;
-            margin: 19px 19px 19px 0;
-            height: 705px;
+            margin: 19px 19px 0 0;
+            height: 724px;
             background-color: #eeeeee;
             border: 2px solid #e2e3e3;
             .bar-flow-echart {

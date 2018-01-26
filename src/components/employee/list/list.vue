@@ -85,12 +85,14 @@
 
         <Row>
             <Col span="24">
-                <Table  class="myTableIview" border :columns="columns" stripe :data="listData" :height="521"></Table>
+                <Table  class="myTableIview" border :columns="columns" stripe :data="listData" :height="533"></Table>
                 <div class="ms-table-page">
                     <Page
                         :total="searchParams.count"
                         :page-size="searchParams.pageSize"
                         :page-size-opts="page_size_opts"
+                        placement="top"
+                        size="small"
                         @on-page-size-change="on_page_size_change"
                         @on-change="on_change"
                         show-total
@@ -279,7 +281,7 @@
                     <div class="content sxc-flex__item">
                         <Table
                                 class="myTableIview"
-                                width=""
+                                width="570"
                                 height="200"
                                 border
                                 stripe
@@ -389,10 +391,10 @@
                 },
                 // 培训记录表格配置信息
                 oTrainRecordColumns: [
-                    { title: '时间', key: 'trainDate', width: 180},
-                    { title: '学时', key: 'period' },
-                    { title: '培训内容', key: 'trainContent' },
-                    { title: '成绩', key: 'achievement', width: 80 }],
+                    { title: '时间', align: 'center', key: 'trainDate', width: 180},
+                    { title: '学时', align: 'center', key: 'period' },
+                    { title: '培训内容', align: 'center', key: 'trainContent' },
+                    { title: '成绩', align: 'center', key: 'achievement', width: 80 }],
                 searchParams: {
                     pageNo: 1,                   // 当前页数
                     pageSize: 10,                // 每页记录数

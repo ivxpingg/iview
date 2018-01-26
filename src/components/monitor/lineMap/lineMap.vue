@@ -334,6 +334,8 @@
 
                 });
 
+
+
                 this.upLeft = o;
             },
             getDownLeft() {
@@ -569,7 +571,7 @@
         overflow: hidden;
         .up-line {
             position: absolute;
-            top: 149px;
+            top: 119px;
             left: 66px;
             right: 66px;
             height: 4px;
@@ -605,7 +607,7 @@
         }
         .down-line {
             position: absolute;
-            bottom: 152px;
+            bottom: 122px;
             left: 66px;
             right: 66px;
             height: 4px;
@@ -653,12 +655,12 @@
             border-radius: 25px;
 
             &.station-24 {
-                top: 127px;
+                top: 97px;
                 left: 0px;
                 line-height: 70px;
             }
             &.station-1 {
-                top: 127px;
+                top: 97px;
                 right: 0px;
                 line-height: 46px;
             }
@@ -669,7 +671,7 @@
             position: relative;
             margin: 0 66px;
             background-color: transparent;
-            height: 207px;
+            height: 177px;
             /*border: 1px solid #666;*/
             z-index: 1;
 
@@ -723,7 +725,7 @@
             position: relative;
             margin: 0 66px;
             background-color: transparent;
-            height: 207px;
+            height: 177px;
             z-index: 1;
 
             .station {

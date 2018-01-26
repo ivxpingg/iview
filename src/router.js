@@ -13,6 +13,14 @@ const routers = [{
             requireAuth: true  // 添加该字段，表示进入这个路由是需要登录的
         },
         component: (resolve) => require(['./views/platform/platform.vue'], resolve)
+    }, {
+        path: '/test1',
+        name: 'test1',
+        meta: {
+            title: '测试iframe 跨域交互',
+            requireAuth: false  // 添加该字段，表示进入这个路由是需要登录的
+        },
+        component: (resolve) => require(['./views/test/test1.vue'], resolve)
     },
     {
         path: '/monitor',
@@ -117,6 +125,15 @@ const routers = [{
                 component: (resolve) => require(['./components/comAnalysis/routerView/passengerAnalysis.vue'], resolve)
             }
         ]
+    },
+    {
+        path: '/userAuth',
+        name: 'userAuth',
+        meta: {
+            title: '厦门市轨道交通用户权限管理子系统',
+            requireAuth: true
+        },
+        component: (resolve) => require(['./views/subSystem/userManage/userManage.vue'], resolve)
     },
     {
         path: '/system/:funcId',
