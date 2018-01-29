@@ -6,110 +6,17 @@
         <div class="station-out station-24">岩内</div>
         <div class="station-out station-1">镇海路</div>
         <div ref="upBox" class="up-station-box sxc-flex">
+
+
             <div class="station sxc-flex__item" style="opacity: 0;">
-                <!--<div class="name">岩内</div>-->
+                <!--<div class="name">镇海路</div>-->
                 <div class="circle"></div>
-                <div class="circle2 circle-up-24 00101-show"></div>
+                <div class="circle2 circle-up-1"></div>
             </div>
             <div class="station sxc-flex__item">
-                <div class="name">厦门北站</div>
+                <div class="name">中山公园</div>
                 <div class="circle"></div>
-                <div class="circle2 circle-up-23"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">天水路</div>
-                <div class="circle"></div>
-                <div class="circle2 circle-up-22"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">集美大道</div>
-                <div class="circle"></div>
-                <div class="circle2 circle-up-21"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">集美软件园</div>
-                <div class="circle"></div>
-                <div class="circle2 circle-up-20"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">诚毅广场</div>
-                <div class="circle"></div>
-                <div class="circle2 circle-up-19"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">官任</div>
-                <div class="circle"></div>
-                <div class="circle2 circle-up-18"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">杏锦路</div>
-                <div class="circle"></div>
-                <div class="circle2 circle-up-17"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">杏林村</div>
-                <div class="circle"></div>
-                <div class="circle2 circle-up-16"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">园博苑</div>
-                <div class="circle"></div>
-                <div class="circle2 circle-up-15"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">集美学村</div>
-                <div class="circle"></div>
-                <div class="circle2 circle-up-14"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">高崎</div>
-                <div class="circle"></div>
-                <div class="circle2 circle-up-13"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">殿前</div>
-                <div class="circle"></div>
-                <div class="circle2 circle-up-12"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">火炬园</div>
-                <div class="circle"></div>
-                <div class="circle2 circle-up-11"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">塘边</div>
-                <div class="circle"></div>
-                <div class="circle2 circle-up-10"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">乌石浦</div>
-                <div class="circle"></div>
-                <div class="circle2 circle-up-9"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">吕厝</div>
-                <div class="circle"></div>
-                <div class="circle2 circle-up-8"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">莲花路口</div>
-                <div class="circle"></div>
-                <div class="circle2 circle-up-7"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">莲坂</div>
-                <div class="circle"></div>
-                <div class="circle2 circle-up-6"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">湖滨东路</div>
-                <div class="circle"></div>
-                <div class="circle2 circle-up-5"></div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="name">文灶</div>
-                <div class="circle"></div>
-                <div class="circle2 circle-up-4"></div>
+                <div class="circle2 circle-up-2"></div>
             </div>
             <div class="station sxc-flex__item">
                 <div class="name">将军祠</div>
@@ -117,15 +24,111 @@
                 <div class="circle2 circle-up-3"></div>
             </div>
             <div class="station sxc-flex__item">
-                <div class="name">中山公园</div>
+                <div class="name">文灶</div>
                 <div class="circle"></div>
-                <div class="circle2 circle-up-2"></div>
+                <div class="circle2 circle-up-4"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">湖滨东路</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-5"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">莲坂</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-6"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">莲花路口</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-7"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">吕厝</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-8"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">乌石浦</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-9"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">塘边</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-10"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">火炬园</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-11"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">殿前</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-12"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">高崎</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-13"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">集美学村</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-14"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">园博苑</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-15"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">杏林村</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-16"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">杏锦路</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-17"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">官任</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-18"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">诚毅广场</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-19"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">集美软件园</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-20"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">集美大道</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-21"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">天水路</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-22"></div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="name">厦门北站</div>
+                <div class="circle"></div>
+                <div class="circle2 circle-up-23"></div>
             </div>
             <div class="station sxc-flex__item" style="opacity: 0;">
-                <!--<div class="name">镇海路</div>-->
+                <!--<div class="name">岩内</div>-->
                 <div class="circle"></div>
-                <div class="circle2 circle-up-1"></div>
+                <div class="circle2 circle-up-24 00101-show"></div>
             </div>
+
 
 
             <!--<div class="train train-up" style="left: 8.3333%;"></div>-->
@@ -136,110 +139,16 @@
         <div ref="downBox" class="down-station-box sxc-flex">
             <!--<div class="circle circle-down"></div>-->
 
-            <div class="station sxc-flex__item"  style="opacity: 0;">
+
+            <div class="station sxc-flex__item" style="opacity: 0;">
                 <div class="circle"></div>
-                <div class="circle2 circle-down-24"></div>
-                <!--<div class="name">岩内</div>-->
+                <div class="circle2 circle-down-1"></div>
+                <!--<div class="name">镇海路</div>-->
             </div>
             <div class="station sxc-flex__item">
                 <div class="circle"></div>
-                <div class="circle2 circle-down-23"></div>
-                <div class="name">厦门北站</div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="circle"></div>
-                <div class="circle2 circle-down-22"></div>
-                <div class="name">天水路</div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="circle"></div>
-                <div class="circle2 circle-down-21"></div>
-                <div class="name">集美大道</div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="circle"></div>
-                <div class="circle2 circle-down-20"></div>
-                <div class="name">集美软件园</div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="circle"></div>
-                <div class="circle2 circle-down-19"></div>
-                <div class="name">诚毅广场</div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="circle"></div>
-                <div class="circle2 circle-down-18"></div>
-                <div class="name">官任</div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="circle"></div>
-                <div class="circle2 circle-down-17"></div>
-                <div class="name">杏锦路</div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="circle"></div>
-                <div class="circle2 circle-down-16"></div>
-                <div class="name">杏林村</div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="circle"></div>
-                <div class="circle2 circle-down-15"></div>
-                <div class="name">园博苑</div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="circle"></div>
-                <div class="circle2 circle-down-14"></div>
-                <div class="name">集美学村</div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="circle"></div>
-                <div class="circle2 circle-down-13"></div>
-                <div class="name">高崎</div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="circle"></div>
-                <div class="circle2 circle-down-12"></div>
-                <div class="name">殿前</div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="circle"></div>
-                <div class="circle2 circle-down-11"></div>
-                <div class="name">火炬园</div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="circle"></div>
-                <div class="circle2 circle-down-10"></div>
-                <div class="name">塘边</div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="circle"></div>
-                <div class="circle2 circle-down-9"></div>
-                <div class="name">乌石浦</div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="circle"></div>
-                <div class="circle2 circle-down-8"></div>
-                <div class="name">吕厝</div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="circle"></div>
-                <div class="circle2 circle-down-7"></div>
-                <div class="name">莲花路口</div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="circle"></div>
-                <div class="circle2 circle-down-6"></div>
-                <div class="name">莲坂</div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="circle"></div>
-                <div class="circle2 circle-down-5"></div>
-                <div class="name">湖滨东路</div>
-            </div>
-            <div class="station sxc-flex__item">
-                <div class="circle"></div>
-                <div class="circle2 circle-down-4"></div>
-                <div class="name">文灶</div>
+                <div class="circle2 circle-down-2"></div>
+                <div class="name">中山公园</div>
             </div>
             <div class="station sxc-flex__item">
                 <div class="circle"></div>
@@ -248,13 +157,108 @@
             </div>
             <div class="station sxc-flex__item">
                 <div class="circle"></div>
-                <div class="circle2 circle-down-2"></div>
-                <div class="name">中山公园</div>
+                <div class="circle2 circle-down-4"></div>
+                <div class="name">文灶</div>
             </div>
-            <div class="station sxc-flex__item" style="opacity: 0;">
+            <div class="station sxc-flex__item">
                 <div class="circle"></div>
-                <div class="circle2 circle-down-1"></div>
-                <!--<div class="name">镇海路</div>-->
+                <div class="circle2 circle-down-5"></div>
+                <div class="name">湖滨东路</div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="circle"></div>
+                <div class="circle2 circle-down-6"></div>
+                <div class="name">莲坂</div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="circle"></div>
+                <div class="circle2 circle-down-7"></div>
+                <div class="name">莲花路口</div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="circle"></div>
+                <div class="circle2 circle-down-8"></div>
+                <div class="name">吕厝</div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="circle"></div>
+                <div class="circle2 circle-down-9"></div>
+                <div class="name">乌石浦</div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="circle"></div>
+                <div class="circle2 circle-down-10"></div>
+                <div class="name">塘边</div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="circle"></div>
+                <div class="circle2 circle-down-11"></div>
+                <div class="name">火炬园</div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="circle"></div>
+                <div class="circle2 circle-down-12"></div>
+                <div class="name">殿前</div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="circle"></div>
+                <div class="circle2 circle-down-13"></div>
+                <div class="name">高崎</div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="circle"></div>
+                <div class="circle2 circle-down-14"></div>
+                <div class="name">集美学村</div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="circle"></div>
+                <div class="circle2 circle-down-15"></div>
+                <div class="name">园博苑</div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="circle"></div>
+                <div class="circle2 circle-down-16"></div>
+                <div class="name">杏林村</div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="circle"></div>
+                <div class="circle2 circle-down-17"></div>
+                <div class="name">杏锦路</div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="circle"></div>
+                <div class="circle2 circle-down-18"></div>
+                <div class="name">官任</div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="circle"></div>
+                <div class="circle2 circle-down-19"></div>
+                <div class="name">诚毅广场</div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="circle"></div>
+                <div class="circle2 circle-down-20"></div>
+                <div class="name">集美软件园</div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="circle"></div>
+                <div class="circle2 circle-down-21"></div>
+                <div class="name">集美大道</div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="circle"></div>
+                <div class="circle2 circle-down-22"></div>
+                <div class="name">天水路</div>
+            </div>
+            <div class="station sxc-flex__item">
+                <div class="circle"></div>
+                <div class="circle2 circle-down-23"></div>
+                <div class="name">厦门北站</div>
+            </div>
+            <div class="station sxc-flex__item"  style="opacity: 0;">
+                <div class="circle"></div>
+                <div class="circle2 circle-down-24"></div>
+                <!--<div class="name">岩内</div>-->
             </div>
         </div>
 
@@ -281,8 +285,8 @@
                 train_list: {},
 
 
-                upLeft: {},
-                downLeft: {},
+                upLeft: {},      // 存放上行动车的实时位置，每个区段的 到站和 站与站的中间位置
+                downLeft: {},    // 存放下行动车的实时位置，每个区段的 到站和 站与站的中间位置
             }
         },
         beforeDestroy() {
@@ -297,6 +301,7 @@
             this.getData();
         },
         methods: {
+            //
             getUpLeft() {
                 var that = this;
                 var o = {};
@@ -314,13 +319,22 @@
                     }
 
                     if (val.is_station) {
-                        left = ((24 - stationId) * 2 * that.trainLeftRatio) + that.trainLeftRatio;
+                        if (stationId == 1) {
+                            left = 0;
+                        }
+                        else if (stationId == 24) {
+                            left = 100 ;
+                        }
+                        else {
+                            left = (stationId * 2 * that.trainLeftRatio) - that.trainLeftRatio;
+                        }
+
                     }
                     else if (pass) {
-                        left = ((24 - stationId) * 2 * that.trainLeftRatio);
+                        left = ( stationId * 2 * that.trainLeftRatio);
                     }
                     else {
-                        left = ((24 - stationId) * 2 * that.trainLeftRatio) + that.trainLeftRatio * 2;
+                        left = (stationId * 2 * that.trainLeftRatio) - that.trainLeftRatio * 2;
                     }
 
                     o[val.section_name] = {
@@ -333,8 +347,6 @@
                     }
 
                 });
-
-
 
                 this.upLeft = o;
             },
@@ -355,13 +367,22 @@
                     }
 
                     if (val.is_station) {
-                        left = ((24 - stationId) * 2 * that.trainLeftRatio) + that.trainLeftRatio;
+
+                        if (stationId == 1) {
+                            left = 0;
+                        }
+                        else if (stationId == 24) {
+                            left = 100 ;
+                        }
+                        else {
+                            left = (stationId * 2 * that.trainLeftRatio) - that.trainLeftRatio;
+                        }
                     }
                     else if (pass) {
-                        left = ((24 - stationId) * 2 * that.trainLeftRatio) + that.trainLeftRatio * 2;
+                        left = (stationId * 2 * that.trainLeftRatio) - that.trainLeftRatio * 2;
                     }
                     else {
-                        left = ((24 - stationId) * 2 * that.trainLeftRatio);
+                        left = (stationId * 2 * that.trainLeftRatio);
                     }
 
                     o[val.section_name] = {
@@ -580,7 +601,7 @@
 
             &:after {
                 position: absolute;
-                left: 0;
+                right: 0;
                 top: 0;
                 content: " ";
                 display: block;
@@ -588,13 +609,13 @@
                 height: 4px;
                 background-color: #3da088;
                 border: 1px solid #f4f4f4;
-                transform-origin: 0% 50%;
-                transform: rotate(-35deg);
+                transform-origin: 100% 50%;
+                transform: rotate(35deg);
                 z-index: 1;
             }
             &:before {
                 position: absolute;
-                left: 1px;
+                right: 1px;
                 top: 0;
                 content: " ";
                 display: block;
@@ -616,21 +637,21 @@
 
             &:after {
                 position: absolute;
-                right: 0;
-                top: -1px;
+                left: 0;
+                top: -2px;
                 content: " ";
                 display: block;
                 width: 16px;
                 height: 4px;
                 background-color: #f39950;
                 border: 1px solid #f4f4f4;
-                transform-origin: 100% 50%;
-                transform: rotate(-35deg);
+                transform-origin: 0% 50%;
+                transform: rotate(35deg);
                 z-index: 1;
             }
             &:before {
                 position: absolute;
-                right: 0px;
+                left: 1px;
                 top: 0;
                 content: " ";
                 display: block;
@@ -656,12 +677,12 @@
 
             &.station-24 {
                 top: 97px;
-                left: 0px;
+                right: 0px;
                 line-height: 70px;
             }
             &.station-1 {
                 top: 97px;
-                right: 0px;
+                left: 0px;
                 line-height: 46px;
             }
         }
