@@ -4,14 +4,16 @@
             <div class="tree-search"></div>
             <div class="tree-box">
                 <Tree :data="data1" ></Tree>
-
             </div>
         </div>
-        <div class="panel-video"></div>
+        <div class="panel-video">
+            <iframe :src="iframeSrc" id="iframe_video" frameborder="0" height="100%" width="100%"></iframe>
+        </div>
     </div>
 </template>
 
 <script>
+    import Util from '../../../libs/util';
     export default {
         data () {
             return {
@@ -99,11 +101,33 @@
                                         ]
                                     }
                                 ]
-                        }]
+                        }],
+                iframeSrc: '',
+                windowIndex: 0
             }
         },
-        mounted() {},
+        mounted() {
+//            window.onmessage = function (ev) {
+//
+//                console.log(100)
+//                console.log(ev.data);
+//            }
+            var that = this;
+
+            setInterval(function () {
+
+                document.getElementById("iframe_video").contentWindow.postMessage({  }, '*');
+//                window.frames['iframe_video'].contentWindow.postMessage({ auth: '24', d: '5' }, '*');
+
+                that.windowIndex = 0;
+            }, 1000);
+
+            this.initIframeSrc();
+        },
         methods: {
+            initIframeSrc() {
+                this.iframeSrc = "/html/video.html";
+            },
             onSelectChange(n) {
 
                 n[0].expand = !n[0].expand;
@@ -175,7 +199,17 @@
 
 <style lang="scss" rel="stylesheet/scss" scoped>
     .videoMonitor-container {
+         display: flex;
+         height: 530px;
+        .panel-tree {
+            width: 260px;
+        }
 
+        .panel-video {
+            position: relative;
+            flex: 1;
+            overflow: hidden;
+        }
     }
 
 

@@ -7,6 +7,7 @@ module.exports = {
         assetsRoot: path.resolve(__dirname, '../dist'),
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
+        htmlPath: 'html',
         productionSourceMap: true
     },
     dev: {
@@ -15,6 +16,7 @@ module.exports = {
         autoOpenBrowser: true,
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
+        htmlPath: 'html',
         proxyTable: {
             '/metrosupervision': { target: 'http://ikey.doudou360.com', changeOrigin: true }
             // '/metrosupervision/xm': { target: 'http://cs.doudou360.com:8088', changeOrigin: tre },

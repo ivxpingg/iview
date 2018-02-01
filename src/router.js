@@ -127,6 +127,44 @@ const routers = [{
         ]
     },
     {
+        path: '/comShow',
+        name: 'comShow',
+        meta: {
+            title: '厦门市轨道交通综合展示子系统',
+            requireAuth: true
+        },
+        component: (resolve) => require(['./views/subSystem/comShow/comShow.vue'], resolve),
+        children: []
+    },
+    {
+        path: '/trafficConn',
+        name: 'trafficConn',
+        meta: {
+            title: '厦门市轨道交通出行衔接子系统',
+            requireAuth: true
+        },
+        component: (resolve) => require(['./views/subSystem/trafficConn/trafficConn.vue'], resolve),
+        children: []
+    },
+    {
+        path: '/yqManage',
+        name: 'yqManage',
+        meta: {
+            title: '厦门市轨道交通舆情分析子系统',
+            requireAuth: true
+        },
+        component: (resolve) => require(['./views/subSystem/yqManage/yqManage.vue'], resolve),
+        children: [{
+            path: 'yq',
+            name: 'yq',
+            meta: {
+                title: '厦门市轨道交通舆情分析子系统',
+                requireAuth: true  // 添加该字段，表示进入这个路由是需要登录的
+            },
+            component: (resolve) => require(['./components/yqManage/routerView/yq.vue'], resolve)
+        }]
+    },
+    {
         path: '/userAuth',
         name: 'userAuth',
         meta: {

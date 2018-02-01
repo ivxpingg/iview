@@ -2,6 +2,7 @@
 <template>
 
     <div ref="loginBg" class="login-bg">
+
         <div class="login-bg-inner">
             <img class="login-bg1" src="./images/login-bg1.png" alt="">
         </div>

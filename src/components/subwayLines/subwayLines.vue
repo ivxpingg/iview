@@ -168,7 +168,7 @@
         position: absolute;
         top: 0;
         left: 0;
-        background-image: url('./images/xm_map_bg_1.jpg');
+        background-image: url('./images/xm_map_bg_2.png');
         background-repeat: no-repeat;
         background-size: 100% auto;
         /*background-position: -900px -1400px;*/

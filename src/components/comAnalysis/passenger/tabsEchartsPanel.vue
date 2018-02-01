@@ -75,6 +75,7 @@
                     xAxis: [ { data: [] } ],
                     series: [
                         { data: [] },
+                        { data: [] },
                         { data: [] }
                     ]
                 },
@@ -167,6 +168,7 @@
                     that.option3.xAxis[0].data = [];
                     that.option3.series[0].data = [];
                     that.option3.series[1].data = [];
+                    that.option3.series[2].data = [];
 
                     var smoment = MOMENT(that.dates[0]);
                     var emoment = MOMENT(that.dates[1]);
@@ -186,12 +188,15 @@
                         that.option3.xAxis[0].data.push(smoment.format(format));
                         that.option3.series[0].data.push(0);
                         that.option3.series[1].data.push(0);
+                        that.option3.series[2].data.push(0);
                         smoment.add(1, type);
                     }
 
                     val.averageDistanceList.forEach(function (value) {
-                        that.option3.series[0].data[that.option3.xAxis[0].data.indexOf(value.insTime)] = value.passengerFlow;
+                        debugger
+                        that.option3.series[0].data[that.option3.xAxis[0].data.indexOf(value.insTime)] = value.passengerFlow / 10000;
                         that.option3.series[1].data[that.option3.xAxis[0].data.indexOf(value.insTime)] = value.averageDistance || 0;
+                        that.option3.series[2].data[that.option3.xAxis[0].data.indexOf(value.insTime)] = value.passengerFlow * value.averageDistance / 10000;
                     });
 
 //                    val.averageDistance.forEach(function (value) {
@@ -395,7 +400,7 @@
             setChart3() {
                 this.myChart3 = echarts.init(this.$refs.chart3);
                 var option = {
-                    color: ['#ea5550','#69a2d8','#ea5550','#69a2d8', '#8e81bc'],
+                    color: ['#ea5550','#69a2d8','#8e81bc','#69a2d8', '#8e81bc'],
                     backgroundColor: '#FFF',
                     tooltip: {
                         trigger: 'axis',
@@ -408,11 +413,11 @@
                     },
                     toolbox: {},
                     legend: {
-                        data:['进站客流量','平均运距']
+                        data:['客运量','平均运距','客运周转量']
                     },
                     grid: {
                         left: 5,
-                        right: '0%',
+                        right: 80,
                         bottom: 10,
                         containLabel: true
                     },
@@ -442,7 +447,7 @@
                     yAxis: [
                         {
                             type: 'value',
-                            name: '人次',
+                            name: '万人次',
                             axisLabel: {
                                 formatter: '{value}',
                                 textStyle: {
@@ -461,9 +466,31 @@
                         },
                         {
                             type: 'value',
-                            name: '平均运距(km)',
+                            name: '公里',
                             axisLabel: {
-                                formatter: '{value}km',
+                                formatter: '{value}',
+                                textStyle: {
+                                    color: '#454e5e'
+                                }
+                            },
+                            position: 'right',
+                            axisTick: {
+                                length: 3
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    color: '#187fc4',
+                                    width: 1
+                                }
+                            }
+                        },
+                        {
+                            type: 'value',
+                            name: '万人公里',
+                            position: 'right',
+                            offset: 80,
+                            axisLabel: {
+                                formatter: '{value}',
                                 textStyle: {
                                     color: '#454e5e'
                                 }
@@ -482,14 +509,20 @@
                     ],
                     series: [
                         {
-                            name:'进站客流量',
+                            name:'客运量',
                             type:'bar',
                             data:[]
                         },
                         {
                             name:'平均运距',
-                            type:'line',
+                            type:'bar',
                             yAxisIndex: 1,
+                            data:[]
+                        },
+                        {
+                            name:'客运周转量',
+                            type:'line',
+                            yAxisIndex: 2,
                             data:[]
                         }
                     ]
@@ -558,6 +591,7 @@
                     }
                 }).then(function(response){
                     if (response.status === 1) {
+                        console.dir(response.result);
                         that.echartData3 = response.result;
                     }
                     else {}
