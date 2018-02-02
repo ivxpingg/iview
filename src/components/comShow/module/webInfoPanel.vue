@@ -3,11 +3,11 @@
         <div class="train-panel">
             <div class="train-box train-box1">
                 <div class="title">上行列车数</div>
-                <div class="num">8</div>
+                <div class="num">{{upTrainNum}}</div>
             </div>
             <div class="train-box train-box2">
                 <div class="title">下行列车数</div>
-                <div class="num">10</div>
+                <div class="num">{{downTrainNum}}</div>
             </div>
         </div>
 
@@ -61,36 +61,135 @@
         </div>
 
         <div class="info-panel">
-            <div class="prob prob1">正面<span>4.55</span>%</div>
-            <div class="prob prob2">中立<span>4.55</span>%</div>
-            <div class="prob prob3">负面<span>4.55</span>%</div>
+            <div class="prob prob3">正面<span>70</span>%</div>
+            <div class="prob prob2">负面<span>5.0</span>%</div>
+            <div class="prob prob1">中立<span>25.0</span>%</div>
 
-            <div class="circle circle1"></div>
-            <div class="circle circle2"></div>
-            <div class="circle circle3"></div>
-
-            <div class="sum">
-                <div class="title">总数</div>
-                <div class="num">12302</div>
+            <div class="circle circle-box">
+                <div class="circle circle3 bar-70">
+                    <div class="circle circle2 bar-5">
+                        <div class="circle circle1 bar-25"></div>
+                    </div>
+                </div>
+                <div class="sum">
+                    <div class="title">总数</div>
+                    <div class="num">12302</div>
+                </div>
             </div>
-
         </div>
     </div>
 </template>
 <script>
+    import MOMENT from 'moment';
+    import Util from '../../../libs/util';
     export default {
         data() {
             return {
                 datas: {
-                    "upAverageRunTime": "54",     //上行平均运行时长
-                    "downAverageRunTime": "60",   //下行平均运行时长
-                    "upAverageSpeed": "60",       //上行平均运行速度
-                    "downAverageSpeed": "65",     //下行平均运行速度
-                }
+                    "upAverageRunTime": "0",     //上行平均运行时长
+                    "downAverageRunTime": "0",   //下行平均运行时长
+                    "upAverageSpeed": "0",       //上行平均运行速度
+                    "downAverageSpeed": "0",     //下行平均运行速度
+                },
+                sTime: '2017-12-20 08:20:00',
+                timeOut: null,
+                setTimeOutInfoPanelData: null,
+
+                trainPositionData: [],         // 动车位置数据
+                upTrainNum: 0,                 // 上行动车数量
+                downTrainNum: 0,　　　　　　　　 // 下行动车数量
+
+
             }
         },
-        mounted() {},
-        methods: {}
+        watch: {
+            trainPositionData(val) {
+                var up = 0;
+                var down = 0;
+                val.forEach(function (val) {
+                    if (val.direction == '0') {
+                        ++up;
+                    }
+                    if (val.direction == '1') {
+                        ++down;
+                    }
+                });
+                this.upTrainNum = up;
+                this.downTrainNum = down;
+            }
+        },
+        beforeDestroy() {
+            if (this.timeOut) {
+                clearTimeout(this.timeOut);
+            }
+
+            if (this.setTimeOutInfoPanelData) {
+                clearTimeout(this.setTimeOutInfoPanelData);
+            }
+        },
+        mounted() {
+            this.getTrainPosition();
+            this.getRunMonitorInfo();
+        },
+        methods: {
+            getTrainPosition() {
+                var that = this;
+                var d = MOMENT(this.sTime).add(30, 'seconds');
+
+                this.sTime = d.format('YYYY-MM-DD hh:mm:ss');
+
+                Util.ajax({
+                    method: "get",
+                    url: '/xm/run/getTrainPosition',
+                    params: {
+                        time: that.sTime
+                    }
+                }).then(function (response) {
+
+                    if (response.status == 1) {
+                        // train_list = response.result;
+                        that.datas = response.result;
+                    }
+                    else {
+                        console.dir(response.errMsg);
+                    }
+
+                    that.timeOut = setTimeout(function () {
+                        that.getTrainPosition();
+                    }, 5000);
+                }).catch(function (err) {
+                    console.dir(err);
+
+                    that.timeOut = setTimeout(function () {
+                        that.getTrainPosition();
+                    }, 5000);
+                });
+            },
+
+            getRunMonitorInfo() {
+                var that = this;
+                Util.ajax({
+                    method: "get",
+                    url: '/xm/run/runCount/getRunCount',
+                    data: {}
+                }).then(function(response){
+                    if (response.status === 1) {
+                        console.dir(response.result);
+                        that.datas = response.result;
+                    }
+                    else {}
+
+                    that.setTimeOutInfoPanelData = setTimeout(function () {
+                        that.getRunMonitorInfo();
+                    }, 30000);
+                }).catch(function (error) {
+                    console.log(error);
+                    that.setTimeOutInfoPanelData = setTimeout(function () {
+                        that.getRunMonitorInfo();
+                    }, 30000);
+                })
+            }
+        }
     }
 </script>
 <style lang="scss" rel="stylesheet/scss"  scoped>
@@ -169,6 +268,7 @@
                 position: absolute;
                 left: 0;
                 display: flex;
+                width: 100%;
                 height: 30px;
                 line-height: 30px;
 
@@ -249,8 +349,9 @@
                 }
                 .value{
                     margin-left: 13px;
+                    margin-right: 15px;
                     flex: 1;
-                    text-align: left;
+                    text-align: right;
                     font-size: 13px;
                 }
             }
@@ -264,6 +365,171 @@
             height: 256px;
             color: #FFFFFF;
             overflow: hidden;
+
+            .prob {
+                position: absolute;
+                font-size: 12px;
+                text-align: right;
+
+                &.prob1 {
+                    top: 132px;
+                    left: 15px;
+                }
+                &.prob2 {
+                    top: 83px;
+                    left: 23px;
+                }
+                &.prob3 {
+                    top: 215px;
+                    left: 270px;
+                    text-align: left;
+
+                }
+            }
+
+            .circle {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 255px;
+                height: 255px;
+
+                &.circle-box {
+                    top: 13px;
+                    left: 55px;
+
+                    &:after {
+                        position: absolute;
+                        top: 77px;
+                        left: 22px;
+                        display: block;
+                        content: " ";
+                        width: 179px;
+                        height: 141px;
+                        background: url("./images/eline.png") no-repeat center;
+                    }
+
+                    .sum {
+                        position: absolute;
+                        top: 102px;
+                        left: 0;
+                        width: 255px;
+                        color: #FFFFFF;
+                        text-align: center;
+
+                        .title {
+                            font-size: 16px;
+                            line-height: 32px;
+                        }
+                        .num {
+                            font-size: 12px;
+                        }
+                    }
+                }
+
+                .circle3 {
+                    transform:rotate(-90deg);
+                    transform-origin: 50%;
+                    background: url('./images/circle-green-bg.png') no-repeat center;
+
+                    &:after {
+                        position: absolute;
+                        top: 0;
+                        left:0;
+                        display: block;
+                        content: " ";
+                        width: 255px;
+                        height: 255px;
+                    }
+                    &.bar-5:after { background: url('./images/c_green_3/5.png') no-repeat center; }
+                    &.bar-10:after { background: url('./images/c_green_3/10.png') no-repeat center; }
+                    &.bar-15:after { background: url('./images/c_green_3/15.png') no-repeat center; }
+                    &.bar-20:after { background: url('./images/c_green_3/20.png') no-repeat center; }
+                    &.bar-25:after { background: url('./images/c_green_3/25.png') no-repeat center; }
+                    &.bar-30:after { background: url('./images/c_green_3/30.png') no-repeat center; }
+                    &.bar-35:after { background: url('./images/c_green_3/35.png') no-repeat center; }
+                    &.bar-40:after { background: url('./images/c_green_3/40.png') no-repeat center; }
+                    &.bar-45:after { background: url('./images/c_green_3/45.png') no-repeat center; }
+                    &.bar-50:after { background: url('./images/c_green_3/50.png') no-repeat center; }
+                    &.bar-55:after { background: url('./images/c_green_3/55.png') no-repeat center; }
+                    &.bar-60:after { background: url('./images/c_green_3/60.png') no-repeat center; }
+                    &.bar-65:after { background: url('./images/c_green_3/65.png') no-repeat center; }
+                    &.bar-70:after { background: url('./images/c_green_3/70.png') no-repeat center; }
+                    &.bar-75:after { background: url('./images/c_green_3/75.png') no-repeat center; }
+                    &.bar-80:after { background: url('./images/c_green_3/80.png') no-repeat center; }
+                    &.bar-85:after { background: url('./images/c_green_3/85.png') no-repeat center; }
+                    &.bar-90:after { background: url('./images/c_green_3/90.png') no-repeat center; }
+                    &.bar-95:after { background: url('./images/c_green_3/95.png') no-repeat center; }
+                    &.bar-100:after { background: url('./images/c_green_3/100.png') no-repeat center; }
+
+                    .circle2 {
+                        background: url('./images/circle-orange-bg.png') no-repeat center; ;
+
+                        &:after {
+                            position: absolute;
+                            top: 0;
+                            left:0;
+                            display: block;
+                            content: " ";
+                            width: 255px;
+                            height: 255px;
+                        }
+                        &.bar-5:after { background: url('./images/c_orange_2/5.png') no-repeat center; }
+                        &.bar-10:after { background: url('./images/c_orange_2/10.png') no-repeat center; }
+                        &.bar-15:after { background: url('./images/c_orange_2/15.png') no-repeat center; }
+                        &.bar-20:after { background: url('./images/c_orange_2/20.png') no-repeat center; }
+                        &.bar-25:after { background: url('./images/c_orange_2/25.png') no-repeat center; }
+                        &.bar-30:after { background: url('./images/c_orange_2/30.png') no-repeat center; }
+                        &.bar-35:after { background: url('./images/c_orange_2/40.png') no-repeat center; }
+                        &.bar-45:after { background: url('./images/c_orange_2/45.png') no-repeat center; }
+                        &.bar-50:after { background: url('./images/c_orange_2/50.png') no-repeat center; }
+                        &.bar-55:after { background: url('./images/c_orange_2/55.png') no-repeat center; }
+                        &.bar-60:after { background: url('./images/c_orange_2/60.png') no-repeat center; }
+                        &.bar-65:after { background: url('./images/c_orange_2/65.png') no-repeat center; }
+                        &.bar-70:after { background: url('./images/c_orange_2/70.png') no-repeat center; }
+                        &.bar-75:after { background: url('./images/c_orange_2/75.png') no-repeat center; }
+                        &.bar-80:after { background: url('./images/c_orange_2/80.png') no-repeat center; }
+                        &.bar-85:after { background: url('./images/c_orange_2/85.png') no-repeat center; }
+                        &.bar-90:after { background: url('./images/c_orange_2/90.png') no-repeat center; }
+                        &.bar-95:after { background: url('./images/c_orange_2/95.png') no-repeat center; }
+                        &.bar-100:after { background: url('./images/c_orange_2/100.png') no-repeat center; }
+
+                        .circle1 {
+                            background: url('./images/circle-blue-bg.png') no-repeat center; ;
+
+                            &:after {
+                                position: absolute;
+                                top: 0;
+                                left:0;
+                                display: block;
+                                content: " ";
+                                width: 255px;
+                                height: 255px;
+                            }
+                            &.bar-5:after { background: url('./images/c_blue_1/5.png') no-repeat center; }
+                            &.bar-10:after { background: url('./images/c_blue_1/10.png') no-repeat center; }
+                            &.bar-15:after { background: url('./images/c_blue_1/15.png') no-repeat center; }
+                            &.bar-20:after { background: url('./images/c_blue_1/20.png') no-repeat center; }
+                            &.bar-25:after { background: url('./images/c_blue_1/25.png') no-repeat center; }
+                            &.bar-30:after { background: url('./images/c_blue_1/30.png') no-repeat center; }
+                            &.bar-35:after { background: url('./images/c_blue_1/40.png') no-repeat center; }
+                            &.bar-45:after { background: url('./images/c_blue_1/45.png') no-repeat center; }
+                            &.bar-50:after { background: url('./images/c_blue_1/50.png') no-repeat center; }
+                            &.bar-55:after { background: url('./images/c_blue_1/55.png') no-repeat center; }
+                            &.bar-60:after { background: url('./images/c_blue_1/60.png') no-repeat center; }
+                            &.bar-65:after { background: url('./images/c_blue_1/65.png') no-repeat center; }
+                            &.bar-70:after { background: url('./images/c_blue_1/70.png') no-repeat center; }
+                            &.bar-75:after { background: url('./images/c_blue_1/75.png') no-repeat center; }
+                            &.bar-80:after { background: url('./images/c_blue_1/80.png') no-repeat center; }
+                            &.bar-85:after { background: url('./images/c_blue_1/85.png') no-repeat center; }
+                            &.bar-90:after { background: url('./images/c_blue_1/90.png') no-repeat center; }
+                            &.bar-95:after { background: url('./images/c_blue_1/95.png') no-repeat center; }
+                            &.bar-100:after { background: url('./images/c_blue_1/100.png') no-repeat center; }
+                        }
+                    }
+                }
+
+            }
         }
     }
 </style>

@@ -137,6 +137,7 @@ export default {
 
     baseLine: [
         {
+            station_Id: '01',
             station_Name: '镇海路',
             line_point: {
                 x1: 1176,
@@ -154,6 +155,7 @@ export default {
             }
         },
         {
+            station_Id: '02',
             station_Name: '中山公园',
             line_point: {
                 x1: 1225,
@@ -171,6 +173,7 @@ export default {
             }
         },
         {
+            station_Id: '03',
             station_Name: '将军祠',
             line_point: {
                 x1: 1265,
@@ -188,6 +191,7 @@ export default {
             }
         },
         {
+            station_Id: '04',
             station_Name: '文灶站',
             line_point: {
                 x1: 1295,
@@ -205,6 +209,7 @@ export default {
             }
         },
         {
+            station_Id: '05',
             station_Name: '湖滨东路站',
             line_point: {
                 x1: 1331,
@@ -222,6 +227,7 @@ export default {
             }
         },
         {
+            station_Id: '06',
             station_Name: '莲坂站',
             line_point: {
                 x1: 1369,
@@ -239,6 +245,7 @@ export default {
             }
         },
         {
+            station_Id: '07',
             station_Name: '莲花路口站',
             line_point: {
                 x1: 1403,
@@ -256,6 +263,7 @@ export default {
             }
         },
         {
+            station_Id: '08',
             station_Name: '吕厝站',
             line_point: {
                 x1: 1421,
@@ -273,6 +281,7 @@ export default {
             }
         },
         {
+            station_Id: '09',
             station_Name: '乌石浦站',
             line_point: {
                 x1: 1421,
@@ -290,6 +299,7 @@ export default {
             }
         },
         {
+            station_Id: '10',
             station_Name: '塘边站',
             line_point: {
                 x1: 1421,
@@ -307,6 +317,7 @@ export default {
             }
         },
         {
+            station_Id: '11',
             station_Name: '火炬园站',
             line_point: {
                 x1: 1421,
@@ -324,6 +335,7 @@ export default {
             }
         },
         {
+            station_Id: '0',
             station_Name: '',
             line_point: {
                 x1: 1421,
@@ -337,6 +349,7 @@ export default {
             is_corner: true
         },
         {
+            station_Id: '12',
             station_Name: '殿前站',
             line_point: {
                 x1: 1406,
@@ -354,6 +367,7 @@ export default {
             }
         },
         {
+            station_Id: '13',
             station_Name: '高崎站',
             line_point: {
                 x1: 1365,
@@ -371,6 +385,7 @@ export default {
             }
         },
         {
+            station_Id: '14',
             station_Name: '集美学村站',
             line_point: {
                 x1: 1217,
@@ -388,6 +403,7 @@ export default {
             }
         },
         {
+            station_Id: '0',
             station_Name: '',
             line_point: {
                 x1: 1159,
@@ -401,6 +417,7 @@ export default {
             is_corner: true
         },
         {
+            station_Id: '15',
             station_Name: '园博苑站',
             line_point: {
                 x1: 1115,
@@ -418,6 +435,7 @@ export default {
             }
         },
         {
+            station_Id: '16',
             station_Name: '杏林村站',
             line_point: {
                 x1: 1002,
@@ -435,6 +453,7 @@ export default {
             }
         },
         {
+            station_Id: '0',
             station_Name: '',
             line_point: {
                 x1: 924,
@@ -448,6 +467,7 @@ export default {
             is_corner: true
         },
         {
+            station_Id: '17',
             station_Name: '杏锦路站',
             line_point: {
                 x1: 887,
@@ -465,6 +485,7 @@ export default {
             }
         },
         {
+            station_Id: '18',
             station_Name: '官任站',
             line_point: {
                 x1: 842,
@@ -482,6 +503,7 @@ export default {
             }
         },
         {
+            station_Id: '19',
             station_Name: '诚毅广场站',
             line_point: {
                 x1: 842,
@@ -499,6 +521,7 @@ export default {
             }
         },
         {
+            station_Id: '20',
             station_Name: '集美软件园站',
             line_point: {
                 x1: 842,
@@ -516,6 +539,7 @@ export default {
             }
         },
         {
+            station_Id: '21',
             station_Name: '集美大道站',
             line_point: {
                 x1: 842,
@@ -533,6 +557,7 @@ export default {
             }
         },
         {
+            station_Id: '22',
             station_Name: '天水路站',
             line_point: {
                 x1: 842,
@@ -550,6 +575,7 @@ export default {
             }
         },
         {
+            station_Id: '23',
             station_Name: '厦门北站',
             line_point: {
                 x1: 842,
@@ -567,6 +593,7 @@ export default {
             }
         },
         {
+            station_Id: '24',
             station_Name: '岩内站',
             line_point: {
                 x1: 842,

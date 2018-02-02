@@ -41,14 +41,14 @@
 
         .v-rank-panel {
             position: absolute;
-            left: 0;
-            bottom: 0;
+            left: 20px;
+            bottom: 35px;
             z-index: 1;
         }
         .v-web-info-panel {
             position: absolute;
-            right: 0;
-            bottom: 0;
+            right: 50px;
+            bottom: 25px;
             z-index: 1;
         }
     }

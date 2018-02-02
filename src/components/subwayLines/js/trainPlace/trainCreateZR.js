@@ -53,7 +53,7 @@ var zr_text = function (p, txt, color) {
     });
 }
 
-var zr_image = function (p, img_url) {
+var zr_image = function (p, img_url, shadowColor) {
     return new ZImage({
         position: p,
         style: {
@@ -61,7 +61,9 @@ var zr_image = function (p, img_url) {
             y: 0,
             image: img_url,
             width: trainConfig.CAR_WIDTH,
-            height: trainConfig.CAR_HEIGHT
+            height: trainConfig.CAR_HEIGHT,
+            shadowColor: shadowColor,
+            shadowBlur: 80
         },
         draggable: false
     });
@@ -111,7 +113,7 @@ var create_up_train = function (obj, up_line, zr) {
 
            // element_circle = zr_circle(section_point_start);
            element_text = zr_text(text_point_start, obj.trainId, trainConfig.UP.TEXT_COLOR );
-           element_image = zr_image(image_point_start, trainConfig.UP.IMG_URL);
+           element_image = zr_image(image_point_start, trainConfig.UP.IMG_URL, trainConfig.UP.TEXT_COLOR);
 
 
            // element_circle.animate('', false).when(run_time, {
@@ -171,7 +173,7 @@ var create_down_train = function (obj, down_line, zr) {
 
             // element_circle = zr_circle(section_point_start);
             element_text = zr_text(text_point_start, obj.trainId, trainConfig.DOWN.TEXT_COLOR);
-            element_image = zr_image(image_point_start, trainConfig.DOWN.IMG_URL);
+            element_image = zr_image(image_point_start, trainConfig.DOWN.IMG_URL, trainConfig.DOWN.TEXT_COLOR);
 
             // element_circle.animate('', false).when(run_time, {
             //     position: section_point_end

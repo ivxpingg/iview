@@ -2,28 +2,28 @@
     <div class="rankPanel-container">
         <div class="station station1">
             <div class="station-name"><span class="station-name-inner">镇海路</span></div>
-            <div class="in-box bar-75">
+            <div class="in-box" :class="[inClsName]">
                 <span>1520</span>
             </div>
-            <div class="out-box bar-75">
+            <div class="out-box" :class="[outClsName]">
                 <span>1248</span>
             </div>
         </div>
         <div class="station station2">
             <div class="station-name"><span class="station-name-inner">集美软件园</span></div>
-            <div class="in-box bar-75">
+            <div class="in-box" :class="[inClsName]">
                 <span>1520</span>
             </div>
-            <div class="out-box bar-75">
+            <div class="out-box" :class="[outClsName]">
                 <span>1248</span>
             </div>
         </div>
         <div class="station station3">
             <div class="station-name"><span class="station-name-inner">集美学村</span></div>
-            <div class="in-box bar-75">
+            <div class="in-box" :class="[inClsName]">
                 <span>1520</span>
             </div>
-            <div class="out-box bar-75">
+            <div class="out-box" :class="[outClsName]">
                 <span>1248</span>
             </div>
         </div>
@@ -32,10 +32,41 @@
 <script>
     export default {
         data() {
-            return {}
+            return {
+                maxNum: 20000,
+                inClsName: 'bar-5',
+                outClsName: 'bar-5',
+            }
         },
-        mounted() {},
-        methods: {}
+        mounted() {
+            this.setClass();
+        },
+        methods: {
+            setClass() {
+                var v = 66;
+                if (v > 95) { this.inClsName = 'bar-100'; }
+                else if (v > 90) { this.inClsName = 'bar-95'; }
+                else if (v > 85) { this.inClsName = 'bar-90'; }
+                else if (v > 80) { this.inClsName = 'bar-85'; }
+                else if (v > 75) { this.inClsName = 'bar-80'; }
+                else if (v > 70) { this.inClsName = 'bar-75'; }
+                else if (v > 65) { this.inClsName = 'bar-70'; }
+                else if (v > 60) { this.inClsName = 'bar-65'; }
+                else if (v > 55) { this.inClsName = 'bar-60'; }
+                else if (v > 50) { this.inClsName = 'bar-55'; }
+                else if (v > 45) { this.inClsName = 'bar-50'; }
+                else if (v > 40) { this.inClsName = 'bar-45'; }
+                else if (v > 35) { this.inClsName = 'bar-40'; }
+                else if (v > 30) { this.inClsName = 'bar-35'; }
+                else if (v > 25) { this.inClsName = 'bar-30'; }
+                else if (v > 20) { this.inClsName = 'bar-25'; }
+                else if (v > 15) { this.inClsName = 'bar-20'; }
+                else if (v > 10) { this.inClsName = 'bar-15'; }
+                else if (v > 5) { this.inClsName = 'bar-10'; }
+                else if (v > 0) { this.inClsName = 'bar-5'; }
+                else { this.inClsName = 'bar-0'; }
+            }
+        }
     }
 </script>
 <style lang="scss" rel="stylesheet/scss"  scoped>
@@ -124,7 +155,7 @@
             &.bar-85:after { background: url('./images/c_orange/85.png') no-repeat center; }
             &.bar-90:after { background: url('./images/c_orange/90.png') no-repeat center; }
             &.bar-95:after { background: url('./images/c_orange/95.png') no-repeat center; }
-            &.bar100:after { background: url('./images/c_orange/100.png') no-repeat center; }
+            &.bar-100:after { background: url('./images/c_orange/100.png') no-repeat center; }
 
         }
         .out-box {
@@ -158,7 +189,7 @@
             &.bar-85:after { background: url('./images/c_blue/85.png') no-repeat center; }
             &.bar-90:after { background: url('./images/c_blue/90.png') no-repeat center; }
             &.bar-95:after { background: url('./images/c_blue/95.png') no-repeat center; }
-            &.bar100:after { background: url('./images/c_blue/100.png') no-repeat center; }
+            &.bar-100:after { background: url('./images/c_blue/100.png') no-repeat center; }
         }
     }
 </style>
