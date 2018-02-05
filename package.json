@@ -30,7 +30,8 @@
     "vue": "^2.2.6",
     "vue-router": "^2.3.1",
     "vuex": "^2.2.1",
-    "zrender": "^3.7.4"
+    "zrender": "^3.7.4",
+    "zrenderjs": "^2.1.1"
   },
   "devDependencies": {
     "autoprefixer-loader": "^2.0.0",
