@@ -14,11 +14,11 @@
         <div class="flow-panel">
             <div class="flow-box flow-box1">
                 <div class="title">进站客流量</div>
-                <div class="num">109876</div>
+                <div class="num">{{todayTotalInPassenger}}</div>
             </div>
             <div class="flow-box flow-box2">
                 <div class="title">出站客流量</div>
-                <div class="num">106254</div>
+                <div class="num">{{todayTotalOutPassenger}}</div>
             </div>
         </div>
 
@@ -94,12 +94,14 @@
                 sTime: '2017-12-20 08:20:00',
                 timeOut: null,
                 setTimeOutInfoPanelData: null,
+                timeOutPassenger: null,
 
                 trainPositionData: [],         // 动车位置数据
                 upTrainNum: 0,                 // 上行动车数量
                 downTrainNum: 0,　　　　　　　　 // 下行动车数量
 
-
+                todayTotalInPassenger: 0,
+                todayTotalOutPassenger: 0
             }
         },
         watch: {
@@ -126,10 +128,15 @@
             if (this.setTimeOutInfoPanelData) {
                 clearTimeout(this.setTimeOutInfoPanelData);
             }
+
+            if (this.timeOutPassenger) {
+                clearTimeout(this.timeOutPassenger);
+            }
         },
         mounted() {
             this.getTrainPosition();
             this.getRunMonitorInfo();
+            this.getTodayTotalPassenger();
         },
         methods: {
             getTrainPosition() {
@@ -147,7 +154,6 @@
                 }).then(function (response) {
 
                     if (response.status == 1) {
-                        // train_list = response.result;
                         that.datas = response.result;
                     }
                     else {
@@ -174,7 +180,6 @@
                     data: {}
                 }).then(function(response){
                     if (response.status === 1) {
-                        console.dir(response.result);
                         that.datas = response.result;
                     }
                     else {}
@@ -186,6 +191,29 @@
                     console.log(error);
                     that.setTimeOutInfoPanelData = setTimeout(function () {
                         that.getRunMonitorInfo();
+                    }, 30000);
+                })
+            },
+
+            getTodayTotalPassenger() {
+                var that = this;
+                Util.ajax({
+                    method: "get",
+                    url: '/xm/show/passengerShow/getTodayTotalPassenger'
+                }).then(function(response){
+                    if (response.status === 1) {
+                        that.todayTotalInPassenger = response.result.todayTotalInPassenger || 0;
+                        that.todayTotalOutPassenger = response.result.todayTotalOutPassenger || 0;
+                    }
+                    else {}
+
+                    that.timeOutPassenger = setTimeout(function () {
+                        that.getTodayTotalPassenger();
+                    }, 30000);
+                }).catch(function (error) {
+                    console.log(error);
+                    that.timeOutPassenger = setTimeout(function () {
+                        that.getTodayTotalPassenger();
                     }, 30000);
                 })
             }

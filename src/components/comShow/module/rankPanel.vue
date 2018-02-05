@@ -1,70 +1,169 @@
 <template>
     <div class="rankPanel-container">
         <div class="station station1">
-            <div class="station-name"><span class="station-name-inner">镇海路</span></div>
-            <div class="in-box" :class="[inClsName]">
-                <span>1520</span>
+            <div class="station-name"><span class="station-name-inner">{{stationName1}}</span></div>
+            <div class="in-box" :class="[inClsName1]">
+                <span>{{topThreeStationList["0"]["0"]}}</span>
             </div>
-            <div class="out-box" :class="[outClsName]">
-                <span>1248</span>
+            <div class="out-box" :class="[outClsName1]">
+                <span>{{topThreeStationList["0"]["1"]}}</span>
             </div>
         </div>
         <div class="station station2">
-            <div class="station-name"><span class="station-name-inner">集美软件园</span></div>
-            <div class="in-box" :class="[inClsName]">
-                <span>1520</span>
+            <div class="station-name"><span class="station-name-inner">{{stationName2}}</span></div>
+            <div class="in-box" :class="[inClsName2]">
+                <span>{{topThreeStationList["1"]["0"]}}</span>
             </div>
-            <div class="out-box" :class="[outClsName]">
-                <span>1248</span>
+            <div class="out-box" :class="[outClsName2]">
+                <span>{{topThreeStationList["1"]["1"]}}</span>
             </div>
         </div>
         <div class="station station3">
-            <div class="station-name"><span class="station-name-inner">集美学村</span></div>
-            <div class="in-box" :class="[inClsName]">
-                <span>1520</span>
+            <div class="station-name"><span class="station-name-inner">{{stationName3}}</span></div>
+            <div class="in-box" :class="[inClsName3]">
+                <span>{{topThreeStationList["2"]["0"]}}</span>
             </div>
-            <div class="out-box" :class="[outClsName]">
-                <span>1248</span>
+            <div class="out-box" :class="[outClsName3]">
+                <span>{{topThreeStationList["2"]["1"]}}</span>
             </div>
         </div>
     </div>
 </template>
 <script>
+    import Util from '../../../libs/util';
+    import baseData from '../../subwayLines/js/baseData';
     export default {
         data() {
             return {
-                maxNum: 20000,
-                inClsName: 'bar-5',
-                outClsName: 'bar-5',
+                maxNum: 20000,          // 设置进出站客流量最大值为2万人次
+
+                stationName1: '',
+                inClsName1: 'bar-0',
+                outClsName1: 'bar-0',
+
+                stationName2: '',
+                inClsName2: 'bar-0',
+                outClsName2: 'bar-0',
+
+                stationName3: '',
+                inClsName3: 'bar-0',
+                outClsName3: 'bar-0',
+
+                timeOut: null,
+
+                topThreeStationList: {
+                    "0": {
+                        "0": 0,
+                        "1": 0,
+                        stationId: ''
+                    },
+                    "1": {
+                        "0": 0,
+                        "1": 0,
+                        stationId: ''
+                    },
+                    "2": {
+                        "0": 0,
+                        "1": 0,
+                        stationId: ''
+                    }
+                }
+            }
+        },
+        watch: {
+            topThreeStationList: {
+                handler(val) {
+                    this.inClsName1 = this.clsName(val[0]["0"]);
+                    this.outClsName1 = this.clsName(val[0]["1"]);
+                    this.stationName1 = val[0].stationId != '' ?  baseData.station_info[val[0].stationId] : '';
+
+                    this.inClsName2 = this.clsName(val[1]["0"]);
+                    this.outClsName2 = this.clsName(val[1]["1"]);
+                    this.stationName2 = val[1].stationId != '' ?  baseData.station_info[val[1].stationId] : '';
+
+                    this.inClsName3 = this.clsName(val[2]["0"]);
+                    this.outClsName3 = this.clsName(val[2]["1"]);
+                    this.stationName3 = val[2].stationId != '' ?  baseData.station_info[val[2].stationId] : '';
+                },
+                deep: true
+            }
+        },
+        computed: {},
+        beforeDestroy() {
+            if (this.setTimeOutInfoPanelData) {
+                clearTimeout(this.setTimeOutInfoPanelData);
             }
         },
         mounted() {
-            this.setClass();
+            this.getData();
         },
         methods: {
-            setClass() {
-                var v = 66;
-                if (v > 95) { this.inClsName = 'bar-100'; }
-                else if (v > 90) { this.inClsName = 'bar-95'; }
-                else if (v > 85) { this.inClsName = 'bar-90'; }
-                else if (v > 80) { this.inClsName = 'bar-85'; }
-                else if (v > 75) { this.inClsName = 'bar-80'; }
-                else if (v > 70) { this.inClsName = 'bar-75'; }
-                else if (v > 65) { this.inClsName = 'bar-70'; }
-                else if (v > 60) { this.inClsName = 'bar-65'; }
-                else if (v > 55) { this.inClsName = 'bar-60'; }
-                else if (v > 50) { this.inClsName = 'bar-55'; }
-                else if (v > 45) { this.inClsName = 'bar-50'; }
-                else if (v > 40) { this.inClsName = 'bar-45'; }
-                else if (v > 35) { this.inClsName = 'bar-40'; }
-                else if (v > 30) { this.inClsName = 'bar-35'; }
-                else if (v > 25) { this.inClsName = 'bar-30'; }
-                else if (v > 20) { this.inClsName = 'bar-25'; }
-                else if (v > 15) { this.inClsName = 'bar-20'; }
-                else if (v > 10) { this.inClsName = 'bar-15'; }
-                else if (v > 5) { this.inClsName = 'bar-10'; }
-                else if (v > 0) { this.inClsName = 'bar-5'; }
-                else { this.inClsName = 'bar-0'; }
+            clsName(val) {
+                var claName = '';
+
+                var v = (val / this.maxNum) * 100;
+
+                if (v > 95) { claName = 'bar-100'; }
+                else if (v > 90) { claName = 'bar-95'; }
+                else if (v > 85) { claName = 'bar-90'; }
+                else if (v > 80) { claName = 'bar-85'; }
+                else if (v > 75) { claName = 'bar-80'; }
+                else if (v > 70) { claName = 'bar-75'; }
+                else if (v > 65) { claName = 'bar-70'; }
+                else if (v > 60) { claName = 'bar-65'; }
+                else if (v > 55) { claName = 'bar-60'; }
+                else if (v > 50) { claName = 'bar-55'; }
+                else if (v > 45) { claName = 'bar-50'; }
+                else if (v > 40) { claName = 'bar-45'; }
+                else if (v > 35) { claName = 'bar-40'; }
+                else if (v > 30) { claName = 'bar-35'; }
+                else if (v > 25) { claName = 'bar-30'; }
+                else if (v > 20) { claName = 'bar-25'; }
+                else if (v > 15) { claName = 'bar-20'; }
+                else if (v > 10) { claName = 'bar-15'; }
+                else if (v > 5) { claName = 'bar-10'; }
+                else if (v > 0) { claName = 'bar-5'; }
+                else { claName = 'bar-0'; }
+
+                return claName;
+            },
+
+            getData() {
+                var that = this;
+                Util.ajax({
+                    method: "get",
+                    url: '/xm/show/passengerShow/getTopThreeStation',
+                    data: {}
+                }).then(function(response){
+                    if (response.status === 1) {
+                        if (response.result.topThreeStationList.length == 0) {
+                            that.topThreeStationList[0]["0"] = 0;
+                            that.topThreeStationList[0]["1"] = 0;
+                            that.topThreeStationList[0]["stationId"] = '';
+
+                            that.topThreeStationList[1]["0"] = 0;
+                            that.topThreeStationList[1]["1"] = 0;
+                            that.topThreeStationList[1]["stationId"] = '';
+
+                            that.topThreeStationList[2]["0"] = 0;
+                            that.topThreeStationList[2]["1"] = 0;
+                            that.topThreeStationList[2]["stationId"] = '';
+                        }
+                        else {
+                            that.topThreeStationList = response.result.topThreeStationList;
+                        }
+                    }
+                    else {}
+
+                    that.timeOut = setTimeout(function () {
+                        that.getData();
+                    }, 30000);
+                }).catch(function (error) {
+                    console.log(error);
+                    that.timeOut = setTimeout(function () {
+                        that.getData();
+                    }, 30000);
+                })
             }
         }
     }
