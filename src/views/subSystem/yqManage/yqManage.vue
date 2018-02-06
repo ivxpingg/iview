@@ -1,5 +1,5 @@
 <template>
-    <div class="comAnalysis-container">
+    <div class="yqManage-container">
         <vHeader class="v-header"></vHeader>
         <div ref="routerViewBox" class="router-view">
             <router-view></router-view>
@@ -29,10 +29,10 @@
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
-    .comAnalysis-container {
+    .yqManage-container {
         position: relative;
         height: 100%;
-        background-color: #ecebeb;
+        background-color: #dff2fc;
 
         .v-header {
             position: fixed;
@@ -44,8 +44,6 @@
 
         .router-view {
             position: relative;
-            padding-left: 32px;
-            padding-right: 32px;
             padding-top: 87px;
             padding-bottom: 30px;
             top: 0;

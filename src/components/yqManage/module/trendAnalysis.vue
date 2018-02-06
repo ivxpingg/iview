@@ -26,7 +26,7 @@
             setChart1() {
                 this.myChart1 = echarts.init(this.$refs.chart1);
                 var option = {
-//                    color: ['#ea5550','#69a2d8','#ea5550','#69a2d8', '#8e81bc'],
+                    color: ['#8e81bc','#88c897','#ef857d','#65aadd'],
                     backgroundColor: '#FFF',
                     tooltip: {
                         trigger: 'axis',
@@ -120,7 +120,7 @@
             setChart2() {
                 this.myChart1 = echarts.init(this.$refs.chart2);
                 var option = {
-//                    color: ['#ea5550','#69a2d8','#ea5550','#69a2d8', '#8e81bc'],
+                    color: ['#8e81bc','#88c897','#ef857d','#65aadd'],
                     backgroundColor: '#FFF',
                     tooltip: {
                         trigger: 'axis',

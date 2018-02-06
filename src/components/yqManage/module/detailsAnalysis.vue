@@ -65,7 +65,7 @@
                 var that = this;
                 that.chart1 = echarts.init(this.$refs.chart1);
                 var option = {
-                    color: ['#88c897', '#8e81bc','#65aadd','#f3994f', '#ef857d'],
+                    color: ['#88c897','#65aadd', '#ef857d'],
                     backgroundColor: '#f3f4f5',
                     title : {},
                     grid: {
@@ -114,7 +114,7 @@
             setChart2() {
                 this.chart2 = echarts.init(this.$refs.chart2);
                 var option = {
-                    color: ['#ea5550', '#65aadd', '#8e81bc'],
+                    color: ['#88c897','#65aadd', '#ef857d'],
                     backgroundColor: '#FFF',
                     tooltip : {
                         trigger: 'axis',
