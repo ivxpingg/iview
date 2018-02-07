@@ -116,7 +116,7 @@
                 this.chart2 = echarts.init(this.$refs.chart2);
                 var option = {
                     color: ['#88c897','#65aadd', '#ef857d'],
-                    backgroundColor: '#FFF',
+                    backgroundColor: '#f3f4f5',
                     tooltip : {
                         trigger: 'axis',
                         axisPointer : {            // 坐标轴指示器，坐标轴触发有效
@@ -224,8 +224,8 @@
                     series: [{
                         name: 'Google Trends',
                         type: 'wordCloud',
-                        size: ['80%', '80%'],
-                        textRotation : [0, 45, 90, -45],
+                        size: ['100%', '80%'],
+                        textRotation : [0,0,0,0],
                         textPadding: 0,
                         autoSize: {
                             enable: true,
@@ -233,7 +233,7 @@
                         },
                         data: [
                             {
-                                name: "Sam S Club",
+                                name: "微博",
                                 value: 10000,
                                 itemStyle: {
                                     normal: {
@@ -242,100 +242,100 @@
                                 }
                             },
                             {
-                                name: "Macys",
+                                name: "新闻",
                                 value: 6181,
                                 itemStyle: that.createRandomItemStyle()
                             },
                             {
-                                name: "Amy Schumer",
+                                name: "微信",
                                 value: 4386,
                                 itemStyle: that.createRandomItemStyle()
                             },
                             {
-                                name: "Jurassic World",
+                                name: "论坛",
                                 value: 4055,
                                 itemStyle: that.createRandomItemStyle()
                             },
                             {
-                                name: "Charter Communications",
+                                name: "贴吧",
                                 value: 2467,
                                 itemStyle: that.createRandomItemStyle()
                             },
                             {
-                                name: "Chick Fil A",
+                                name: "App",
                                 value: 2244,
                                 itemStyle: that.createRandomItemStyle()
                             },
                             {
-                                name: "Planet Fitness",
+                                name: "电子报",
                                 value: 1898,
                                 itemStyle: that.createRandomItemStyle()
                             },
                             {
-                                name: "Pitch Perfect",
+                                name: "博客",
                                 value: 1484,
                                 itemStyle: that.createRandomItemStyle()
                             },
                             {
-                                name: "Express",
+                                name: "视频",
                                 value: 1112,
                                 itemStyle: that.createRandomItemStyle()
                             },
                             {
-                                name: "Home",
+                                name: "境外",
                                 value: 965,
                                 itemStyle: that.createRandomItemStyle()
                             },
                             {
-                                name: "Johnny Depp",
+                                name: "twitter",
                                 value: 847,
                                 itemStyle: that.createRandomItemStyle()
                             },
                             {
-                                name: "Lena Dunham",
+                                name: "其它",
                                 value: 582,
                                 itemStyle: that.createRandomItemStyle()
                             },
-                            {
-                                name: "Lewis Hamilton",
-                                value: 555,
-                                itemStyle: that.createRandomItemStyle()
-                            },
-                            {
-                                name: "KXAN",
-                                value: 550,
-                                itemStyle: that.createRandomItemStyle()
-                            },
-                            {
-                                name: "Mary Ellen Mark",
-                                value: 462,
-                                itemStyle: that.createRandomItemStyle()
-                            },
-                            {
-                                name: "Farrah Abraham",
-                                value: 366,
-                                itemStyle: that.createRandomItemStyle()
-                            },
-                            {
-                                name: "Rita Ora",
-                                value: 360,
-                                itemStyle: that.createRandomItemStyle()
-                            },
-                            {
-                                name: "Serena Williams",
-                                value: 282,
-                                itemStyle: that.createRandomItemStyle()
-                            },
-                            {
-                                name: "NCAA baseball tournament",
-                                value: 273,
-                                itemStyle: that.createRandomItemStyle()
-                            },
-                            {
-                                name: "Point Break",
-                                value: 265,
-                                itemStyle: that.createRandomItemStyle()
-                            }
+//                            {
+//                                name: "Lewis Hamilton",
+//                                value: 555,
+//                                itemStyle: that.createRandomItemStyle()
+//                            },
+//                            {
+//                                name: "KXAN",
+//                                value: 550,
+//                                itemStyle: that.createRandomItemStyle()
+//                            },
+//                            {
+//                                name: "Mary Ellen Mark",
+//                                value: 462,
+//                                itemStyle: that.createRandomItemStyle()
+//                            },
+//                            {
+//                                name: "Farrah Abraham",
+//                                value: 366,
+//                                itemStyle: that.createRandomItemStyle()
+//                            },
+//                            {
+//                                name: "Rita Ora",
+//                                value: 360,
+//                                itemStyle: that.createRandomItemStyle()
+//                            },
+//                            {
+//                                name: "Serena Williams",
+//                                value: 282,
+//                                itemStyle: that.createRandomItemStyle()
+//                            },
+//                            {
+//                                name: "NCAA baseball tournament",
+//                                value: 273,
+//                                itemStyle: that.createRandomItemStyle()
+//                            },
+//                            {
+//                                name: "Point Break",
+//                                value: 265,
+//                                itemStyle: that.createRandomItemStyle()
+//                            }
                         ]
                     }]
                 };

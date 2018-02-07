@@ -3,7 +3,7 @@
         <div class="panel-tree">
             <div class="tree-search"></div>
             <div class="tree-box">
-                <Tree :data="data1" ></Tree>
+                <Tree :data="data2" ></Tree>
             </div>
         </div>
         <div class="panel-video">
@@ -16,6 +16,7 @@
     import Util from '../../../libs/util';
     export default {
         data () {
+            var that = this;
             return {
                 data1: [{
                             title: '站点视频监控',
@@ -29,7 +30,10 @@
                                     },
                                     on: {
                                         click: () => {
+                                            data.expand = !data.expand;
+                                            console.dir(root);
                                             console.dir(node);
+                                            console.dir(data);
                                         }
                                     }
                                 }, [
@@ -102,8 +106,60 @@
                                     }
                                 ]
                         }],
+
+                data2: [
+                    {
+                        title: '列车视频监控',
+                        expand: true,
+                        render(h, {root, node, data}) {
+                            return that.renderContent(h, {root, node, data});
+                        },
+                        children: [
+                            {
+                                title: '厦门市公安局',
+                                expand: true,
+                                render(h, {root, node, data}) {
+                                    return that.renderContent(h, {root, node, data});
+                                },
+                                children: [
+                                    {
+                                        title: '厦禾路',
+                                        render(h, {root, node, data}) {
+                                            return that.renderContent(h, {root, node, data});
+                                        },
+                                        children: [
+                                            {
+                                                title: '2028厦禾路白鹭洲路口',
+                                                puid: 'c34fdcecdef6434db242dbc2fdbee61d@kedacom',
+                                                render(h, {root, node, data}) {
+                                                   return that.renderContent(h, {root, node, data});
+                                                }
+                                            },
+                                            {
+                                                title: '厦禾路银行中心路口3',
+                                                puid: '802e4068b3904192948fbbb7f9c5f511@kedacom',
+                                                render(h, {root, node, data}) {
+                                                    return that.renderContent(h, {root, node, data});
+                                                }
+                                            },
+                                            {
+                                                title: '厦禾路公园小学路口3bf',
+                                                puid: '7216441fdd4043bc9cc13d8fcb780aee@kedacom',
+                                                render(h, {root, node, data}) {
+                                                    return that.renderContent(h, {root, node, data});
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+
+                    }
+                ],
+
                 iframeSrc: '',
-                windowIndex: 0
+                windowIndex: 0,
             }
         },
         mounted() {
@@ -114,13 +170,13 @@
 //            }
             var that = this;
 
-            setInterval(function () {
-
-                document.getElementById("iframe_video").contentWindow.postMessage({  }, '*');
-//                window.frames['iframe_video'].contentWindow.postMessage({ auth: '24', d: '5' }, '*');
-
-                that.windowIndex = 0;
-            }, 1000);
+//            setInterval(function () {
+//
+//                document.getElementById("iframe_video").contentWindow.postMessage({  }, '*');
+////                window.frames['iframe_video'].contentWindow.postMessage({ auth: '24', d: '5' }, '*');
+//
+//                that.windowIndex = 0;
+//            }, 1000);
 
             this.initIframeSrc();
         },
@@ -133,65 +189,38 @@
                 n[0].expand = !n[0].expand;
             },
             renderContent (h, { root, node, data }) {
-                return h('span', {
-                    style: {
-                        display: 'inline-block',
-                        width: '100%'
-                    }
-                }, [
-                    h('span', [
-                        h('Icon', {
-                            props: {
-                                type: 'ios-paper-outline'
-                            },
-                            style: {
-                                marginRight: '8px'
-                            }
-                        }),
-                        h('span', data.title)
-                    ]),
-                    h('span', {
-                        style: {
-                            display: 'inline-block',
-                            float: 'right',
-                            marginRight: '32px'
-                        }
-                    }, [
-                        h('Button', {
-                            props: Object.assign({}, this.buttonProps, {
-                                icon: 'ios-plus-empty'
-                            }),
-                            style: {
-                                marginRight: '8px'
-                            },
-                            on: {
-                                click: () => { this.append(data) }
-                            }
-                        }),
-                        h('Button', {
-                            props: Object.assign({}, this.buttonProps, {
-                                icon: 'ios-minus-empty'
-                            }),
-                            on: {
-                                click: () => { this.remove(root, node, data) }
-                            }
-                        })
-                    ])
-                ]);
-            },
-            append (data) {
-                const children = data.children || [];
-                children.push({
-                    title: 'appended node',
-                    expand: true
-                });
-                this.$set(data, 'children', children);
-            },
-            remove (root, node, data) {
-                const parentKey = root.find(el => el === node).parent;
-                const parent = root.find(el => el.nodeKey === parentKey).node;
-                const index = parent.children.indexOf(data);
-                parent.children.splice(index, 1);
+
+                 if (!data.puid) {
+
+                     return  h('span', {
+                             'class': {
+                                 'ivu-tree-title': true
+                             },
+                             style: {
+                                 display: 'inline-block',
+                                 width: '100%'
+                             },
+                             on: {
+                                 click: () => {
+                                     data.expand = !data.expand;
+                                 }
+                             }
+                         }, [ h('span', data.title)]);
+
+                 }
+                 else {
+                     return  h('span', {
+                         style: {
+                             display: 'inline-block',
+                             width: '100%'
+                         },
+                         on: {
+                             click: () => {
+                                 alert(data.puid);
+                             }
+                         }
+                     }, [ h('span', data.title)]);
+                 }
             }
         }
     }
