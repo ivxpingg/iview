@@ -30,21 +30,21 @@
             </div>
 
             <div class="box box5">
-                <div class="box-inner">
+                <div class="box-inner" @click="switchCard('3')">
                     <div class="title">负面信息</div>
                     <div class="info"><span class="span1">78</span> <span class="span2">条</span></div>
                 </div>
             </div>
         </div>
         <div class="right-panel">
-            <Tabs type="card" :animated="false">
-                <TabPane label="舆情走势分析">
+            <Tabs type="card" :animated="false" v-model="cardName">
+                <TabPane label="舆情走势分析" name="1">
                     <vTrendAnalysis></vTrendAnalysis>
                 </TabPane>
-                <TabPane label="舆情详细分析">
+                <TabPane label="舆情详细分析" name="2">
                     <vDetailsAnalysis></vDetailsAnalysis>
                 </TabPane>
-                <TabPane label="新闻报道搜索">
+                <TabPane label="新闻报道搜索" name="3">
                     <vNewsList></vNewsList>
                 </TabPane>
             </Tabs>
@@ -59,7 +59,9 @@
     import MOMENT from 'moment';
     export default {
         data() {
-            return {}
+            return {
+                cardName: '2'
+            }
         },
         components: {vTrendAnalysis, vDetailsAnalysis, vNewsList},
         created() {
@@ -68,6 +70,9 @@
 
         },
         methods: {
+            switchCard(name) {
+                this.cardName = name;
+            }
         }
 
     }
@@ -253,6 +258,7 @@
 
         .right-panel {
             flex: 1;
+            margin-top: 8px;
             margin-left: 23px;
             margin-right: 27px;
         }
@@ -260,6 +266,7 @@
 </style>
 
 <style lang="scss" rel="stylesheet/scss">
+    // 菜单栏
     .yq-container {
         .ivu-tabs-nav{
             float: right;
@@ -319,6 +326,14 @@
                 background: url(./images/tabs-nav-bg-right.png) no-repeat center;
                 z-index: 1;
             }
+        }
+    }
+
+    // 内容
+    .yq-container {
+
+        .ivu-tabs-content {
+            min-height: 730px;
         }
     }
 </style>

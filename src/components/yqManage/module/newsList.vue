@@ -94,6 +94,216 @@
                 </div>
                 <div class="line"></div>
             </div>
+            <div class="item">
+                <div class="title">
+                    <span>厦门地铁一号线正式开通</span>
+                    <span class="icon-text icon-text-2">负面</span></div>
+                <div class="info">
+                    <span class="span1">发布时间：</span>
+                    <span class="span2">2018-01-09 14:34:13</span>
+                    <span class="span3">发布渠道：</span>
+                    <span class="span4">微博</span>
+                    <span class="span5">文章类型：</span>
+                    <span class="span6">精华</span>
+                </div>
+                <div class="content">
+                    2017年底，住房和城乡建设部为今年房地产市场定调之后，2018年以来，福建、湖北、四川、江西、宁夏等多地已召开住房城乡工作会议。
+                    从住房工作会议内容来看，各个城市目标从2017年的确保房价不上涨逐步转向防止房地产市场大起大落
+                </div>
+                <div class="link-div">
+                    原文链接：<a href="http://www.baidu.com" target="_blank">http://www.baidu.com</a>
+                </div>
+                <div class="line"></div>
+            </div>
+            <div class="item">
+                <div class="title">
+                    <span>厦门地铁一号线正式开通</span>
+                    <span class="icon-text icon-text-2">负面</span></div>
+                <div class="info">
+                    <span class="span1">发布时间：</span>
+                    <span class="span2">2018-01-09 14:34:13</span>
+                    <span class="span3">发布渠道：</span>
+                    <span class="span4">微博</span>
+                    <span class="span5">文章类型：</span>
+                    <span class="span6">精华</span>
+                </div>
+                <div class="content">
+                    2017年底，住房和城乡建设部为今年房地产市场定调之后，2018年以来，福建、湖北、四川、江西、宁夏等多地已召开住房城乡工作会议。
+                    从住房工作会议内容来看，各个城市目标从2017年的确保房价不上涨逐步转向防止房地产市场大起大落
+                </div>
+                <div class="link-div">
+                    原文链接：<a href="http://www.baidu.com" target="_blank">http://www.baidu.com</a>
+                </div>
+                <div class="line"></div>
+            </div>
+            <div class="item">
+                <div class="title">
+                    <span>厦门地铁一号线正式开通</span>
+                    <span class="icon-text icon-text-2">负面</span></div>
+                <div class="info">
+                    <span class="span1">发布时间：</span>
+                    <span class="span2">2018-01-09 14:34:13</span>
+                    <span class="span3">发布渠道：</span>
+                    <span class="span4">微博</span>
+                    <span class="span5">文章类型：</span>
+                    <span class="span6">精华</span>
+                </div>
+                <div class="content">
+                    2017年底，住房和城乡建设部为今年房地产市场定调之后，2018年以来，福建、湖北、四川、江西、宁夏等多地已召开住房城乡工作会议。
+                    从住房工作会议内容来看，各个城市目标从2017年的确保房价不上涨逐步转向防止房地产市场大起大落
+                </div>
+                <div class="link-div">
+                    原文链接：<a href="http://www.baidu.com" target="_blank">http://www.baidu.com</a>
+                </div>
+                <div class="line"></div>
+            </div>
+            <div class="item">
+                <div class="title">
+                    <span>厦门地铁一号线正式开通</span>
+                    <span class="icon-text icon-text-2">负面</span></div>
+                <div class="info">
+                    <span class="span1">发布时间：</span>
+                    <span class="span2">2018-01-09 14:34:13</span>
+                    <span class="span3">发布渠道：</span>
+                    <span class="span4">微博</span>
+                    <span class="span5">文章类型：</span>
+                    <span class="span6">精华</span>
+                </div>
+                <div class="content">
+                    2017年底，住房和城乡建设部为今年房地产市场定调之后，2018年以来，福建、湖北、四川、江西、宁夏等多地已召开住房城乡工作会议。
+                    从住房工作会议内容来看，各个城市目标从2017年的确保房价不上涨逐步转向防止房地产市场大起大落
+                </div>
+                <div class="link-div">
+                    原文链接：<a href="http://www.baidu.com" target="_blank">http://www.baidu.com</a>
+                </div>
+                <div class="line"></div>
+            </div>
+            <div class="item">
+                <div class="title">
+                    <span>厦门地铁一号线正式开通</span>
+                    <span class="icon-text icon-text-2">负面</span></div>
+                <div class="info">
+                    <span class="span1">发布时间：</span>
+                    <span class="span2">2018-01-09 14:34:13</span>
+                    <span class="span3">发布渠道：</span>
+                    <span class="span4">微博</span>
+                    <span class="span5">文章类型：</span>
+                    <span class="span6">精华</span>
+                </div>
+                <div class="content">
+                    2017年底，住房和城乡建设部为今年房地产市场定调之后，2018年以来，福建、湖北、四川、江西、宁夏等多地已召开住房城乡工作会议。
+                    从住房工作会议内容来看，各个城市目标从2017年的确保房价不上涨逐步转向防止房地产市场大起大落
+                </div>
+                <div class="link-div">
+                    原文链接：<a href="http://www.baidu.com" target="_blank">http://www.baidu.com</a>
+                </div>
+                <div class="line"></div>
+            </div>
+            <div class="item">
+                <div class="title">
+                    <span>厦门地铁一号线正式开通</span>
+                    <span class="icon-text icon-text-2">负面</span></div>
+                <div class="info">
+                    <span class="span1">发布时间：</span>
+                    <span class="span2">2018-01-09 14:34:13</span>
+                    <span class="span3">发布渠道：</span>
+                    <span class="span4">微博</span>
+                    <span class="span5">文章类型：</span>
+                    <span class="span6">精华</span>
+                </div>
+                <div class="content">
+                    2017年底，住房和城乡建设部为今年房地产市场定调之后，2018年以来，福建、湖北、四川、江西、宁夏等多地已召开住房城乡工作会议。
+                    从住房工作会议内容来看，各个城市目标从2017年的确保房价不上涨逐步转向防止房地产市场大起大落
+                </div>
+                <div class="link-div">
+                    原文链接：<a href="http://www.baidu.com" target="_blank">http://www.baidu.com</a>
+                </div>
+                <div class="line"></div>
+            </div>
+            <div class="item">
+                <div class="title">
+                    <span>厦门地铁一号线正式开通</span>
+                    <span class="icon-text icon-text-2">负面</span></div>
+                <div class="info">
+                    <span class="span1">发布时间：</span>
+                    <span class="span2">2018-01-09 14:34:13</span>
+                    <span class="span3">发布渠道：</span>
+                    <span class="span4">微博</span>
+                    <span class="span5">文章类型：</span>
+                    <span class="span6">精华</span>
+                </div>
+                <div class="content">
+                    2017年底，住房和城乡建设部为今年房地产市场定调之后，2018年以来，福建、湖北、四川、江西、宁夏等多地已召开住房城乡工作会议。
+                    从住房工作会议内容来看，各个城市目标从2017年的确保房价不上涨逐步转向防止房地产市场大起大落
+                </div>
+                <div class="link-div">
+                    原文链接：<a href="http://www.baidu.com" target="_blank">http://www.baidu.com</a>
+                </div>
+                <div class="line"></div>
+            </div>
+            <div class="item">
+                <div class="title">
+                    <span>厦门地铁一号线正式开通</span>
+                    <span class="icon-text icon-text-2">负面</span></div>
+                <div class="info">
+                    <span class="span1">发布时间：</span>
+                    <span class="span2">2018-01-09 14:34:13</span>
+                    <span class="span3">发布渠道：</span>
+                    <span class="span4">微博</span>
+                    <span class="span5">文章类型：</span>
+                    <span class="span6">精华</span>
+                </div>
+                <div class="content">
+                    2017年底，住房和城乡建设部为今年房地产市场定调之后，2018年以来，福建、湖北、四川、江西、宁夏等多地已召开住房城乡工作会议。
+                    从住房工作会议内容来看，各个城市目标从2017年的确保房价不上涨逐步转向防止房地产市场大起大落
+                </div>
+                <div class="link-div">
+                    原文链接：<a href="http://www.baidu.com" target="_blank">http://www.baidu.com</a>
+                </div>
+                <div class="line"></div>
+            </div>
+            <div class="item">
+                <div class="title">
+                    <span>厦门地铁一号线正式开通</span>
+                    <span class="icon-text icon-text-2">负面</span></div>
+                <div class="info">
+                    <span class="span1">发布时间：</span>
+                    <span class="span2">2018-01-09 14:34:13</span>
+                    <span class="span3">发布渠道：</span>
+                    <span class="span4">微博</span>
+                    <span class="span5">文章类型：</span>
+                    <span class="span6">精华</span>
+                </div>
+                <div class="content">
+                    2017年底，住房和城乡建设部为今年房地产市场定调之后，2018年以来，福建、湖北、四川、江西、宁夏等多地已召开住房城乡工作会议。
+                    从住房工作会议内容来看，各个城市目标从2017年的确保房价不上涨逐步转向防止房地产市场大起大落
+                </div>
+                <div class="link-div">
+                    原文链接：<a href="http://www.baidu.com" target="_blank">http://www.baidu.com</a>
+                </div>
+                <div class="line"></div>
+            </div>
+            <div class="item">
+                <div class="title">
+                    <span>厦门地铁一号线正式开通</span>
+                    <span class="icon-text icon-text-2">负面</span></div>
+                <div class="info">
+                    <span class="span1">发布时间：</span>
+                    <span class="span2">2018-01-09 14:34:13</span>
+                    <span class="span3">发布渠道：</span>
+                    <span class="span4">微博</span>
+                    <span class="span5">文章类型：</span>
+                    <span class="span6">精华</span>
+                </div>
+                <div class="content">
+                    2017年底，住房和城乡建设部为今年房地产市场定调之后，2018年以来，福建、湖北、四川、江西、宁夏等多地已召开住房城乡工作会议。
+                    从住房工作会议内容来看，各个城市目标从2017年的确保房价不上涨逐步转向防止房地产市场大起大落
+                </div>
+                <div class="link-div">
+                    原文链接：<a href="http://www.baidu.com" target="_blank">http://www.baidu.com</a>
+                </div>
+                <div class="line"></div>
+            </div>
 
         </div>
     </div>
@@ -122,10 +332,25 @@
 
 <style lang="scss" rel="stylesheet/scss" scoped>
     .newsList-container {
-        .search-panel {}
+        width: 100%;
+        height: 100%;
+        border: 1px solid #c8dcf2;
+        background-color: #F7F7F7;
+        .search-panel {
+            padding-top: 10px;
+            padding-bottom: 20px;
+            height: 74px;
+            .form {
+                margin-top: 3px;
+            }
+        }
 
         .list-panel {
+            padding-right: 20px;
+            height: 646px;
+            overflow-y: auto;
             .item {
+                padding-left: 20px;
                 .title {
                     margin-bottom: 12px;
                     text-align: left;
@@ -204,7 +429,7 @@
                 }
 
                 .line {
-                    margin: 8px 20px 26px;
+                    margin: 8px 0px 26px 20px;
                     height: 0;
                     border-top: 2px dotted #dee1ee;
                 }

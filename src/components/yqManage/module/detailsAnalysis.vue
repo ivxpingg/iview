@@ -23,6 +23,7 @@
             </div>
             <div class="bottom-box">
                 <div ref="chart3" class="chart-box"></div>
+                <div class="chart-title chart-title1">舆论话题分布</div>
             </div>
         </div>
 
@@ -123,6 +124,7 @@
                         }
                     },
                     legend: {
+                        x : 'right',
                         data: ['正面', '负面', '中立']
                     },
                     grid: {
@@ -358,6 +360,10 @@
 
 <style lang="scss" rel="stylesheet/scss" scoped>
     .detailsAnalysis-container {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #c8dcf2;
+        background-color: #F7F7F7;
         .search-panel {
             padding-top: 10px;
             height: 54px;
@@ -383,8 +389,25 @@
             }
 
             .bottom-box {
+                position: relative;
                 width: 100%;
                 height: 359px;
+
+                .chart-title {
+                    position: absolute;
+                    padding-left: 6px;
+                    height: 18px;
+                    font-size: 16px;
+                    line-height: 18px;
+                    border-left: 6px solid #3071b8;
+                    overflow: hidden;
+                    z-index: 1;
+
+                    &.chart-title1 {
+                        top: 6px;
+                        left: 18px;
+                    }
+                }
             }
 
             .chart-box {

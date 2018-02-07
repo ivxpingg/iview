@@ -2,6 +2,8 @@
     <div class="trendAnalysis-container">
         <div ref="chart1" class="chart chart1"></div>
         <div ref="chart2" class="chart chart2"></div>
+        <div class="chart-title chart-title1">舆论话题分布</div>
+        <div class="chart-title chart-title2">整体舆情走势</div>
     </div>
 </template>
 
@@ -39,12 +41,14 @@
                     },
                     toolbox: {},
                     legend: {
+                        x : 'center',
+                        y : 'bottom',
                         data:['全部','正面','负面', '中立']
                     },
                     grid: {
                         left: 5,
                         right: '0%',
-                        bottom: 10,
+                        bottom: 40,
                         containLabel: true
                     },
                     xAxis: [
@@ -133,12 +137,14 @@
                     },
                     toolbox: {},
                     legend: {
+                        x : 'center',
+                        y : 'bottom',
                         data:['全部','正面','负面', '中立']
                     },
                     grid: {
                         left: 5,
                         right: '0%',
-                        bottom: 10,
+                        bottom: 40,
                         containLabel: true
                     },
                     xAxis: [
@@ -218,12 +224,38 @@
 
 <style lang="scss" rel="stylesheet/scss" scoped>
     .trendAnalysis-container {
+        position: relative;
         width: 100%;
         height: 100%;
 
         .chart {
             width: 100%;
-            height: 350px;
+            height: 361px;
+            border: 1px solid #c8dcf2;
+            background-color: #F7F7F7;
+            &.chart2 {
+                margin-top: 8px;
+            }
+        }
+
+        .chart-title {
+            position: absolute;
+            padding-left: 6px;
+            height: 18px;
+            font-size: 16px;
+            line-height: 18px;
+            border-left: 6px solid #3071b8;
+            overflow: hidden;
+            z-index: 1;
+
+            &.chart-title1 {
+                top: 6px;
+                left: 18px;
+            }
+            &.chart-title2 {
+                top: 375px;
+                left: 18px;
+            }
         }
     }
 </style>
