@@ -109,7 +109,7 @@
 
                 data2: [
                     {
-                        title: '列车视频监控',
+                        title: '视频监控',
                         expand: true,
                         render(h, {root, node, data}) {
                             return that.renderContent(h, {root, node, data});
@@ -152,6 +152,59 @@
                                         ]
                                     }
                                 ]
+                            },
+                            {
+                                title: '厦门BRT',
+                                render(h, {root, node, data}) {
+                                    return that.renderContent(h, {root, node, data});
+                                },
+                                children: [
+                                    {
+                                        title: '双十中学站',
+                                        render(h, {root, node, data}) {
+                                            return that.renderContent(h, {root, node, data});
+                                        },
+                                        children: [
+                                            {
+                                                title: '双十中学站_上行电梯',
+                                                puid: '86ccb50b45b44e9b9be229b9e1a25b7e@kedacom',
+                                                render(h, {root, node, data}) {
+                                                    return that.renderContent(h, {root, node, data});
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        title: '洪文站',
+                                        render(h, {root, node, data}) {
+                                            return that.renderContent(h, {root, node, data});
+                                        },
+                                        children: [
+                                            {
+                                                title: '洪文站_上行电梯',
+                                                puid: '8e3a0705cfa440f6b1c0310e2d47ecc0@kedacom',
+                                                render(h, {root, node, data}) {
+                                                    return that.renderContent(h, {root, node, data});
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        title: '集美大桥南站',
+                                        render(h, {root, node, data}) {
+                                            return that.renderContent(h, {root, node, data});
+                                        },
+                                        children: [
+                                            {
+                                                title: '集南站_上行站厅2',
+                                                puid: 'fae2e4ae53ef4263bf9d2be56743285a@kedacom',
+                                                render(h, {root, node, data}) {
+                                                    return that.renderContent(h, {root, node, data});
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
                             }
                         ],
 
@@ -160,27 +213,31 @@
 
                 iframeSrc: '',
                 windowIndex: 0,
+                contentWindow: null
             }
         },
         mounted() {
-//            window.onmessage = function (ev) {
-//
-//                console.log(100)
-//                console.log(ev.data);
-//            }
             var that = this;
 
-//            setInterval(function () {
-//
-//                document.getElementById("iframe_video").contentWindow.postMessage({  }, '*');
-////                window.frames['iframe_video'].contentWindow.postMessage({ auth: '24', d: '5' }, '*');
-//
-//                that.windowIndex = 0;
-//            }, 1000);
+            // this.onMessage();
+
+            this.contentWindow = document.getElementById("iframe_video").contentWindow;
 
             this.initIframeSrc();
         },
         methods: {
+            // 接受iframe 的传递信息
+            onMessage() {
+                var that = this;
+                window.onmessage = function (ev) {
+                    switch(ev.data.type) {
+                        case 'windowIndex':
+                            that.windowIndex = ev.data.windowIndex;
+                            break;
+                        default: break;
+                    }
+                }
+            },
             initIframeSrc() {
                 this.iframeSrc = "/html/video.html";
             },
@@ -189,6 +246,7 @@
                 n[0].expand = !n[0].expand;
             },
             renderContent (h, { root, node, data }) {
+                var that = this;
 
                  if (!data.puid) {
 
@@ -210,17 +268,47 @@
                  }
                  else {
                      return  h('span', {
+                         'class': {
+                             'ivu-tree-title': true
+                         },
                          style: {
                              display: 'inline-block',
                              width: '100%'
                          },
                          on: {
                              click: () => {
-                                 alert(data.puid);
+                                 // alert(data.puid);
+                                 that.onClickToPostMessage(data);
                              }
                          }
-                     }, [ h('span', data.title)]);
+                     }, [
+                         h('span', [
+                             h('Icon', {
+                                 props: {
+                                     type: 'ios-videocam-outline'
+                                 },
+                                 style: {
+                                     marginRight: '8px'
+                                 }
+                             }),
+                             h('span', data.title)
+                         ])]);
                  }
+            },
+            /**
+             * 给iframe传递信息
+             * @param data
+             */
+            onClickToPostMessage(data) {
+
+                var info = {
+                    type: 'video',
+                    video: {
+                        puid: data.puid
+                    }
+                };
+                this.contentWindow.postMessage(info, '*');
+                this.windowIndex = (this.windowIndex + 1) % 4;
             }
         }
     }
