@@ -5,10 +5,10 @@
 
             <Button class="btn-layout" type="text" icon="log-out" title="返回导航页" @click="goBack"></Button>
             <div class="btn-panel">
-                <div class="m-btn" :class="routeName == 'runMonitor' ? 'm-active':''" @click="btnLink('runMonitor', $event)">运行监视</div>
-                <div class="m-btn" :class="routeName == 'flowMonitor' ? 'm-active':''" @click="btnLink('flowMonitor', $event)">客流监视</div>
-                <div class="m-btn" :class="routeName == 'videoMonitor' ? 'm-active':''" @click="btnLink('videoMonitor', $event)">视频监视</div>
+                <!--<div class="m-btn" :class="routeName == 'trainAnalysis' ? 'm-active':''" @click="btnLink('trainAnalysis', $event)">行车分析</div>-->
+                <!--<div class="m-btn" :class="routeName == 'passengerAnalysis' ? 'm-active':''" @click="btnLink('passengerAnalysis', $event)">客流分析</div>-->
             </div>
+
         </div>
     </div>
 </template>
@@ -23,16 +23,16 @@
             }
         },
         mounted() {
-            this.redirectUrl();
+             //this.redirectUrl();
         },
         methods: {
             // 重定向，未指定菜单，默认指定运行监视
             redirectUrl() {
                 this.routeName = this.$route.name;
-                if (this.$route.name == 'monitor') {
-                    this.routeName = 'runMonitor';
+                if (this.$route.name == 'comAnalysis') {
+                    this.routeName = 'trainAnalysis';
                     this.$router.replace({
-                        name: 'runMonitor',  // 路由名称
+                        name: 'trainAnalysis',  // 路由名称
                         params: {}
                     });
                 }
@@ -44,14 +44,11 @@
              */
             btnLink(routerName, event) {
                 var re = new RegExp('\\s'+ this.activeName +'|'+ this.activeName +'', 'g');
-                var dom = document.querySelectorAll('.m-active');
 
+                var dom = document.querySelectorAll('.m-active');
                 for (var i = 0; i < dom.length; i++) {
                     dom[i].className = dom[i].className.replace(re, '');
                 }
-//                document.querySelectorAll('.m-active').forEach(function (dom) {
-//                    dom.className = dom.className.replace(re, '');
-//                });
 
                 event.target.className += ' ' + this.activeName;
                 this.$router.push({
@@ -61,25 +58,17 @@
             },
 
             goBack () {
-                if (this.$route.name == 'videoMonitor') {
-                    this.$router.push({
-                        name: 'platform',  // 路由名称
-                        params: {}
-                    });
-                }
-                else {
-                    this.$Modal.confirm({
-                        title: '提示',
-                        content: '<p>确定要返回系统菜单？</p>',
-                        onOk: () => {
-                            this.$router.push({
-                                name: 'platform',  // 路由名称
-                                params: {}
-                            });
-                        },
-                        onCancel: () => {}
-                    });
-                }
+                this.$Modal.confirm({
+                    title: '提示',
+                    content: '<p>确定要返回系统菜单？</p>',
+                    onOk: () => {
+                        this.$router.push({
+                            name: 'platform',  // 路由名称
+                            params: {}
+                        });
+                    },
+                    onCancel: () => {}
+                });
             }
         }
     }
@@ -100,11 +89,11 @@
         }
         .title {
             position: absolute;
-            top: 16px;
+            top: 21px;
             left:40px;
-            width: 518px;
-            height: 54px;
-            background: url(./images/run-system-text-logo.png) no-repeat;
+            width: 513px;
+            height: 45px;
+            background: url(./images/logo-title.png) no-repeat;
             background-size: auto 100%;
         }
         .btn-panel {
