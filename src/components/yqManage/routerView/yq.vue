@@ -17,21 +17,21 @@
 
             <div class="box box3">
                 <div class="box-inner">
-                    <div class="title">负面信息</div>
+                    <div class="title">正面信息</div>
                     <div class="info"><span class="span1">78</span> <span class="span2">条</span></div>
                 </div>
             </div>
 
             <div class="box box4">
                 <div class="box-inner">
-                    <div class="title">负面信息</div>
+                    <div class="title">新闻报道</div>
                     <div class="info"><span class="span1">78</span> <span class="span2">条</span></div>
                 </div>
             </div>
 
             <div class="box box5">
                 <div class="box-inner" @click="switchCard('3')">
-                    <div class="title">负面信息</div>
+                    <div class="title">微博发文</div>
                     <div class="info"><span class="span1">78</span> <span class="span2">条</span></div>
                 </div>
             </div>

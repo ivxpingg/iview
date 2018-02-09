@@ -1,5 +1,5 @@
 <template>
-    <div class="yqManage-container">
+    <div class="yjManage-container">
         <vHeader class="v-header"></vHeader>
         <div ref="routerViewBox" class="router-view">
             <router-view></router-view>
@@ -29,10 +29,9 @@
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
-    .yqManage-container {
+    .yjManage-container {
         position: relative;
         height: 100%;
-        background-color: #dff2fc;
 
         .v-header {
             position: fixed;
