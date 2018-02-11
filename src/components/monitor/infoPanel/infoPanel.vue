@@ -234,7 +234,6 @@
                 left: 0;
                 right: 0;
                 bottom: 0;
-                display: flex;
                 padding-left: 15px;
                 padding-right: 16px;
                 z-index: 1;

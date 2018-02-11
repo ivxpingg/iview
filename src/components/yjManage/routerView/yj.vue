@@ -21,6 +21,9 @@
                     <FormItem  :label-width="10">
                         <Button type="success" @click="onShoModal2">第一联络电话速览</Button>
                     </FormItem>
+                    <div class="message">
+                        预案启动需要通讯联络时，值班电话为第一联络电话，个人手机为第二联络电话。
+                    </div>
                 </Form>
             </div>
             <vAddressList :searchValue="searchVal"></vAddressList>
@@ -36,6 +39,8 @@
             <div slot="footer"></div>
         </Modal>
 
+
+
     </div>
 </template>
 <script>
@@ -49,6 +54,7 @@
                 inputValue: '',
                 showAddressList1: false,
                 showAddressList2: false
+
             };
         },
         components: {vAddressList, vAddressList2, vBMap},
@@ -82,5 +88,12 @@
             width: 100%;
             height: 100%;
         }
+
+        .searchPanel .message {
+            display: inline-block;
+            width: 250px;
+            line-height: 20px;
+        }
+
     }
 </style>

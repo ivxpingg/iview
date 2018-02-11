@@ -9,7 +9,7 @@
             return {
                 column: [
                     { type: 'index', title: '序号', align: 'center', width: 60 },
-                    { title: '单位', key: 'unit', align: 'center' },
+                    { title: '单位', key: 'unit', align: 'center', width: 150 },
                     { title: '部门', key: 'department', align: 'center' },
 //                    { title: '角色', key: 'role', align: 'center' },
 //                    { title: '姓名', key: 'name', align: 'center' },

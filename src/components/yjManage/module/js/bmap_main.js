@@ -26,7 +26,7 @@ var mouserOverKey = '';
  * 初始化地图
  */
 var initMap = function (domId, timer) {
-    map = new BMap.Map(domId, {enableMapClick:false, minZoom:12,maxZoom:15});    // 创建Map实例,关闭底图可点功能
+    map = new BMap.Map(domId, {enableMapClick:false, minZoom:12,maxZoom:17});    // 创建Map实例,关闭底图可点功能
     map.centerAndZoom(new BMap.Point(118.117348,24.552869), 13);  // 初始化地图,设置中心点坐标和地图级别
     map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
 
@@ -61,12 +61,17 @@ var setLine = function (key) {
 
     currentShowLineKey = key;
 
+    vm.busInfo = [];
+    bdata.mapPoint[key].depart.forEach(function (val) {
+        vm.busInfo.push(bdata.busInfo[val]);
+    });
+
     if (map_dom_line_list[key]) {
 
         map_dom_line_list[key].forEach(function (val) {
             val.show();
         });
-        
+
         return;
     }
 
@@ -77,31 +82,47 @@ var setLine = function (key) {
     var pointList2 = [];
     bdata.mapPoint[key].center.forEach(function (val) {
         pointList.push(new BMap.Point(val.lng, val.lat));
-        pointList1.push(new BMap.Point(val.lng, val.lat + 0.0015));
-        pointList2.push(new BMap.Point(val.lng, val.lat - 0.0015))
+        if (bdata.mapPoint[key].up.length == 0) {
+            pointList1.push(new BMap.Point(val.lng, val.lat + 0.0015));
+            pointList2.push(new BMap.Point(val.lng, val.lat - 0.0015))
+        }
     });
 
+
+    bdata.mapPoint[key].up.forEach(function (val) {
+        pointList1.push(new BMap.Point(val.lng, val.lat));
+    });
+
+    bdata.mapPoint[key].down.forEach(function (val) {
+        pointList2.push(new BMap.Point(val.lng, val.lat))
+    });
+
+
+
     var polyline0 = new BMap.Polyline(pointList, {strokeColor:"#808283", strokeWeight:4, strokeOpacity:1});
-    var polyline1 = new BMap.Polyline(pointList1, {strokeColor:"#2c9dd3", strokeWeight:2, strokeOpacity:1});
-    var polyline2 = new BMap.Polyline(pointList2, {strokeColor:"#11a361", strokeWeight:2, strokeOpacity:1});
+    var polyline1 = new BMap.Polyline(pointList1, {strokeColor:"#2c9dd3", strokeWeight:4, strokeOpacity:0.8});
+    var polyline2 = new BMap.Polyline(pointList2, {strokeColor:"#11a361", strokeWeight:4, strokeOpacity:0.8});
 
     polyline0.mId = key;
     polyline1.mId = key;
     polyline2.mId = key;
 
     polyline0.addEventListener('mouseover', function (e) { mouserOverKey = this.mId; });
-    polyline1.addEventListener('mouseover', function (e) { mouserOverKey = this.mId; });
-    polyline1.addEventListener('mouseover', function (e) { mouserOverKey = this.mId; });
+    polyline1.addEventListener('mouseover', function (e) { mouserOverKey = this.mId; console.dir(this.getPath()); console.dir(JSON.stringify(this.getPath()));});
+    polyline2.addEventListener('mouseover', function (e) { mouserOverKey = this.mId;  console.dir(this.getPath()); console.dir(JSON.stringify(this.getPath()));});
 
     map.addOverlay(polyline0);   //增加折线
     map.addOverlay(polyline1);   //增加折线
     map.addOverlay(polyline2);
 
+    // 编辑
+    polyline1.enableEditing();
+    polyline2.enableEditing();
+
     //创建右键菜单
     var lineMenu=new BMap.ContextMenu();
     lineMenu.addItem(new BMap.MenuItem('取消该故障区段', function (e) {
-
-
+        vm.busInfo = [];
         show_map_dom_malfunction();
         hide_map_dom_line();
         setLine(mouserOverKey);
@@ -157,10 +178,6 @@ var setLineEvent = function () {
 
             polyline.addEventListener('mouseout', function (e) {
                 this.setStrokeOpacity(0.4);
-            });
-
-            polyline.addEventListener('click', function (e) {
-                // setLine(this.mId);
             });
 
             //创建右键菜单
@@ -249,7 +266,7 @@ var show_map_dom_malfunction = function () {
 }
 
 var hide_map_dom_line = function () {
-debugger
+
     for(var key in map_dom_line_list) {
         map_dom_line_list[key].forEach(function (val) {
             val.hide();
