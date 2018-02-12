@@ -58,8 +58,9 @@
 
                     <!--<router-link class="ivu-btn ivu-btn-primary ivu-btn-circle" to="employeeAdd">新增从业人员信息</router-link>-->
                     <Button type="primary" shape="circle" @click="onEmployeeAdd">新增从业人员信息</Button>
-                    <Button type="primary" shape="circle">导入从业人员报备表</Button>
-                    <Button type="primary" shape="circle">导入从业人员异动报备表</Button>
+                    <!--<Button type="primary" shape="circle">导入从业人员报备表</Button>-->
+                    <vFileUpload class="v-file-up-load" :url="importFileUrl1"  bText="导入从业人员报备表"></vFileUpload>
+                    <vFileUpload class="v-file-up-load" :url="importFileUrl2"  bText="导入从业人员异动报备表"></vFileUpload>
                 </div>
             </div>
 
@@ -696,7 +697,7 @@
                 return Util.domain + '/static/download/xlsx/培训记录导入模板.xlsx';
             },
             importFileUrl1() {
-                return Util.domain + '/xm/sys/employee/uploadEmployeeExcel';
+                return Util.domain + '/xm/inte/dailyDownloadParse/uploadDaily';
             },
             importFileUrl2() {
                 return Util.domain + '/xm/sys/employee/uploadTrainRecordExcel';
@@ -1319,6 +1320,11 @@
                 .btn-panel {
                     padding-top: 10px;
                     height: 40px;
+
+                    .v-file-up-load {
+                        margin-right: 45px;
+                        display: inline-block;
+                    }
                     .ivu-btn {
                         margin-right: 45px;
                         padding: 0 15px;

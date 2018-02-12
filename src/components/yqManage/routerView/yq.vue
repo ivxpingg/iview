@@ -4,35 +4,35 @@
             <div class="box box1">
                 <div class="box-inner">
                     <div class="title">全部舆情</div>
-                    <div class="info"><span class="span1">878</span> <span class="span2">条</span></div>
+                    <div class="info"><span class="span1">{{nowData.all}}</span> <span class="span2">条</span></div>
                 </div>
             </div>
 
             <div class="box box2">
-                <div class="box-inner">
+                <div class="box-inner" @click="switchCardByNatureType('1')">
                     <div class="title">负面信息</div>
-                    <div class="info"><span class="span1">78</span> <span class="span2">条</span></div>
+                    <div class="info"><span class="span1">{{nowData.negative}}</span> <span class="span2">条</span></div>
                 </div>
             </div>
 
             <div class="box box3">
-                <div class="box-inner">
-                    <div class="title">正面信息</div>
-                    <div class="info"><span class="span1">78</span> <span class="span2">条</span></div>
+                <div class="box-inner" @click="switchCardByNatureType('-1')">
+                    <div class="title" >正面信息</div>
+                    <div class="info"><span class="span1">{{nowData.positive}}</span> <span class="span2">条</span></div>
                 </div>
             </div>
 
             <div class="box box4">
-                <div class="box-inner">
+                <div class="box-inner" @click="switchCardBySource('2')">
                     <div class="title">新闻报道</div>
-                    <div class="info"><span class="span1">78</span> <span class="span2">条</span></div>
+                    <div class="info"><span class="span1">{{nowData.news}}</span> <span class="span2">条</span></div>
                 </div>
             </div>
 
             <div class="box box5">
-                <div class="box-inner" @click="switchCard('3')">
+                <div class="box-inner" @click="switchCardBySource('1')">
                     <div class="title">微博发文</div>
-                    <div class="info"><span class="span1">78</span> <span class="span2">条</span></div>
+                    <div class="info"><span class="span1">{{nowData.microBlog}}</span> <span class="span2">条</span></div>
                 </div>
             </div>
         </div>
@@ -45,7 +45,7 @@
                     <vDetailsAnalysis></vDetailsAnalysis>
                 </TabPane>
                 <TabPane label="新闻报道搜索" name="3">
-                    <vNewsList></vNewsList>
+                    <vNewsList :topicType="topicType" :source="source"></vNewsList>
                 </TabPane>
             </Tabs>
         </div>
@@ -57,21 +57,63 @@
     import vDetailsAnalysis from '../module/detailsAnalysis.vue';
     import vNewsList from '../module/newsList.vue';
     import MOMENT from 'moment';
+    import Util from '../../../libs/util';
     export default {
         data() {
             return {
-                cardName: '2'
+                cardName: '1',
+
+                nowData: {
+                    all: 0,
+                    microBlog : 0,
+                    negative: 0,
+                    news: 0,
+                    positive: 0
+                },
+
+                topicType: 'all',
+                source: 'all'
             }
         },
         components: {vTrendAnalysis, vDetailsAnalysis, vNewsList},
         created() {
         },
         mounted() {
-
+            this.getDataByNow();
         },
         methods: {
-            switchCard(name) {
-                this.cardName = name;
+            switchCardBySource(type) {
+                this.source = type;
+                this.topicType = 'all';
+
+                this.cardName = '3';
+            },
+            switchCardByNatureType(type) {
+                this.topicType = type;
+                this.source = 'all';
+                this.cardName = '3';
+            },
+
+            getDataByNow() {
+                var that = this;
+                Util.ajax({
+                    method: "get",
+                    url: '/xm/pub/pubOpinionInfo/countPubOpinionInfo',
+                    data: {}
+                }).then(function(response){
+                    if (response.status === 1) {
+                        that.nowData.all = response.result.all;
+                        that.nowData.microBlog = response.result.microBlog;
+                        that.nowData.negative = response.result.negative;
+                        that.nowData.news = response.result.news;
+                        that.nowData.positive = response.result.positive;
+
+                    }
+                    else {}
+
+                }).catch(function (error) {
+                    console.log(error);
+                })
             }
         }
 
@@ -178,7 +220,7 @@
                     .box-inner {
                         background-color: #ef857d;
                         border-right: 4px solid #cf736d;
-
+                        cursor: pointer;
                         .title {
                             background: url("./images/icon2.png") no-repeat left center;
                         }
@@ -194,7 +236,7 @@
                     .box-inner {
                         background-color: #88c897;
                         border-right: 4px solid #76ae84;
-
+                        cursor: pointer;
                         .title {
                             background: url("./images/icon3.png") no-repeat left center;
                         }
@@ -211,7 +253,7 @@
                     .box-inner {
                         background-color: #8e81bc;
                         border-right: 4px solid #7c70a3;
-
+                        cursor: pointer;
                         .title {
                             background: url("./images/icon4.png") no-repeat left center;
                         }

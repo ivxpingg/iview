@@ -41,26 +41,166 @@
         data() {
             return {
                 dateRange: [new Date(), new Date()],
+                sTime: '',
+                eTime: '',
 
                 chart1: null,
                 chart2: null,
                 chart3: null,
+
+                option1: {
+                    series: [{ data: [
+                        {value: 0, name: '总数'},
+                        {value: 0, name: '正面'},
+                        {value: 0, name: '中立'},
+                        {value: 0, name: '负面'}
+                    ] }]
+                },
+                option2: {
+                    series: [
+                        {
+                            name: '正面',
+                            type: 'bar',
+                            stack: '总量',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'insideRight'
+                                }
+                            },
+                            data: []
+                        },
+                        {
+                            name: '负面',
+                            type: 'bar',
+                            stack: '总量',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'insideRight'
+                                }
+                            },
+                            data: []
+                        },
+                        {
+                            name: '中立',
+                            type: 'bar',
+                            stack: '总量',
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'insideRight'
+                                }
+                            },
+                            data: []
+                        }
+                    ]
+
+                },
+                option3: {
+                    series: [
+                        {
+                            name: '',
+                            type: 'wordCloud',
+                            size: ['100%', '80%'],
+                            textRotation : [0,0,0,0],
+                            textPadding: 0,
+                            autoSize: {
+                                enable: true,
+                                minSize: 14
+                            },
+                            data: []
+                        }
+                    ]
+                }
+            }
+        },
+        watch: {
+            dateRange(val) {
+                this.sTime = MOMENT(this.dateRange[0]).format('YYYY-MM-DD');
+                this.eTime = MOMENT(this.dateRange[1]).format('YYYY-MM-DD');
             }
         },
         created() {
+            this.dateRange[0] = MOMENT().subtract(6, 'days')._d;
         },
         mounted() {
+            this.sTime = MOMENT(this.dateRange[0]).format('YYYY-MM-DD');
+            this.eTime = MOMENT(this.dateRange[1]).format('YYYY-MM-DD');
 
             this.setChart1();
             this.setChart2();
             this.setChart3();
+
+            this.onSearch();
         },
         methods: {
-            onSearch() {},
+            onSearch() {
+                this.getData1();
+            },
 
-            getData1() {},
-            getData2() {},
-            getData3() {},
+            getData1() {
+                var that = this;
+                Util.ajax({
+                    method: "get",
+                    url: '/xm/pub/pubOpinionInfo/pubOpinionDetailAnalysis',
+                    params: {
+                        beginDate: that.sTime,
+                        endDate: that.eTime
+                    }
+                }).then(function(response){
+                    if (response.status === 1) {
+                        console.dir(response.result);
+                        that.setChartOption(response.result);
+                    }
+                    else {}
+
+                }).catch(function (error) {
+                    console.log(error);
+                })
+            },
+
+            setChartOption(result) {
+                var that = this;
+
+                this.option1.series[0].data[0].value = result.all;
+                this.option1.series[0].data[1].value = result.positive;
+                this.option1.series[0].data[2].value = result.neutral;
+                this.option1.series[0].data[3].value = result.negative;
+
+                this.option2.series[0].data = [];
+                this.option2.series[1].data = [];
+                this.option2.series[2].data = [];
+
+                for(var key in result.sourceMap) {
+                    var val  = result.sourceMap[key];
+                    that.option2.series[0].data.push(val[2]);
+                    that.option2.series[1].data.push(val[1]);
+                    that.option2.series[2].data.push(val[0]);
+                }
+
+                that.option3.series[0].data = [];
+
+                result.topicList.forEach(function (val, idx) {
+                   var contKeywordList = val.contKeyword.split(',');
+                   var num = val.num;
+
+                    contKeywordList.forEach(function(v){
+
+                        that.option3.series[0].data[idx] = {};
+                        that.option3.series[0].data[idx].name = v;
+                        that.option3.series[0].data[idx].value = 1000;
+                        that.option3.series[0].data[idx].itemStyle = that.createRandomItemStyle();
+                    });
+
+                });
+
+
+                console.dir(this.option3);
+                this.chart1.setOption(this.option1);
+                this.chart2.setOption(this.option2);
+                this.chart3.setOption(this.option3);
+            },
 
             setChart1() {
                 var that = this;
@@ -89,8 +229,9 @@
                             center: ['50%', '50%'],
                             data: [
                                 {value: 1542, name: '总数'},
+                                {value: 24, name: '正面'},
                                 {value: 100, name: '中立'},
-                                {value: 24, name: '负面'},
+                                {value: 24, name: '负面'}
                             ],
                             itemStyle: {
                                 emphasis: {
@@ -222,7 +363,7 @@
                         show: true
                     },
                     series: [{
-                        name: 'Google Trends',
+                        name: '',
                         type: 'wordCloud',
                         size: ['100%', '80%'],
                         textRotation : [0,0,0,0],
@@ -233,107 +374,67 @@
                         },
                         data: [
                             {
-                                name: "微博",
-                                value: 10000,
+                                name: " ",
+                                value: 0,
                                 itemStyle: {
                                     normal: {
                                         color: 'black'
                                     }
                                 }
                             },
-                            {
-                                name: "新闻",
-                                value: 6181,
-                                itemStyle: that.createRandomItemStyle()
-                            },
-                            {
-                                name: "微信",
-                                value: 4386,
-                                itemStyle: that.createRandomItemStyle()
-                            },
-                            {
-                                name: "论坛",
-                                value: 4055,
-                                itemStyle: that.createRandomItemStyle()
-                            },
-                            {
-                                name: "贴吧",
-                                value: 2467,
-                                itemStyle: that.createRandomItemStyle()
-                            },
-                            {
-                                name: "App",
-                                value: 2244,
-                                itemStyle: that.createRandomItemStyle()
-                            },
-                            {
-                                name: "电子报",
-                                value: 1898,
-                                itemStyle: that.createRandomItemStyle()
-                            },
-                            {
-                                name: "博客",
-                                value: 1484,
-                                itemStyle: that.createRandomItemStyle()
-                            },
-                            {
-                                name: "视频",
-                                value: 1112,
-                                itemStyle: that.createRandomItemStyle()
-                            },
-                            {
-                                name: "境外",
-                                value: 965,
-                                itemStyle: that.createRandomItemStyle()
-                            },
-                            {
-                                name: "twitter",
-                                value: 847,
-                                itemStyle: that.createRandomItemStyle()
-                            },
-                            {
-                                name: "其它",
-                                value: 582,
-                                itemStyle: that.createRandomItemStyle()
-                            },
 //                            {
-//                                name: "Lewis Hamilton",
-//                                value: 555,
+//                                name: "新闻",
+//                                value: 0,
 //                                itemStyle: that.createRandomItemStyle()
 //                            },
 //                            {
-//                                name: "KXAN",
-//                                value: 550,
+//                                name: "微信",
+//                                value: 0,
 //                                itemStyle: that.createRandomItemStyle()
 //                            },
 //                            {
-//                                name: "Mary Ellen Mark",
-//                                value: 462,
+//                                name: "论坛",
+//                                value: 0,
 //                                itemStyle: that.createRandomItemStyle()
 //                            },
 //                            {
-//                                name: "Farrah Abraham",
-//                                value: 366,
+//                                name: "贴吧",
+//                                value: 0,
 //                                itemStyle: that.createRandomItemStyle()
 //                            },
 //                            {
-//                                name: "Rita Ora",
-//                                value: 360,
+//                                name: "App",
+//                                value: 0,
 //                                itemStyle: that.createRandomItemStyle()
 //                            },
 //                            {
-//                                name: "Serena Williams",
-//                                value: 282,
+//                                name: "电子报",
+//                                value: 0,
 //                                itemStyle: that.createRandomItemStyle()
 //                            },
 //                            {
-//                                name: "NCAA baseball tournament",
-//                                value: 273,
+//                                name: "博客",
+//                                value: 0,
 //                                itemStyle: that.createRandomItemStyle()
 //                            },
 //                            {
-//                                name: "Point Break",
-//                                value: 265,
+//                                name: "视频",
+//                                value: 0,
+//                                itemStyle: that.createRandomItemStyle()
+//                            },
+//                            {
+//                                name: "境外",
+//                                value: 0,
+//                                itemStyle: that.createRandomItemStyle()
+//                            },
+//                            {
+//                                name: "twitter",
+//                                value: 0,
+//                                itemStyle: that.createRandomItemStyle()
+//                            },
+//                            {
+//                                name: "其它",
+//                                value: 0,
 //                                itemStyle: that.createRandomItemStyle()
 //                            }
                         ]

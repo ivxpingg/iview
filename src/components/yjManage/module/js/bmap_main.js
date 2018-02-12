@@ -98,26 +98,32 @@ var setLine = function (key) {
     });
 
 
+    var polylinebg = new BMap.Polyline(pointList, {strokeColor:"#FFF", strokeWeight:20, strokeOpacity:0});
 
     var polyline0 = new BMap.Polyline(pointList, {strokeColor:"#808283", strokeWeight:4, strokeOpacity:1});
     var polyline1 = new BMap.Polyline(pointList1, {strokeColor:"#2c9dd3", strokeWeight:4, strokeOpacity:0.8});
     var polyline2 = new BMap.Polyline(pointList2, {strokeColor:"#11a361", strokeWeight:4, strokeOpacity:0.8});
 
+    polylinebg.mId = key;
+
     polyline0.mId = key;
     polyline1.mId = key;
     polyline2.mId = key;
+
+    polylinebg.addEventListener('mouseover', function (e) { mouserOverKey = this.mId; });
 
     polyline0.addEventListener('mouseover', function (e) { mouserOverKey = this.mId; });
     polyline1.addEventListener('mouseover', function (e) { mouserOverKey = this.mId; console.dir(this.getPath()); console.dir(JSON.stringify(this.getPath()));});
     polyline2.addEventListener('mouseover', function (e) { mouserOverKey = this.mId;  console.dir(this.getPath()); console.dir(JSON.stringify(this.getPath()));});
 
+    map.addOverlay(polylinebg);
     map.addOverlay(polyline0);   //增加折线
     map.addOverlay(polyline1);   //增加折线
     map.addOverlay(polyline2);
 
     // 编辑
-    polyline1.enableEditing();
-    polyline2.enableEditing();
+    // polyline1.enableEditing();
+    // polyline2.enableEditing();
 
     //创建右键菜单
     var lineMenu=new BMap.ContextMenu();
@@ -126,14 +132,16 @@ var setLine = function (key) {
         show_map_dom_malfunction();
         hide_map_dom_line();
         setLine(mouserOverKey);
-    }, {width: 120}));
+    }, {width: 120}))
+
+    polylinebg.addContextMenu(lineMenu);
 
     polyline0.addContextMenu(lineMenu);
     polyline1.addContextMenu(lineMenu);
     polyline2.addContextMenu(lineMenu);
 
 
-    map_dom_line_list[key] = [polyline0, polyline1, polyline2];
+    map_dom_line_list[key] = [polyline0, polyline1, polyline2, polylinebg];
 
 }
 

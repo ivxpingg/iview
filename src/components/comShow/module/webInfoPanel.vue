@@ -61,19 +61,19 @@
         </div>
 
         <div class="info-panel">
-            <div class="prob prob3">正面<span>70</span>%</div>
-            <div class="prob prob2">负面<span>5.0</span>%</div>
-            <div class="prob prob1">中立<span>25.0</span>%</div>
+            <div class="prob prob3">正面<span>{{p_positive}}</span>%</div>
+            <div class="prob prob2">负面<span>{{p_neutral}}</span>%</div>
+            <div class="prob prob1">中立<span>{{p_neutral}}</span>%</div>
 
             <div class="circle circle-box">
-                <div class="circle circle3 bar-70">
-                    <div class="circle circle2 bar-5">
-                        <div class="circle circle1 bar-25"></div>
+                <div class="circle circle3" :class="clsName1">
+                    <div class="circle circle2" :class="clsName3">
+                        <div class="circle circle1" :class="clsName2"></div>
                     </div>
                 </div>
                 <div class="sum">
                     <div class="title">总数</div>
-                    <div class="num">12302</div>
+                    <div class="num">{{yq_all}}</div>
                 </div>
             </div>
         </div>
@@ -101,7 +101,23 @@
                 downTrainNum: 0,　　　　　　　　 // 下行动车数量
 
                 todayTotalInPassenger: 0,
-                todayTotalOutPassenger: 0
+                todayTotalOutPassenger: 0,
+
+                // 舆情
+                yqData: {
+                    all: 0,
+                    positive: 0,   //正面
+                    neutral: 0,    // 中立
+                    negative: 0    // 负面
+                },
+                yq_all: 0,        // 总数
+                p_positive: 0,    //正面 百分比
+                p_neutral: 0,     // 中立  百分比
+                p_negative: 0,     // 负面  百分比
+
+                clsName1: 'bar-0',
+                clsName2: 'bar-0',
+                clsName3: 'bar-0',
             }
         },
         watch: {
@@ -137,6 +153,7 @@
             this.getTrainPosition();
             this.getRunMonitorInfo();
             this.getTodayTotalPassenger();
+            this.getTodayYQData();
         },
         methods: {
             getTrainPosition() {
@@ -216,6 +233,103 @@
                         that.getTodayTotalPassenger();
                     }, 30000);
                 })
+            },
+
+            getTodayYQData() {
+                var that = this;
+                Util.ajax({
+                    method: "get",
+                    url: '/xm/pub/pubOpinionInfo/pubOpinionDetailAnalysis',
+                    params: {
+                        beginDate: MOMENT().format('YYYY-MM-DD'),
+                        endDate: MOMENT().format('YYYY-MM-DD')
+                    }
+                }).then(function(response){
+                    if (response.status === 1) {
+                        console.dir(response.result);
+                        that.setYqData(response.result);
+                    }
+                    else {}
+
+                }).catch(function (error) {
+                    console.log(error);
+                })
+            },
+
+            setYqData(result) {
+                var that = this;
+
+                this.yq_all = result.all;
+
+                this.p_positive = ((result.positive / result.all) * 100).toFixed(1);
+                this.p_neutral = ((result.neutral / result.all) * 100).toFixed(1);
+                this.p_negative = ((result.negative / result.all) * 100).toFixed(1);
+
+                if (this.p_positive > 95) { this.clsName1 = 'bar-100'; }
+                else if (this.p_positive > 90) { this.clsName1 = 'bar-95'; }
+                else if (this.p_positive > 85) { this.clsName1 = 'bar-90'; }
+                else if (this.p_positive > 80) { this.clsName1 = 'bar-85'; }
+                else if (this.p_positive > 75) { this.clsName1 = 'bar-80'; }
+                else if (this.p_positive > 70) { this.clsName1 = 'bar-75'; }
+                else if (this.p_positive > 65) { this.clsName1 = 'bar-70'; }
+                else if (this.p_positive > 60) { this.clsName1 = 'bar-65'; }
+                else if (this.p_positive > 55) { this.clsName1 = 'bar-60'; }
+                else if (this.p_positive > 50) { this.clsName1 = 'bar-55'; }
+                else if (this.p_positive > 45) { this.clsName1 = 'bar-50'; }
+                else if (this.p_positive > 40) { this.clsName1 = 'bar-45'; }
+                else if (this.p_positive > 35) { this.clsName1 = 'bar-40'; }
+                else if (this.p_positive > 30) { this.clsName1 = 'bar-35'; }
+                else if (this.p_positive > 25) { this.clsName1 = 'bar-30'; }
+                else if (this.p_positive > 20) { this.clsName1 = 'bar-25'; }
+                else if (this.p_positive > 15) { this.clsName1 = 'bar-20'; }
+                else if (this.p_positive > 10) { this.clsName1 = 'bar-15'; }
+                else if (this.p_positive > 5) { this.clsName1 = 'bar-10'; }
+                else if (this.p_positive > 0) { this.clsName1 = 'bar-5'; }
+                else { this.clsName1 = 'bar-0'; }
+
+                if (this.p_neutral > 95) { this.clsName3 = 'bar-100'; }
+                else if (this.p_neutral > 90) { this.clsName3 = 'bar-95'; }
+                else if (this.p_neutral > 85) { this.clsName3 = 'bar-90'; }
+                else if (this.p_neutral > 80) { this.clsName3 = 'bar-85'; }
+                else if (this.p_neutral > 75) { this.clsName3 = 'bar-80'; }
+                else if (this.p_neutral > 70) { this.clsName3 = 'bar-75'; }
+                else if (this.p_neutral > 65) { this.clsName3 = 'bar-70'; }
+                else if (this.p_neutral > 60) { this.clsName3 = 'bar-65'; }
+                else if (this.p_neutral > 55) { this.clsName3 = 'bar-60'; }
+                else if (this.p_neutral > 50) { this.clsName3 = 'bar-55'; }
+                else if (this.p_neutral > 45) { this.clsName3 = 'bar-50'; }
+                else if (this.p_neutral > 40) { this.clsName3 = 'bar-45'; }
+                else if (this.p_neutral > 35) { this.clsName3 = 'bar-40'; }
+                else if (this.p_neutral > 30) { this.clsName3 = 'bar-35'; }
+                else if (this.p_neutral > 25) { this.clsName3 = 'bar-30'; }
+                else if (this.p_neutral > 20) { this.clsName3 = 'bar-25'; }
+                else if (this.p_neutral > 15) { this.clsName3 = 'bar-20'; }
+                else if (this.p_neutral > 10) { this.clsName3 = 'bar-15'; }
+                else if (this.p_neutral > 5) { this.clsName3 = 'bar-10'; }
+                else if (this.p_neutral > 0) { this.clsName3 = 'bar-5'; }
+                else { this.clsName3 = 'bar-0'; }
+
+                if (this.p_negative > 95) { this.clsName2 = 'bar-100'; }
+                else if (this.p_negative > 90) { this.clsName2 = 'bar-95'; }
+                else if (this.p_negative > 85) { this.clsName2 = 'bar-90'; }
+                else if (this.p_negative > 80) { this.clsName2 = 'bar-85'; }
+                else if (this.p_negative > 75) { this.clsName2 = 'bar-80'; }
+                else if (this.p_negative > 70) { this.clsName2 = 'bar-75'; }
+                else if (this.p_negative > 65) { this.clsName2 = 'bar-70'; }
+                else if (this.p_negative > 60) { this.clsName2 = 'bar-65'; }
+                else if (this.p_negative > 55) { this.clsName2 = 'bar-60'; }
+                else if (this.p_negative > 50) { this.clsName2 = 'bar-55'; }
+                else if (this.p_negative > 45) { this.clsName2 = 'bar-50'; }
+                else if (this.p_negative > 40) { this.clsName2 = 'bar-45'; }
+                else if (this.p_negative > 35) { this.clsName2 = 'bar-40'; }
+                else if (this.p_negative > 30) { this.clsName2 = 'bar-35'; }
+                else if (this.p_negative > 25) { this.clsName2 = 'bar-30'; }
+                else if (this.p_negative > 20) { this.clsName2 = 'bar-25'; }
+                else if (this.p_negative > 15) { this.clsName2 = 'bar-20'; }
+                else if (this.p_negative > 10) { this.clsName2 = 'bar-15'; }
+                else if (this.p_negative > 5) { this.clsName2 = 'bar-10'; }
+                else if (this.p_negative > 0) { this.clsName2 = 'bar-5'; }
+                else { this.clsName2 = 'bar-0'; }
             }
         }
     }

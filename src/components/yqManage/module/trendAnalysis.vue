@@ -15,7 +15,25 @@
         data() {
             return {
                 myChart1: null,
-                myChart2: null
+                myChart2: null,
+
+                option1: {
+                    series: [
+                        { data: [] },
+                        { data: [] },
+                        { data: [] },
+                        { data: [] }
+                    ]
+                },
+                option2: {
+                    xAxis: [ {data: []} ],
+                    series: [
+                        { data: [] },
+                        { data: [] },
+                        { data: [] },
+                        { data: [] }
+                    ]
+                }
             }
         },
         created() {
@@ -23,6 +41,8 @@
         mounted() {
             this.setChart1();
             this.setChart2();
+
+            this.getData1();
         },
         methods: {
             setChart1() {
@@ -54,7 +74,7 @@
                     xAxis: [
                         {
                             type: 'category',
-                            data: ['00', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
+                            data: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
                             axisPointer: {
                                 type: 'shadow'
                             },
@@ -99,22 +119,22 @@
                         {
                             name:'全部',
                             type:'line',
-                            data:[100, 110, 120, 115, 87, 92, 101, 113, 254, 201, 198, 156, 110, 100, 100, 110, 120, 115, 87, 92, 101, 113, 254, 201]
+                            data:[]
                         },
                         {
                             name:'正面',
                             type:'line',
-                            data:[80, 90, 100, 110, 50, 87, 77, 110, 204, 201, 148, 144, 110, 88, 80, 90, 100, 110, 50, 87, 77, 110, 204, 201]
+                            data:[]
                         },
                         {
                             name:'负面',
                             type:'line',
-                            data:[4, 5, 6, 2, 0, 4, 3, 0, 12, 14, 9, 7, 7, 4, 4, 5, 6, 2, 0, 4, 3, 0, 12, 14]
+                            data:[]
                         },
                         {
                             name:'中立',
                             type:'line',
-                            data:[16, 25, 14, 3, 37, 1, 8, 13, 3, 38, 26, 1, 5, 8, 16, 25, 14, 3, 37, 1, 8, 13, 3, 38]
+                            data:[]
                         }
                     ]
                 };
@@ -122,7 +142,7 @@
                 this.myChart1.setOption(option);
             },
             setChart2() {
-                this.myChart1 = echarts.init(this.$refs.chart2);
+                this.myChart2 = echarts.init(this.$refs.chart2);
                 var option = {
                     color: ['#8e81bc','#88c897','#ef857d','#65aadd'],
                     backgroundColor: '#FFF',
@@ -215,7 +235,49 @@
                     ]
                 };
 
-                this.myChart1.setOption(option);
+                this.myChart2.setOption(option);
+            },
+
+            getData1() {
+                var that = this;
+                Util.ajax({
+                    method: "get",
+                    url: '/xm/pub/pubOpinionInfo/getPubOpinionTrend',
+                    data: {}
+                }).then(function(response){
+                    if (response.status === 1) {
+                        that.setChartOptionData(response.result);
+                    }
+                    else {}
+
+                }).catch(function (error) {
+                    console.log(error);
+                })
+            },
+            setChartOptionData(result) {
+                var that = this;
+
+                this.option1.series[0].data = result.todayAllList;
+                this.option1.series[1].data = result.todayPositiveList;
+                this.option1.series[2].data = result.todayNegativeList;
+                this.option1.series[3].data = result.todayMicroBlogList;
+
+                that.option2.xAxis[0].data = [];
+                that.option2.series[0].data = [];
+                that.option2.series[1].data = [];
+                that.option2.series[2].data = [];
+                that.option2.series[3].data = [];
+
+                for( var key in result.fourteenAll) {
+                    that.option2.xAxis[0].data.push(key);
+                    that.option2.series[0].data.push(result.fourteenAll[key]);
+                    that.option2.series[1].data.push(result.fourteenPositive[key]);
+                    that.option2.series[2].data.push(result.fourteenNegative[key]);
+                    that.option2.series[3].data.push(result.fourteenMicroBlog[key]);
+                }
+
+                this.myChart1.setOption(this.option1);
+                this.myChart2.setOption(this.option2);
             }
         }
 
