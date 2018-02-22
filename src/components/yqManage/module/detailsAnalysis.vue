@@ -150,7 +150,7 @@
                     }
                 }).then(function(response){
                     if (response.status === 1) {
-                        console.dir(response.result);
+//                        console.dir(response.result);
                         that.setChartOption(response.result);
                     }
                     else {}
@@ -196,7 +196,7 @@
                 });
 
 
-                console.dir(this.option3);
+//                console.dir(this.option3);
                 this.chart1.setOption(this.option1);
                 this.chart2.setOption(this.option2);
                 this.chart3.setOption(this.option3);

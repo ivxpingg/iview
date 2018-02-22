@@ -8,7 +8,7 @@ import MOMENT from 'moment';
  */
 
 var vm, zr, train_zr;
-var sTime = '2017-12-20 08:20:00';
+var sTime = '2018-2-22 08:20:00';
 
 /**
  * 存放当前canvas上实时列车元素对象
@@ -163,7 +163,7 @@ var getData = function () {
     }).then(function (response) {
 
         if (response.status == 1) {
-            // train_list = response.result;
+            console.dir(response.result);
             refresh_train_position(response.result);
         }
         else {

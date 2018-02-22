@@ -1,9 +1,9 @@
 <template>
     <div ref="canvasBox" class="canvasBox">
         <div id="canvas" style="border: 0 solid #000; width: 3000px; height: 1500px;"></div>
-        <img ref="gif1" class="img-gif" src="./images/gif/1.gif" alt="">
-        <img ref="gif2" class="img-gif" src="./images/gif/2.gif" alt="">
-        <img ref="gif3" class="img-gif" src="./images/gif/3.gif" alt="">
+        <!--<img ref="gif1" class="img-gif" src="./images/gif/1.gif" alt="">-->
+        <!--<img ref="gif2" class="img-gif" src="./images/gif/2.gif" alt="">-->
+        <!--<img ref="gif3" class="img-gif" src="./images/gif/3.gif" alt="">-->
     </div>
 </template>
 
@@ -36,7 +36,7 @@
             // this.pageInit();
             this.setFullScreenFor_subwayLines();
             metro_main(that);
-            this.setLevel();
+//            this.setLevel();
         },
         methods: {
             pageInit() {

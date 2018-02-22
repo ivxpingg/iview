@@ -1,4 +1,5 @@
 import bdata from './bdData';
+import Util from '../../../../libs/util';
 
 var vm = null; //vue对象
 var map = null;
@@ -66,7 +67,7 @@ var setLine = function (key) {
         vm.busInfo.push(bdata.busInfo[val]);
     });
 
-    if (map_dom_line_list[key]) {
+    if (map_dom_line_list[key] && map_dom_line_list[key].length > 0) {
 
         map_dom_line_list[key].forEach(function (val) {
             val.show();
@@ -75,30 +76,58 @@ var setLine = function (key) {
         return;
     }
 
+    map_dom_line_list[key] = [];
+
     var pointList = [];
 
     var pointList1 = [];
 
     var pointList2 = [];
+
+    var pointStationUp = [];        // 站点车牌
+    var pointStationDown = [];      // 站点车牌
     bdata.mapPoint[key].center.forEach(function (val) {
         pointList.push(new BMap.Point(val.lng, val.lat));
-        if (bdata.mapPoint[key].up.length == 0) {
-            pointList1.push(new BMap.Point(val.lng, val.lat + 0.0015));
-            pointList2.push(new BMap.Point(val.lng, val.lat - 0.0015))
-        }
+        // if (bdata.mapPoint[key].up.length == 0) {
+        //     pointList1.push(new BMap.Point(val.lng, val.lat + 0.0015));
+        //     pointList2.push(new BMap.Point(val.lng, val.lat - 0.0015))
+        // }
     });
-
 
     bdata.mapPoint[key].up.forEach(function (val) {
         pointList1.push(new BMap.Point(val.lng, val.lat));
     });
 
     bdata.mapPoint[key].down.forEach(function (val) {
-        pointList2.push(new BMap.Point(val.lng, val.lat))
+        pointList2.push(new BMap.Point(val.lng, val.lat));
     });
 
+    // 站点车牌
+    if (bdata.mapPoint[key].stationUp) {
+        bdata.mapPoint[key].stationUp.forEach(function (val) {
+            pointStationUp.push(new BMap.Point(val.lng, val.lat));
 
-    var polylinebg = new BMap.Polyline(pointList, {strokeColor:"#FFF", strokeWeight:20, strokeOpacity:0});
+            var myIcon = new BMap.Icon(Util.staticImgUrl + "/static/img/icon1.png", new BMap.Size(19,26));
+            var myOffset = new BMap.Size(0, -13);
+            var markerUp = new BMap.Marker(new BMap.Point(val.lng, val.lat),{icon:myIcon, offset: myOffset});  // 创建标注
+            map.addOverlay(markerUp);              // 将标注添加到地图中
+            map_dom_line_list[key].push(markerUp);
+        });
+    }
+
+    if (bdata.mapPoint[key].stationDown) {
+        bdata.mapPoint[key].stationDown.forEach(function (val) {
+            pointStationDown.push(new BMap.Point(val.lng, val.lat));
+
+            var myIcon = new BMap.Icon(Util.staticImgUrl + "/static/img/icon2.png", new BMap.Size(19,26));
+            var myOffset = new BMap.Size(0, -13);
+            var markerDown = new BMap.Marker(new BMap.Point(val.lng, val.lat),{icon:myIcon, offset: myOffset});  // 创建标注
+            map.addOverlay(markerDown);              // 将标注添加到地图中
+            map_dom_line_list[key].push(markerDown);
+        });
+    }
+
+    var polylinebg = new BMap.Polyline(pointList, {strokeColor:"rgba(255,255,255,0)", strokeWeight:20, strokeOpacity:0});
 
     var polyline0 = new BMap.Polyline(pointList, {strokeColor:"#808283", strokeWeight:4, strokeOpacity:1});
     var polyline1 = new BMap.Polyline(pointList1, {strokeColor:"#2c9dd3", strokeWeight:4, strokeOpacity:0.8});
@@ -126,22 +155,51 @@ var setLine = function (key) {
     // polyline2.enableEditing();
 
     //创建右键菜单
-    var lineMenu=new BMap.ContextMenu();
+    var lineMenu = new BMap.ContextMenu();
     lineMenu.addItem(new BMap.MenuItem('取消该故障区段', function (e) {
         vm.busInfo = [];
         show_map_dom_malfunction();
         hide_map_dom_line();
         setLine(mouserOverKey);
-    }, {width: 120}))
+    }, {width: 120}));
+
+    var lineMenu2 = new BMap.ContextMenu();
+    lineMenu2.addItem(new BMap.MenuItem('取消该故障区段', function (e) {
+        vm.busInfo = [];
+        show_map_dom_malfunction();
+        hide_map_dom_line();
+        setLine(mouserOverKey);
+    }, {width: 120}));
+
+    var lineMenu3 = new BMap.ContextMenu();
+    lineMenu3.addItem(new BMap.MenuItem('取消该故障区段', function (e) {
+        vm.busInfo = [];
+        show_map_dom_malfunction();
+        hide_map_dom_line();
+        setLine(mouserOverKey);
+    }, {width: 120}));
+
+    var lineMenu4 = new BMap.ContextMenu();
+    lineMenu4.addItem(new BMap.MenuItem('取消该故障区段', function (e) {
+        vm.busInfo = [];
+        show_map_dom_malfunction();
+        hide_map_dom_line();
+        setLine(mouserOverKey);
+    }, {width: 120}));
 
     polylinebg.addContextMenu(lineMenu);
 
-    polyline0.addContextMenu(lineMenu);
-    polyline1.addContextMenu(lineMenu);
-    polyline2.addContextMenu(lineMenu);
+    polyline0.addContextMenu(lineMenu2);
+    polyline1.addContextMenu(lineMenu3);
+    polyline2.addContextMenu(lineMenu4);
 
 
-    map_dom_line_list[key] = [polyline0, polyline1, polyline2, polylinebg];
+    // map_dom_line_list[key] = [polyline0, polyline1, polyline2, polylinebg];
+    map_dom_line_list[key].push(polyline0);
+    map_dom_line_list[key].push(polyline1);
+    map_dom_line_list[key].push(polyline2);
+    map_dom_line_list[key].push(polylinebg);
+
 
 }
 

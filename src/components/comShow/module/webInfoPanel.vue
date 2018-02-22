@@ -62,13 +62,13 @@
 
         <div class="info-panel">
             <div class="prob prob3">正面<span>{{p_positive}}</span>%</div>
-            <div class="prob prob2">负面<span>{{p_neutral}}</span>%</div>
+            <div class="prob prob2">负面<span>{{p_negative}}</span>%</div>
             <div class="prob prob1">中立<span>{{p_neutral}}</span>%</div>
 
             <div class="circle circle-box">
                 <div class="circle circle3" :class="clsName1">
-                    <div class="circle circle2" :class="clsName3">
-                        <div class="circle circle1" :class="clsName2"></div>
+                    <div class="circle circle2" :class="clsName2">
+                        <div class="circle circle1" :class="clsName3"></div>
                     </div>
                 </div>
                 <div class="sum">

@@ -278,7 +278,7 @@
                 prefixClassNameShow: 'show-',
                 trainLeftRatio: 2.083333,   // 列车距离
                 trainPosition: { },
-                test_d: '2017-12-20 08:40:00',
+                test_d: '2018-2-22 08:40:00',
 
                 o_dom_list: {},  // 存放当前页面上实时列车元素对象 { '00101': dom }
                 // 存放从后台获取的最新列车位置信息。
@@ -417,6 +417,7 @@
                 }).then(function (response) {
 
                     if (response.status == 1) {
+                        console.dir(response.result);
                         that.refresh_train_position(response.result);
                     }
                     else {

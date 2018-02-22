@@ -329,6 +329,7 @@
             },
 
             goto(info) {
+
                 var third = false;  // 是否是第三方地址
                 var url = info.url;
 
@@ -339,6 +340,7 @@
 
                 if (url.indexOf('http://') >= 0) {
                     third = true;
+                    window.open(url);
                 }
                 else {
                     let router = new VueRouter();

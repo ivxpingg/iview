@@ -113,9 +113,9 @@
                 natureType: 'all',      // 性质  正面、中立、负面
 
                 natureTypeList: {
-                    '-1': '正面',
+                    '-1': '负面',
                     '0': '中立',
-                    '1': '负面'
+                    '1': '正面'
                 },
 
                 sTime: '',
@@ -194,9 +194,9 @@
             },
             getClass(type) {
                 switch (type) {
-                    case '-1': return ' icon-text-0'; break;
+                    case '1': return ' icon-text-0'; break;
                     case '0': return ' icon-text-1'; break;
-                    case '1': return ' icon-text-2'; break;
+                    case '-1': return ' icon-text-2'; break;
                     default: return '';
                 }
             },

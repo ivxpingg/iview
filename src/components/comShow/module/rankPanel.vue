@@ -75,15 +75,15 @@
                 handler(val) {
                     this.inClsName1 = this.clsName(val[0]["0"]);
                     this.outClsName1 = this.clsName(val[0]["1"]);
-                    this.stationName1 = val[0].stationId != '' ?  baseData.station_info[val[0].stationId] : '';
+                    this.stationName1 = val[0].stationId != '' ?  baseData.station_info[val[0].stationId].name : '';
 
                     this.inClsName2 = this.clsName(val[1]["0"]);
                     this.outClsName2 = this.clsName(val[1]["1"]);
-                    this.stationName2 = val[1].stationId != '' ?  baseData.station_info[val[1].stationId] : '';
+                    this.stationName2 = val[1].stationId != '' ?  baseData.station_info[val[1].stationId].name : '';
 
                     this.inClsName3 = this.clsName(val[2]["0"]);
                     this.outClsName3 = this.clsName(val[2]["1"]);
-                    this.stationName3 = val[2].stationId != '' ?  baseData.station_info[val[2].stationId] : '';
+                    this.stationName3 = val[2].stationId != '' ?  baseData.station_info[val[2].stationId].name : '';
                 },
                 deep: true
             }
@@ -136,6 +136,7 @@
                     data: {}
                 }).then(function(response){
                     if (response.status === 1) {
+
                         if (response.result.topThreeStationList.length == 0) {
                             that.topThreeStationList[0]["0"] = 0;
                             that.topThreeStationList[0]["1"] = 0;

@@ -10,7 +10,7 @@
                 column: [
                     { type: 'index', title: '序号', align: 'center', width: 60 },
                     { title: '单位', key: 'unit', align: 'center', width: 150 },
-                    { title: '部门', key: 'department', align: 'center', width: 150 },
+                    { title: '部门', key: 'department', align: 'center', width: 160 },
                     { title: '角色', key: 'role', align: 'center' },
                     { title: '姓名', key: 'name', align: 'center' },
                     { title: '职务', key: 'work', align: 'center' },
@@ -70,6 +70,159 @@
                         work: '',
                         phone: '13606924818',
                         phone2: '2660600'
+                    },
+                    {
+                        unit: '市公安局',
+                        department: '局指挥情报中心',
+                        role: '负责人',
+                        name: '周肖荻',
+                        work: '副主任',
+                        phone: '13959257570',
+                        phone2: '2110119'
+                    },
+                    {
+                        unit: '市公安局',
+                        department: '地铁分局领导',
+                        role: '负责人',
+                        name: '吕培勤',
+                        work: '政委',
+                        phone: '13600943607',
+                        phone2: '2262352'
+                    },
+                    {
+                        unit: '市公安局',
+                        department: '地铁分局指挥情报中心',
+                        role: '负责人',
+                        name: '杨日水',
+                        work: '负责人',
+                        phone: '13950156185',
+                        phone2: '2262352'
+                    },
+                    {
+                        unit: '市公安局',
+                        department: '交警支队',
+                        role: '负责人',
+                        name: '林炳聪',
+                        work: '副支队长',
+                        phone: '13806095259',
+                        phone2: '5854433'
+                    },
+                    {
+                        unit: '市公安局',
+                        department: '交警支队',
+                        role: '负责人',
+                        name: '吴志鹏',
+                        work: '教导员',
+                        phone: '13906000112',
+                        phone2: '5854433'
+                    },
+                    {
+                        unit: '市公交集团',
+                        department: '集团公司',
+                        role: '负责人',
+                        name: '高雁',
+                        work: '副总经理',
+                        phone: '13806051951',
+                        phone2: '5854531'
+                    },
+                    {
+                        unit: '市公交集团',
+                        department: '思明公共交通有限公司',
+                        role: '负责人',
+                        name: '孙家仟',
+                        work: '总经理',
+                        phone: '13606037165',
+                        phone2: '5854531'
+                    },
+                    {
+                        unit: '市公交集团',
+                        department: '思明公共交通有限公司',
+                        role: '联系人',
+                        name: '黄睿',
+                        work: '副总',
+                        phone: '13606910585',
+                        phone2: '5854531'
+                    },
+                    {
+                        unit: '市公交集团',
+                        department: '湖里公共交通有限公司',
+                        role: '负责人',
+                        name: '姚扁福',
+                        work: '总经理',
+                        phone: '13906009624',
+                        phone2: '5854531'
+                    },
+                    {
+                        unit: '市公交集团',
+                        department: '湖里公共交通有限公司',
+                        role: '联系人',
+                        name: '黄长清',
+                        work: '副总',
+                        phone: '13063065585',
+                        phone2: '5854531'
+                    },
+                    {
+                        unit: '市公交集团',
+                        department: '集美公共交通有限公司',
+                        role: '负责人',
+                        name: '王振源',
+                        work: '总经理',
+                        phone: '13806079696',
+                        phone2: '5854531'
+                    },
+                    {
+                        unit: '市公交集团',
+                        department: '集美公共交通有限公司',
+                        role: '联系人',
+                        name: '江炳胜',
+                        work: '副总',
+                        phone: '18905922350',
+                        phone2: '5854531'
+                    },
+                    {
+                        unit: '市轨道交通集团',
+                        department: '运管中心总经理',
+                        role: '负责人',
+                        name: '栾文波',
+                        work: '运管总经理',
+                        phone: '13585170078',
+                        phone2: '2506110'
+                    },
+                    {
+                        unit: '市轨道交通集团',
+                        department: '调度部副经理',
+                        role: '负责人',
+                        name: '徐莉星',
+                        work: '调度部副经理',
+                        phone: '13606025987',
+                        phone2: '2506110'
+                    },
+                    {
+                        unit: '市轨道交通集团',
+                        department: '客运部经理',
+                        role: '负责人',
+                        name: '林志平',
+                        work: '客运部经理',
+                        phone: '13606025987',
+                        phone2: '2506110'
+                    },
+                    {
+                        unit: '市轨道交通集团',
+                        department: '值班主任',
+                        role: '负责人',
+                        name: '',
+                        work: '客运部经理',
+                        phone: '2506110',
+                        phone2: '2506110'
+                    },
+                    {
+                        unit: '市轨道交通集团',
+                        department: '综合调度',
+                        role: '负责人',
+                        name: '',
+                        work: '综合调度',
+                        phone: '2506110',
+                        phone2: '2506110'
                     }
 
                 ]
