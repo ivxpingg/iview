@@ -99,7 +99,10 @@
                         url: '',
                         auth: false
                     }
-                }
+                },
+
+                userId: '',
+                token: ''
 
             }
         },
@@ -149,7 +152,8 @@
 
                         // 用户权限
                         case "SYS_MANAGE":
-                            that.systemList['9'].url = val.appFunction.url;
+                            var sParam = '?loginToken='+that.token+'&loginId='+that.userId;
+                            that.systemList['9'].url = val.appFunction.url + sParam;
                             that.systemList['9'].auth = true;
                             break;
 
@@ -163,6 +167,10 @@
             }
         },
         mounted() {
+
+            this.userId = Util.cookie.get('xmgduserid') || '';
+            this.token =  Util.cookie.get('xmgd') || '';
+
             this.getData();
             this.threeD();
             this.init();

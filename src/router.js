@@ -13,7 +13,17 @@ const routers = [{
             requireAuth: true  // 添加该字段，表示进入这个路由是需要登录的
         },
         component: (resolve) => require(['./views/platform/platform.vue'], resolve)
-    }, {
+    },
+    {
+        path: '/daily',
+        name: 'daily',
+        meta: {
+            title: '厦门轨道行业运营生产日报上传',
+            requireAuth: true  // 添加该字段，表示进入这个路由是需要登录的
+        },
+        component: (resolve) => require(['./views/subSystem/dailyUpload/daily.vue'], resolve)
+    },
+    {
         path: '/test1',
         name: 'test1',
         meta: {

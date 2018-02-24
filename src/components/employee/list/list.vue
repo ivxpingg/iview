@@ -691,7 +691,7 @@
                 return url;
             },
             exportFileUrl1() {
-                return  Util.domain + '/static/download/从业人员导入模板.xlsx';
+                return  Util.domain + '/static/download/xlsx/从业人员导入模板.xlsx';
             },
             exportFileUrl2() {
                 return Util.domain + '/static/download/xlsx/培训记录导入模板.xlsx';

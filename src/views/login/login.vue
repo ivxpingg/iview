@@ -113,6 +113,7 @@
                             if (response.status === 1) {
                                 Util.cookie.set('xmgd', response.result.token, new Date(new Date().getTime() + 7 * 24 * 60 * 1000));
                                 Util.cookie.set('xmgdname', response.result.userName, new Date(new Date().getTime() + 7 * 24 * 60 * 1000));
+                                Util.cookie.set('xmgduserid', response.result.userId, new Date(new Date().getTime() + 7 * 24 * 60 * 1000));
                                 Util.cookie.set('logintime', MOMENT().format('YYYY-MM-DD hh:mm:ss') , new Date(new Date().getTime() + 7 * 24 * 60 * 1000))
                                 that.$store.commit('setToken', response.result.sessionid);
                                 that.$store.commit('setName', response.result.name);

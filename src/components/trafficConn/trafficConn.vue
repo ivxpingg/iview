@@ -4,14 +4,20 @@
     </div>
 </template>
 <script>
+    import Util from  '../../libs/util';
     import vIframe from '../layout/iframe/iframe.vue';
     export default {
         data() {
             return {
-                url: 'http://ikey.doudou360.com/metrosupervision/xm/traffic/mapstatistics.html'
+                url: 'http://wechat.doudou360.com/metrosupervision/xm/traffic/mapstatistics.html'
             }
         },
-        components: {vIframe}
+        components: {vIframe},
+        created() {
+            debugger
+            this.url += '?t=' + Util.cookie.get('xmgd');
+            console.dir(1);
+        }
     }
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
