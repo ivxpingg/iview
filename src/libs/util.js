@@ -128,6 +128,7 @@ Ajax.interceptors.request.use(function (config) {
 });
 //ajax响应后拦截器
 Ajax.interceptors.response.use(function (response) {
+
     if(response.data.errCode === "A0002") {
 
         let router = new VueRouter();
@@ -135,6 +136,7 @@ Ajax.interceptors.response.use(function (response) {
         Cookie.unset('xmgdname');
         Cookie.unset('logintime');
         router.push('/');
+
     }
     return response.data;
 }, function (error) {

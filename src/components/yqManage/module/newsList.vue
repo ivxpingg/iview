@@ -27,8 +27,8 @@
                 <FormItem label="性质:":label-width="50">
                     <Select v-model="natureType" style="width: 80px">
                         <Option value="all">全部</Option>
-                        <Option value="-1">正面</Option>
-                        <Option value="1">负面</Option>
+                        <Option value="1">正面</Option>
+                        <Option value="-1">负面</Option>
                         <Option value="0">中立</Option>
                     </Select>
                 </FormItem>
@@ -42,7 +42,7 @@
             <div v-for="item in newsList" class="item">
                 <div class="title">
                     <span>{{item.title}}</span>
-                    <span class="icon-text" :class="getClass(item.source)">{{getNatureType(item.source)}}</span></div>
+                    <span class="icon-text" :class="getClass(item.extend)">{{getNatureType(item.extend)}}</span></div>
                 <div class="info">
                     <span class="span1">发布时间：</span>
                     <span class="span2">{{item.publishTime}}</span>
@@ -192,11 +192,11 @@
             getNatureType(type){
                 return this.natureTypeList[type];
             },
-            getClass(type) {
+            getClass(type){
                 switch (type) {
-                    case '1': return ' icon-text-0'; break;
-                    case '0': return ' icon-text-1'; break;
-                    case '-1': return ' icon-text-2'; break;
+                    case 1: return ' icon-text-0'; break;
+                    case 0: return ' icon-text-1'; break;
+                    case -1: return ' icon-text-2'; break;
                     default: return '';
                 }
             },

@@ -21,7 +21,10 @@
     import Util from '../../../libs/util';
     export default {
         data() {
+            var that = this;
             return {
+                tableDim: 'day',
+
                 tableHeight: 330,
                 columns1: [
                     {
@@ -34,7 +37,21 @@
                         title: '日期',
                         key: 'insTime',
                         width: 100,
-                        align: 'center'
+                        align: 'center',
+                        render(h, params) {
+                            debugger
+                            if (that.tableDim == 'day') {
+                                return h('a', {
+                                    attrs: {
+                                        href: params.row['localUrl'],
+                                        target: '_blank'
+                                    }
+                                }, params.row[params.column.key]);
+                            }
+                            else {
+                                return h('span', params.row[params.column.key]);
+                            }
+                        }
                     },
                     {
                         title: '总开行列次',
@@ -266,8 +283,12 @@
                 }
             }
         },
+        created() {
+            this.tableDim = this.dim;
+        },
         watch: {
             dates(val, valOld) {
+                this.tableDim = this.dim;
                 this.getData1();
                 this.getData2();
                 this.getData3();

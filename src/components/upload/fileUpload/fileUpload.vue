@@ -65,7 +65,8 @@
 
             },
             handleSuccess(response, file, fileList) {
-                console.dir(response);
+//                console.dir(response);
+                this.$emit('handleSuccess', response, file, fileList);
             },
             handleError(error, file, fileList) {
                 console.dir(error);

@@ -215,22 +215,22 @@
                         {
                             name:'全部',
                             type:'line',
-                            data:[100, 110, 120, 115, 87, 92, 101, 113, 254, 201, 198, 156, 110, 100]
+                            data:[]
                         },
                         {
                             name:'正面',
                             type:'line',
-                            data:[80, 90, 100, 110, 50, 87, 77, 110, 204, 201, 148, 144, 110, 88]
+                            data:[]
                         },
                         {
                             name:'负面',
                             type:'line',
-                            data:[4, 5, 6, 2, 0, 4, 3, 0, 12, 14, 9, 7, 7, 4]
+                            data:[]
                         },
                         {
                             name:'中立',
                             type:'line',
-                            data:[16, 25, 14, 3, 37, 1, 8, 13, 3, 38, 26, 1, 5, 8]
+                            data:[]
                         }
                     ]
                 };
@@ -260,7 +260,7 @@
                 this.option1.series[0].data = result.todayAllList;
                 this.option1.series[1].data = result.todayPositiveList;
                 this.option1.series[2].data = result.todayNegativeList;
-                this.option1.series[3].data = result.todayMicroBlogList;
+                this.option1.series[3].data = result.todayNeutralList;
 
                 that.option2.xAxis[0].data = [];
                 that.option2.series[0].data = [];
@@ -268,13 +268,17 @@
                 that.option2.series[2].data = [];
                 that.option2.series[3].data = [];
 
-                for( var key in result.fourteenAll) {
-                    that.option2.xAxis[0].data.push(key);
-                    that.option2.series[0].data.push(result.fourteenAll[key]);
-                    that.option2.series[1].data.push(result.fourteenPositive[key]);
-                    that.option2.series[2].data.push(result.fourteenNegative[key]);
-                    that.option2.series[3].data.push(result.fourteenMicroBlog[key]);
-                }
+
+                result.fourteenAll.forEach(function(val, idx){
+                    for( var key in val) {
+                        that.option2.xAxis[0].data.push(key);
+                        that.option2.series[0].data.push(val[key]);
+                        that.option2.series[1].data.push(result.fourteenPositive[idx][key]);
+                        that.option2.series[2].data.push(result.fourteenNegative[idx][key]);
+                        that.option2.series[3].data.push(result.fourteenNeutral[idx][key]);
+                    }
+                });
+
 
                 this.myChart1.setOption(this.option1);
                 this.myChart2.setOption(this.option2);

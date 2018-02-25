@@ -9,14 +9,24 @@
     export default {
         data() {
             return {
-                url: 'http://wechat.doudou360.com/metrosupervision/xm/traffic/mapstatistics.html'
+                url: 'http://wechat.doudou360.com/metrosupervision/modules/traffic/mapstatistics.html'
             }
         },
         components: {vIframe},
         created() {
-            debugger
             this.url += '?t=' + Util.cookie.get('xmgd');
-            console.dir(1);
+        },
+        mounted() {
+            var that = this;
+
+            window.onmessage = function (ev) {
+                if (ev.data.type == "logOut") {
+                    that.$router.push({
+                        path: '/',
+                        query: {redirect: that.$route.name}
+                    });
+                }
+            }
         }
     }
 </script>

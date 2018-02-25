@@ -25,8 +25,8 @@
                     </FormItem>
 
                     <FormItem prop="postName" label="岗位名称">
-                        <Select v-if="employee.postCategory != 'other'" v-model="employee.postName" transfer placeholder="请选择岗位名称">
-                            <Option v-for="item in dict_post_name" :value="item.value">{{item.label}}</Option>
+                        <Select ref="select_post_name" v-if="employee.postCategory != 'other'" clearable v-model="employee.postName" transfer placeholder="请选择岗位名称">
+                            <Option v-for="item in dict_post_name" :value="item.value" :key="item.value">{{item.label}}</Option>
                         </Select>
                         <Input v-else v-model="employee.otherPost" placeholder="请输入岗位名称"></Input>
 
@@ -330,6 +330,13 @@
             dict_post_name() {
 
                 var that = this;
+
+
+                if(this.$refs.select_post_name) {
+                    this.$refs.select_post_name.$forceUpdate();
+                }
+
+
                 var nameList = [];
                 var id = '';
                 this.dict_post.forEach(function (val) {
@@ -618,15 +625,17 @@
 
 //                        that.defaultHeadPortrait = [{ url: "http://10.131.1.222:8088//upload/image/2017/10/2017101814310000253633.jpg" }];
 //                        that.defaultHeadCertificate = [{ url: "http://10.131.1.222:8088//upload/image/2017/10/2017101814310000253633.jpg" }];
+                        that.defaultHeadPortrait = [];
+                        that.pictureRelationForHeadPortrait = [];
+                        that.defaultHeadCertificate = [];
+                        that.pictureRelationForCertificate = [];
 
                         that.employee.pictureRelation.forEach(function(val){
+
                             val.url = val.pictureUrl;
                             val.name = val.pictureId;
 
-                            that.defaultHeadPortrait = [];
-                            that.defaultHeadCertificate = [];
-                            that.pictureRelationForHeadPortrait = [];
-                            that.pictureRelationForCertificate = [];
+
                             if (val.pictureType == 'HeadPortrait') {
                                 that.defaultHeadPortrait = [val];
                                 that.pictureRelationForHeadPortrait = [val];

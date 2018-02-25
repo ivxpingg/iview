@@ -245,7 +245,7 @@
                         title: '岩内',
                         key: '24',
                         align: 'center',
-                        width: 40,
+                        width: 60,
                         renderHeader(h, params) {
                             return h('span', {
                                 style: {
@@ -476,7 +476,7 @@
                         title: '镇海路',
                         key: '1',
                         align: 'center',
-                        width: 40,
+                        width: 60,
                         renderHeader(h, params) {
                             return h('span', {
                                 style: {

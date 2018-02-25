@@ -49,12 +49,15 @@
                 chart3: null,
 
                 option1: {
-                    series: [{ data: [
-                        {value: 0, name: '总数'},
-                        {value: 0, name: '正面'},
-                        {value: 0, name: '中立'},
-                        {value: 0, name: '负面'}
-                    ] }]
+                    series: [
+                        {data: [{value: 0, name: '总数'}]},
+                        { data: [
+                            {value: 0, name: '正面'},
+                            {value: 0, name: '中立'},
+                            {value: 0, name: '负面'}
+                            ]
+                        }
+                    ]
                 },
                 option2: {
                     series: [
@@ -162,11 +165,10 @@
 
             setChartOption(result) {
                 var that = this;
-
                 this.option1.series[0].data[0].value = result.all;
-                this.option1.series[0].data[1].value = result.positive;
-                this.option1.series[0].data[2].value = result.neutral;
-                this.option1.series[0].data[3].value = result.negative;
+                this.option1.series[1].data[0].value = result.positive;
+                this.option1.series[1].data[1].value = result.neutral;
+                this.option1.series[1].data[2].value = result.negative;
 
                 this.option2.series[0].data = [];
                 this.option2.series[1].data = [];
@@ -195,8 +197,6 @@
 
                 });
 
-
-//                console.dir(this.option3);
                 this.chart1.setOption(this.option1);
                 this.chart2.setOption(this.option2);
                 this.chart3.setOption(this.option3);
@@ -223,15 +223,34 @@
                     legend: {},
                     series : [
                         {
-                            name: '岗位类别',
+                            name:'',
+                            type:'pie',
+                            selectedMode: 'single',
+                            radius: [0, '30%'],
+
+                            label: {
+                                normal: {
+                                    position: 'inner'
+                                }
+                            },
+                            labelLine: {
+                                normal: {
+                                    show: false
+                                }
+                            },
+                            data:[
+                                {value:0, name:'总数', selected:true},
+                            ]
+                        },
+                        {
+                            name: '舆情',
                             type: 'pie',
-                            radius : '70%',
-                            center: ['50%', '50%'],
+//                            radius : '70%',
+                            radius: ['40%', '60%'],
                             data: [
-                                {value: 1542, name: '总数'},
-                                {value: 24, name: '正面'},
-                                {value: 100, name: '中立'},
-                                {value: 24, name: '负面'}
+                                {value: 0, name: '正面'},
+                                {value: 0, name: '中立'},
+                                {value: 0, name: '负面'}
                             ],
                             itemStyle: {
                                 emphasis: {
@@ -321,7 +340,7 @@
                                     position: 'insideRight'
                                 }
                             },
-                            data: [1241, 432, 443, 168, 341, 578, 357, 48, 957, 135, 246, 357]
+                            data: []
                         },
                         {
                             name: '负面',
@@ -333,7 +352,7 @@
                                     position: 'insideRight'
                                 }
                             },
-                            data: [41, 2, 43, 18, 31, 58, 37, 8, 57, 15, 26, 37]
+                            data: []
                         },
                         {
                             name: '中立',
@@ -345,7 +364,7 @@
                                     position: 'insideRight'
                                 }
                             },
-                            data: [234,44,79,88,12,31, 45,88,41,74,52,12]
+                            data: []
                         }
                     ]
                 };

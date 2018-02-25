@@ -15,7 +15,9 @@
     import Util from '../../../libs/util';
     export default{
         data() {
+            var that = this;
             return {
+                tableDim: 'day',
                 tableHeight: 330,
                 tableColumns: [
                     {
@@ -28,7 +30,20 @@
                         title: '时期',
                         key: 'insTime',
                         width: 90,
-                        align: 'center'
+                        align: 'center',
+                        render(h, params) {
+                            if (that.tableDim == 'day') {
+                                return h('a', {
+                                    attrs: {
+                                        href: params.row['localUrl'],
+                                        target: '_blank'
+                                    }
+                                }, params.row[params.column.key]);
+                            }
+                            else {
+                                return h('span', params.row[params.column.key]);
+                            }
+                        }
                     },
                     {
                         title: '镇海路站',
@@ -186,13 +201,16 @@
         },
         watch: {
             dates(val, valOld) {
+                this.tableDim = this.dim;
                 this.getDataTable();
             },
             timeFrame(val) {
+                this.tableDim = this.dim;
                 this.getDataTable();
             }
         },
         mounted() {
+            this.tableDim = this.dim;
             this.getDataTable();
         },
         methods: {

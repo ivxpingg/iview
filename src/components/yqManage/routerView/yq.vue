@@ -9,14 +9,14 @@
             </div>
 
             <div class="box box2">
-                <div class="box-inner" @click="switchCardByNatureType('1')">
+                <div class="box-inner" @click="switchCardByNatureType('-1')">
                     <div class="title">负面信息</div>
                     <div class="info"><span class="span1">{{nowData.negative}}</span> <span class="span2">条</span></div>
                 </div>
             </div>
 
             <div class="box box3">
-                <div class="box-inner" @click="switchCardByNatureType('-1')">
+                <div class="box-inner" @click="switchCardByNatureType('1')">
                     <div class="title" >正面信息</div>
                     <div class="info"><span class="span1">{{nowData.positive}}</span> <span class="span2">条</span></div>
                 </div>

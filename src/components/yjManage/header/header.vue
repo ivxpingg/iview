@@ -89,10 +89,10 @@
         }
         .title {
             position: absolute;
-            top: 21px;
+            top: 26px;
             left:40px;
-            width: 513px;
-            height: 45px;
+            width: 578px;
+            height: 34px;
             background: url(./images/logo-title.png) no-repeat;
             background-size: auto 100%;
         }

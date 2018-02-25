@@ -362,7 +362,7 @@
                         padding-top: 22px;
                         padding-bottom: 20px;
                         flex: 1;
-                        overflow: hidden;
+                        /*overflow: hidden;*/
 
                         &.station-wait-down {
                             background: url('./images/station-down.gif') no-repeat top center;

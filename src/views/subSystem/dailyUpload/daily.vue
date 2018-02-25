@@ -2,8 +2,8 @@
     <div class="daily-container">
         <vHeader class="v-header"></vHeader>
         <div ref="routerViewBox" class="router-view">
-            <vFileUpload class="vFileUpload" :url="importFileUrl"  bText="运营生产日报上传"></vFileUpload>
             <a :href="exportFileUrl" class="ivu-btn ivu-btn-success mybtn" target="_blank"><span>下载模板</span></a>
+            <vFileUpload class="vFileUpload" :url="importFileUrl"  bText="运营生产日报上传" @handleSuccess="handleSuccess"></vFileUpload>
         </div>
         <vFooter class="v-footer"></vFooter>
     </div>
@@ -28,6 +28,17 @@
         },
         mounted() {
 
+        },
+        methods: {
+            handleSuccess(response, file, fileList) {
+
+                if (response.errCode == "A0002") {
+                    this.$router.push({
+                        path: '/',  // 路由名称
+                        query: { redirect: this.$route.name }
+                    });
+                }
+            }
         }
     }
 </script>
@@ -55,8 +66,14 @@
             width: 100%;
             height: 100%;
             min-height: 900px;
-
             text-align: center;
+
+            .mybtn {
+                margin-top: 150px;
+            }
+            .vFileUpload {
+                margin-top: 20px;
+            }
         }
 
         .v-footer {

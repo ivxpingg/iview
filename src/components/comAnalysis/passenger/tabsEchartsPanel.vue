@@ -193,7 +193,7 @@
                     }
 
                     val.averageDistanceList.forEach(function (value) {
-                        debugger
+
                         that.option3.series[0].data[that.option3.xAxis[0].data.indexOf(value.insTime)] = value.passengerFlow / 10000;
                         that.option3.series[1].data[that.option3.xAxis[0].data.indexOf(value.insTime)] = value.averageDistance || 0;
                         that.option3.series[2].data[that.option3.xAxis[0].data.indexOf(value.insTime)] = value.passengerFlow * value.averageDistance / 10000;

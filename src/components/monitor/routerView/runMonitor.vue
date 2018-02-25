@@ -6,7 +6,7 @@
         </div>
         <vInfoTable :height="height" ref="vInfoTable" class="v-info-table"></vInfoTable>
 
-        <vSubwayLines v-if="fullScreen" ref="subwayLines" class="fullScreenBox"></vSubwayLines>
+        <vSubwayLines v-if="fullScreen" ref="subwayLines" class="fullScreenBox" :datas="infoPanelData"></vSubwayLines>
         <i class="ivu-icon icon-fullScreen"
            :class="fullScreen ? 'ivu-icon-android-contract' : 'ivu-icon-android-expand'"
            :title="fullScreen ? '退出全屏' : '全屏'"

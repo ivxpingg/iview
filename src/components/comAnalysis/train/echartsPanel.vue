@@ -208,6 +208,9 @@
                                     color: '#187fc4',
                                     width: 1
                                 }
+                            },
+                            splitLine: {
+                                show: false
                             }
 
                         },
@@ -234,6 +237,9 @@
                                     color: '#187fc4',
                                     width: 1
                                 }
+                            },
+                            splitLine: {
+                                show: false
                             }
                         }
                     ],
@@ -441,7 +447,7 @@
                                     position: 'insideRight'
                                 }
                             },
-                            data: [320, 302, 301, 334, 390, 330, 320]
+                            data: []
                         },
                         {
                             name: '空驶里程',
@@ -453,7 +459,7 @@
                                     position: 'insideRight'
                                 }
                             },
-                            data: [120, 132, 101, 134, 90, 230, 210]
+                            data: []
                         }
                     ]
                 };
