@@ -682,13 +682,17 @@
             exportFileUrl() {
                 var url = Util.domain + '/xm/sys/employee/downEmployeeExcel?';
                 url += 'name=' + this.searchParams.name;
-                url += '&sex=' + this.searchParams.sex;
+                url += '&status=' + this.searchParams.status;
                 url += '&postCategory=' + this.searchParams.postCategory;
                 url += '&postName=' + this.searchParams.postName;
-                url += '&entryBeginDate=' + this.searchParams.entryBeginDate;
-                url += '&entryEndDate=' + this.searchParams.entryEndDate;
+//                url += '&entryBeginDate=' + this.searchParams.entryBeginDate;
+//                url += '&entryEndDate=' + this.searchParams.entryEndDate;
                 url += '&updateBeginDate=' + this.searchParams.updateBeginDate;
                 url += '&updateEndDate=' + this.searchParams.updateEndDate;
+                url += '&getCertificateBeginTime=' + this.searchParams.getCertificateBeginTime;
+                url += '&getCertificateEndTime=' + this.searchParams.getCertificateEndTime;
+                url += '&certificateUseBeginDate=' + this.searchParams.certificateUseBeginDate;
+                url += '&certificateUseEndDate=' + this.searchParams.certificateUseEndDate;
                 url += '&otherPost=' + this.searchParams.otherPost;
 
                 return url;
