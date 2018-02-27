@@ -2,7 +2,7 @@
     <div class="yq-container">
         <div class="left-panel">
             <div class="box box1">
-                <div class="box-inner">
+                <div class="box-inner" @click="switchAll()">
                     <div class="title">全部舆情</div>
                     <div class="info"><span class="span1">{{nowData.all}}</span> <span class="span2">条</span></div>
                 </div>
@@ -45,7 +45,7 @@
                     <vDetailsAnalysis></vDetailsAnalysis>
                 </TabPane>
                 <TabPane label="新闻报道搜索" name="3">
-                    <vNewsList :topicType="topicType" :source="source"></vNewsList>
+                    <vNewsList :topicType="topicType" :source="source" :pDateRange="dateRange" @dateChange="dateChange"></vNewsList>
                 </TabPane>
             </Tabs>
         </div>
@@ -72,7 +72,8 @@
                 },
 
                 topicType: 'all',
-                source: 'all'
+                source: 'all',
+                dateRange: [new Date(), new Date()]
             }
         },
         components: {vTrendAnalysis, vDetailsAnalysis, vNewsList},
@@ -82,16 +83,27 @@
             this.getDataByNow();
         },
         methods: {
+            switchAll() {
+                this.topicType = 'all';
+                this.source = 'all';
+                this.cardName = '3';
+                this.dateRange = [new Date(), new Date()];
+            },
             switchCardBySource(type) {
                 this.source = type;
                 this.topicType = 'all';
-
+                this.dateRange = [new Date(), new Date()];
                 this.cardName = '3';
             },
             switchCardByNatureType(type) {
                 this.topicType = type;
                 this.source = 'all';
+                this.dateRange = [new Date(), new Date()];
                 this.cardName = '3';
+            },
+
+            dateChange(d) {
+                this.dateRange = [new Date(d[0]), new Date(d[1])];
             },
 
             getDataByNow() {
@@ -190,6 +202,7 @@
                 &.box1 {
                     margin-top: 8px;
                     overflow: hidden;
+                    cursor: pointer;
                     &:after {
                         position: absolute;
                         top: 0;

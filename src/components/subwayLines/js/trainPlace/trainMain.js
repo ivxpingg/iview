@@ -8,7 +8,7 @@ import MOMENT from 'moment';
  */
 
 var vm, zr, train_zr;
-var sTime = '2018-2-22 08:20:00';
+var sTime = '2018-2-22 08:40:00';
 
 /**
  * 存放当前canvas上实时列车元素对象

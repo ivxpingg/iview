@@ -417,7 +417,7 @@
                 }).then(function (response) {
 
                     if (response.status == 1) {
-                        console.dir(response.result);
+//                        console.dir(response.result);
                         that.refresh_train_position(response.result);
                     }
                     else {

@@ -4,6 +4,8 @@
             :action="url"
             :headers="headers"
             :data="dataParams"
+            :accept="accept"
+            :format="format"
             :multiple="multiple"
             :on-progress="handleProgress"
             :on-success="handleSuccess"
@@ -52,6 +54,18 @@
                 default() {
                     return '上传文件'
                 }
+            },
+            format: {
+                type: Array,
+                default() {
+                    return [];
+                }
+            },
+            accept: {
+                type: String,
+                default() {
+                    return '';
+                }
             }
         },
         mounted () {
@@ -69,6 +83,7 @@
                 this.$emit('handleSuccess', response, file, fileList);
             },
             handleError(error, file, fileList) {
+                debugger
                 console.dir(error);
             }
         }

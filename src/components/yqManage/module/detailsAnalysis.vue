@@ -177,25 +177,38 @@
                 for(var key in result.sourceMap) {
                     var val  = result.sourceMap[key];
                     that.option2.series[0].data.push(val[2]);
-                    that.option2.series[1].data.push(val[1]);
-                    that.option2.series[2].data.push(val[0]);
+                    that.option2.series[1].data.push(val[0]);
+                    that.option2.series[2].data.push(val[1]);
                 }
 
                 that.option3.series[0].data = [];
 
+
+                var o_name_num = {};
                 result.topicList.forEach(function (val, idx) {
                    var contKeywordList = val.contKeyword.split(',');
                    var num = val.num;
 
                     contKeywordList.forEach(function(v){
 
-                        that.option3.series[0].data[idx] = {};
-                        that.option3.series[0].data[idx].name = v;
-                        that.option3.series[0].data[idx].value = 1000;
-                        that.option3.series[0].data[idx].itemStyle = that.createRandomItemStyle();
+                        if (o_name_num[v] != undefined) {
+                            o_name_num[v] += num;
+                        }
+                        else {
+                            o_name_num[v] = num;
+                        }
                     });
-
                 });
+
+                var idx = 0;
+                for(var key in o_name_num) {
+                    that.option3.series[0].data[idx] = {};
+                    that.option3.series[0].data[idx].name = key;
+                    that.option3.series[0].data[idx].value = o_name_num[key];
+                    that.option3.series[0].data[idx].itemStyle = that.createRandomItemStyle();
+
+                    ++idx;
+                }
 
                 this.chart1.setOption(this.option1);
                 this.chart2.setOption(this.option2);
@@ -275,7 +288,7 @@
             setChart2() {
                 this.chart2 = echarts.init(this.$refs.chart2);
                 var option = {
-                    color: ['#88c897','#65aadd', '#ef857d'],
+                    color: ['#88c897', '#ef857d','#65aadd'],
                     backgroundColor: '#f3f4f5',
                     tooltip : {
                         trigger: 'axis',

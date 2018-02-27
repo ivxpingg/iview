@@ -135,7 +135,7 @@
                 <Form :model="oTrainRecord" :label-width="80">
                     <FormItem label="时间">
                         <FormItem prop="trainDate">
-                            <DatePicker type="daterange" format="yyyy-MM-dd" :editable="false" placeholder="选择日期" v-model="oTrainRecord.trainDate"></DatePicker>
+                            <DatePicker type="daterange" format="yyyy-MM-dd" :editable="false" placeholder="选择日期" v-model="oTrainRecord.trainDate" style="width: 200px"></DatePicker>
                         </FormItem>
                     </FormItem>
                     <FormItem prop="period"  label="学时">
@@ -245,6 +245,10 @@
                                             that.isEditStatus = true;
                                             that.trainRecordModal = true;
                                             that.oTrainRecord.index = params.index;
+                                            that.oTrainRecord.trainDate = [new Date(params.row.trainDate.split('~')[0]),new Date(params.row.trainDate.split('~')[1])];
+                                            that.oTrainRecord.period = params.row.period;
+                                            that.oTrainRecord.trainContent = params.row.trainContent;
+                                            that.oTrainRecord.achievement = params.row.achievement;
                                         }
                                     }
                                 }, '编辑')
@@ -256,31 +260,23 @@
                 isEditStatus: false,
                 ruleInline: {
                     name: [
-                        { required: true, message: '名字不能为空!', trigger: 'blur' }
-                    ],
+                        { required: true, message: '名字不能为空!', trigger: 'blur' }],
                     jobNum: [
-                        { required: true, message: '工号不能为空!', trigger: 'blur' }
-                    ],
+                        { required: true, message: '工号不能为空!', trigger: 'blur' }],
                     sex: [
-                        { required: true, message: '性别不能为空!', trigger: 'change' }
-                    ],
+                        { required: true, message: '性别不能为空!', trigger: 'change' }],
                     education: [
-                        { required: true, message: '文化程度不能为空!', trigger: 'change' }
-                    ],
+                        { required: true, message: '文化程度不能为空!', trigger: 'change' }],
                     postCategory: [
-                        { required: true, message: '岗位类别不能为空!', trigger: 'change' }
-                    ],
+                        { required: true, message: '岗位类别不能为空!', trigger: 'change' }],
                     status: [
-                        { required: true, message: '人员状态不能为空!', trigger: 'change' }
-                    ],
+                        { required: true, message: '人员状态不能为空!', trigger: 'change' }],
                     idNumber: [
                         { required: true, message: '身份证不能为空!', trigger: 'blur' },
-                        { type: 'string', min: 18, max: 18, message: '请输入正确的身份证', trigger: 'blur' }
-                    ],
+                        { type: 'string', min: 18, max: 18, message: '请输入正确的身份证', trigger: 'blur' }],
                     phone: [
                         { required: true, message: '请填写联系方式', trigger: 'blur' },
-                        { type: 'string', message: '请输入正确的联系方式', trigger: 'blur'}
-                    ]
+                        { type: 'string', message: '请输入正确的联系方式', trigger: 'blur'}]
                 },
 　　　　　　　　　// 控制培训记录弹出框显示和隐藏
                 trainRecordModal: false
@@ -442,12 +438,19 @@
             showTrainRecord () {
                 this.isEditStatus = false;
                 this.trainRecordModal = true;
+
+                this.oTrainRecord.trainDate = '';
+                this.oTrainRecord.period = '';
+                this.oTrainRecord.trainContent = '';
+                this.oTrainRecord.achievement = '';
             },
             // 添加或者修改培训记录
             editTrainRecord() {
                 var that = this;
 
-                if (this.isEditStatus) {}
+                if (this.isEditStatus) {
+
+                }
                 else {
                     this.employee.trainRecord.push({
                         trainDate : this.modelTrainDate,
@@ -455,7 +458,6 @@
                         trainContent : this.oTrainRecord.trainContent,
                         achievement : this.oTrainRecord.achievement
                     });
-
                     this.oTrainRecord.trainDate = '';
                     this.oTrainRecord.period = '';
                     this.oTrainRecord.trainContent = '';

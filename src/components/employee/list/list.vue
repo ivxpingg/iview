@@ -10,7 +10,7 @@
                                 <Input v-model="searchParams.name" placeholder="请输入姓名或工号" style="width: 140px"></Input>
                             </FormItem>
                             <FormItem prop="postCategory" label="人员状态:">
-                                <Select transfer placeholder="请选择"  style="width: 140px">
+                                <Select v-model="searchParams.status" transfer placeholder="请选择"  style="width: 140px">
                                     <Option :value="''" :label="'全选'"></Option>
                                     <Option v-for="item in dict_status" :value="item.value">{{item.label}}</Option>
                                 </Select>
@@ -58,9 +58,11 @@
 
                     <!--<router-link class="ivu-btn ivu-btn-primary ivu-btn-circle" to="employeeAdd">新增从业人员信息</router-link>-->
                     <Button type="primary" shape="circle" @click="onEmployeeAdd">新增从业人员信息</Button>
-                    <!--<Button type="primary" shape="circle">导入从业人员报备表</Button>-->
-                    <vFileUpload class="v-file-up-load" :url="importFileUrl1"  bText="导入从业人员报备表"></vFileUpload>
-                    <vFileUpload class="v-file-up-load" :url="importFileUrl2"  bText="导入从业人员异动报备表"></vFileUpload>
+
+                    <div class="v-file-up-load"></div>
+                    <div class="v-file-up-load"></div>
+                    <!--<vFileUpload class="v-file-up-load" :url="importFileUrl1"  bText="导入从业人员报备表"></vFileUpload>-->
+                    <!--<vFileUpload class="v-file-up-load" :url="importFileUrl2"  bText="导入从业人员异动报备表"></vFileUpload>-->
                 </div>
             </div>
 
@@ -415,7 +417,8 @@
                     insertEndDate: '',               //新增结束时间
                     updateBeginDate: '',           // 更新开始时间
                     updateEndDate: '',             // 更新结束时间
-                    otherPost: ''                  // 其他岗位
+                    otherPost: '',                 // 其他岗位
+                    status: ''                     // 人员状态
                 },
                 searchParams2: {
                     updateBeginDate: '',           // 更新开始时间
@@ -721,8 +724,8 @@
                     this.searchParams.updateEndDate = '';
                 }
                 else {
-                    this.searchParams.updateBeginDate = MOMENT(val[0]).format('YYYY-MM-DD hh:mm:ss');
-                    this.searchParams.updateEndDate = MOMENT(val[1]).format('YYYY-MM-DD hh:mm:ss');
+                    this.searchParams.updateBeginDate = MOMENT(val[0]).format('YYYY-MM-DD');
+                    this.searchParams.updateEndDate = MOMENT(val[1]).format('YYYY-MM-DD');
                 }
             },
             getCertificateTime(val, oldVal) {
@@ -1344,16 +1347,16 @@
             .top-right-panel {
                 flex: 1;
                 display: flex;
-                margin-left: 25px;
+                margin-left: 15px;
                 .echartPie {
                     margin-right: 12px;
-                    width: 260px;
+                    width: 271px;
                     height: 162px;
                     border: 2px solid #e7e7e7;
                 }
 
                 .updateInfo {
-                    margin-left: 12px;
+                    //margin-left: 12px;
                     width: 150px;
                     height: 162px;
 

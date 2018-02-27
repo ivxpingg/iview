@@ -3,7 +3,7 @@
         <div class="search-panel">
             <Form class="form" inline :label-width="75">
                 <FormItem label="查询时间段:"  :label-width="95">
-                    <DatePicker type="daterange" format="yyyy-MM-dd" v-model="dateRange" :editable="false" :clearable="false" placeholder="选择时间" style="width: 190px"></DatePicker>
+                    <DatePicker type="daterange" format="yyyy-MM-dd" v-model="dateRange" @on-change="dateChange" :editable="false" :clearable="false" placeholder="选择时间" style="width: 190px"></DatePicker>
                 </FormItem>
 
                 <FormItem label="发布渠道:":label-width="75">
@@ -125,6 +125,12 @@
             }
         },
         props: {
+            pDateRange: {
+                type: Array,
+                default() {
+                    return [new Date(), new Date()];
+                }
+            },
             // 发布渠道
             source: {
                 type: String,
@@ -144,6 +150,12 @@
 
         },
         watch: {
+            pDateRange(val){
+                this.dateRange = val;
+                this.sTime = MOMENT(val[0]).format('YYYY-MM-DD');
+                this.eTime = MOMENT(val[1]).format('YYYY-MM-DD');
+                this.onSearch();
+            },
             dateRange(val) {
                 this.sTime = MOMENT(this.dateRange[0]).format('YYYY-MM-DD');
                 this.eTime = MOMENT(this.dateRange[1]).format('YYYY-MM-DD');
@@ -164,7 +176,8 @@
             }
         },
         created() {
-            this.dateRange[0] = MOMENT().subtract(6, 'days')._d;
+            this.dateRange = this.pDateRange;
+            //this.dateRange[0] = MOMENT().subtract(6, 'days')._d;
         },
         mounted() {
             this.sTime = MOMENT(this.dateRange[0]).format('YYYY-MM-DD');
@@ -199,6 +212,10 @@
                     case -1: return ' icon-text-2'; break;
                     default: return '';
                 }
+            },
+
+            dateChange(d) {
+                this.$emit('dateChange', d);
             },
 
             onSearch() {

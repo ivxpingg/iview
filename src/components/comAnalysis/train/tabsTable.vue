@@ -39,7 +39,7 @@
                         width: 100,
                         align: 'center',
                         render(h, params) {
-                            debugger
+
                             if (that.tableDim == 'day') {
                                 return h('a', {
                                     attrs: {
@@ -127,19 +127,14 @@
                         align: 'center'
                     },
                     {
-                        title: '运营列次',
+                        title: '运营里程',
                         key: 'operateMile',
                         align: 'center'
                     },
                     {
-                        title: '载客里程',
-                        key: 'carryMile',
-                        align: 'center'
-                    },
-                    {
-                        title: '空驶里程',
+                        title: '平均运距', //载客里程
                         width: 80,
-                        key: 'notCarryMile',
+                        key: 'carryMile',
                         align: 'center'
                     }],
                 columns2: [

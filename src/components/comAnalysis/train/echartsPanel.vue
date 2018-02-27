@@ -1,8 +1,7 @@
 <template>
     <div class="echartsPanel-container">
-        <div ref="chart1" class="chart chart1"></div>
         <div ref="chart2" class="chart chart2"></div>
-        <div ref="chart3" class="chart chart3"></div>
+        <div ref="chart1" class="chart chart1"></div>
     </div>
 </template>
 
@@ -50,17 +49,6 @@
                     ]
                 },
 
-                option3: {
-                    xAxis: [
-                        {
-                            data: []
-                        }
-                    ],
-                    series: [
-                        { data: [] },
-                        { data: [] }
-                    ]
-                },
             }
         },
         props: {
@@ -94,9 +82,7 @@
                 that.option2.series[1].data[1].value = 0;
                 that.option2.series[1].data[2].value = 0;
 
-                that.option3.xAxis[0].data = [];
-                that.option3.series[0].data = [];
-                that.option3.series[1].data = [];
+
                 val.forEach(function (val) {
                     that.option1.xAxis[0].data.push(val.insTime);
                     that.option1.series[0].data.push(val.planTrainNum);
@@ -109,9 +95,6 @@
                     that.option2.series[1].data[1].value += val.overFiveLate;
                     that.option2.series[1].data[2].value += val.onTime;
 
-                    that.option3.xAxis[0].data.push(val.insTime);
-                    that.option3.series[0].data.push(val.carryMile);
-                    that.option3.series[1].data.push(val.notCarryMile);
                 });
 
                 that.option1.yAxis[0].max = 0;
@@ -127,7 +110,6 @@
 
                 that.myChart1.setOption(that.option1);
                 that.myChart2.setOption(that.option2);
-                that.myChart3.setOption(that.option3);
             }
         },
         mounted() {
@@ -135,7 +117,6 @@
 
             this.setChart1();
             this.setChart2();
-            this.setChart3();
         },
         methods: {
             setChart1() {
@@ -380,92 +361,6 @@
 
                 this.myChart2.setOption(option);
             },
-            setChart3() {
-                this.myChart3 = echarts.init(this.$refs.chart3);
-                var option = {
-                    color: ['#ea5550', '#8e81bc'],
-                    backgroundColor: '#FFF',
-                    tooltip : {
-                        trigger: 'axis',
-                        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-                            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                        }
-                    },
-                    legend: {
-                        data: ['载客里程', '空驶里程']
-                    },
-                    grid: {
-                        left: 5,
-                        right: '0%',
-                        bottom: 10,
-                        containLabel: true
-                    },
-                    xAxis:  {
-                        type: 'category',
-                        data: [],
-                        axisLabel: {
-                            textStyle: {
-                                color: '#454e5e'
-                            }
-                        },
-                        axisTick: {
-                            length: 3
-                        },
-                        axisLine: {
-                            lineStyle: {
-                                color: '#187fc4',
-                                width: 1
-                            }
-                        }
-                    },
-                    yAxis: {
-                        type: 'value',
-                        axisLabel: {
-                            textStyle: {
-                                color: '#454e5e'
-                            }
-                        },
-                        axisTick: {
-                            length: 3
-                        },
-                        axisLine: {
-                            lineStyle: {
-                                color: '#187fc4',
-                                width: 1
-                            }
-                        }
-
-                    },
-                    series: [
-                        {
-                            name: '载客里程',
-                            type: 'bar',
-                            stack: '总量',
-                            label: {
-                                normal: {
-                                    show: true,
-                                    position: 'insideRight'
-                                }
-                            },
-                            data: []
-                        },
-                        {
-                            name: '空驶里程',
-                            type: 'bar',
-                            stack: '总量',
-                            label: {
-                                normal: {
-                                    show: true,
-                                    position: 'insideRight'
-                                }
-                            },
-                            data: []
-                        }
-                    ]
-                };
-
-                this.myChart3.setOption(option);
-            },
 
             getData(){
                 var that = this;
@@ -479,7 +374,7 @@
                     }
                 }).then(function(response){
                     if (response.status === 1) {
-                        console.dir(response.result);
+//                        console.dir(response.result);
                         that.tableData = response.result.driveIndexList;
                     }
                     else {}
@@ -496,7 +391,6 @@
         display: flex;
         height: 350px;
         .chart {
-            flex: 1;
             margin-left: 9px;
             height: 100%;
             border: 1px solid #dcdddd;
@@ -504,6 +398,13 @@
 
             &:first-child {
                 margin-left: 0;
+            }
+
+            &.chart1 {
+                flex: 2;
+            }
+            &.chart2 {
+                flex: 1;
             }
         }
     }

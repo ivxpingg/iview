@@ -32,14 +32,14 @@
     .yqManage-container {
         position: relative;
         height: 100%;
-        background-color: #dff2fc;
+
 
         .v-header {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            z-index: 2;
+            z-index: 10;
         }
 
         .router-view {
@@ -52,6 +52,7 @@
             left: 0;
             height: 100%;
             min-height: 900px;
+            background-color: #dff2fc;
         }
 
         .footer {

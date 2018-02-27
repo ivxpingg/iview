@@ -19,6 +19,7 @@
             :show-upload-list="false"
             :default-file-list="defaultList"
             :on-success="handleSuccess"
+            :accept="accept"
             :format="['jpg','jpeg','png','bmp','gif']"
             :max-size="1024"
             :on-format-error="handleFormatError"
@@ -57,6 +58,12 @@
                 type: Array,
                 default() {
                     return [];
+                }
+            },
+            accept: {
+                type: String,
+                default() {
+                    return ".jpg,.jpeg,.png,.bmp,.gif";
                 }
             },
             // 是否支持多选文件, 默认单选
