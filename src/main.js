@@ -37,8 +37,12 @@ router.beforeEach((to, from, next) => {
         store.commit('setToken', Util.cookie.get('xmgd'));
         // store.state.token = Util.cookie.get('xmgd');
     }
+    if(Util.cookie.get('xmgd') == null) {
+        store.state.token = null;
+    }
 
     if (to.meta.requireAuth) {
+
         if (store.state.token) {  // 通过vuex state获取当前的token是否存在
             iView.LoadingBar.start();
             Util.title(to.meta.title);

@@ -38,6 +38,9 @@ var Cookie = {
             }
             cookieValue = decodeURIComponent(document.cookie.substring(cookieStart + cookieName.length, cookieEnd));
         }
+        else {
+            return null;
+        }
         return cookieValue;
     },
     /**
