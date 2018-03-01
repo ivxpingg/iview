@@ -62,14 +62,148 @@ export default {
         '镇海路站': [118.088848, 24.456642]
     },
 
+    departInfo: {
+        '0': {
+            department: '思明公共交通有限公司',
+            role1: '负责人',
+            name1: '孙家仟',
+            phone1: '13606037165',
+            role2: '联系人',
+            name2: '黄睿',
+            phone2: '13606037165',
+            tel: '5854531'
+        },
+        '1': {
+            department: '湖里公共交通有限公司',
+            role1: '负责人',
+            name1: '姚扁福',
+            phone1: '13906009624',
+            role2: '联系人',
+            name2: '黄长清',
+            phone2: '13063065585',
+            tel: '5854531'
+        },
+        '2': {
+            department: '集美公共交通有限公司',
+            role1: '负责人',
+            name1: '王振源',
+            phone1: '13806079696',
+            role2: '联系人',
+            name2: '江炳胜',
+            phone2: '18905922350',
+            tel: '5854531'
+        }
+    },
+
+
+    busStationInfo: {
+        '1': {
+            busStationUp: [],        // 上行公交站点
+            busStationDown: [],      // 下行公交站点
+        },
+        '2': {
+            busStationUp: [],        // 上行公交站点
+            busStationDown: [],      // 下行公交站点
+        },
+        '3': {
+            busStationUp: [],        // 上行公交站点
+            busStationDown: [],      // 下行公交站点
+        },
+        '4': {
+            busStationUp: [],        // 上行公交站点
+            busStationDown: [],      // 下行公交站点
+        },
+        '5': {
+            busStationUp: [],        // 上行公交站点
+            busStationDown: [],      // 下行公交站点
+        },
+        '6': {
+            busStationUp: [],        // 上行公交站点
+            busStationDown: [],      // 下行公交站点
+        },
+        '7': {
+            busStationUp: [],        // 上行公交站点
+            busStationDown: [],      // 下行公交站点
+        },
+        '8': {
+            busStationUp: [],        // 上行公交站点
+            busStationDown: [],      // 下行公交站点
+        },
+        '9': {
+            busStationUp: [],        // 上行公交站点
+            busStationDown: [],      // 下行公交站点
+        },
+        '10': {
+            busStationUp: [],        // 上行公交站点
+            busStationDown: [],      // 下行公交站点
+        },
+        '11': {
+            busStationUp: [],        // 上行公交站点
+            busStationDown: [],      // 下行公交站点
+        },
+        '12': {
+            busStationUp: [],        // 上行公交站点
+            busStationDown: [],      // 下行公交站点
+        },
+        '13': {
+            busStationUp: [],        // 上行公交站点
+            busStationDown: [],      // 下行公交站点
+        },
+        '14': {
+            busStationUp: [],        // 上行公交站点
+            busStationDown: [],      // 下行公交站点
+        },
+        '15': {
+            busStationUp: [],        // 上行公交站点
+            busStationDown: [],      // 下行公交站点
+        },
+        '16': {
+            busStationUp: [],        // 上行公交站点
+            busStationDown: [],      // 下行公交站点
+        },
+        '17': {
+            busStationUp: [],        // 上行公交站点
+            busStationDown: [],      // 下行公交站点
+        },
+        '18': {
+            busStationUp: [],        // 上行公交站点
+            busStationDown: [],      // 下行公交站点
+        },
+        '19': {
+            busStationUp: [],        // 上行公交站点
+            busStationDown: [],      // 下行公交站点
+        },
+        '20': {
+            busStationUp: [],        // 上行公交站点
+            busStationDown: [],      // 下行公交站点
+        },
+        '21': {
+            busStationUp: [],        // 上行公交站点
+            busStationDown: [],      // 下行公交站点
+        },
+        '22': {
+            busStationUp: [],        // 上行公交站点
+            busStationDown: [],      // 下行公交站点
+        },
+        '23': {
+            busStationUp: [],        // 上行公交站点
+            busStationDown: [],      // 下行公交站点
+        },
+        '24': {
+            busStationUp: [],        // 上行公交站点
+            busStationDown: [],      // 下行公交站点
+        }
+    },
 
     /**
      * 故障站点和区段
        {
             id: '1',     // 唯一标识
+            name: '',    // 故障区段名称
             type: '0',   //故障类型 0: 站点、1： 区段
             point: [ {"lng":118.076438,"lat":24.649608}, ... ],   // 对应故障的百度地图坐标集合
-            breakStationIds: [1,2]  //故障站点或区段 对应中断的站点编号Id集合
+            breakStationIds: [1,2],  //故障站点或区段 对应中断的站点编号Id集合
+            contactDepart: ['0']     // 故障路段负责的相关部门信息
         }
      */
     malfunction:[
@@ -78,7 +212,9 @@ export default {
             name: '镇海路站',
             type: '0',
             point: [{"lng":118.088848,"lat":24.456642}],
-            breakStationIds: [1,2]
+            breakStationIds: [1,2],
+            contactDepart: ['0']
+
         },
         {
             id: '2',    // 镇海路站~中山公园
@@ -96,14 +232,16 @@ export default {
                 {"lng":118.090145,"lat":24.457296},
                 // {"lng":118.088848,"lat":24.456642}
                 ],
-            breakStationIds: [1,2]
+            breakStationIds: [1,2],
+            contactDepart: ['0']
         },
         {
             id: '3',    // 中山公园站
             name: '中山公园站',
             type: '0',
             point: [{"lng":118.096469,"lat":24.462612}],
-            breakStationIds: [1,2,3,4,5]
+            breakStationIds: [1,2,3,4,5],
+            contactDepart: ['0']
         },
         {
             id: '4',    // 中山公园~将军祠站
@@ -122,14 +260,16 @@ export default {
                 {"lng":118.096958,"lat":24.463396},
                 // {"lng":118.096469,"lat":24.462612}
             ],
-            breakStationIds: [1,2,3,4,5]
+            breakStationIds: [1,2,3,4,5],
+            contactDepart: ['0']
         },
         {
             id: '5',    // 将军祠站
             name: '将军祠站',
             type: '0',
             point: [{"lng":118.106288,"lat":24.467216}],
-            breakStationIds: [1,2,3,4,5]
+            breakStationIds: [1,2,3,4,5],
+            contactDepart: ['0']
         },
         {
             id: '6',    //将军祠站~文灶站
@@ -146,14 +286,16 @@ export default {
                 {"lng":118.107098,"lat":24.467837},
                 // {"lng":118.106288,"lat":24.467216}
             ],
-            breakStationIds: [1,2,3,4,5]
+            breakStationIds: [1,2,3,4,5],
+            contactDepart: ['0']
         },
         {
             id: '7',    // 文灶站
             name: '文灶站',
             type: '0',
             point: [{"lng":118.11,"lat":24.473995}],
-            breakStationIds: [1,2,3,4,5]
+            breakStationIds: [1,2,3,4,5],
+            contactDepart: ['0']
         },
         {
             id: '8',    //文灶站~湖滨东路站
@@ -171,14 +313,16 @@ export default {
                 {"lng":118.109809,"lat":24.474566},
                 // {"lng":118.11,"lat":24.473995}
             ],
-            breakStationIds: [1,2,3,4,5]
+            breakStationIds: [1,2,3,4,5],
+            contactDepart: ['0']
         },
         {
             id: '9',    //湖滨东路站
             name: '湖滨东路站',
             type: '0',
             point: [{"lng":118.117997,"lat":24.480252}],
-            breakStationIds: [1,2,3,4,5,6,7,8]
+            breakStationIds: [1,2,3,4,5,6,7,8],
+            contactDepart: ['0']
         },
         {
             id: '10',    //湖滨东路站~莲坂站
@@ -190,14 +334,16 @@ export default {
                 {"lng":118.119665,"lat":24.480671},
                 // {"lng":118.117997,"lat":24.480252}
             ],
-            breakStationIds: [5,6,7,8]
+            breakStationIds: [5,6,7,8],
+            contactDepart: ['0']
         },
         {
             id: '11',    //莲坂站
             name: '莲坂站',
             type: '0',
             point: [{"lng":118.124767,"lat":24.482044}],
-            breakStationIds: [5,6,7,8]
+            breakStationIds: [5,6,7,8],
+            contactDepart: ['0']
         },
         {
             id: '12',    //莲坂站~莲花路口站
@@ -216,14 +362,16 @@ export default {
                 {"lng":118.125702,"lat":24.48225},
                 // {"lng":118.124767,"lat":24.482044}
             ],
-            breakStationIds: [5,6,7,8]
+            breakStationIds: [5,6,7,8],
+            contactDepart: ['0']
         },
         {
             id: '13',    //莲花路口站
             name: '莲花路口站',
             type: '0',
             point: [{"lng":118.129242,"lat":24.488912}],
-            breakStationIds: [5,6,7,8]
+            breakStationIds: [5,6,7,8],
+            contactDepart: ['0']
         },
         {
             id: '14',    //莲花路口站~吕厝站
@@ -240,14 +388,16 @@ export default {
                 {"lng":118.130265,"lat":24.49006},
                 // {"lng":118.129242,"lat":24.488912}
             ],
-            breakStationIds: [5,6,7,8]
+            breakStationIds: [5,6,7,8],
+            contactDepart: ['0']
         },
         {
             id: '15',    //吕厝站
             name: '吕厝站',
             type: '0',
             point: [{"lng":118.134441,"lat":24.496879}],
-            breakStationIds: [5,6,7,8,9,10,11]
+            breakStationIds: [5,6,7,8,9,10,11],
+            contactDepart: ['0', '1']
         },
         {
             id: '16',    // 吕厝站~乌石浦站
@@ -261,14 +411,16 @@ export default {
                 {"lng":118.134281,"lat":24.497845},
                 // {"lng":118.134441,"lat":24.496879}
             ],
-            breakStationIds: []
+            breakStationIds: [],
+            contactDepart: ['1']
         },
         {
             id: '17',    //乌石浦站
             name: '乌石浦站',
             type: '0',
             point: [{"lng":118.132938,"lat":24.504531}],
-            breakStationIds: [8,9,10,11]
+            breakStationIds: [8,9,10,11],
+            contactDepart: ['1']
         },
         {
             id: '18',    //乌石浦站~塘边站
@@ -283,14 +435,16 @@ export default {
                 {"lng":118.132646,"lat":24.506131},
                 // {"lng":118.132938,"lat":24.504531}
             ],
-            breakStationIds: [8,9,10,11]
+            breakStationIds: [8,9,10,11],
+            contactDepart: ['1']
         },
         {
             id: '19',    //塘边站
             name: '塘边站',
             type: '0',
             point: [{"lng":118.129221,"lat":24.512065}],
-            breakStationIds: [8,9,10,11]
+            breakStationIds: [8,9,10,11],
+            contactDepart: ['1']
         },
         {
             id: '20',    //塘边站~火炬园站
@@ -307,14 +461,16 @@ export default {
                 {"lng":118.128567,"lat":24.51274},
                 // {"lng":118.129221,"lat":24.512065}
             ],
-            breakStationIds: [8,9,10,11]
+            breakStationIds: [8,9,10,11],
+            contactDepart: ['1']
         },
         {
             id: '21',    //火炬园站
             name: '火炬园站',
             type: '0',
             point: [{"lng":118.125125,"lat":24.51836}],
-            breakStationIds: [8,9,10,11,12]
+            breakStationIds: [8,9,10,11,12],
+            contactDepart: ['1']
         },
         {
             id: '22',    //火炬园站~殿前站
@@ -335,14 +491,16 @@ export default {
                 {"lng":118.125004,"lat":24.519061},
                 // {"lng":118.125125,"lat":24.51836}
             ],
-            breakStationIds: [11,12]
+            breakStationIds: [11,12],
+            contactDepart: ['1']
         },
         {
             id: '23',    //殿前站
             name: '殿前站',
             type: '0',
             point: [{"lng":118.122904,"lat":24.531396}],
-            breakStationIds: [11,12,13]
+            breakStationIds: [11,12,13],
+            contactDepart: ['1']
         },
         {
             id: '24',    //殿前站~高崎站
@@ -359,14 +517,16 @@ export default {
                 {"lng":118.123357,"lat":24.532268},  //
                 // {"lng":118.122904,"lat":24.531396}
             ],
-            breakStationIds: [12,13]
+            breakStationIds: [12,13],
+            contactDepart: ['1']
         },
         {
             id: '25',    //高崎站
             name: '高崎站',
             type: '0',
             point: [{"lng":118.123508,"lat":24.543385}],
-            breakStationIds: [12,13,14,15,16]
+            breakStationIds: [12,13,14,15,16],
+            contactDepart: ['1', '2']
         },
         {
             id: '26',    //高崎站~集美学村站
@@ -382,14 +542,16 @@ export default {
                 {"lng":118.122854,"lat":24.544545},  //
                 // {"lng":118.123508,"lat":24.543385}
             ],
-            breakStationIds: [13,14,15,16]
+            breakStationIds: [13,14,15,16],
+            contactDepart: ['2']
         },
         {
             id: '27',    //集美学村站
             name: '集美学村站',
             type: '0',
             point: [{"lng":118.098824,"lat":24.570218}],
-            breakStationIds: [13,14,15,16]
+            breakStationIds: [13,14,15,16],
+            contactDepart: ['2']
         },
         {
             id: '28',    //集美学村站~园博苑站
@@ -408,14 +570,16 @@ export default {
                 {"lng":118.098049,"lat":24.571003},
                 // {"lng":118.098824,"lat":24.570218}
             ],
-            breakStationIds: [13,14,15,16]
+            breakStationIds: [13,14,15,16],
+            contactDepart: ['2']
         },
         {
             id: '29',    //园博苑站
             name: '园博苑站',
             type: '0',
             point: [{"lng":118.073751,"lat":24.576119}],
-            breakStationIds: [13,14,15,16]
+            breakStationIds: [13,14,15,16],
+            contactDepart: ['2']
         },
         {
             id: '30',    //园博苑站~杏林村站
@@ -432,14 +596,16 @@ export default {
                 {"lng":118.071863,"lat":24.576941},
                 // {"lng":118.073751,"lat":24.576119}
             ],
-            breakStationIds: [13,14,15,16]
+            breakStationIds: [13,14,15,16],
+            contactDepart: ['2']
         },
         {
             id: '31',    //杏林村站
             name: '杏林村站',
             type: '0',
             point: [{"lng":118.068109,"lat":24.583028}],
-            breakStationIds: [13,14,15,16,17,18]
+            breakStationIds: [13,14,15,16,17,18],
+            contactDepart: ['2']
         },
         {
             id: '32',    //杏林村站~杏锦路站
@@ -452,14 +618,16 @@ export default {
                 {"lng":118.066872,"lat":24.584393},
                 // {"lng":118.068109,"lat":24.583028}
             ],
-            breakStationIds: [16,17,18]
+            breakStationIds: [16,17,18],
+            contactDepart: ['2']
         },
         {
             id: '33',    //杏锦路站
             name: '杏锦路站',
             type: '0',
             point: [{"lng":118.063763,"lat":24.587784}],
-            breakStationIds: [16,17,18]
+            breakStationIds: [16,17,18],
+            contactDepart: ['2']
         },
         {
             id: '34',    //杏锦路站~官任站
@@ -478,14 +646,16 @@ export default {
                 {"lng":118.062007,"lat":24.5899},
                 // {"lng":118.063763,"lat":24.587784}
             ],
-            breakStationIds: [16,17,18]
+            breakStationIds: [16,17,18],
+            contactDepart: ['2']
         },
         {
             id: '35',    //官任站
             name: '官任站',
             type: '0',
             point: [{"lng":118.06505,"lat":24.599746}],
-            breakStationIds: [16,17,18,19,20,21]
+            breakStationIds: [16,17,18,19,20,21],
+            contactDepart: ['2']
         },
         {
             id: '36',    //官任站~诚毅广场站
@@ -499,14 +669,16 @@ export default {
                 {"lng":118.065019,"lat":24.601331},
                 // {"lng":118.06505,"lat":24.599746}
             ],
-            breakStationIds: [18,19,20,21]
+            breakStationIds: [18,19,20,21],
+            contactDepart: ['2']
         },
         {
             id: '37',    //诚毅广场站
             name: '诚毅广场站',
             type: '0',
             point: [{"lng":118.06086,"lat":24.609156}],
-            breakStationIds: [18,19,20,21]
+            breakStationIds: [18,19,20,21],
+            contactDepart: ['2']
         },
         {
             id: '38',    //诚毅广场站~集美软件园站
@@ -520,14 +692,16 @@ export default {
                 {"lng":118.060141,"lat":24.610126},
                 // {"lng":118.06086,"lat":24.609156}
             ],
-            breakStationIds: [18,19,20,21]
+            breakStationIds: [18,19,20,21],
+            contactDepart: ['2']
         },
         {
             id: '39',    //集美软件园站
             name: '集美软件园站',
             type: '0',
             point: [{"lng":118.053998,"lat":24.618961}],
-            breakStationIds: [18,19,20,21]
+            breakStationIds: [18,19,20,21],
+            contactDepart: ['2']
         },
         {
             id: '40',    //集美软件园~集美大道站
@@ -543,14 +717,16 @@ export default {
                 {"lng":118.053283,"lat":24.619965},
                 // {"lng":118.053998,"lat":24.618961}
             ],
-            breakStationIds: [18,19,20,21]
+            breakStationIds: [18,19,20,21],
+            contactDepart: ['2']
         },
         {
             id: '41',    //集美大道站
             name: '集美大道站',
             type: '0',
             point: [{"lng":118.061922,"lat":24.625933}],
-            breakStationIds: [18,19,20,21,22,23,24]
+            breakStationIds: [18,19,20,21,22,23,24],
+            contactDepart: ['2']
         },
         {
             id: '42',    //集美大道站~天水路站
@@ -562,14 +738,16 @@ export default {
                 {"lng":118.063467,"lat":24.62684},
                 // {"lng":118.061922,"lat":24.625933}
             ],
-            breakStationIds: [21,22,23,24]
+            breakStationIds: [21,22,23,24],
+            contactDepart: ['2']
         },
         {
             id: '43',    //天水路站
             name: '天水路站',
             type: '0',
             point: [{"lng":118.072692,"lat":24.632225}],
-            breakStationIds: [21,22,23,24]
+            breakStationIds: [21,22,23,24],
+            contactDepart: ['2']
         },
         {
             id: '44',    //天水路~厦门北站
@@ -587,14 +765,16 @@ export default {
                 {"lng":118.07442,"lat":24.633247},
                 // {"lng":118.072692,"lat":24.632225}
             ],
-            breakStationIds: [21,22,23,24]
+            breakStationIds: [21,22,23,24],
+            contactDepart: ['2']
         },
         {
             id: '45',    //厦门北站
             name: '厦门北站',
             type: '0',
             point: [{"lng":118.079645,"lat":24.643368}],
-            breakStationIds: [21,22,23,24]
+            breakStationIds: [21,22,23,24],
+            contactDepart: ['2']
         },
         {
             id: '46',    //厦门北站~岩内站
@@ -606,14 +786,16 @@ export default {
                 {"lng":118.078972,"lat":24.644642},
                 // {"lng":118.079645,"lat":24.643368}
             ],
-            breakStationIds: [21,22,23,24]
+            breakStationIds: [21,22,23,24],
+            contactDepart: ['2']
         },
         {
             id: '47',    //岩内站
             name: '岩内站',
             type: '0',
             point: [{"lng":118.076438,"lat":24.649608}],
-            breakStationIds: [21,22,23,24]
+            breakStationIds: [21,22,23,24],
+            contactDepart: ['2']
         }
 
     ],
@@ -817,7 +999,161 @@ export default {
     },
     // 公交接驳线路
     busRoute: {
-        '1-2-up': [],
-        '2-3-up': [],
+        '1-2-up': [
+            {"lng":118.096992,"lat":24.462171},
+            {"lng":118.097675,"lat":24.461135},
+            {"lng":118.09701,"lat":24.459852},
+            {"lng":118.096148,"lat":24.458553},
+            {"lng":118.095178,"lat":24.45727},
+            {"lng":118.094675,"lat":24.456826},
+            {"lng":118.094046,"lat":24.456448},
+            {"lng":118.093273,"lat":24.456086},
+            {"lng":118.092375,"lat":24.456053},
+            {"lng":118.091153,"lat":24.456645},
+            {"lng":118.090507,"lat":24.457254}
+        ],
+        '1-2-down': [
+            {"lng":118.095573,"lat":24.461299},
+            {"lng":118.094459,"lat":24.461891},
+            {"lng":118.093525,"lat":24.461809},
+            {"lng":118.093148,"lat":24.461217},
+            {"lng":118.092842,"lat":24.460724},
+            {"lng":118.092213,"lat":24.460033},
+            {"lng":118.091423,"lat":24.459622},
+            {"lng":118.090507,"lat":24.459507},
+            {"lng":118.089429,"lat":24.458964},
+            {"lng":118.088848,"lat":24.458142},
+            {"lng":118.090471,"lat":24.457237}
+        ],
+        '2-3-up': [
+            {"lng":118.118121,"lat":24.479438},
+            {"lng":118.118013,"lat":24.478665},
+            {"lng":118.11503,"lat":24.477942},
+            {"lng":118.111455,"lat":24.47707},
+            {"lng":118.111186,"lat":24.476873},
+            {"lng":118.11115,"lat":24.476544},
+            {"lng":118.111383,"lat":24.475574},
+            {"lng":118.110162,"lat":24.474373},
+            {"lng":118.111042,"lat":24.474209},
+            {"lng":118.111994,"lat":24.474094},
+            {"lng":118.112264,"lat":24.47337},
+            {"lng":118.112461,"lat":24.471693},
+            {"lng":118.112282,"lat":24.470887},
+            {"lng":118.111976,"lat":24.47018},
+            {"lng":118.111545,"lat":24.469456},
+            {"lng":118.111006,"lat":24.468799},
+            {"lng":118.109281,"lat":24.467072},
+            {"lng":118.108383,"lat":24.466348},
+            {"lng":118.107772,"lat":24.465986},
+            {"lng":118.106155,"lat":24.466578},
+            {"lng":118.106496,"lat":24.465065},
+            {"lng":118.105149,"lat":24.464079},
+            {"lng":118.10346,"lat":24.463256},
+            {"lng":118.102041,"lat":24.462928},
+            {"lng":118.100568,"lat":24.46273},
+            {"lng":118.099669,"lat":24.462582},
+            {"lng":118.098879,"lat":24.462401},
+            {"lng":118.098142,"lat":24.462204},
+            {"lng":118.09701,"lat":24.462188},
+            // {"lng":118.097424,"lat":24.461431},
+            // {"lng":118.097459,"lat":24.460559},
+            // {"lng":118.096435,"lat":24.459244},
+            // {"lng":118.095357,"lat":24.458027},
+            // {"lng":118.094998,"lat":24.457616},
+            // {"lng":118.093561,"lat":24.456349},
+            // {"lng":118.093112,"lat":24.45625},
+            // {"lng":118.092573,"lat":24.456201},
+            // {"lng":118.092159,"lat":24.456152},
+            // {"lng":118.091854,"lat":24.456152},
+            // {"lng":118.091315,"lat":24.456448},
+            // {"lng":118.090489,"lat":24.457204}
+        ],
+        '2-3-down': [
+            {"lng":118.115102,"lat":24.479389},
+            {"lng":118.11504,"lat":24.481028},
+            {"lng":118.109371,"lat":24.479685},
+            {"lng":118.108634,"lat":24.47929},
+            {"lng":118.108167,"lat":24.478813},
+            {"lng":118.107808,"lat":24.478155},
+            {"lng":118.107503,"lat":24.477399},
+            {"lng":118.107395,"lat":24.476018},
+            {"lng":118.10761,"lat":24.475031},
+            {"lng":118.107952,"lat":24.474127},
+            {"lng":118.108383,"lat":24.473321},
+            {"lng":118.109982,"lat":24.472679},
+            {"lng":118.10876,"lat":24.472071},
+            {"lng":118.108545,"lat":24.471643},
+            {"lng":118.108149,"lat":24.471216},
+            {"lng":118.107574,"lat":24.470854},
+            {"lng":118.10682,"lat":24.470098},
+            {"lng":118.106137,"lat":24.469539},
+            {"lng":118.10549,"lat":24.469045},
+            {"lng":118.105275,"lat":24.468585},
+            {"lng":118.105562,"lat":24.46796},
+            {"lng":118.105814,"lat":24.46717},
+            {"lng":118.104305,"lat":24.467927},
+            {"lng":118.102795,"lat":24.467187},
+            {"lng":118.101484,"lat":24.466546},
+            {"lng":118.099346,"lat":24.466069},
+            {"lng":118.098448,"lat":24.465838},
+            {"lng":118.097531,"lat":24.465789},
+            {"lng":118.096777,"lat":24.465477},
+            {"lng":118.09622,"lat":24.465213},
+            {"lng":118.095627,"lat":24.464638},
+            {"lng":118.09489,"lat":24.46375},
+            {"lng":118.094315,"lat":24.462763},
+            // {"lng":118.095573,"lat":24.461299},
+            // {"lng":118.093615,"lat":24.46125},
+            // {"lng":118.09277,"lat":24.460395},
+            // {"lng":118.091782,"lat":24.459589},
+            // {"lng":118.091082,"lat":24.459309},
+            // {"lng":118.090507,"lat":24.459277},
+            // {"lng":118.090022,"lat":24.459063},
+            // {"lng":118.088848,"lat":24.458142},
+            // {"lng":118.090453,"lat":24.457237}
+        ],
+        '3-4-up': [],
+        '3-4-down': [],
+        '4-5-up': [],
+        '4-5-down': [],
+        '5-6-up': [],
+        '5-6-down': [],
+        '6-7-up': [],
+        '6-7-down': [],
+        '7-8-up': [],
+        '7-8-down': [],
+        '8-9-up': [],
+        '8-9-down': [],
+        '9-10-up': [],
+        '9-10-down': [],
+        '10-11-up': [],
+        '10-11-down': [],
+        '11-12-up': [],
+        '11-12-down': [],
+        '12-13-up': [],
+        '12-13-down': [],
+        '13-14-up': [],
+        '13-14-down': [],
+        '14-15-up': [],
+        '14-15-down': [],
+        '15-16-up': [],
+        '15-16-down': [],
+        '16-17-up': [],
+        '16-17-down': [],
+        '17-18-up': [],
+        '17-18-down': [],
+        '18-19-up': [],
+        '18-19-down': [],
+        '19-20-up': [],
+        '19-20-down': [],
+        '20-21-up': [],
+        '20-21-down': [],
+        '21-22-up': [],
+        '21-22-down': [],
+        '22-23-up': [],
+        '22-23-down': [],
+        '23-24-up': [],
+        '23-24-down': [],
+
     }
 }

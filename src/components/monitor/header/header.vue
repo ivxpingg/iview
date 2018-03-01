@@ -5,7 +5,7 @@
 
             <Button class="btn-layout" type="text" icon="log-out" title="返回导航页" @click="goBack"></Button>
             <div class="btn-panel">
-                <div class="m-btn" :class="routeName == 'runMonitor' ? 'm-active':''" @click="btnLink('runMonitor', $event)">运行监视</div>
+                <div class="m-btn" :class="routeName == 'runMonitor' ? 'm-active':''" @click="btnLink('runMonitor', $event)">行车监视</div>
                 <div class="m-btn" :class="routeName == 'flowMonitor' ? 'm-active':''" @click="btnLink('flowMonitor', $event)">客流监视</div>
                 <div class="m-btn" :class="routeName == 'videoMonitor' ? 'm-active':''" @click="btnLink('videoMonitor', $event)">视频监视</div>
             </div>

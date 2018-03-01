@@ -74,7 +74,8 @@
             }
         },
         methods: {
-            handleBeforeUpload() {},
+            handleBeforeUpload(file) {
+            },
             handleProgress(event, file, fileList) {
 
             },
@@ -83,7 +84,7 @@
                 this.$emit('handleSuccess', response, file, fileList);
             },
             handleError(error, file, fileList) {
-                debugger
+
                 console.dir(error);
             }
         }

@@ -7,37 +7,51 @@
                 <div class="item">
                     <div class="title">运营生产日报</div>
                     <div class="center">
-                        <div class="tip-msg tip-msg-green">今天已上传</div>
+                        <div class="tip-msg" :class="dailyFlag ? 'tip-msg-green':'tip-msg-red'">{{dailyFlag? '今日已上传运营生产日报':'今日未上传运营生产日报'}}</div>
                         <div class="upload-panel">
-                            <vFileUpload class="vFileUpload"
-                                         :url="importFileUrl_daily"
-                                         bText="运营生产日报上传"
-                                         accept=".xlsx"
-                                         @handleSuccess="handleSuccess_daily"></vFileUpload>
+                            <Upload name="file"
+                                    class="vFileUpload"
+                                    :action="importFileUrl_daily"
+                                    :headers="headers"
+                                    accept=".xlsx"
+                                    :on-error="handleError"
+                                    :on-success="handleSuccess_daily"
+                                    :before-upload="handleBeforeUpload_daily">
+                                <Button type="success" shape="circle" icon="ios-cloud-upload-outline" size="large">运营生产日报上传</Button>
+                            </Upload>
                         </div>
                     </div>
                     <div class="download">
-                        <a :href="exportFileUrl_daily" class="ivu-btn ivu-btn-success mybtn" target="_blank"><span>下载模板</span></a>
+                        <a :href="exportFileUrl_daily" class="ivu-btn ivu-btn-warning mybtn" target="_blank">
+                            <Icon type="ios-cloud-download-outline"></Icon>
+                            <span>下载模板</span>
+                        </a>
                     </div>
                 </div>
-                <div class="item">
-                    <div class="title">OD数据</div>
-                    <div class="center">
-                        <div class="tip-msg  tip-msg-red">今天未上传</div>
-                        <div class="upload-panel">
-                            <vFileUpload class="vFileUpload"
-                                         :url="importFileUrl_OD"
-                                         bText="OD数据上传"
-                                         accept=".xlsx"
-                                         @handleSuccess="handleSuccess_OD"></vFileUpload>
-                        </div>
-                    </div>
-                    <div class="download"></div>
-                </div>
-            </div>
 
-            <!--<a :href="exportFileUrl" class="ivu-btn ivu-btn-success mybtn" target="_blank"><span>下载模板</span></a>-->
-            <!--<vFileUpload class="vFileUpload" :url="importFileUrl"  bText="运营生产日报上传" @handleSuccess="handleSuccess"></vFileUpload>-->
+                <!--<div class="item">-->
+                    <!--<div class="title">OD数据</div>-->
+                    <!--<div class="center">-->
+                        <!--<div class="tip-msg" :class="ODFlag == 'true'?'tip-msg-green':'tip-msg-red'">{{ODFlag == 'true'? '今日已上传OD数据':'今日未上传OD数据'}}</div>-->
+                        <!--<div class="upload-panel">-->
+              <!---->
+                            <!--<Upload name="file"-->
+                                    <!--class="vFileUpload"-->
+                                    <!--:action="importFileUrl_OD"-->
+                                    <!--:headers="headers"-->
+                                    <!--accept=".xlsx"-->
+                                    <!--:on-error="handleError"-->
+                                    <!--:on-success="handleSuccess_OD"-->
+                                    <!--:before-upload="handleBeforeUpload_OD">-->
+                                <!--<Button type="success" shape="circle" icon="ios-cloud-upload-outline"  size="large">OD数据上传</Button>-->
+                            <!--</Upload>-->
+                        <!--</div>-->
+
+                    <!--</div>-->
+                    <!--<div class="download"></div>-->
+                <!--</div>-->
+
+            </div>
         </div>
         <vFooter class="v-footer"></vFooter>
     </div>
@@ -54,37 +68,137 @@
                 importFileUrl_OD: '',
                 importFileUrl_daily: '',
                 exportFileUrl_daily: '',
+                dailyFlag: '',  // 'true':今日已上传过, 'false': 今日没有上传过
+                ODFlag: '',
+
+                headers: {}
             }
         },
         components: {vFileUpload, vHeader, vFooter},
         created() {
             this.importFileUrl_daily = Util.domain + '/xm/inte/dailyDownloadParse/uploadDaily';
             this.exportFileUrl_daily = Util.domain + '/static/download/xlsx/运营生产日报_yyyy-mm-dd.xlsx';
+
+            this.headers = {
+                Authorization: Util.cookie.get('xmgd') || ''
+            }
         },
         mounted() {
-
+            this.ifUpload_daily_today();
         },
         methods: {
-            handleSuccess_daily(response, file, fileList) {
+            handleBeforeUpload_daily(file) {
+                var that = this;
 
+                return new Promise(
+                    function(resolve, reject) {
+                        if (that.dailyFlag == true) {
+                            that.$Modal.confirm({
+                                title: '提示',
+                                content: '<p>今天《运营生产日报》已上传，是否覆盖?</p>',
+                                loading: false,
+                                onOk: () => {
+                                    resolve();
+                                },
+                                onCancel: () => {
+                                    reject();
+                                }
+                            });
+                        }
+                        else {
+                            resolve();
+                        }
+                    }
+                );
+
+            },
+            handleSuccess_daily(response, file, fileList) {
+                var that = this;
                 if (response.errCode == "A0002") {
                     this.$router.push({
                         path: '/',  // 路由名称
                         query: { redirect: this.$route.name }
                     });
+
+                    return;
                 }
+
+                if (response.status == 1) {
+                    that.$Message.success("《"+file.name+"》上传成功！");
+                    that.ifUpload_daily_today();
+                }
+                else {
+                    that.$Message.error(response.errMsg);
+                }
+
             },
+            handleError(error, file, fileList) {
+                this.$Message.error('上传失败！');
+            },
+
+            handleBeforeUpload_OD(file) {
+                var that = this;
+
+                return new Promise(
+                    function(resolve, reject) {
+                        if (that.dailyFlag == true) {
+                            that.$Modal.confirm({
+                                title: '提示',
+                                content: '<p>今天《OD数据》已上传，是否覆盖?</p>',
+                                loading: false,
+                                onOk: () => {
+                                    resolve();
+                                },
+                                onCancel: () => {
+                                    reject();
+                                }
+                            });
+                        }
+                        else {
+                            resolve();
+                        }
+                    }
+                );
+
+            },
+
             handleSuccess_OD(response, file, fileList) {
                 if (response.errCode == "A0002") {
                     this.$router.push({
                         path: '/',  // 路由名称
                         query: { redirect: this.$route.name }
                     });
+                    return;
+                }
+
+                if (response.status == 1) {
+                    that.$Message.success("《"+file.name+"》上传成功！");
+                    that.ifUpload_OD_today();
+                }
+                else {
+                    that.$Message.error(response.errMsg);
                 }
             },
 
             // 判断运营生产日报今天是否上传过
-            ifUpload_daily_today() {},
+            ifUpload_daily_today() {
+                var that = this;
+                Util.ajax({
+                    method: 'get',
+                    url: '/xm/inte/dailyDownloadParse/checkTodayUpload',
+                    params: {}
+                }).then(function (response) {
+                    if (response.status == 1) {
+
+                        that.dailyFlag = response.result.flag;
+                    } else {
+
+                    }
+                }).catch(function () {
+                    that.$Modal.remove();
+                    that.$Message.info('删除失败!');
+                });
+            },
             // 判断OD数据今天是否上传过
             ifUpload_OD_today() {}
         }
@@ -114,7 +228,7 @@
             width: 100%;
             height: 100%;
             min-height: 900px;
-            //text-align: center;
+            background: #ccd7dd url(./images/bg.png) center 70px no-repeat;
 
             .mybtn {
                // margin-top: 150px;
@@ -135,31 +249,33 @@
 
 
     .box-panel {
-        margin: 150px auto 0;
-        width: 800px;
-        border: 1px solid #e1e1e1;
+        margin: 135px auto 0;
+        width: 900px;
+        background: rgba(169,206,237,0.8);
+        border: 1px solid #c6dcf2;
+        border-left: 5px solid rgba(119,178,225, 0.8);
 
         .item {
             display: flex;
-            border-bottom: 1px solid #e1e1e1;
+            border-bottom: 1px solid #c6dcf2;
 
             &:last-child {
                 border-bottom-width: 0;
             }
             .title {
-                width: 150px;
+                width: 200px;
                 font-size: 16px;
                 font-weight: 700;
                 text-align: center;
-                line-height: 150px;
-                border-right: 1px solid #e1e1e1;
+                line-height: 224px;
+                border-right: 1px solid #c6dcf2;
             }
             .center {
                 flex: 1;
 
                 .tip-msg {
-                    margin-top: 15px;
-                    padding-left:20px;
+                    margin-top: 40px;
+                    padding-left:54px;
                     height: 35px;
                     font-size: 14px;
                     font-weight: 700;
@@ -173,19 +289,20 @@
                     }
                 }
                 .upload-panel {
-                    margin-top: 10px;
+                    margin-top: 18px;
                     margin-left: 20px;
                     margin-right: 20px;
+                    text-align: center;
                 }
 
             }
             .download {
-                width: 150px;
+                width: 200px;
                 text-align: center;
-                border-left: 1px solid #e1e1e1;
+                border-left: 1px solid #c6dcf2;
 
                 a {
-                    margin-top: 50px;
+                    margin-top: 90px;
                 }
             }
         }

@@ -2,8 +2,8 @@
     <div class="trendAnalysis-container">
         <div ref="chart1" class="chart chart1"></div>
         <div ref="chart2" class="chart chart2"></div>
-        <div class="chart-title chart-title1">舆论话题分布</div>
-        <div class="chart-title chart-title2">整体舆情走势</div>
+        <div class="chart-title chart-title1">24小时舆情走势分析</div>
+        <div class="chart-title chart-title2">近14天舆情走势分析</div>
     </div>
 </template>
 
