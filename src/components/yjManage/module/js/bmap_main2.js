@@ -1,7 +1,7 @@
 /**
  * Created by sgj on 2018-2-24.
  */
-import bdata from './bdData';
+
 import DB_data from './databaseData';
 import Util from '../../../../libs/util';
 
@@ -139,6 +139,8 @@ var setMalfunctionLine = function (p_selected_malfunction_info) {
     showDepartInfo(p_selected_malfunction_info.contactDepart);
     breakLine(p_selected_malfunction_info);
     setBusLine(p_selected_malfunction_info);
+    busStationFlag(p_selected_malfunction_info);
+    setBusStation(p_selected_malfunction_info);
 }
 
 /**
@@ -227,6 +229,29 @@ var hideBreakLine = function() {
     });
 }
 
+/**
+ * 设置公交起点和终点标注 图片
+ * @param p_selected_malfunction_info
+ */
+var busStationFlag = function (p_selected_malfunction_info) {
+
+    var firstKey = p_selected_malfunction_info.breakStationIds[0] + '';
+    var lastKey = p_selected_malfunction_info.breakStationIds[p_selected_malfunction_info.breakStationIds.length - 1] + '';
+    var startPoint = DB_data.stationsPoint[DB_data.stationName[firstKey]];
+    var lastPoint = DB_data.stationsPoint[DB_data.stationName[lastKey]];
+
+    var myIconFirst = new BMap.Icon(Util.staticImgUrl + "/static/img/station-start.png", new BMap.Size(20,20));
+    var markerFirst = new BMap.Marker(new BMap.Point(startPoint[0], startPoint[1]),{icon:myIconFirst});  // 创建标注
+
+    var myIconLast = new BMap.Icon(Util.staticImgUrl + "/static/img/station-start.png", new BMap.Size(20,20));
+    var markerLast = new BMap.Marker(new BMap.Point(lastPoint[0], lastPoint[1]),{icon:myIconLast});  // 创建标注
+
+    map.addOverlay(markerFirst);
+    map.addOverlay(markerLast);
+
+    map_dom_malfunction_break[p_selected_malfunction_info.id].push(markerFirst);
+    map_dom_malfunction_break[p_selected_malfunction_info.id].push(markerLast);
+}
 
 /***************************************公交接驳线路************************************
  * 设置公交接驳线路
@@ -285,6 +310,152 @@ var setBusLine = function (p_selected_malfunction_info) {
 
 }
 
+
+/**
+ * 设置公交站牌
+ */
+var map_dom_bus_line = [];
+var setBusStation = function (p_selected_malfunction_info) {
+
+    p_selected_malfunction_info.breakStationIds.forEach(function (val, idx, array) {
+
+        var busStationUp = DB_data.busStationInfo[val].busStationUp,
+            busStationDown = DB_data.busStationInfo[val].busStationDown;
+
+        // 上行
+        if (busStationUp.length > 0) {
+            var myIcon = new BMap.Icon(Util.staticImgUrl + "/static/img/icon2.png", new BMap.Size(19,26));
+            var myOffset = new BMap.Size(0, -13);
+            var markerUp = new BMap.Marker(new BMap.Point(busStationUp[0].lng, busStationUp[0].lat),{icon:myIcon, offset: myOffset});  // 创建标注
+            markerUp.mInfo = p_selected_malfunction_info;
+            markerUp.mStationId = val;
+            markerUp.addEventListener('mouseover', function (e) {
+                setStationList(this.mStationId, 'up');
+                setTwinkle();
+            });
+
+            markerUp.addEventListener('mouseout', function (e) {
+                stopTwinkle();
+            });
+
+            map.addOverlay(markerUp);              // 将标注添加到地图中
+            map_dom_malfunction_break[p_selected_malfunction_info.id].push(markerUp);
+
+        }
+
+        // 下行
+        if (busStationDown.length > 0) {
+            var myIcon = new BMap.Icon(Util.staticImgUrl + "/static/img/icon1.png", new BMap.Size(19,26));
+            var myOffset = new BMap.Size(0, -13);
+            var markerDown = new BMap.Marker(new BMap.Point(busStationDown[0].lng, busStationDown[0].lat),{icon:myIcon, offset: myOffset});  // 创建标注
+            markerDown.mInfo = p_selected_malfunction_info;
+            markerDown.mStationId = val;
+            markerDown.addEventListener('mouseover', function (e) {
+                setStationList(this.mStationId, 'down');
+                setTwinkle();
+            });
+            markerDown.addEventListener('mouseout', function (e) {
+                stopTwinkle();
+            });
+
+            map.addOverlay(markerDown);              // 将标注添加到地图中
+            map_dom_malfunction_break[p_selected_malfunction_info.id].push(markerDown);
+
+        }
+
+    });
+}
+
+/**
+ * 设置站牌对应要闪烁的公交线路
+ * @param stationId  站点Id
+ * @param direction 方向； up: 上行； down: 下行
+ */
+var setStationList = function (stationId ,direction) {
+
+    var pointListUp = [],
+        pointListDown = [],
+        idx,
+        maxIdx,
+        key,
+        map_pointList_up = [],
+        map_pointList_down = [];
+    var breakStationIds = selected_malfunction_info.breakStationIds;
+
+    idx = breakStationIds.indexOf(stationId);
+    maxIdx = idx;
+    if (direction == 'up') {
+
+        for(var i = idx; i < breakStationIds.length; i++) {
+            maxIdx = i;
+            if (i != idx) {
+                key = breakStationIds[i - 1] + '-' + breakStationIds[i] + '-up';
+                pointListUp = DB_data.busRoute[key].concat(pointListUp);
+            }
+        }
+        for(maxIdx; maxIdx >idx; maxIdx--) {
+            if (maxIdx != 0) {
+                key = breakStationIds[maxIdx - 1] + '-' + breakStationIds[maxIdx] + '-down';
+
+                pointListDown = pointListDown.concat(DB_data.busRoute[key]);
+            }
+        }
+    }
+
+    if (direction == 'down') {
+        for(var i = idx; i > 0; i--) {
+            if (i != 0) {
+                key = breakStationIds[i - 1] + '-' + breakStationIds[i] + '-down';
+
+                pointListDown = pointListDown.concat(DB_data.busRoute[key]);
+            }
+        }
+    }
+
+
+    pointListUp.forEach(function (val) {
+        map_pointList_up.push(new BMap.Point(val.lng, val.lat));
+    });
+
+    pointListDown.forEach(function (val) {
+        map_pointList_down.push(new BMap.Point(val.lng, val.lat));
+    });
+
+    if (pointListUp.length > 0) {
+        var polylineUp = new BMap.Polyline(map_pointList_up, {strokeColor:"#11a361", strokeWeight:8, strokeOpacity:0.8});
+        map.addOverlay(polylineUp);   //增加折线
+
+        map_dom_bus_line.push(polylineUp);
+    }
+    if (pointListDown.length > 0) {
+        var polylineDown = new BMap.Polyline(map_pointList_down, {strokeColor:"#11a361", strokeWeight:8, strokeOpacity:0.8});
+        map.addOverlay(polylineDown);   //增加折线
+        map_dom_bus_line.push(polylineDown);
+    }
+
+}
+
+var interval = null;
+var setTwinkle = function () {
+    var wight = 4;
+    interval = setInterval(function () {
+        wight = wight == 4 ? 8 : 4;
+
+        map_dom_bus_line.forEach(function (val) {
+            val.setStrokeWeight(wight);
+        });
+    }, 200);
+}
+var stopTwinkle = function () {
+
+    map_dom_bus_line.forEach(function (val) {
+
+        map.removeOverlay(val);
+    });
+
+    clearInterval(interval);
+    map_dom_bus_line = [];
+}
 
 /**
  * 入口
