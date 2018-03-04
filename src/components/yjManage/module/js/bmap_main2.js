@@ -325,7 +325,7 @@ var setBusStation = function (p_selected_malfunction_info) {
         // 上行
         if (busStationUp.length > 0) {
             var myIcon = new BMap.Icon(Util.staticImgUrl + "/static/img/icon2.png", new BMap.Size(19,26));
-            var myOffset = new BMap.Size(0, -13);
+            var myOffset = new BMap.Size(5, -13);
             var markerUp = new BMap.Marker(new BMap.Point(busStationUp[0].lng, busStationUp[0].lat),{icon:myIcon, offset: myOffset});  // 创建标注
             markerUp.mInfo = p_selected_malfunction_info;
             markerUp.mStationId = val;
@@ -346,7 +346,7 @@ var setBusStation = function (p_selected_malfunction_info) {
         // 下行
         if (busStationDown.length > 0) {
             var myIcon = new BMap.Icon(Util.staticImgUrl + "/static/img/icon1.png", new BMap.Size(19,26));
-            var myOffset = new BMap.Size(0, -13);
+            var myOffset = new BMap.Size(-5, -13);
             var markerDown = new BMap.Marker(new BMap.Point(busStationDown[0].lng, busStationDown[0].lat),{icon:myIcon, offset: myOffset});  // 创建标注
             markerDown.mInfo = p_selected_malfunction_info;
             markerDown.mStationId = val;
@@ -384,16 +384,17 @@ var setStationList = function (stationId ,direction) {
 
     idx = breakStationIds.indexOf(stationId);
     maxIdx = idx;
+    debugger
     if (direction == 'up') {
 
         for(var i = idx; i < breakStationIds.length; i++) {
             maxIdx = i;
             if (i != idx) {
                 key = breakStationIds[i - 1] + '-' + breakStationIds[i] + '-up';
-                pointListUp = DB_data.busRoute[key].concat(pointListUp);
+                pointListUp = DB_data.busRoute[key].concat(pointListUp );
             }
         }
-        for(maxIdx; maxIdx >idx; maxIdx--) {
+        for(maxIdx; maxIdx >0 ; maxIdx--) {
             if (maxIdx != 0) {
                 key = breakStationIds[maxIdx - 1] + '-' + breakStationIds[maxIdx] + '-down';
 
@@ -422,13 +423,13 @@ var setStationList = function (stationId ,direction) {
     });
 
     if (pointListUp.length > 0) {
-        var polylineUp = new BMap.Polyline(map_pointList_up, {strokeColor:"#11a361", strokeWeight:8, strokeOpacity:0.8});
+        var polylineUp = new BMap.Polyline(map_pointList_up, {strokeColor:"red", strokeWeight:8, strokeOpacity:0.8});
         map.addOverlay(polylineUp);   //增加折线
 
         map_dom_bus_line.push(polylineUp);
     }
     if (pointListDown.length > 0) {
-        var polylineDown = new BMap.Polyline(map_pointList_down, {strokeColor:"#11a361", strokeWeight:8, strokeOpacity:0.8});
+        var polylineDown = new BMap.Polyline(map_pointList_down, {strokeColor:"red", strokeWeight:8, strokeOpacity:0.8});
         map.addOverlay(polylineDown);   //增加折线
         map_dom_bus_line.push(polylineDown);
     }
