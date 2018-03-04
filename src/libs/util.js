@@ -11,17 +11,18 @@ util.title = function(title) {
     window.document.title = title;
 };
 
-// http://192.168.1.35:8080
+
+// const serverUrl = 'http://wechat.doudou360.com';
+const serverUrl = 'http://10.23.120.99:8102';
+
 const ajaxUrl = env === 'production' ?
-    // 'http://192.168.1.100:8088/metrosupervision' :
-    'http://wechat.doudou360.com/metrosupervision' :
+    serverUrl + '/metrosupervision' :
     env === 'development' ?
-    // 'http://ivxpingg.imwork.net/metrosupervision' :
     'http://localhost:8880/metrosupervision' :
     'http://localhost:8880/metrosupervision';
 
 const staticImgUrl = env === 'production' ?
-    'http://wechat.doudou360.com' :
+    serverUrl :
     env === 'development' ?
     'http://localhost:8880' :
     'http://localhost:8880';
