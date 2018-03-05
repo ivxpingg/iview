@@ -1,9 +1,19 @@
 <template>
     <div class="videoMonitor-container">
         <div class="panel-tree">
-            <div class="tree-search"></div>
+            <div class="tree-search">
+                <Form ref="formInline"  inline>
+                    <FormItem prop="">
+                        <Input type="text" v-model="searchValue" placeholder="">
+                        </Input>
+                    </FormItem>
+                    <FormItem>
+                        <Button type="primary"  icon="ios-search" @click="onSubmit">检索</Button>
+                    </FormItem>
+                </Form>
+            </div>
             <div class="tree-box">
-                <Tree :data="data2" ></Tree>
+                <Tree :data="searchData" ></Tree>
             </div>
         </div>
         <div class="panel-video">
@@ -18,95 +28,8 @@
         data () {
             var that = this;
             return {
-                data1: [{
-                            title: '站点视频监控',
-                            expand: true,
-                            render: (h, { root, node, data }) => {
-
-                                return h('span', {
-                                    style: {
-                                        display: 'inline-block',
-                                        width: '100%'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            data.expand = !data.expand;
-                                            console.dir(root);
-                                            console.dir(node);
-                                            console.dir(data);
-                                        }
-                                    }
-                                }, [
-                                    h('span', [
-                                        h('Icon', {
-                                            props: {
-                                                type: 'ios-folder-outline'
-                                            },
-                                            style: {
-                                                marginRight: '8px'
-                                            }
-                                        }),
-                                        h('span', data.title)
-                                    ])]
-                                )
-                            },
-                            children: [
-                                {
-                                    title: '岩内战',
-                                    expand: true,
-                                    children: [
-                                        {
-                                            title: '位点-1'
-                                        },
-                                        {
-                                            title: '位点-2'
-                                        }
-                                    ]
-                                },
-                                {
-                                    title: '厦门北站',
-                                    expand: true,
-                                    children: [
-                                        {
-                                            title: '位点-1'
-                                        },
-                                        {
-                                            title: '位点-2'
-                                        }
-                                    ]
-                                }
-                            ]
-                        }, {
-                                title: '列车视频监控',
-                                expand: true,
-                                children: [
-                                    {
-                                        title: '00101',
-                                        expand: true,
-                                        children: [
-                                            {
-                                                title: '位点-1'
-                                            },
-                                            {
-                                                title: '位点-2'
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        title: '00201',
-                                        expand: true,
-                                        children: [
-                                            {
-                                                title: '位点-1'
-                                            },
-                                            {
-                                                title: '位点-2'
-                                            }
-                                        ]
-                                    }
-                                ]
-                        }],
-
+                searchValue: '',     // 检索表单控件model
+                keyword: '',         // 检索关键字
                 data2: [
                     {
                         title: '视频监控',
@@ -124,6 +47,7 @@
                                 children: [
                                     {
                                         title: '厦禾路',
+                                        expand: true,
                                         render(h, {root, node, data}) {
                                             return that.renderContent(h, {root, node, data});
                                         },
@@ -155,12 +79,14 @@
                             },
                             {
                                 title: '厦门BRT',
+                                expand: true,
                                 render(h, {root, node, data}) {
                                     return that.renderContent(h, {root, node, data});
                                 },
                                 children: [
                                     {
                                         title: '双十中学站',
+                                        expand: true,
                                         render(h, {root, node, data}) {
                                             return that.renderContent(h, {root, node, data});
                                         },
@@ -176,6 +102,7 @@
                                     },
                                     {
                                         title: '洪文站',
+                                        expand: true,
                                         render(h, {root, node, data}) {
                                             return that.renderContent(h, {root, node, data});
                                         },
@@ -191,6 +118,7 @@
                                     },
                                     {
                                         title: '集美大桥南站',
+                                        expand: true,
                                         render(h, {root, node, data}) {
                                             return that.renderContent(h, {root, node, data});
                                         },
@@ -211,10 +139,34 @@
                     }
                 ],
 
+                searchData: [],
+
                 iframeSrc: '',
                 windowIndex: 0,
                 contentWindow: null
             }
+        },
+        watch: {
+            keyword(value) {
+                var that = this;
+                var data = [];
+                this.data2.forEach(function (obj) {
+                    var o = {
+                        title: obj.title,
+                        expand: true,
+                        render: obj.render,
+                        children: []
+                    }
+                    if (obj.children.length > 0) {
+                        o.push(obj.push(that.searchTree(value, obj)));
+                    }
+
+
+                });
+            }
+        },
+        created() {
+            this.searchData = this.data2;
         },
         mounted() {
             var that = this;
@@ -241,9 +193,21 @@
             initIframeSrc() {
                 this.iframeSrc = "/html/video.html";
             },
-            onSelectChange(n) {
 
+            //  提交检索
+            onSubmit() {
+                this.keyword = this.searchValue;
+            },
+
+            // 数据检索
+            searchTree(keyname, children) {
+
+            },
+
+            // 树的方法
+            onSelectChange(n) {
                 n[0].expand = !n[0].expand;
+
             },
             renderContent (h, { root, node, data }) {
                 var that = this;
@@ -316,10 +280,48 @@
 
 <style lang="scss" rel="stylesheet/scss" scoped>
     .videoMonitor-container {
-         display: flex;
-         height: 530px;
+        display: flex;
+        height: 100%;
+        overflow: auto;
         .panel-tree {
-            width: 260px;
+            position: relative;
+            width: 280px;
+
+            &:after {
+                content: "";
+                display: block;
+                width: 1px;
+                height: 100%;
+                background: #dddee1;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                right: 0;
+                z-index: 1;
+            }
+
+            .tree-search {
+                position: relative;
+                padding: 10px 0;
+                text-align: center;
+                &:after {
+                    content: "";
+                    display: block;
+                    height: 1px;
+                    width: 90%;
+                    background: #dddee1;
+                    position: absolute;
+                    bottom: 0;
+                    left: 5%;
+                    right: 5%;
+                    z-index: 1;
+                }
+            }
+
+            .tree-box {
+                padding-left: 15px;
+                padding-top: 10px;
+            }
         }
 
         .panel-video {
@@ -333,6 +335,12 @@
 </style>
 
 <style lang="scss" rel="stylesheet/scss">
+    .tree-search {
+        .ivu-form-item {
+            margin-bottom: 0;
+        }
+    }
+
 
     .ivu-menu .ivu-menu{
         padding-left:20px;

@@ -3,9 +3,9 @@ var OcxManager = function(elID) {
 
     this.objMcuOcx = document.getElementById(elID);
 
-    this.mcuip = "172.16.251.34";
-    this.mcuUesr = "admin";
-    this.mcuPwd = "kedacom123";
+    this.mcuip = "172.29.1.34";
+    this.mcuUesr = "admin@kedacom";
+    this.mcuPwd = "admin888888";
     this.playId = 65535;
     this.windowId = 0;
     this.playArr = [];      //播放信息列表

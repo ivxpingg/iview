@@ -127,98 +127,146 @@ export default {
         '1': {
             busStationUp: [{"lng":118.090547,"lat":24.457233}],        // 上行公交站点
             busStationDown: [{"lng":118.090385,"lat":24.457254}],      // 下行公交站点
+            upName: '2号口',
+            downName: '2号口'
         },
         '2': {
             busStationUp: [{"lng":118.09701,"lat":24.462188}],        // 上行公交站点
             busStationDown: [{"lng":118.095573,"lat":24.461299}],      // 下行公交站点
+            upName: '4号口',
+            downName: '1号口'
         },
         '3': {
             busStationUp: [{"lng":118.106137,"lat":24.466587}],   // 上行公交站点118.106137,24.466587
             busStationDown: [{"lng":118.105813,"lat":24.467146}],  // 下行公交站点118.105813,24.467146
+            upName: '2号口',
+            downName: '1号口'
         },
         '4': {
             busStationUp: [{"lng":118.110282,"lat":24.473769}],     // 上行公交站点
             busStationDown: [{"lng":118.110013,"lat":24.472667}],  // 下行公交站点118.110013,24.472667
+            upName: '6号口',
+            downName: '1号口'
         },
         '5': {
             busStationUp: [{"lng":118.115106,"lat":24.479381}],        // 上行公交站点
             busStationDown: [{"lng":118.119571,"lat":24.480963}],      // 下行公交站点
+            upName: '2号口',
+            downName: '3号口'
         },
         '6': {
             busStationUp: [{"lng":118.124552,"lat":24.48174}],        // 上行公交站点
             busStationDown: [{"lng":118.124498,"lat":24.481822}],      // 下行公交站点
+            upName: '2号口',
+            downName: '2号口'
         },
         '7': {
             busStationUp: [{"lng":118.130297,"lat":24.489703}],        // 上行公交站点
             busStationDown: [{"lng":118.129781,"lat":24.490011}],      // 下行公交站点
+            upName: '4号口',
+            downName: '3号口'
         },
         '8': {
             busStationUp: [{"lng":118.134887,"lat":24.496164}],        // 上行公交站点
             busStationDown: [{"lng":118.13406,"lat":24.496485}],      // 下行公交站点
+            upName: '10号口',
+            downName: '7号口'
         },
         '9': {
             busStationUp: [{"lng":118.133913,"lat":24.505186}],        // 上行公交站点
             busStationDown: [{"lng":118.132907,"lat":24.503739}],      // 下行公交站点
+            upName: '4A号口',
+            downName: '1A号口'
         },
         '10': {
             busStationUp: [{"lng":118.129008,"lat":24.5126}],        // 上行公交站点
             busStationDown: [{"lng":118.128523,"lat":24.51209}],      // 下行公交站点
+            upName: '4A号口',
+            downName: '4A号口'
         },
         '11': {
             busStationUp: [{"lng":118.125634,"lat":24.5177}],        // 上行公交站点
             busStationDown: [{"lng":118.124642,"lat":24.517268}],      // 下行公交站点
+            upName: '4号口',
+            downName: '4号口'
         },
         '12': {
             busStationUp: [{"lng":118.12316,"lat":24.5312}],        // 上行公交站点
             busStationDown: [ {"lng":118.122648,"lat":24.531569}],      // 下行公交站点
+            upName: '4A号口',
+            downName: '5号口'
         },
         '13': {
             busStationUp: [{"lng":118.123932,"lat":24.543847}],        // 上行公交站点
             busStationDown: [{"lng":118.123438,"lat":24.542729}],      // 下行公交站点
+            upName: '4B号口',
+            downName: '1号口'
         },
         '14': {
             busStationUp: [{"lng":118.098987,"lat":24.570337}],        // 上行公交站点
             busStationDown: [{"lng":118.098969,"lat":24.570288}],      // 下行公交站点
+            upName: '2号口',
+            downName: '2号口'
         },
         '15': {
             busStationUp: [{"lng":118.074301,"lat":24.576055}],        // 上行公交站点
             busStationDown: [{"lng":118.074301,"lat":24.576055}],      // 下行公交站点
+            upName: '2号口',
+            downName: '2号口'
         },
         '16': {
             busStationUp: [{"lng":118.067833,"lat":24.584089}],        // 上行公交站点
             busStationDown: [{"lng":118.067851,"lat":24.584056}],      // 下行公交站点
+            upName: '4号口',
+            downName: '4号口'
         },
         '17': {
             busStationUp: [{"lng":118.063791,"lat":24.588541}],        // 上行公交站点
             busStationDown: [{"lng":118.063755,"lat":24.588492}],      // 下行公交站点
+            upName: '4号口',
+            downName: '4号口'
         },
         '18': {
             busStationUp: [{"lng":118.065861,"lat":24.598596}],        // 上行公交站点
             busStationDown: [{"lng":118.06512,"lat":24.599943}],      // 下行公交站点
+            upName: '2号口',
+            downName: '4号口'
         },
         '19': {
             busStationUp: [{"lng":118.060755,"lat":24.608747}],        // 上行公交站点
             busStationDown: [{"lng":118.060755,"lat":24.608747}],      // 下行公交站点
+            upName: '1号口',
+            downName: '4号口'
         },
         '20': {
             busStationUp: [{"lng":118.055077,"lat":24.619621}],        // 上行公交站点
             busStationDown: [{"lng":118.055059,"lat":24.619621}],      // 下行公交站点
+            upName: '4号口',
+            downName: '4号口'
         },
         '21': {
             busStationUp: [{"lng":118.06247,"lat":24.626347}],        // 上行公交站点
             busStationDown: [{"lng":118.061833,"lat":24.625501}],      // 下行公交站点
+            upName: '4号口',
+            downName: '2号口'
         },
         '22': {
             busStationUp: [{"lng":118.073214,"lat":24.632071}],        // 上行公交站点
             busStationDown: [{"lng":118.07281,"lat":24.631775}],      // 下行公交站点
+            upName: '4号口',
+            downName: '2号口'
         },
         '23': {
             busStationUp: [{"lng":118.078518,"lat":24.642881}],        // 上行公交站点
             busStationDown: [{"lng":118.078518,"lat":24.642881}],      // 下行公交站点
+            upName: '5号口',
+            downName: '5号口'
         },
         '24': {
             busStationUp: [{"lng":118.075756,"lat":24.649593}],        // 上行公交站点
             busStationDown: [{"lng":118.075756,"lat":24.649593}],      // 下行公交站点
+            upName: '3号口',
+            downName: '3号口'
         }
     },
 

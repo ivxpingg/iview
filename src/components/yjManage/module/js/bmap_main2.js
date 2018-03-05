@@ -37,6 +37,8 @@ var initMap = function (domId, timer) {
 }
 
 var init = function () {
+    // editLine();
+
     setMalfunction();
 }
 
@@ -89,7 +91,7 @@ var setMalfunction = function () {
         mapOverlay.mName = name;
         mapOverlay.mBreakStationIds = breakStationIds;
         mapOverlay.addEventListener('mouseover', function (e) {
-            selected_malfunction_info = this.mInfo;
+           // selected_malfunction_info = this.mInfo;
             this.setStrokeOpacity(0.8);
         });
         mapOverlay.addEventListener('mouseout', function (e) {
@@ -98,7 +100,8 @@ var setMalfunction = function () {
 
         //创建右键菜单
         var lineMenu=new BMap.ContextMenu();
-        lineMenu.addItem(new BMap.MenuItem('设置<'+name+'>为故障区段', function (e) {
+        lineMenu.addItem(new BMap.MenuItem('设置<'+name+'>为故障区段', function (point, client, target) {
+            selected_malfunction_info = target.mInfo;
             setMalfunctionLine(selected_malfunction_info);
         }, {width: 250}));
 
@@ -141,13 +144,6 @@ var setMalfunctionLine = function (p_selected_malfunction_info) {
     setBusLine(p_selected_malfunction_info);
     busStationFlag(p_selected_malfunction_info);
     setBusStation(p_selected_malfunction_info);
-}
-
-/**
- * 取消设置对应的故障站点或故障区段
- */
-var cancelMalfunctionLine = function () {
-    hideDepartInfo();
 }
 
 
@@ -320,12 +316,29 @@ var setBusStation = function (p_selected_malfunction_info) {
     p_selected_malfunction_info.breakStationIds.forEach(function (val, idx, array) {
 
         var busStationUp = DB_data.busStationInfo[val].busStationUp,
-            busStationDown = DB_data.busStationInfo[val].busStationDown;
+            busStationDown = DB_data.busStationInfo[val].busStationDown,
+            upName = DB_data.busStationInfo[val].upName,
+            downName = DB_data.busStationInfo[val].downName;
 
         // 上行
         if (busStationUp.length > 0) {
+            var optsUp = {
+                position : new BMap.Point(busStationUp[0].lng, busStationUp[0].lat),    // 指定文本标注所在的地理位置
+                offset   : new BMap.Size( 5, -45)    //设置文本偏移量
+            }
+            var labelUp = new BMap.Label(upName, optsUp);  // 创建文本标注对象
+            labelUp.setStyle({
+                color : "red",
+                fontSize : "12px",
+                height : "20px",
+                lineHeight : "20px",
+                fontFamily:"微软雅黑"
+            });
+            map.addOverlay(labelUp);
+            map_dom_malfunction_break[p_selected_malfunction_info.id].push(labelUp);
+
             var myIcon = new BMap.Icon(Util.staticImgUrl + "/static/img/icon2.png", new BMap.Size(19,26));
-            var myOffset = new BMap.Size(5, -13);
+            var myOffset = new BMap.Size(0, -13);
             var markerUp = new BMap.Marker(new BMap.Point(busStationUp[0].lng, busStationUp[0].lat),{icon:myIcon, offset: myOffset});  // 创建标注
             markerUp.mInfo = p_selected_malfunction_info;
             markerUp.mStationId = val;
@@ -345,6 +358,21 @@ var setBusStation = function (p_selected_malfunction_info) {
 
         // 下行
         if (busStationDown.length > 0) {
+            var optsDown = {
+                position : new BMap.Point(busStationDown[0].lng, busStationDown[0].lat),    // 指定文本标注所在的地理位置
+                offset   : new BMap.Size(-downName.length*12, -45)    //设置文本偏移量
+            }
+            var labelDown = new BMap.Label(downName, optsDown);  // 创建文本标注对象
+            labelDown.setStyle({
+                color : "red",
+                fontSize : "12px",
+                height : "20px",
+                lineHeight : "20px",
+                fontFamily:"微软雅黑"
+            });
+            map.addOverlay(labelDown);
+            map_dom_malfunction_break[p_selected_malfunction_info.id].push(labelDown);
+
             var myIcon = new BMap.Icon(Util.staticImgUrl + "/static/img/icon1.png", new BMap.Size(19,26));
             var myOffset = new BMap.Size(-5, -13);
             var markerDown = new BMap.Marker(new BMap.Point(busStationDown[0].lng, busStationDown[0].lat),{icon:myIcon, offset: myOffset});  // 创建标注
@@ -384,7 +412,7 @@ var setStationList = function (stationId ,direction) {
 
     idx = breakStationIds.indexOf(stationId);
     maxIdx = idx;
-    debugger
+
     if (direction == 'up') {
 
         for(var i = idx; i < breakStationIds.length; i++) {
@@ -423,13 +451,13 @@ var setStationList = function (stationId ,direction) {
     });
 
     if (pointListUp.length > 0) {
-        var polylineUp = new BMap.Polyline(map_pointList_up, {strokeColor:"red", strokeWeight:8, strokeOpacity:0.8});
+        var polylineUp = new BMap.Polyline(map_pointList_up, {strokeColor:"#f39950", strokeWeight:8, strokeOpacity:1});
         map.addOverlay(polylineUp);   //增加折线
 
         map_dom_bus_line.push(polylineUp);
     }
     if (pointListDown.length > 0) {
-        var polylineDown = new BMap.Polyline(map_pointList_down, {strokeColor:"red", strokeWeight:8, strokeOpacity:0.8});
+        var polylineDown = new BMap.Polyline(map_pointList_down, {strokeColor:"#f39950", strokeWeight:8, strokeOpacity:1});
         map.addOverlay(polylineDown);   //增加折线
         map_dom_bus_line.push(polylineDown);
     }
@@ -489,3 +517,77 @@ var main = function(v, domId, callback) {
 }
 
 export default main;
+
+
+
+// 编辑线路
+var editLine = function (p_selected_malfunction_info) {
+    var key_up,
+        pointList_up = [],
+        map_pointList_up = [],
+        key_down,
+        pointList_down = [],
+        map_pointList_down = [];
+
+    var list =  ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24'];
+
+    list.forEach(function (val, idx, array) {
+        if(idx != 0) {
+            map_pointList_up = [];
+            map_pointList_down= [];
+
+            key_up = array[idx - 1] + '-' + array[idx] + '-up';
+            pointList_up = DB_data.busRoute[key_up];
+
+            key_down = array[idx - 1] + '-' + array[idx] + '-down';
+            pointList_down = DB_data.busRoute[key_down];
+
+
+            pointList_up.forEach(function (val) {
+                map_pointList_up.push(new BMap.Point(val.lng, val.lat));
+            });
+            pointList_down.forEach(function (val) {
+                map_pointList_down.push(new BMap.Point(val.lng, val.lat));
+            });
+
+
+            var polyline_up = new BMap.Polyline(map_pointList_up, {strokeColor:"#11a361", strokeWeight:4, strokeOpacity:0.8});
+            var polyline_down = new BMap.Polyline(map_pointList_down, {strokeColor:"#2c9dd3", strokeWeight:4, strokeOpacity:0.8});
+
+            polyline_up.enableEditing();
+            polyline_down.enableEditing();
+
+
+            var lineMenu_up = new BMap.ContextMenu();
+            lineMenu_up.addItem(new BMap.MenuItem(val+ ' up', function (p,c,t) {
+
+                console.dir(t.getPath());
+
+            }, {width: 120}));
+
+            var lineMenu_down = new BMap.ContextMenu();
+            lineMenu_down.addItem(new BMap.MenuItem(val+ ' down', function (p,c,t) {
+                console.dir(t.getPath());
+            }, {width: 120}));
+            polyline_up.addContextMenu(lineMenu_up);
+            polyline_down.addContextMenu(lineMenu_down);
+
+
+
+            map.addOverlay(polyline_up);   //增加折线
+            map.addOverlay(polyline_down);   //增加折线
+        }
+    });
+
+
+
+
+
+
+    // polyline_up.enableEditing();
+    // polyline_down.enableEditing();
+
+
+    // map_dom_malfunction_break[p_selected_malfunction_info.id].push(polyline_up);
+    // map_dom_malfunction_break[p_selected_malfunction_info.id].push(polyline_down);
+}
