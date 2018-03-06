@@ -241,11 +241,10 @@
                          },
                          on: {
                              click: () => {
-                                 // alert(data.puid);
                                  that.onClickToPostMessage(data);
                              },
                              dblclick: () => {
-                                 alert(1);
+
                              }
                          }
                      }, [
@@ -283,6 +282,13 @@
                     video: {}
                 };
                 this.contentWindow.postMessage(info, '*');
+            },
+            handleSpinShow() {
+                this.$Spin.show();
+
+                setTimeout(() =>{
+                    this.$Spin.hide();
+                }, 3000)
             }
         }
     }
