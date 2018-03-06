@@ -243,6 +243,9 @@
                              click: () => {
                                  // alert(data.puid);
                                  that.onClickToPostMessage(data);
+                             },
+                             dblclick: () => {
+                                 alert(1);
                              }
                          }
                      }, [
@@ -280,12 +283,17 @@
 
 <style lang="scss" rel="stylesheet/scss" scoped>
     .videoMonitor-container {
+        position: fixed;
+        top: 87px;
+        width: 100%;
         display: flex;
-        height: 100%;
+       // height: 100%;
         overflow: auto;
+        height: 717px;
         .panel-tree {
             position: relative;
             width: 280px;
+            height: 717px;
 
             &:after {
                 content: "";
@@ -328,6 +336,7 @@
             position: relative;
             flex: 1;
             overflow: hidden;
+            height: 717px;
         }
     }
 

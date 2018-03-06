@@ -154,6 +154,7 @@ OcxManager.prototype.startRealPlay = function (domainid, puid, chan, src, manu, 
         {
             alert("浏览失败(" + manu + ") 结果：" + this.playId + "\r\n错误码：" + nErrorCode);
         }
+        return 'error';
     }
     else
     {
@@ -165,6 +166,8 @@ OcxManager.prototype.startRealPlay = function (domainid, puid, chan, src, manu, 
         var play = { playId: vPlayid, windowId: windowIndex };
         this.playArr.push(play);
         //console.log("播放成功");
+
+        return 'success';
     }
 }
 
