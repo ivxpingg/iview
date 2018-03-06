@@ -1,5 +1,5 @@
 <template>
-    <div class="videoMonitor-container">
+    <div class="videoMonitor-container" style="height: 100%">
         <div class="panel-tree">
             <div class="tree-search">
                 <Form ref="formInline"  inline>
@@ -13,6 +13,10 @@
                 </Form>
             </div>
             <div class="tree-box">
+                <div class="btn-box">
+                    <Button type="ghost" shape="circle" icon="arrow-expand" title="全屏">全屏</Button>
+                    <Button type="ghost" shape="circle" icon="close-round" title="全屏">关闭</Button>
+                </div>
                 <Tree :data="searchData" ></Tree>
             </div>
         </div>
@@ -278,8 +282,19 @@
             },
             videoZoom() {
                 var info = {
-                    type: 'zoom',
-                    video: {}
+                    type: 'videoZoom',
+                    video: {
+                        windowIndex: this.windowIndex
+                    }
+                };
+                this.contentWindow.postMessage(info, '*');
+            },
+            videoStop() {
+                var info = {
+                    type: 'videoStop',
+                    video: {
+
+                    }
                 };
                 this.contentWindow.postMessage(info, '*');
             },
@@ -296,17 +311,18 @@
 
 <style lang="scss" rel="stylesheet/scss" scoped>
     .videoMonitor-container {
-        position: fixed;
-        top: 87px;
+        position: relative;
+        /*top: 87px;*/
         width: 100%;
         display: flex;
-       // height: 100%;
+        height: 100%;
         overflow: auto;
-        height: 717px;
+        /*height: 717px;*/
         .panel-tree {
             position: relative;
             width: 280px;
-            height: 717px;
+            height: 100%;
+            min-height: 717px;
 
             &:after {
                 content: "";
@@ -340,6 +356,10 @@
             }
 
             .tree-box {
+                .btn-box {
+                    padding-right: 10px;
+                    text-align: right;
+                }
                 padding-left: 15px;
                 padding-top: 10px;
             }
@@ -349,7 +369,8 @@
             position: relative;
             flex: 1;
             overflow: hidden;
-            height: 717px;
+            height: 100%;
+            min-height: 717px;
         }
     }
 

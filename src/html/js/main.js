@@ -13,8 +13,14 @@ $(document).ready(function(){
             case 'video':
                addVideo(pda.video.puid);
                break;
-            case 'zoom':
+            case 'videoZoom':
                 zoom();
+                break;
+            case 'videoStop':
+                windowIndex = pda.video.windowIndex;
+                stopRealPlay();
+                break;
+            default: break;
         }
     }
 
@@ -95,4 +101,8 @@ function messageParent(value) {
 
 function zoom() {
     m1.zoom();
+}
+
+function stopRealPlay() {
+    m1.stopRealPlay(windowIndex);
 }
