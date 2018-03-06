@@ -704,7 +704,7 @@
                 return Util.domain + '/static/download/xlsx/培训记录导入模板.xlsx';
             },
             importFileUrl1() {
-                return Util.domain + '/xm/inte/dailyDownloadParse/uploadDaily';
+                return Util.domain + '/xm/sys/employee/uploadEmployeeExcel';
             },
             importFileUrl2() {
                 return Util.domain + '/xm/sys/employee/uploadTrainRecordExcel';

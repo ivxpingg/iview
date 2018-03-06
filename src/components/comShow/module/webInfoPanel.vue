@@ -91,8 +91,8 @@
                     "upAverageSpeed": "0",       //上行平均运行速度
                     "downAverageSpeed": "0",     //下行平均运行速度
                 },
-                sTime: '2017-12-20 08:20:00',
-                timeOut: null,
+                sTime: '2018-2-22 08:40:00',
+//                timeOut: null,
                 setTimeOutInfoPanelData: null,
                 timeOutPassenger: null,
 
@@ -122,6 +122,7 @@
         },
         watch: {
             trainPositionData(val) {
+
                 var up = 0;
                 var down = 0;
                 val.forEach(function (val) {
@@ -156,6 +157,7 @@
             this.getTodayYQData();
         },
         methods: {
+            // 用于计算上行列车数和下行列车数量
             getTrainPosition() {
                 var that = this;
                 var d = MOMENT(this.sTime).add(30, 'seconds');
@@ -171,7 +173,7 @@
                 }).then(function (response) {
 
                     if (response.status == 1) {
-                        that.datas = response.result;
+                        that.trainPositionData = response.result;
                     }
                     else {
                         console.dir(response.errMsg);

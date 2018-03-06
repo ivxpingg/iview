@@ -261,48 +261,86 @@ var setBusLine = function (p_selected_malfunction_info) {
         map_pointList_down = [];
 
     p_selected_malfunction_info.breakStationIds.forEach(function (val, idx, array) {
+        map_pointList_up = [];
+        map_pointList_down = [];
+
         if(idx != 0) {
             key_up = array[idx - 1] + '-' + array[idx] + '-up';
-            pointList_up = DB_data.busRoute[key_up].concat(pointList_up);
+            // pointList_up = DB_data.busRoute[key_up].concat(pointList_up);
+            pointList_up = DB_data.busRoute[key_up];
+
+            pointList_up.forEach(function (val) {
+                map_pointList_up.push(new BMap.Point(val.lng, val.lat));
+            });
+            var polyline_up = new BMap.Polyline(map_pointList_up, {strokeColor:"#11a361", strokeWeight:4, strokeOpacity:0.8});
+            map.addOverlay(polyline_up);   //增加折线
+            var lineMenu_up = new BMap.ContextMenu();
+            lineMenu_up.addItem(new BMap.MenuItem('取消该故障区段', function (e) {
+                hideDepartInfo();
+                hideBreakLine();
+                map_dom_malfunction_overlay_show();
+
+            }, {width: 120}));
+            polyline_up.addContextMenu(lineMenu_up);
+            map_dom_malfunction_break[p_selected_malfunction_info.id].push(polyline_up);
+
+
+
+
+
+
 
             key_down = array[idx - 1] + '-' + array[idx] + '-down';
-            pointList_down = DB_data.busRoute[key_down].concat(pointList_down);
+            // pointList_down = DB_data.busRoute[key_down].concat(pointList_down);
+            pointList_down = DB_data.busRoute[key_down]
+            pointList_down.forEach(function (val) {
+                map_pointList_down.push(new BMap.Point(val.lng, val.lat));
+            });
+            var polyline_down = new BMap.Polyline(map_pointList_down, {strokeColor:"#2c9dd3", strokeWeight:4, strokeOpacity:0.8});
+            map.addOverlay(polyline_down);   //增加折线
+            var lineMenu_down = new BMap.ContextMenu();
+            lineMenu_down.addItem(new BMap.MenuItem('取消该故障区段', function (e) {
+                hideDepartInfo();
+                hideBreakLine();
+                map_dom_malfunction_overlay_show();
+
+            }, {width: 120}));
+            polyline_down.addContextMenu(lineMenu_down);
+            map_dom_malfunction_break[p_selected_malfunction_info.id].push(polyline_down);
         }
     });
-    pointList_up.forEach(function (val) {
-        map_pointList_up.push(new BMap.Point(val.lng, val.lat));
-    });
-    pointList_down.forEach(function (val) {
-        map_pointList_down.push(new BMap.Point(val.lng, val.lat));
-    });
 
-    var polyline_up = new BMap.Polyline(map_pointList_up, {strokeColor:"#11a361", strokeWeight:4, strokeOpacity:0.8});
-    var polyline_down = new BMap.Polyline(map_pointList_down, {strokeColor:"#2c9dd3", strokeWeight:4, strokeOpacity:0.8});
 
-    map.addOverlay(polyline_up);   //增加折线
-    map.addOverlay(polyline_down);   //增加折线
-
-    var lineMenu_up = new BMap.ContextMenu();
-    lineMenu_up.addItem(new BMap.MenuItem('取消该故障区段', function (e) {
-        hideDepartInfo();
-        hideBreakLine();
-        map_dom_malfunction_overlay_show();
-
-    }, {width: 120}));
-
-    var lineMenu_down = new BMap.ContextMenu();
-    lineMenu_down.addItem(new BMap.MenuItem('取消该故障区段', function (e) {
-        hideDepartInfo();
-        hideBreakLine();
-        map_dom_malfunction_overlay_show();
-
-    }, {width: 120}));
-
-    polyline_up.addContextMenu(lineMenu_up);
-    polyline_down.addContextMenu(lineMenu_down);
-
-    map_dom_malfunction_break[p_selected_malfunction_info.id].push(polyline_up);
-    map_dom_malfunction_break[p_selected_malfunction_info.id].push(polyline_down);
+    // pointList_up.forEach(function (val) {
+    //     map_pointList_up.push(new BMap.Point(val.lng, val.lat));
+    // });
+    // var polyline_up = new BMap.Polyline(map_pointList_up, {strokeColor:"#11a361", strokeWeight:4, strokeOpacity:0.8});
+    // map.addOverlay(polyline_up);   //增加折线
+    // var lineMenu_up = new BMap.ContextMenu();
+    // lineMenu_up.addItem(new BMap.MenuItem('取消该故障区段', function (e) {
+    //     hideDepartInfo();
+    //     hideBreakLine();
+    //     map_dom_malfunction_overlay_show();
+    //
+    // }, {width: 120}));
+    // polyline_up.addContextMenu(lineMenu_up);
+    // map_dom_malfunction_break[p_selected_malfunction_info.id].push(polyline_up);
+    //
+    //
+    // pointList_down.forEach(function (val) {
+    //     map_pointList_down.push(new BMap.Point(val.lng, val.lat));
+    // });
+    // var polyline_down = new BMap.Polyline(map_pointList_down, {strokeColor:"#2c9dd3", strokeWeight:4, strokeOpacity:0.8});
+    // map.addOverlay(polyline_down);   //增加折线
+    // var lineMenu_down = new BMap.ContextMenu();
+    // lineMenu_down.addItem(new BMap.MenuItem('取消该故障区段', function (e) {
+    //     hideDepartInfo();
+    //     hideBreakLine();
+    //     map_dom_malfunction_overlay_show();
+    //
+    // }, {width: 120}));
+    // polyline_down.addContextMenu(lineMenu_down);
+    // map_dom_malfunction_break[p_selected_malfunction_info.id].push(polyline_down);
 
 }
 
@@ -413,54 +451,109 @@ var setStationList = function (stationId ,direction) {
     idx = breakStationIds.indexOf(stationId);
     maxIdx = idx;
 
+    var polylineUp;
+    var polylineDown;
+
     if (direction == 'up') {
 
         for(var i = idx; i < breakStationIds.length; i++) {
             maxIdx = i;
+            map_pointList_up = [];
             if (i != idx) {
                 key = breakStationIds[i - 1] + '-' + breakStationIds[i] + '-up';
-                pointListUp = DB_data.busRoute[key].concat(pointListUp );
+                pointListUp = DB_data.busRoute[key];//.concat(pointListUp );
+            }
+
+            pointListUp.forEach(function (val) {
+                map_pointList_up.push(new BMap.Point(val.lng, val.lat));
+            });
+
+            if (pointListUp.length > 0) {
+                polylineUp = new BMap.Polyline(map_pointList_up, {strokeColor:"#f39950", strokeWeight:8, strokeOpacity:1});
+                map.addOverlay(polylineUp);   //增加折线
+
+                map_dom_bus_line.push(polylineUp);
             }
         }
-        for(maxIdx; maxIdx >0 ; maxIdx--) {
+        for(maxIdx; maxIdx >idx ; maxIdx--) {
+            map_pointList_down = [];
+
             if (maxIdx != 0) {
                 key = breakStationIds[maxIdx - 1] + '-' + breakStationIds[maxIdx] + '-down';
 
-                pointListDown = pointListDown.concat(DB_data.busRoute[key]);
+                pointListDown = DB_data.busRoute[key];
+            }
+
+            pointListDown.forEach(function (val) {
+                map_pointList_down.push(new BMap.Point(val.lng, val.lat));
+            });
+            if (pointListDown.length > 0) {
+                polylineDown = new BMap.Polyline(map_pointList_down, {strokeColor:"#f39950", strokeWeight:8, strokeOpacity:1});
+                map.addOverlay(polylineDown);   //增加折线
+                map_dom_bus_line.push(polylineDown);
             }
         }
     }
 
     if (direction == 'down') {
+        for(var i = 1; i <= idx; i++) {
+            map_pointList_up = [];
+
+            key = breakStationIds[i - 1] + '-' + breakStationIds[i] + '-up';
+            pointListUp = DB_data.busRoute[key];
+
+            pointListUp.forEach(function (val) {
+                map_pointList_up.push(new BMap.Point(val.lng, val.lat));
+            });
+
+            if (pointListUp.length > 0) {
+                polylineUp = new BMap.Polyline(map_pointList_up, {strokeColor:"#f39950", strokeWeight:8, strokeOpacity:1});
+                map.addOverlay(polylineUp);   //增加折线
+
+                map_dom_bus_line.push(polylineUp);
+            }
+        }
+
         for(var i = idx; i > 0; i--) {
+            map_pointList_down = [];
+
             if (i != 0) {
                 key = breakStationIds[i - 1] + '-' + breakStationIds[i] + '-down';
 
-                pointListDown = pointListDown.concat(DB_data.busRoute[key]);
+                pointListDown = DB_data.busRoute[key];
+            }
+
+            pointListDown.forEach(function (val) {
+                map_pointList_down.push(new BMap.Point(val.lng, val.lat));
+            });
+            if (pointListDown.length > 0) {
+                polylineDown = new BMap.Polyline(map_pointList_down, {strokeColor:"#f39950", strokeWeight:8, strokeOpacity:1});
+                map.addOverlay(polylineDown);   //增加折线
+                map_dom_bus_line.push(polylineDown);
             }
         }
     }
 
 
-    pointListUp.forEach(function (val) {
-        map_pointList_up.push(new BMap.Point(val.lng, val.lat));
-    });
-
-    pointListDown.forEach(function (val) {
-        map_pointList_down.push(new BMap.Point(val.lng, val.lat));
-    });
-
-    if (pointListUp.length > 0) {
-        var polylineUp = new BMap.Polyline(map_pointList_up, {strokeColor:"#f39950", strokeWeight:8, strokeOpacity:1});
-        map.addOverlay(polylineUp);   //增加折线
-
-        map_dom_bus_line.push(polylineUp);
-    }
-    if (pointListDown.length > 0) {
-        var polylineDown = new BMap.Polyline(map_pointList_down, {strokeColor:"#f39950", strokeWeight:8, strokeOpacity:1});
-        map.addOverlay(polylineDown);   //增加折线
-        map_dom_bus_line.push(polylineDown);
-    }
+    // pointListUp.forEach(function (val) {
+    //     map_pointList_up.push(new BMap.Point(val.lng, val.lat));
+    // });
+    //
+    // pointListDown.forEach(function (val) {
+    //     map_pointList_down.push(new BMap.Point(val.lng, val.lat));
+    // });
+    //
+    // if (pointListUp.length > 0) {
+    //     var polylineUp = new BMap.Polyline(map_pointList_up, {strokeColor:"#f39950", strokeWeight:8, strokeOpacity:1});
+    //     map.addOverlay(polylineUp);   //增加折线
+    //
+    //     map_dom_bus_line.push(polylineUp);
+    // }
+    // if (pointListDown.length > 0) {
+    //     var polylineDown = new BMap.Polyline(map_pointList_down, {strokeColor:"#f39950", strokeWeight:8, strokeOpacity:1});
+    //     map.addOverlay(polylineDown);   //增加折线
+    //     map_dom_bus_line.push(polylineDown);
+    // }
 
 }
 

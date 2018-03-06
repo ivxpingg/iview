@@ -276,6 +276,13 @@
                 };
                 this.contentWindow.postMessage(info, '*');
                 this.windowIndex = (this.windowIndex + 1) % 4;
+            },
+            videoZoom() {
+                var info = {
+                    type: 'zoom',
+                    video: {}
+                };
+                this.contentWindow.postMessage(info, '*');
             }
         }
     }

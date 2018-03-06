@@ -83,9 +83,13 @@ function addVideo(puid) {
     var hign = 0;   // 0(清晰) / 1(流畅)
     var manu = 'kedacom';
 
-    m1.startRealPlay(domainid, puid, chan, src,  manu, hign, windowIndex);
+    m1.startRealPlay(domainid, puid, chan, src,  manu, hign, windowIndex, messageParent);
     windowIndex = (windowIndex + 1) % 4;
 
+}
+
+function messageParent(value) {
+    alert(value);
 }
 
 function zoom() {
