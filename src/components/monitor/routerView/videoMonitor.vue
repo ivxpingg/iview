@@ -14,8 +14,8 @@
             </div>
             <div class="tree-box">
                 <div class="btn-box">
-                    <Button type="ghost" shape="circle" icon="arrow-expand" title="全屏">全屏</Button>
-                    <Button type="ghost" shape="circle" icon="close-round" title="全屏">关闭</Button>
+                    <Button type="ghost" shape="circle" icon="arrow-expand" title="全屏" @click="videoZoom">全屏</Button>
+                    <Button type="ghost" shape="circle" icon="close-round" title="全屏" @click="videoStop">关闭</Button>
                 </div>
                 <Tree :data="searchData" ></Tree>
             </div>
@@ -283,9 +283,7 @@
             videoZoom() {
                 var info = {
                     type: 'videoZoom',
-                    video: {
-                        windowIndex: this.windowIndex
-                    }
+                    video: {}
                 };
                 this.contentWindow.postMessage(info, '*');
             },
@@ -293,10 +291,11 @@
                 var info = {
                     type: 'videoStop',
                     video: {
-
+                        windowIndex: this.windowIndex
                     }
                 };
                 this.contentWindow.postMessage(info, '*');
+//                this.windowIndex = (this.windowIndex + 1) % 4;
             },
             handleSpinShow() {
                 this.$Spin.show();

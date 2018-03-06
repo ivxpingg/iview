@@ -180,9 +180,12 @@ OcxManager.prototype.stopRealPlay = function (windowId) {
             this.playId = this.playArr[i].playId;
         }
     }
-    if (playId != 65535) {
+    if (this.playId != 65535) {
         this.objMcuOcx.StopRealPlay(playId, windowId);
         this.playId = 65535;
+    }
+    else {
+        // alert(windowId);
     }
 }
 
