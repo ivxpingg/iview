@@ -59,10 +59,10 @@
                     <!--<router-link class="ivu-btn ivu-btn-primary ivu-btn-circle" to="employeeAdd">新增从业人员信息</router-link>-->
                     <Button type="primary" shape="circle" @click="onEmployeeAdd">新增从业人员信息</Button>
 
-                    <div class="v-file-up-load"></div>
-                    <div class="v-file-up-load"></div>
-                    <!--<vFileUpload class="v-file-up-load" :url="importFileUrl1"  bText="导入从业人员报备表"></vFileUpload>-->
-                    <!--<vFileUpload class="v-file-up-load" :url="importFileUrl2"  bText="导入从业人员异动报备表"></vFileUpload>-->
+                    <!--<div class="v-file-up-load"></div>-->
+                    <!--<div class="v-file-up-load"></div>-->
+                    <vFileUpload class="v-file-up-load" :url="importFileUrl1"  bText="导入从业人员报备表"></vFileUpload>
+                    <vFileUpload class="v-file-up-load" :url="importFileUrl2"  bText="导入从业人员异动报备表"></vFileUpload>
                 </div>
             </div>
 

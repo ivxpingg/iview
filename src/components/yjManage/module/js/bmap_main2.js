@@ -366,10 +366,12 @@ var setBusStation = function (p_selected_malfunction_info) {
             }
             var labelUp = new BMap.Label(upName, optsUp);  // 创建文本标注对象
             labelUp.setStyle({
-                color : "red",
+                paddingBottom: '3px',
+                borderColor: "#11a361",
+                color : "#11a361",
                 fontSize : "12px",
                 height : "20px",
-                lineHeight : "20px",
+                lineHeight : "",
                 fontFamily:"微软雅黑"
             });
             map.addOverlay(labelUp);
@@ -402,7 +404,9 @@ var setBusStation = function (p_selected_malfunction_info) {
             }
             var labelDown = new BMap.Label(downName, optsDown);  // 创建文本标注对象
             labelDown.setStyle({
-                color : "red",
+                paddingBottom: '3px',
+                borderColor: "#2c9dd3",
+                color : "#2c9dd3",
                 fontSize : "12px",
                 height : "20px",
                 lineHeight : "20px",
