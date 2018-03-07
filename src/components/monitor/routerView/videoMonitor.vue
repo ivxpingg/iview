@@ -235,7 +235,6 @@
 
                     }
                 });
-                console.dir(pChildren);
                 return pChildren;
             },
 
