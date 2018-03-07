@@ -153,7 +153,7 @@
         watch: {
             keyword(value) {
                 var that = this;
-                var data = [];
+                var datas = [];
                 this.data2.forEach(function (obj) {
                     var o = {
                         title: obj.title,
@@ -161,12 +161,14 @@
                         render: obj.render,
                         children: []
                     }
-                    if (obj.children.length > 0) {
-                        o.push(obj.push(that.searchTree(value, obj)));
+                    if (obj.children && obj.children.length > 0) {
+                        o.children = that.searchTree(value, obj.children);
                     }
 
-
+                    datas.push(o);
                 });
+
+                this.searchData = datas;
             }
         },
         created() {
@@ -205,7 +207,36 @@
 
             // 数据检索
             searchTree(keyname, children) {
+                var that = this;
+                var pChildren = [];
 
+                children.forEach(function (val) {
+                    var rChild = [];
+                    var o = {};
+                    if (val.children && val.children.length > 0) {
+                        rChild = that.searchTree(keyname, val.children);
+                    }
+                    else {
+                        rChild = [];
+                    }
+
+                    if(val.title.indexOf(keyname) >= 0 || rChild.length > 0) {
+                        o.title = val.title;
+                        o.expand = true;
+                        o.render = val.render;
+                        if (val.puid) {
+                            o.puid = val.puid;
+                        }
+                        o.children = rChild;
+
+                        pChildren.push(o);
+                    }
+                    else {
+
+                    }
+                });
+                console.dir(pChildren);
+                return pChildren;
             },
 
             // 树的方法
@@ -215,6 +246,25 @@
             },
             renderContent (h, { root, node, data }) {
                 var that = this;
+
+                var title = data.title, dom = [];
+
+                if (this.keyword != '' && title.indexOf(this.keyword) != -1) {
+                    var ls = title.split(this.keyword);
+                    var dls = [];
+
+                    for(var i = 0; i < ls.length; i++) {
+                        dls.push(ls[i]);
+                        if (i != (ls.length - 1)) {
+                            dls.push(h('span', {'class': {'font-color-highlight': true}}, this.keyword));
+                        }
+                    }
+
+                    dom = [ h('span', dls)];
+                }
+                else {
+                    dom = [ h('span', title)];
+                }
 
                  if (!data.puid) {
 
@@ -231,7 +281,7 @@
                                      data.expand = !data.expand;
                                  }
                              }
-                         }, [ h('span', data.title)]);
+                         }, dom);
 
                  }
                  else {
@@ -261,7 +311,7 @@
                                      marginRight: '8px'
                                  }
                              }),
-                             h('span', data.title)
+                             dom
                          ])]);
                  }
             },
@@ -398,5 +448,9 @@
 
     .ivu-menu-custom {
         background: #495060;
+    }
+
+    .font-color-highlight {
+        color: orange;
     }
 </style>
