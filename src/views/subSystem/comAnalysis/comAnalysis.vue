@@ -1,8 +1,18 @@
 <template>
     <div class="comAnalysis-container">
-        <vHeader class="v-header"></vHeader>
+        <vHeader
+                class="v-header"
+                :stime_t="stime_t"
+                :etime_t="etime_t"
+                :dim_t="dim_t"
+                :stime_p="stime_p"
+                :etime_p="etime_p"
+                :dim_p="dim_p"
+                :timeFrame_p="timeFrame_p"></vHeader>
         <div ref="routerViewBox" class="router-view">
-            <router-view></router-view>
+            <keep-alive>
+                <router-view></router-view>
+            </keep-alive>
         </div>
         <vFooter class="footer"></vFooter>
     </div>
@@ -13,7 +23,15 @@
     import vFooter from '../../../components/layout/footer/footer.vue';
     export default {
         data() {
-            return {}
+            return {
+                stime_t: '',
+                etime_t: '',
+                dim_t: '',
+                stime_p: '',
+                etime_p: '',
+                dim_p: '',
+                timeFrame_p: ''
+            }
         },
         components: {vHeader, vFooter},
         mounted() {

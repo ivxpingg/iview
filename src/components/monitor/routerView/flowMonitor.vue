@@ -579,7 +579,7 @@
                             label: {
                                 normal: {
                                     show: true,
-                                    position: 'left'
+                                    position: 'inside' //inside
                                 }
                             },
                             data:[]
@@ -602,7 +602,12 @@
                             stack: '总量',
                             label: {
                                 normal: {
-                                    show: true
+                                    show: true,
+                                    position: 'inside',
+                                    formatter: function(a)
+                                    {
+                                        return Math.abs(a.data);
+                                    } // 这里是数据展示的时候显示的数据
                                 }
                             },
                             data:[]

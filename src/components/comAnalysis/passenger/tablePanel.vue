@@ -36,7 +36,8 @@
                                 return h('a', {
                                     attrs: {
                                         href: params.row['localUrl'],
-                                        target: '_blank'
+                                        target: '_blank',
+                                        title: '运营生产日报_' + params.row[params.column.key]
                                     }
                                 }, params.row[params.column.key]);
                             }

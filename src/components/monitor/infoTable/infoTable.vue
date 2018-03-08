@@ -532,7 +532,7 @@
                 // 如果没有值
 
                 var value, value1, value2;
-                var hh1, hh2, mm1, mm2, mVal = 0;
+                var hh1, hh2, mm1, mm2, ss1, ss2, mVal = 0;
                 if (!params.row[key]) {
                     return '- -';
                 }
@@ -552,21 +552,24 @@
                     hh2 = MOMENT(value2).hour();
                     mm2 = MOMENT(value2).minute();
 
-                    mVal = (hh2 - hh1) * 60 + (mm2 - mm1);
+                    ss1 = MOMENT(value1).seconds();
+                    ss2 = MOMENT(value2).seconds();
+
+                    mVal = (hh2 - hh1) * 60 + (mm2 - mm1) + ((ss2 - ss1) >= 30 ? 1 : 0);
                 }
 
                 if (mVal < 0) { // 早点
                     return h('span', {
                         'class': 'row-complete'
                     }, [MOMENT(value1).format('hh:mm'), h('span', {
-                        'class': 'random-error'
+                        'class': 'random-error early-error'
                     }, mVal)]);
                 }
                 else if (mVal > 0){
                     return h('span', {
                         'class': 'row-complete'
                     }, [MOMENT(value1).format('hh:mm'), h('span', {
-                        'class': 'random-error'
+                        'class': 'random-error later-error'
                     }, '+' + mVal)]);
                 }
                 else {
@@ -726,9 +729,15 @@
             background-position: center;
             vertical-align: middle;
         }
-        .random-error {
+        .later-error {
             margin-left: 0px;
-            color: red;
+            color: #FFF;
+            background-color: #ed9990;
+        }
+        .early-error {
+            margin-left: 0px;
+            color: #FFF;
+            background-color: #84b4de;
         }
     }
 

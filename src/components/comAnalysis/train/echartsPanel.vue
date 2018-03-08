@@ -85,9 +85,9 @@
 
                 val.forEach(function (val) {
                     that.option1.xAxis[0].data.push(val.insTime);
-                    that.option1.series[0].data.push(val.planTrainNum);
-                    that.option1.series[1].data.push(val.actualTrainNum);
-                    that.option1.series[2].data.push(val.fulfillmentRate);
+                    that.option1.series[0].data.push(val.actualTrainNum);
+                    that.option1.series[1].data.push(val.onTime);
+                    that.option1.series[2].data.push(val.onTimeRate);
 
                     that.option2.series[0].data[0].value += val.lateTime;
                     that.option2.series[0].data[1].value += val.onTime;
@@ -122,7 +122,7 @@
             setChart1() {
                 this.myChart1 = echarts.init(this.$refs.chart1);
                 var option = {
-                    color: ['#ea5550', '#65aadd', '#8e81bc'],
+                    color: ['#65aadd', '#ea5550', '#8e81bc'],
                     backgroundColor: '#FFF',
                     tooltip: {
                         trigger: 'axis',
@@ -134,7 +134,7 @@
                         }
                     },
                     legend: {
-                        data:['计划列次','实际列次','正点率']
+                        data:['实际列次','正点列次','正点率']
                     },
                     grid: {
                         left: 5,
@@ -226,12 +226,12 @@
                     ],
                     series: [
                         {
-                            name:'计划列次',
+                            name:'实际列次',
                             type:'bar',
                             data:[]
                         },
                         {
-                            name:'实际列次',
+                            name:'正点列次',
                             type:'bar',
                             data:[]
                         },
@@ -259,7 +259,7 @@
                     legend: {
                         orient: 'vertical',
                         x: 'left',
-                        data:['2-5分晚点', '5分及以上晚点']
+                        data:['正点列次', '2-5分晚点', '5分及以上晚点']
                     },
                     grid: {
                         left: 5,

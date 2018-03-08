@@ -194,9 +194,9 @@
 
                     val.averageDistanceList.forEach(function (value) {
 
-                        that.option3.series[0].data[that.option3.xAxis[0].data.indexOf(value.insTime)] = value.passengerFlow / 10000;
+                        that.option3.series[0].data[that.option3.xAxis[0].data.indexOf(value.insTime)] = (value.passengerFlow / 10000).toFixed(2);
                         that.option3.series[1].data[that.option3.xAxis[0].data.indexOf(value.insTime)] = value.averageDistance || 0;
-                        that.option3.series[2].data[that.option3.xAxis[0].data.indexOf(value.insTime)] = value.passengerFlow * value.averageDistance / 10000;
+                        that.option3.series[2].data[that.option3.xAxis[0].data.indexOf(value.insTime)] = (value.passengerFlow * value.averageDistance / 10000).toFixed(2);
                     });
 
 //                    val.averageDistance.forEach(function (value) {
@@ -220,7 +220,7 @@
             setChart1() {
                 this.myChart1 = echarts.init(this.$refs.chart1);
                 var option = {
-                    color: ['#ea5550','#69a2d8','#ea5550','#69a2d8', '#8e81bc'],
+                    color: ['#69a2d8','#ea5550','#69a2d8','#ea5550', '#8e81bc'],
                     backgroundColor: '#FFF',
                     tooltip: {
                         trigger: 'axis',
@@ -375,7 +375,7 @@
                             label: {
                                 normal: {
                                     show: true,
-                                    position: 'insideRight'
+                                    position: 'inside'
                                 }
                             },
                             data: []
@@ -387,7 +387,7 @@
                             label: {
                                 normal: {
                                     show: true,
-                                    position: 'insideRight'
+                                    position: 'inside'
                                 }
                             },
                             data: []
@@ -403,6 +403,7 @@
                     color: ['#ea5550','#69a2d8','#8e81bc','#69a2d8', '#8e81bc'],
                     backgroundColor: '#FFF',
                     tooltip: {
+                        formatter: '', // 这里是鼠标移上去的显示数据
                         trigger: 'axis',
                         axisPointer: {
                             type: 'cross',
