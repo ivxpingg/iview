@@ -97,7 +97,7 @@
             },
             handleSubmit() {
                 let that = this;
-
+                that.$Spin.show();
                 this.$refs['formInline'].validate((valid) => {
                     if (valid) {
                         Util.ajax({
@@ -110,6 +110,7 @@
                             }
                         })
                         .then(function (response) {
+                            that.$Spin.hide();
                             if (response.status === 1) {
                                 Util.cookie.set('xmgd', response.result.token, new Date(new Date().getTime() + 7 * 24 * 60 * 1000));
                                 Util.cookie.set('xmgdname', response.result.userName, new Date(new Date().getTime() + 7 * 24 * 60 * 1000));
@@ -129,6 +130,7 @@
                             }
                         })
                         .catch(function (error) {
+                            that.$Spin.hide();
                             console.log(error);
                         });
 

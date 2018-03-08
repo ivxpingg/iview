@@ -108,11 +108,13 @@
 
             getDataByNow() {
                 var that = this;
+                that.$Spin.show();
                 Util.ajax({
                     method: "get",
                     url: '/xm/pub/pubOpinionInfo/countPubOpinionInfo',
                     data: {}
                 }).then(function(response){
+                    that.$Spin.hide();
                     if (response.status === 1) {
                         that.nowData.all = response.result.all;
                         that.nowData.microBlog = response.result.microBlog;
@@ -124,6 +126,7 @@
                     else {}
 
                 }).catch(function (error) {
+                    that.$Spin.hide();
                     console.log(error);
                 })
             }

@@ -311,6 +311,7 @@
         methods: {
             getData1() {
                 var that = this;
+                this.$Spin.show();
                 Util.ajax({
                     method: "get",
                     url: '/xm/inte/driveAnalysis/getDriveIndex',
@@ -320,11 +321,13 @@
                         type: this.dim
                     }
                 }).then(function(response){
+                    that.$Spin.hide();
                     if (response.status === 1) {
                         that.tableData1 = response.result.driveIndexList;
                     }
                     else {}
                 }).catch(function (error) {
+                    that.$Spin.hide();
                     console.log(error);
                 })
             },

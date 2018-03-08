@@ -217,6 +217,7 @@
         methods: {
             getDataTable() {
                 var that = this;
+                this.$Spin.show();
                 Util.ajax({
                     method: "get",
                     url: '/xm/inte/passengerAnalysis/getPassengerIndex',
@@ -227,12 +228,14 @@
                         timeType: that.timeFrame
                     }
                 }).then(function(response){
+                    that.$Spin.hide();
                     if (response.status === 1) {
                         that.tableDataIn = response.result.inPassengerIndexList;
                         that.tableDataOut = response.result.outPassengerIndexList;
                     }
                     else {}
                 }).catch(function (error) {
+                    that.$Spin.hide();
                     console.log(error);
                 })
             }

@@ -593,9 +593,10 @@
             },
 
             employee_certificateName() {
+
                 for (let i = 0; i < this.dict_certificateName.length; i++) {
                     if (this.dict_certificateName[i].value == this.employee.certificateName) {
-                        return this.dict_education[i].label;
+                        return this.dict_certificateName[i].label;
                     }
                 }
                 return '';
@@ -668,7 +669,7 @@
                         return this.employee.pictureRelation[i].pictureUrl;
                     }
                 }
-                return 'https://i.loli.net/2017/08/21/599a521472424.jpg';
+                return Util.staticImgUrl + '/static/img/default-head.jpg';
             },
             CertificateImageUrlList() {
                 var list = [];
@@ -819,6 +820,7 @@
             },
             getEmployeeInfoByID(id) {
                 var that = this;
+                that.$Spin.show();
                 Util.ajax({
                     method: 'get',
                     url: '/xm/sys/employee/detail',
@@ -826,28 +828,28 @@
                         employeeId: id
                     }
                 }).then(function (response) {
-
+                    that.$Spin.hide();
                     if (response.status == 1) {
 
-                        that.employee.name = response.result.name;
-                        that.employee.jobNum = response.result.jobNum;
-                        that.employee.sex = response.result.sex;
-                        that.employee.education = response.result.education;
-                        that.employee.getCertificateTime = response.result.getCertificateTime;
-                        that.employee.certificateUseDate = response.result.certificateUseDate;
-                        that.employee.certificateName = response.result.certificateName;
-                        that.employee.issuingUnit = response.result.issuingUnit;
-                        that.employee.idNumber = response.result.idNumber;
-                        that.employee.entryDate = response.result.entryDate;
-                        that.employee.phone = response.result.phone;
-                        that.employee.postCategory = response.result.postCategory;
-                        that.employee.postName = response.result.postName;
+                        that.employee.name = response.result.name || '';
+                        that.employee.jobNum = response.result.jobNum || '';
+                        that.employee.sex = response.result.sex || '';
+                        that.employee.education = response.result.education || '';
+                        that.employee.getCertificateTime = response.result.getCertificateTime || '';
+                        that.employee.certificateUseDate = response.result.certificateUseDate || '';
+                        that.employee.certificateName = response.result.certificateName || '';
+                        that.employee.issuingUnit = response.result.issuingUnit || '';
+                        that.employee.idNumber = response.result.idNumber || '';
+                        that.employee.entryDate = response.result.entryDate || '';
+                        that.employee.phone = response.result.phone || '';
+                        that.employee.postCategory = response.result.postCategory || '';
+                        that.employee.postName = response.result.postName || '';
                         that.employee.otherPost = response.result.otherPost || '';
-                        that.employee.status = response.result.status;
+                        that.employee.status = response.result.status || '';
                         that.employee.trainRecord = response.result.trainRecord || [];
                         that.employee.pictureRelation = response.result.pictureList || [];
-                        that.employee.leaveJobDate = response.result.leaveJobDate;
-                        that.employee.leaveJobReason = response.result.leaveJobReason;
+                        that.employee.leaveJobDate = response.result.leaveJobDate || '';
+                        that.employee.leaveJobReason = response.result.leaveJobReason || '';
 
                         that.getCertificateTime = response.result.getCertificateTime;
 //                        that.entryDate = response.result.entryDate;
@@ -859,6 +861,7 @@
                     }
 
                 }).catch(function (err) {
+                    that.$Spin.hide();
                     console.dir(err);
                 })
             },
@@ -919,7 +922,7 @@
                 }
 
                 var params = type == undefined ? this.searchParams : this['searchParams' + type];
-
+                that.$Spin.show();
                 Util.ajax({
                     method: 'post',
                     url: '/xm/sys/employee/list',
@@ -928,7 +931,7 @@
                     },
                     data: JSON.stringify(params)
                 }).then(function (response) {
-
+                    that.$Spin.hide();
                     if (response.status == 1) {
                         that.searchParams.count = response.result.count;
                         that.searchParams.pageCount = Math.ceil(response.result.count / response.result.pageSize);
@@ -939,6 +942,7 @@
                         console.log(response.errMsg);
                     }
                 }).catch(function (err) {
+                    that.$Spin.hide();
                     console.log(err);
                 });
             },

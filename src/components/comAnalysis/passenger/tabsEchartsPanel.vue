@@ -560,6 +560,7 @@
             },
             getData2() {
                 var that = this;
+                this.$Spin.show();
                 Util.ajax({
                     method: "get",
                     url: '/xm/inte/passengerAnalysis/getSinglePassengerFlow',
@@ -571,11 +572,13 @@
                         stationId: that.defaultSelect
                     }
                 }).then(function(response){
+                    that.$Spin.hide();
                     if (response.status === 1) {
                         that.echartData2 = response.result;
                     }
                     else {}
                 }).catch(function (error) {
+                    that.$Spin.hide();
                     console.log(error);
                 })
             },

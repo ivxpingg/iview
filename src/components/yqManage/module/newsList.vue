@@ -220,6 +220,7 @@
 
             onSearch() {
                 var that = this;
+                that.$Spin.show();
                 Util.ajax({
                     method: "get",
                     url: '/xm/pub/pubOpinionInfo/getNewsList',
@@ -230,12 +231,14 @@
                         endDate: that.eTime
                     }
                 }).then(function(response){
+                    that.$Spin.hide();
                     if (response.status === 1) {
                         that.newsList = response.result.newsList;
                     }
                     else {}
 
                 }).catch(function (error) {
+                    that.$Spin.hide();
                     console.log(error);
                 })
             }
