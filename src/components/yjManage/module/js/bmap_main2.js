@@ -18,7 +18,7 @@ var selected_malfunction_info = {
     // type: '0',
     // point: [{"lng":118.088848,"lat":24.456642}],
     // breakStationIds: [1,2],
-    // contactDepart: ['0']
+    // breakImg: ['1']           // 中断对应的故障运行交路图 (图片编号)
 };
 
 // 存放百度地图覆盖物， 中断元素、公交线路
@@ -28,7 +28,7 @@ var map_dom_malfunction_break = {};
  * 初始化地图
  */
 var initMap = function (domId, timer) {
-    map = new BMap.Map(domId, {enableMapClick:false, minZoom:12,maxZoom:17});    // 创建Map实例,关闭底图可点功能
+    map = new BMap.Map(domId, {enableMapClick:false, minZoom:12,maxZoom:18});    // 创建Map实例,关闭底图可点功能
     map.centerAndZoom(new BMap.Point(118.117348,24.552869), 13);  // 初始化地图,设置中心点坐标和地图级别
     map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
 
@@ -139,11 +139,18 @@ var map_dom_malfunction_overlay_hide = function () {
 var setMalfunctionLine = function (p_selected_malfunction_info) {
     map_dom_malfunction_overlay_hide();
 
-    showDepartInfo(p_selected_malfunction_info.contactDepart);
-    breakLine(p_selected_malfunction_info);
-    setBusLine(p_selected_malfunction_info);
-    busStationFlag(p_selected_malfunction_info);
-    setBusStation(p_selected_malfunction_info);
+    showDepartInfo(p_selected_malfunction_info.breakStationIds);
+
+    if (map_dom_malfunction_break[p_selected_malfunction_info.id]) {
+        showBreakLine();
+    }
+    else {
+        breakLine(p_selected_malfunction_info);
+        setBusLine(p_selected_malfunction_info);
+        busStationFlag(p_selected_malfunction_info);
+        setBusStation(p_selected_malfunction_info);
+        malfunctionPoint(p_selected_malfunction_info);
+    }
 }
 
 
@@ -151,10 +158,19 @@ var setMalfunctionLine = function (p_selected_malfunction_info) {
  * 显示中断线路对应负责的公交部门信息
  * @param contactDepart
  */
-var showDepartInfo = function (contactDepart) {
-    contactDepart.forEach(function (val) {
-        vm.busInfo.push(DB_data.departInfo[val]);
-    });
+var showDepartInfo = function (breakStationIds) {
+
+    for (var o in DB_data.departInfo) {
+
+        for (var i = 0; i < breakStationIds.length; i++) {
+            console.dir(DB_data.departInfo[o].stationIds.indexOf(breakStationIds[i]));
+            if (DB_data.departInfo[o].stationIds.indexOf(''+breakStationIds[i]+'') >=0 ) {
+                vm.busInfo.push(DB_data.departInfo[o]);
+                break;
+            }
+        }
+
+    }
 }
 /*
  * 隐藏中断线路对应负责的公交部门信息
@@ -192,15 +208,20 @@ var breakLine = function (p_selected_malfunction_info) {
         map_pointList.push(new BMap.Point(val.lng, val.lat));
     });
 
-    var polyline = new BMap.Polyline(map_pointList, {strokeColor:"#808283", strokeWeight:4, strokeOpacity:1});
+    var polyline = new BMap.Polyline(map_pointList, {strokeColor:"#f25661", strokeWeight:8, strokeOpacity:1});
 
     var lineMenu = new BMap.ContextMenu();
     lineMenu.addItem(new BMap.MenuItem('取消该故障区段', function (e) {
         hideDepartInfo();
         hideBreakLine();
+        breakImgHide();
         map_dom_malfunction_overlay_show();
 
     }, {width: 120}));
+
+    lineMenu.addItem(new BMap.MenuItem('显示故障运行交路图', function (e) {
+        breakImgShow();
+    }, {width: 160}));
 
     polyline.addContextMenu(lineMenu);
 
@@ -225,28 +246,30 @@ var hideBreakLine = function() {
     });
 }
 
+// 故障具体位置设置
+var malfunctionPoint = function (p_selected_malfunction_info) {
+    var point = p_selected_malfunction_info.malfunctionPoint[0];
+    var myIcon = new BMap.Icon(Util.staticImgUrl + "/static/img/malfunction2.png", new BMap.Size(16,16));
+    var marker = new BMap.Marker(new BMap.Point(point.lng, point.lat),{icon:myIcon});  // 创建标注
+    map.addOverlay(marker);
+    map_dom_malfunction_break[p_selected_malfunction_info.id].push(marker);
+}
+
 /**
  * 设置公交起点和终点标注 图片
  * @param p_selected_malfunction_info
  */
 var busStationFlag = function (p_selected_malfunction_info) {
+    var point;
+    var startStationList = DB_data.breakImg[p_selected_malfunction_info.breakImg].busStartStaion || [];
+    startStationList.forEach(function (val) {
+        point = DB_data.stationsPoint[DB_data.stationName[val]];
+        var myIcon = new BMap.Icon(Util.staticImgUrl + "/static/img/station-start.png", new BMap.Size(20,20));
+        var marker = new BMap.Marker(new BMap.Point(point[0], point[1]),{icon:myIcon});  // 创建标注
+        map.addOverlay(marker);
+        map_dom_malfunction_break[p_selected_malfunction_info.id].push(marker);
+    });
 
-    var firstKey = p_selected_malfunction_info.breakStationIds[0] + '';
-    var lastKey = p_selected_malfunction_info.breakStationIds[p_selected_malfunction_info.breakStationIds.length - 1] + '';
-    var startPoint = DB_data.stationsPoint[DB_data.stationName[firstKey]];
-    var lastPoint = DB_data.stationsPoint[DB_data.stationName[lastKey]];
-
-    var myIconFirst = new BMap.Icon(Util.staticImgUrl + "/static/img/station-start.png", new BMap.Size(20,20));
-    var markerFirst = new BMap.Marker(new BMap.Point(startPoint[0], startPoint[1]),{icon:myIconFirst});  // 创建标注
-
-    var myIconLast = new BMap.Icon(Util.staticImgUrl + "/static/img/station-start.png", new BMap.Size(20,20));
-    var markerLast = new BMap.Marker(new BMap.Point(lastPoint[0], lastPoint[1]),{icon:myIconLast});  // 创建标注
-
-    map.addOverlay(markerFirst);
-    map.addOverlay(markerLast);
-
-    map_dom_malfunction_break[p_selected_malfunction_info.id].push(markerFirst);
-    map_dom_malfunction_break[p_selected_malfunction_info.id].push(markerLast);
 }
 
 /***************************************公交接驳线路************************************
@@ -272,22 +295,33 @@ var setBusLine = function (p_selected_malfunction_info) {
             pointList_up.forEach(function (val) {
                 map_pointList_up.push(new BMap.Point(val.lng, val.lat));
             });
-            var polyline_up = new BMap.Polyline(map_pointList_up, {strokeColor:"#11a361", strokeWeight:4, strokeOpacity:0.8});
+            map_pointList_up.reverse();
+
+            // var sy = new BMap.Symbol(BMap_Symbol_SHAPE_FORWARD_OPEN_ARROW,{
+            //     scale: 0.5,//图标缩放大小
+            //     strokeColor:'#fff',//设置矢量图标的线填充颜色
+            //     strokeWeight: '2',//设置线宽
+            // });
+            // var icons = new BMap.IconSequence(sy, '5', '20');
+
+            var polyline_up = new BMap.Polyline(map_pointList_up, {
+                //icons:[icons],
+                strokeColor:"#11a361", strokeWeight:6, strokeOpacity:0.8});
             map.addOverlay(polyline_up);   //增加折线
             var lineMenu_up = new BMap.ContextMenu();
             lineMenu_up.addItem(new BMap.MenuItem('取消该故障区段', function (e) {
                 hideDepartInfo();
                 hideBreakLine();
+                breakImgHide();
                 map_dom_malfunction_overlay_show();
 
             }, {width: 120}));
+            lineMenu_up.addItem(new BMap.MenuItem('显示故障运行交路图', function (e) {
+                breakImgShow();
+            }, {width: 160}));
+
             polyline_up.addContextMenu(lineMenu_up);
             map_dom_malfunction_break[p_selected_malfunction_info.id].push(polyline_up);
-
-
-
-
-
 
 
             key_down = array[idx - 1] + '-' + array[idx] + '-down';
@@ -296,54 +330,48 @@ var setBusLine = function (p_selected_malfunction_info) {
             pointList_down.forEach(function (val) {
                 map_pointList_down.push(new BMap.Point(val.lng, val.lat));
             });
-            var polyline_down = new BMap.Polyline(map_pointList_down, {strokeColor:"#2c9dd3", strokeWeight:4, strokeOpacity:0.8});
+
+            // var sy2 = new BMap.Symbol(BMap_Symbol_SHAPE_FORWARD_OPEN_ARROW,{
+            //     scale: 0.5,//图标缩放大小
+            //     strokeColor:'#fff',//设置矢量图标的线填充颜色
+            //     strokeWeight: '2',//设置线宽
+            // });
+            // var icons2 = new BMap.IconSequence(sy2, '5', '20');
+
+            var polyline_down = new BMap.Polyline(map_pointList_down, {
+                // icons:[icons2],
+                strokeColor:"#2c9dd3", strokeWeight:6, strokeOpacity:0.8});
             map.addOverlay(polyline_down);   //增加折线
             var lineMenu_down = new BMap.ContextMenu();
             lineMenu_down.addItem(new BMap.MenuItem('取消该故障区段', function (e) {
                 hideDepartInfo();
                 hideBreakLine();
+                breakImgHide();
                 map_dom_malfunction_overlay_show();
 
             }, {width: 120}));
+
+            lineMenu_down.addItem(new BMap.MenuItem('显示故障运行交路图', function (e) {
+                breakImgShow();
+            }, {width: 160}));
+
             polyline_down.addContextMenu(lineMenu_down);
             map_dom_malfunction_break[p_selected_malfunction_info.id].push(polyline_down);
         }
     });
 
 
-    // pointList_up.forEach(function (val) {
-    //     map_pointList_up.push(new BMap.Point(val.lng, val.lat));
-    // });
-    // var polyline_up = new BMap.Polyline(map_pointList_up, {strokeColor:"#11a361", strokeWeight:4, strokeOpacity:0.8});
-    // map.addOverlay(polyline_up);   //增加折线
-    // var lineMenu_up = new BMap.ContextMenu();
-    // lineMenu_up.addItem(new BMap.MenuItem('取消该故障区段', function (e) {
-    //     hideDepartInfo();
-    //     hideBreakLine();
-    //     map_dom_malfunction_overlay_show();
-    //
-    // }, {width: 120}));
-    // polyline_up.addContextMenu(lineMenu_up);
-    // map_dom_malfunction_break[p_selected_malfunction_info.id].push(polyline_up);
-    //
-    //
-    // pointList_down.forEach(function (val) {
-    //     map_pointList_down.push(new BMap.Point(val.lng, val.lat));
-    // });
-    // var polyline_down = new BMap.Polyline(map_pointList_down, {strokeColor:"#2c9dd3", strokeWeight:4, strokeOpacity:0.8});
-    // map.addOverlay(polyline_down);   //增加折线
-    // var lineMenu_down = new BMap.ContextMenu();
-    // lineMenu_down.addItem(new BMap.MenuItem('取消该故障区段', function (e) {
-    //     hideDepartInfo();
-    //     hideBreakLine();
-    //     map_dom_malfunction_overlay_show();
-    //
-    // }, {width: 120}));
-    // polyline_down.addContextMenu(lineMenu_down);
-    // map_dom_malfunction_break[p_selected_malfunction_info.id].push(polyline_down);
-
 }
 
+
+// 故障运行交路图
+var breakImgShow = function () {
+    vm.img = selected_malfunction_info.breakImg[0] + '.png';
+    vm.breakImgShow = true;
+}
+var breakImgHide = function () {
+    vm.breakImgShow = false;
+}
 
 /**
  * 设置公交站牌
@@ -367,8 +395,11 @@ var setBusStation = function (p_selected_malfunction_info) {
             var labelUp = new BMap.Label(upName, optsUp);  // 创建文本标注对象
             labelUp.setStyle({
                 paddingBottom: '3px',
-                borderColor: "#11a361",
-                color : "#11a361",
+                paddingLeft: '3px',
+                paddingRight: '3px',
+                borderWidth: 0,
+                backgroundColor: '#11a361',
+                color : "#fff",
                 fontSize : "12px",
                 height : "20px",
                 lineHeight : "",
@@ -377,18 +408,22 @@ var setBusStation = function (p_selected_malfunction_info) {
             map.addOverlay(labelUp);
             map_dom_malfunction_break[p_selected_malfunction_info.id].push(labelUp);
 
+
             var myIcon = new BMap.Icon(Util.staticImgUrl + "/static/img/icon2.png", new BMap.Size(19,26));
             var myOffset = new BMap.Size(0, -13);
             var markerUp = new BMap.Marker(new BMap.Point(busStationUp[0].lng, busStationUp[0].lat),{icon:myIcon, offset: myOffset});  // 创建标注
+
+            // markerUp.setAnimation(BMAP_ANIMATION_BOUNCE);
+
             markerUp.mInfo = p_selected_malfunction_info;
             markerUp.mStationId = val;
             markerUp.addEventListener('mouseover', function (e) {
-                setStationList(this.mStationId, 'up');
-                setTwinkle();
+                //setStationList(this.mStationId, 'up');
+               // setTwinkle();
             });
 
             markerUp.addEventListener('mouseout', function (e) {
-                stopTwinkle();
+               // stopTwinkle();
             });
 
             map.addOverlay(markerUp);              // 将标注添加到地图中
@@ -405,27 +440,34 @@ var setBusStation = function (p_selected_malfunction_info) {
             var labelDown = new BMap.Label(downName, optsDown);  // 创建文本标注对象
             labelDown.setStyle({
                 paddingBottom: '3px',
-                borderColor: "#2c9dd3",
-                color : "#2c9dd3",
+                paddingLeft: '3px',
+                paddingRight: '3px',
+                borderWidth: 0,
+                backgroundColor: '#2c9dd3',
+                color : "#FFF",
                 fontSize : "12px",
                 height : "20px",
-                lineHeight : "20px",
+                lineHeight : "",
                 fontFamily:"微软雅黑"
             });
             map.addOverlay(labelDown);
             map_dom_malfunction_break[p_selected_malfunction_info.id].push(labelDown);
 
+
             var myIcon = new BMap.Icon(Util.staticImgUrl + "/static/img/icon1.png", new BMap.Size(19,26));
             var myOffset = new BMap.Size(-5, -13);
             var markerDown = new BMap.Marker(new BMap.Point(busStationDown[0].lng, busStationDown[0].lat),{icon:myIcon, offset: myOffset});  // 创建标注
+
+            // markerDown.setAnimation(BMAP_ANIMATION_BOUNCE);
+
             markerDown.mInfo = p_selected_malfunction_info;
             markerDown.mStationId = val;
             markerDown.addEventListener('mouseover', function (e) {
-                setStationList(this.mStationId, 'down');
-                setTwinkle();
+                // setStationList(this.mStationId, 'down');
+                // setTwinkle();
             });
             markerDown.addEventListener('mouseout', function (e) {
-                stopTwinkle();
+                // stopTwinkle();
             });
 
             map.addOverlay(markerDown);              // 将标注添加到地图中

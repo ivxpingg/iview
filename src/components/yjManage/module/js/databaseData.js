@@ -34,7 +34,6 @@ export default {
         '22': '天水路站',
         '23': '厦门北站',
         '24': '岩内站'
-
     },
     stationsIDs: {
         '岩内站':       24,
@@ -98,7 +97,8 @@ export default {
             role2: '联系人',
             name2: '黄睿',
             phone2: '13606037165',
-            tel: '5854531'
+            tel: '5854531',
+            stationIds: ['1', '2', '3', '4', '5', '6', '7', '8']
         },
         '1': {
             department: '湖里公共交通有限公司',
@@ -108,7 +108,8 @@ export default {
             role2: '联系人',
             name2: '黄长清',
             phone2: '13063065585',
-            tel: '5854531'
+            tel: '5854531',
+            stationIds: ['9', '10', '11', '12', '13']
         },
         '2': {
             department: '集美公共交通有限公司',
@@ -118,7 +119,8 @@ export default {
             role2: '联系人',
             name2: '江炳胜',
             phone2: '18905922350',
-            tel: '5854531'
+            tel: '5854531',
+            stationIds: ['14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24']
         }
     },
 
@@ -278,7 +280,8 @@ export default {
             type: '0',   //故障类型 0: 站点、1： 区段
             point: [ {"lng":118.076438,"lat":24.649608}, ... ],   // 对应故障的百度地图坐标集合
             breakStationIds: [1,2],  //故障站点或区段 对应中断的站点编号Id集合
-            contactDepart: ['0']     // 故障路段负责的相关部门信息
+            breakImg: ['1'],          // 中断对应的故障运行交路图 (图片编号)
+            malfunctionPoint: [],     // 故障具体位置
         }
      */
     malfunction:[
@@ -288,8 +291,8 @@ export default {
             type: '0',
             point: [{"lng":118.088848,"lat":24.456642}],
             breakStationIds: [1,2],
-            contactDepart: ['0']
-
+            breakImg: ['1'],
+            malfunctionPoint: [{"lng":118.088848,"lat":24.456642}]
         },
         {
             id: '2',    // 镇海路站~中山公园
@@ -308,7 +311,8 @@ export default {
                 // {"lng":118.088848,"lat":24.456642}
                 ],
             breakStationIds: [1,2],
-            contactDepart: ['0']
+            breakImg: ['1'],
+            malfunctionPoint: [{"lng":118.094028,"lat":24.459302}]
         },
         {
             id: '3',    // 中山公园站
@@ -316,7 +320,8 @@ export default {
             type: '0',
             point: [{"lng":118.096469,"lat":24.462612}],
             breakStationIds: [1,2,3,4,5],
-            contactDepart: ['0']
+            breakImg: ['2'],
+            malfunctionPoint: [{"lng":118.096469,"lat":24.462612}]
         },
         {
             id: '4',    // 中山公园~将军祠站
@@ -336,7 +341,8 @@ export default {
                 // {"lng":118.096469,"lat":24.462612}
             ],
             breakStationIds: [1,2,3,4,5],
-            contactDepart: ['0']
+            breakImg: ['2'],
+            malfunctionPoint: [{"lng":118.101995,"lat":24.464844}]
         },
         {
             id: '5',    // 将军祠站
@@ -344,7 +350,8 @@ export default {
             type: '0',
             point: [{"lng":118.106288,"lat":24.467216}],
             breakStationIds: [1,2,3,4,5],
-            contactDepart: ['0']
+            breakImg: ['2'],
+            malfunctionPoint: [{"lng":118.106288,"lat":24.467216}]
         },
         {
             id: '6',    //将军祠站~文灶站
@@ -362,7 +369,8 @@ export default {
                 // {"lng":118.106288,"lat":24.467216}
             ],
             breakStationIds: [1,2,3,4,5],
-            contactDepart: ['0']
+            breakImg: ['2'],
+            malfunctionPoint: [{"lng":118.10973,"lat":24.470262}]
         },
         {
             id: '7',    // 文灶站
@@ -370,7 +378,8 @@ export default {
             type: '0',
             point: [{"lng":118.11,"lat":24.473995}],
             breakStationIds: [1,2,3,4,5],
-            contactDepart: ['0']
+            breakImg: ['2'],
+            malfunctionPoint: [{"lng":118.11,"lat":24.473995}]
         },
         {
             id: '8',    //文灶站~湖滨东路站
@@ -389,7 +398,8 @@ export default {
                 // {"lng":118.11,"lat":24.473995}
             ],
             breakStationIds: [1,2,3,4,5],
-            contactDepart: ['0']
+            breakImg: ['2'],
+            malfunctionPoint: [{"lng":118.110583,"lat":24.478427}]
         },
         {
             id: '9',    //湖滨东路站
@@ -397,7 +407,8 @@ export default {
             type: '0',
             point: [{"lng":118.117997,"lat":24.480252}],
             breakStationIds: [1,2,3,4,5,6,7,8],
-            contactDepart: ['0']
+            breakImg: ['3'],
+            malfunctionPoint: [{"lng":118.117997,"lat":24.480252}]
         },
         {
             id: '10',    //湖滨东路站~莲坂站
@@ -410,7 +421,8 @@ export default {
                 // {"lng":118.117997,"lat":24.480252}
             ],
             breakStationIds: [5,6,7,8],
-            contactDepart: ['0']
+            breakImg: ['4'],
+            malfunctionPoint: [{"lng":118.121686,"lat":24.481214}]
         },
         {
             id: '11',    //莲坂站
@@ -418,7 +430,8 @@ export default {
             type: '0',
             point: [{"lng":118.124767,"lat":24.482044}],
             breakStationIds: [5,6,7,8],
-            contactDepart: ['0']
+            breakImg: ['4'],
+            malfunctionPoint: [{"lng":118.124767,"lat":24.482044}]
         },
         {
             id: '12',    //莲坂站~莲花路口站
@@ -438,7 +451,8 @@ export default {
                 // {"lng":118.124767,"lat":24.482044}
             ],
             breakStationIds: [5,6,7,8],
-            contactDepart: ['0']
+            breakImg: ['4'],
+            malfunctionPoint: [{"lng":118.127579,"lat":24.484638}]
         },
         {
             id: '13',    //莲花路口站
@@ -446,7 +460,8 @@ export default {
             type: '0',
             point: [{"lng":118.129242,"lat":24.488912}],
             breakStationIds: [5,6,7,8],
-            contactDepart: ['0']
+            breakImg: ['4'],
+            malfunctionPoint: [{"lng":118.129242,"lat":24.488912}]
         },
         {
             id: '14',    //莲花路口站~吕厝站
@@ -464,7 +479,8 @@ export default {
                 // {"lng":118.129242,"lat":24.488912}
             ],
             breakStationIds: [5,6,7,8],
-            contactDepart: ['0']
+            breakImg: ['4'],
+            malfunctionPoint: [{"lng":118.133297,"lat":24.493201}]
         },
         {
             id: '15',    //吕厝站
@@ -472,7 +488,8 @@ export default {
             type: '0',
             point: [{"lng":118.134441,"lat":24.496879}],
             breakStationIds: [5,6,7,8,9,10,11],
-            contactDepart: ['0', '1']
+            breakImg: ['5'],
+            malfunctionPoint: [{"lng":118.134441,"lat":24.496879}]
         },
         {
             id: '16',    // 吕厝站~乌石浦站
@@ -486,8 +503,9 @@ export default {
                 {"lng":118.134281,"lat":24.497845},
                 // {"lng":118.134441,"lat":24.496879}
             ],
-            breakStationIds: [],
-            contactDepart: ['1']
+            breakStationIds: [8,9,10,11],
+            breakImg: ['6'],
+            malfunctionPoint: [{"lng":118.133787,"lat":24.500254}]
         },
         {
             id: '17',    //乌石浦站
@@ -495,7 +513,8 @@ export default {
             type: '0',
             point: [{"lng":118.132938,"lat":24.504531}],
             breakStationIds: [8,9,10,11],
-            contactDepart: ['1']
+            breakImg: ['6'],
+            malfunctionPoint: [{"lng":118.132938,"lat":24.504531}]
         },
         {
             id: '18',    //乌石浦站~塘边站
@@ -511,7 +530,8 @@ export default {
                 // {"lng":118.132938,"lat":24.504531}
             ],
             breakStationIds: [8,9,10,11],
-            contactDepart: ['1']
+            breakImg: ['6'],
+            malfunctionPoint: [{"lng":118.132075,"lat":24.508745}]
         },
         {
             id: '19',    //塘边站
@@ -519,7 +539,8 @@ export default {
             type: '0',
             point: [{"lng":118.129221,"lat":24.512065}],
             breakStationIds: [8,9,10,11],
-            contactDepart: ['1']
+            breakImg: ['6'],
+            malfunctionPoint: [{"lng":118.129221,"lat":24.512065}]
         },
         {
             id: '20',    //塘边站~火炬园站
@@ -537,7 +558,8 @@ export default {
                 // {"lng":118.129221,"lat":24.512065}
             ],
             breakStationIds: [8,9,10,11],
-            contactDepart: ['1']
+            breakImg: ['6'],
+            malfunctionPoint: [{"lng":118.126834,"lat":24.514659}]
         },
         {
             id: '21',    //火炬园站
@@ -545,7 +567,8 @@ export default {
             type: '0',
             point: [{"lng":118.125125,"lat":24.51836}],
             breakStationIds: [8,9,10,11,12],
-            contactDepart: ['1']
+            breakImg: ['7'],
+            malfunctionPoint: [{"lng":118.125125,"lat":24.51836}]
         },
         {
             id: '22',    //火炬园站~殿前站
@@ -567,7 +590,8 @@ export default {
                 // {"lng":118.125125,"lat":24.51836}
             ],
             breakStationIds: [11,12],
-            contactDepart: ['1']
+            breakImg: ['8'],
+            malfunctionPoint: [{"lng":118.123375,"lat":24.525089}]
         },
         {
             id: '23',    //殿前站
@@ -575,7 +599,8 @@ export default {
             type: '0',
             point: [{"lng":118.122904,"lat":24.531396}],
             breakStationIds: [11,12,13],
-            contactDepart: ['1']
+            breakImg: ['9'],
+            malfunctionPoint: [{"lng":118.122904,"lat":24.531396}]
         },
         {
             id: '24',    //殿前站~高崎站
@@ -593,7 +618,8 @@ export default {
                 // {"lng":118.122904,"lat":24.531396}
             ],
             breakStationIds: [12,13],
-            contactDepart: ['1']
+            breakImg: ['10'],
+            malfunctionPoint: [{"lng":118.124983,"lat":24.537154}]
         },
         {
             id: '25',    //高崎站
@@ -601,7 +627,8 @@ export default {
             type: '0',
             point: [{"lng":118.123508,"lat":24.543385}],
             breakStationIds: [12,13,14,15,16],
-            contactDepart: ['1', '2']
+            breakImg: ['11'],
+            malfunctionPoint: [{"lng":118.123508,"lat":24.543385}]
         },
         {
             id: '26',    //高崎站~集美学村站
@@ -618,7 +645,8 @@ export default {
                 // {"lng":118.123508,"lat":24.543385}
             ],
             breakStationIds: [13,14,15,16],
-            contactDepart: ['2']
+            breakImg: ['12'],
+            malfunctionPoint: [{"lng":118.110453,"lat":24.558929}]
         },
         {
             id: '27',    //集美学村站
@@ -626,7 +654,8 @@ export default {
             type: '0',
             point: [{"lng":118.098824,"lat":24.570218}],
             breakStationIds: [13,14,15,16],
-            contactDepart: ['2']
+            breakImg: ['12'],
+            malfunctionPoint: [{"lng":118.098824,"lat":24.570218}]
         },
         {
             id: '28',    //集美学村站~园博苑站
@@ -646,7 +675,8 @@ export default {
                 // {"lng":118.098824,"lat":24.570218}
             ],
             breakStationIds: [13,14,15,16],
-            contactDepart: ['2']
+            breakImg: ['12'],
+            malfunctionPoint: [{"lng":118.085875,"lat":24.573402}]
         },
         {
             id: '29',    //园博苑站
@@ -654,7 +684,8 @@ export default {
             type: '0',
             point: [{"lng":118.073751,"lat":24.576119}],
             breakStationIds: [13,14,15,16],
-            contactDepart: ['2']
+            breakImg: ['12'],
+            malfunctionPoint: [{"lng":118.073751,"lat":24.576119}]
         },
         {
             id: '30',    //园博苑站~杏林村站
@@ -672,7 +703,8 @@ export default {
                 // {"lng":118.073751,"lat":24.576119}
             ],
             breakStationIds: [13,14,15,16],
-            contactDepart: ['2']
+            breakImg: ['12'],
+            malfunctionPoint: [{"lng":118.070267,"lat":24.578869}]
         },
         {
             id: '31',    //杏林村站
@@ -680,7 +712,8 @@ export default {
             type: '0',
             point: [{"lng":118.068109,"lat":24.583028}],
             breakStationIds: [13,14,15,16,17,18],
-            contactDepart: ['2']
+            breakImg: ['13'],
+            malfunctionPoint: [{"lng":118.068109,"lat":24.583028}]
         },
         {
             id: '32',    //杏林村站~杏锦路站
@@ -694,7 +727,8 @@ export default {
                 // {"lng":118.068109,"lat":24.583028}
             ],
             breakStationIds: [16,17,18],
-            contactDepart: ['2']
+            breakImg: ['14'],
+            malfunctionPoint: [{"lng":118.065852,"lat":24.585482}]
         },
         {
             id: '33',    //杏锦路站
@@ -702,7 +736,8 @@ export default {
             type: '0',
             point: [{"lng":118.063763,"lat":24.587784}],
             breakStationIds: [16,17,18],
-            contactDepart: ['2']
+            breakImg: ['14'],
+            malfunctionPoint: [{"lng":118.063763,"lat":24.587784}]
         },
         {
             id: '34',    //杏锦路站~官任站
@@ -722,7 +757,8 @@ export default {
                 // {"lng":118.063763,"lat":24.587784}
             ],
             breakStationIds: [16,17,18],
-            contactDepart: ['2']
+            breakImg: ['14'],
+            malfunctionPoint: [{"lng":118.062385,"lat":24.593261}]
         },
         {
             id: '35',    //官任站
@@ -730,7 +766,8 @@ export default {
             type: '0',
             point: [{"lng":118.06505,"lat":24.599746}],
             breakStationIds: [16,17,18,19,20,21],
-            contactDepart: ['2']
+            breakImg: ['15'],
+            malfunctionPoint: [{"lng":118.06505,"lat":24.599746}]
         },
         {
             id: '36',    //官任站~诚毅广场站
@@ -745,7 +782,8 @@ export default {
                 // {"lng":118.06505,"lat":24.599746}
             ],
             breakStationIds: [18,19,20,21],
-            contactDepart: ['2']
+            breakImg: ['16'],
+            malfunctionPoint: [{"lng":118.06419,"lat":24.604662}]
         },
         {
             id: '37',    //诚毅广场站
@@ -753,7 +791,8 @@ export default {
             type: '0',
             point: [{"lng":118.06086,"lat":24.609156}],
             breakStationIds: [18,19,20,21],
-            contactDepart: ['2']
+            breakImg: ['16'],
+            malfunctionPoint: [{"lng":118.06086,"lat":24.609156}]
         },
         {
             id: '38',    //诚毅广场站~集美软件园站
@@ -768,7 +807,8 @@ export default {
                 // {"lng":118.06086,"lat":24.609156}
             ],
             breakStationIds: [18,19,20,21],
-            contactDepart: ['2']
+            breakImg: ['16'],
+            malfunctionPoint: [{"lng":118.057803,"lat":24.613647}]
         },
         {
             id: '39',    //集美软件园站
@@ -776,7 +816,8 @@ export default {
             type: '0',
             point: [{"lng":118.053998,"lat":24.618961}],
             breakStationIds: [18,19,20,21],
-            contactDepart: ['2']
+            breakImg: ['16'],
+            malfunctionPoint: [{"lng":118.053998,"lat":24.618961}]
         },
         {
             id: '40',    //集美软件园~集美大道站
@@ -793,7 +834,8 @@ export default {
                 // {"lng":118.053998,"lat":24.618961}
             ],
             breakStationIds: [18,19,20,21],
-            contactDepart: ['2']
+            breakImg: ['16'],
+            malfunctionPoint: [{"lng":118.056698,"lat":24.622828}]
         },
         {
             id: '41',    //集美大道站
@@ -801,7 +843,8 @@ export default {
             type: '0',
             point: [{"lng":118.061922,"lat":24.625933}],
             breakStationIds: [18,19,20,21,22,23,24],
-            contactDepart: ['2']
+            breakImg: ['17'],
+            malfunctionPoint: [{"lng":118.061922,"lat":24.625933}]
         },
         {
             id: '42',    //集美大道站~天水路站
@@ -814,7 +857,8 @@ export default {
                 // {"lng":118.061922,"lat":24.625933}
             ],
             breakStationIds: [21,22,23,24],
-            contactDepart: ['2']
+            breakImg: ['18'],
+            malfunctionPoint: [{"lng":118.067757,"lat":24.629341}]
         },
         {
             id: '43',    //天水路站
@@ -822,7 +866,8 @@ export default {
             type: '0',
             point: [{"lng":118.072692,"lat":24.632225}],
             breakStationIds: [21,22,23,24],
-            contactDepart: ['2']
+            breakImg: ['18'],
+            malfunctionPoint: [{"lng":118.072692,"lat":24.632225}]
         },
         {
             id: '44',    //天水路~厦门北站
@@ -841,7 +886,8 @@ export default {
                 // {"lng":118.072692,"lat":24.632225}
             ],
             breakStationIds: [21,22,23,24],
-            contactDepart: ['2']
+            breakImg: ['18'],
+            malfunctionPoint: [{"lng":118.078316,"lat":24.637035}]
         },
         {
             id: '45',    //厦门北站
@@ -849,7 +895,8 @@ export default {
             type: '0',
             point: [{"lng":118.079645,"lat":24.643368}],
             breakStationIds: [21,22,23,24],
-            contactDepart: ['2']
+            breakImg: ['18'],
+            malfunctionPoint: [{"lng":118.079645,"lat":24.643368}]
         },
         {
             id: '46',    //厦门北站~岩内站
@@ -862,7 +909,8 @@ export default {
                 // {"lng":118.079645,"lat":24.643368}
             ],
             breakStationIds: [21,22,23,24],
-            contactDepart: ['2']
+            breakImg: ['18'],
+            malfunctionPoint: [{"lng":118.078029,"lat":24.64651}]
         },
         {
             id: '47',    //岩内站
@@ -870,10 +918,47 @@ export default {
             type: '0',
             point: [{"lng":118.076438,"lat":24.649608}],
             breakStationIds: [21,22,23,24],
-            contactDepart: ['2']
+            breakImg: ['18'],
+            malfunctionPoint: [{"lng":118.076438,"lat":24.649608}]
         }
-
     ],
+
+    // 故障区段对应的中断信息
+    breakImg: {
+        '1': {
+            titleImg: '镇海路站—中山公园站故障交路图',
+            busStartStaion: ['1', '2']
+        },
+        '2': {
+            titleImg: '镇海路站—湖滨东路站故障交路图',
+            busStartStaion: ['1', '3']
+        },
+        '3': {
+            titleImg: '镇海路站—吕厝站故障交路图',
+            busStartStaion: ['1', '3', '5', '7']
+        },
+        '4': {
+            titleImg: '湖滨东路站—吕厝站故障交路图',
+            busStartStaion: ['5', '7']
+        },
+        '5': {
+            titleImg: '湖滨东路站—火炬园站故障交路图',
+            busStartStaion: ['5', '7', '9', '11']
+        },
+        '6': { titleImg: '吕厝站—火炬园站故障交路图', busStartStaion: ['8', '10'] },
+        '7': { titleImg: '吕厝站—殿前站故障交路图', busStartStaion: ['8', '10', '12'] },
+        '8': { titleImg: '火炬园站—殿前站故障交路图', busStartStaion: ['11'] },
+        '9': { titleImg: '火炬园站—高崎站故障交路图', busStartStaion: ['11', '13'] },
+        '10': { titleImg: '殿前站—高崎站故障交路图', busStartStaion: ['12'] },
+        '11': { titleImg: '殿前站—杏林村站故障交路图', busStartStaion: ['12', '14', '16'] },
+        '12': { titleImg: '高崎站—杏林村站故障交路图', busStartStaion: ['14', '16'] },
+        '13': { titleImg: '高崎站—官任站故障交路图', busStartStaion: ['14', '16', '18'] },
+        '14': { titleImg: '杏林村站—官任站故障交路图', busStartStaion: ['16', '18'] },
+        '15': { titleImg: '杏林村站—集美大道站故障交路图', busStartStaion: ['17', '19', '21'] },
+        '16': { titleImg: '官任站—集美大道站故障交路图', busStartStaion: ['19', '21'] },
+        '17': { titleImg: '官任站—岩内站故障交路图', busStartStaion: ['18', '20', '22', '24'] },
+        '18': { titleImg: '集美大道站—岩内站故障交路图', busStartStaion: ['22', '24'] }
+    },
 
     // 中断区间 对应的百度地图坐标集合
     breakSection: {

@@ -17,13 +17,15 @@
         mounted() {
             window.frames.postMessage({ auth: '24', d: '5' }, '*');
             window.onmessage = function (ev) {
-                console.log(ev.data);
+                // console.log(ev.data);
             }
         }
     }
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
      .iframe {
-          height:100%;
+         height:100%;
+         border: 0;
+         overflow-x: hidden;
       }
 </style>

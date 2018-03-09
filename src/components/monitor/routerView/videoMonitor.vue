@@ -154,6 +154,7 @@
         watch: {
             keyword(value) {
                 var that = this;
+
                 var datas = [];
                 this.treeData.forEach(function (obj) {
                     var o = {

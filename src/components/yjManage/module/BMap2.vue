@@ -14,31 +14,77 @@
 
             </div>
         </div>
+        
+        <div class="breakImg" :class="{breakImgShow: breakImgShow}">
+            <img :src="domin + img" alt="">
+            <Button class="btn-close" type="ghost" shape="circle" icon="close-round" @click="breakClose"></Button>
+        </div>
+        
     </div>
 </template>
 <script>
     import bmap_main from './js/bmap_main2';
+    import Util from '../../../libs/util';
     export default {
         data() {
             return {
-                busInfo: []
+                busInfo: [],
+                domin: Util.staticImgUrl + '/static/img/breakimg/',
+                img: '',
+                breakImgShow: false
             }
         },
         mounted() {
             var that = this;
             bmap_main(that, 'bmap');
         },
-        methods:{}
+        methods:{
+            breakClose() {
+                this.breakImgShow = false;
+            }
+        }
     }
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
     .bmap-container {
         width: 100%;
         height: 100%;
-
+        user-select: none;
         .bmap {
             width: 100%;
             height: 100%;
+        }
+
+        .breakImg {
+            position: fixed;
+            z-index: 1;
+            bottom: -200px;
+            width: 100%;
+            height: 200px;
+            line-height: 200px;
+            text-align: center;
+            overflow-x: auto;
+            overflow-y: hidden;
+            background-color: #FFF;
+            border-top: 2px solid #e9eaec;
+
+            transition: bottom .3s ease-out;
+
+            &.breakImgShow {
+                bottom: 30px;
+            }
+
+            .btn-close {
+                position: absolute;
+                top: 10px;
+                right: 20px;
+                z-index: 1;
+            }
+
+            img {
+                max-height: 180px;
+                vertical-align: middle;
+            }
         }
 
         .bus-info-panel {

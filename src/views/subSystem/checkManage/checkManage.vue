@@ -1,45 +1,40 @@
 <template>
-    <div class="comAnalysis-container">
-        <vHeader></vHeader>
+    <div class="checkManage-container">
+        <vHeader class="v-header" @setUrl="setUrl"></vHeader>
         <div ref="routerViewBox" class="router-view">
-            <keep-alive>
-                <router-view></router-view>
-            </keep-alive>
+            <vCheckManage class="v-user-manage" :url="url"></vCheckManage>
         </div>
         <vFooter class="footer"></vFooter>
     </div>
 </template>
 
 <script>
-    import vHeader from '../../../components/comAnalysis/header/header.vue';
+    import vHeader from '../../../components/checkManage/header/header.vue';
     import vFooter from '../../../components/layout/footer/footer.vue';
+    import vCheckManage from '../../../components/checkManage/checkManage.vue';
     export default {
         data() {
-            return {}
+            return {
+                url: 'http://218.85.132.71:9788/gd/gdCorp!listforuid.action?uid=gdkp',
+            }
         },
-        components: {vHeader, vFooter},
+        components: {vHeader, vFooter, vCheckManage},
         mounted() {
             this.init();
         },
         methods: {
             init() {
-//                var that = this;
-//                that.initStyle();
-//                window.onresize = function() {
-//                    that.initStyle();
-//                }
+
             },
-            initStyle() {
-//                if (!!this.$refs.routerViewBox) {
-//                    this.$refs.routerViewBox.style.minHeight = (this.$el.clientHeight - 87 - 30)+ 'px';
-//                }
+            setUrl(url) {
+                this.url = url;
             }
         }
     }
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
-    .comAnalysis-container {
+    .checkManage-container {
         position: relative;
         height: 100%;
 
@@ -53,17 +48,15 @@
 
         .router-view {
             position: relative;
-            padding-left: 32px;
-            padding-right: 32px;
             padding-top: 87px;
             padding-bottom: 30px;
             top: 0;
             right: 0;
             bottom: 0;
             left: 0;
+            width: 100%;
             height: 100%;
             min-height: 900px;
-            background-color: #ecebeb;
         }
 
         .footer {

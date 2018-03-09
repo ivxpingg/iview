@@ -157,6 +157,16 @@ const routers = [{
         children: []
     },
     {
+        path: '/runEvaluate',
+        name: 'runEvaluate',
+        meta: {
+            title: '厦门市轨道交通出行衔接子系统',
+            requireAuth: true
+        },
+        component: (resolve) => require(['./views/subSystem/checkManage/checkManage.vue'], resolve),
+        children: []
+    },
+    {
         path: '/yqManage',
         name: 'yqManage',
         meta: {
