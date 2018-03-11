@@ -168,7 +168,7 @@
                     method: "get",
                     url: '/xm/run/getTrainPosition',
                     params: {
-                        time: that.sTime
+                        time: ''//that.sTime
                     }
                 }).then(function (response) {
 

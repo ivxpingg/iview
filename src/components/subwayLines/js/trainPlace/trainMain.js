@@ -158,7 +158,7 @@ var getData = function () {
         method: "get",
         url: '/xm/run/getTrainPosition',
         params: {
-            time: sTime
+            time: ''//sTime
         }
     }).then(function (response) {
 
@@ -172,13 +172,13 @@ var getData = function () {
 
         vm.timeOut = setTimeout(function () {
             getData();
-        }, 5000);
+        }, 30000);
     }).catch(function (err) {
         console.dir(err);
 
         vm.timeOut = setTimeout(function () {
             getData();
-        }, 1000);
+        }, 30000);
     });
 }
 

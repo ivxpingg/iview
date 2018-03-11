@@ -412,7 +412,7 @@
                     method: "get",
                     url: '/xm/run/getTrainPosition',
                     params: {
-                        time: sTime
+                        time: ''//sTime
                     }
                 }).then(function (response) {
 
