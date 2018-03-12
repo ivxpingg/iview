@@ -44,7 +44,7 @@ var train_remove_nonexits = function(new_train_list) {
         }
 
         if(!exit) {
-            var zr_element_list = o_zr_list[val];
+            var zr_element_list = o_zr_list[val] || [];
             zr_element_list.forEach(function (key) {
                 zr.remove(o_zr_list[val][key]);
             });
@@ -164,6 +164,14 @@ var getData = function () {
 
         if (response.status == 1) {
             console.dir(response.result);
+
+            // 把小区段名转化为大区段名
+            response.result.forEach(function(val, idx) {
+                if (val.sectionName.indexOf('-') > 0) {
+                    val.sectionName = val.sectionName.split('-')[0];
+                }
+            });
+
             refresh_train_position(response.result);
         }
         else {
@@ -172,13 +180,13 @@ var getData = function () {
 
         vm.timeOut = setTimeout(function () {
             getData();
-        }, 30000);
+        }, 10000);
     }).catch(function (err) {
         console.dir(err);
 
         vm.timeOut = setTimeout(function () {
             getData();
-        }, 30000);
+        }, 10000);
     });
 }
 

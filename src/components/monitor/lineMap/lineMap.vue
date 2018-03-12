@@ -418,7 +418,8 @@
 
                     if (response.status == 1) {
 //                        console.dir(response.result);
-                        that.refresh_train_position(response.result);
+                        that.filterData(response.result);
+
                     }
                     else {
                         console.dir(response.errMsg);
@@ -426,14 +427,27 @@
 
                     that.timeOut = setTimeout(function () {
                         that.getData();
-                    }, 5000);
+                    }, 10000);
                 }).catch(function (err) {
                     console.dir(err);
 
                     that.timeOut =setTimeout(function () {
                         that.getData();
-                    }, 1000);
+                    }, 10000);
                 });
+            },
+            filterData(new_train_list) {
+
+                new_train_list.forEach(function(val, idx) {
+                    console.dir(val.sectionName);
+                    if (val.sectionName.indexOf('-') > 0) {
+                        val.sectionName = val.sectionName.split('-')[0];
+                    }
+
+                });
+                console.dir(new_train_list);
+
+                this.refresh_train_position(new_train_list);
             },
             refresh_train_position(new_train_list) {
 
@@ -513,7 +527,9 @@
 //                    console.log(this.upLeft[o_data.sectionName].left);
 //                    console.log(1);
 
-                    dom.style.left =  this.upLeft[o_data.sectionName].left + '%';
+                    if(this.upLeft[o_data.sectionName]) {
+                        dom.style.left =  this.upLeft[o_data.sectionName].left + '%';
+                    }
                 }
                 else {
 
@@ -527,12 +543,20 @@
                         }
                     }
 
-                    dom.style.left =  this.downLeft[o_data.sectionName].left + '%';
+                    if(this.downLeft[o_data.sectionName]) {
+                        dom.style.left =  this.downLeft[o_data.sectionName].left + '%';
+                    }
                 }
             },
             train_add(o_data) {
+                if (!o_data.trainId) {
+                    return;
+                }
+
                 var dom = document.createElement('div');
                 var dom_arrive_circle;
+
+                dom.setAttribute('trainId', o_data.trainId);
 
                 if (o_data.direction == '0') {
                     dom.className = 'train train-up ';
@@ -548,7 +572,13 @@
                         }
                     }
 
-                    dom.style.left = this.upLeft[o_data.sectionName].left + '%';
+                    if (this.upLeft[o_data.sectionName]) {
+                        dom.style.left =  this.upLeft[o_data.sectionName].left + '%';
+                    }
+                    else {
+                        console.dir(o_data.sectionName);
+                    }
+
                     this.$refs.upBox.appendChild(dom);
                 }
                 else {
@@ -560,12 +590,18 @@
 
                             if (lineData.down_line[i].is_station) {  // 到站
                                 dom_arrive_circle = document.querySelector('.' + this.prefixClassNameDown + o_data.stationId);
-                                dom_arrive_circle.className += ' ' + this.prefixClassNameShow + o_data.stationId;
+                                dom_arrive_circle.className += ' ' + this.prefixClassNameShow + o_data.trainId;
                             }
                         }
                     }
 
-                    dom.style.left = this.downLeft[o_data.sectionName].left + '%';
+                    if (this.downLeft[o_data.sectionName]) {
+                        dom.style.left = this.downLeft[o_data.sectionName].left + '%';
+                    }
+                    else {
+                        console.dir(o_data.sectionName);
+                    }
+
                     this.$refs.downBox.appendChild(dom);
                 }
 
