@@ -29,27 +29,27 @@
                     </div>
                 </div>
 
-                <!--<div class="item">-->
-                    <!--<div class="title">OD数据</div>-->
-                    <!--<div class="center">-->
-                        <!--<div class="tip-msg" :class="ODFlag == 'true'?'tip-msg-green':'tip-msg-red'">{{ODFlag == 'true'? '今日已上传OD数据':'今日未上传OD数据'}}</div>-->
-                        <!--<div class="upload-panel">-->
-              <!---->
-                            <!--<Upload name="file"-->
-                                    <!--class="vFileUpload"-->
-                                    <!--:action="importFileUrl_OD"-->
-                                    <!--:headers="headers"-->
-                                    <!--accept=".xlsx"-->
-                                    <!--:on-error="handleError"-->
-                                    <!--:on-success="handleSuccess_OD"-->
-                                    <!--:before-upload="handleBeforeUpload_OD">-->
-                                <!--<Button type="success" shape="circle" icon="ios-cloud-upload-outline"  size="large">OD数据上传</Button>-->
-                            <!--</Upload>-->
-                        <!--</div>-->
+                <div class="item">
+                    <div class="title">OD数据</div>
+                    <div class="center">
+                        <div class="tip-msg" :class="ODFlag == 'true'?'tip-msg-green':'tip-msg-red'">{{ODFlag == 'true'? '今日已上传OD数据':'今日未上传OD数据'}}</div>
+                        <div class="upload-panel">
 
-                    <!--</div>-->
-                    <!--<div class="download"></div>-->
-                <!--</div>-->
+                            <Upload name="file"
+                                    class="vFileUpload"
+                                    :action="importFileUrl_OD"
+                                    :headers="headers"
+                                    accept=".xlsx"
+                                    :on-error="handleError"
+                                    :on-success="handleSuccess_OD"
+                                    :before-upload="handleBeforeUpload_OD">
+                                <Button type="success" shape="circle" icon="ios-cloud-upload-outline"  size="large" disabled="disabled">OD数据上传</Button>
+                            </Upload>
+                        </div>
+
+                    </div>
+                    <div class="download"></div>
+                </div>
 
             </div>
         </div>
@@ -122,18 +122,26 @@
 
                     return;
                 }
-
+                console.dir(response);
                 if (response.status == 1) {
                     that.$Message.success("《"+file.name+"》上传成功！");
                     that.ifUpload_daily_today();
                 }
                 else {
-                    that.$Message.error(response.errMsg);
+                    that.$Message.error({
+                        content: response.errMsg,
+                        duration: 5,
+                        closable: true
+                    });
                 }
 
             },
             handleError(error, file, fileList) {
-                this.$Message.error('上传失败！');
+                console.dir(error);
+                this.$Message.error({
+                    content: '上传失败！',
+                    duration: 3
+                });
             },
 
             handleBeforeUpload_OD(file) {

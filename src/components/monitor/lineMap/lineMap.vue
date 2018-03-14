@@ -439,13 +439,12 @@
             filterData(new_train_list) {
 
                 new_train_list.forEach(function(val, idx) {
-                    console.dir(val.sectionName);
+
                     if (val.sectionName.indexOf('-') > 0) {
                         val.sectionName = val.sectionName.split('-')[0];
                     }
 
                 });
-                console.dir(new_train_list);
 
                 this.refresh_train_position(new_train_list);
             },
@@ -555,8 +554,8 @@
 
                 var dom = document.createElement('div');
                 var dom_arrive_circle;
-
                 dom.setAttribute('trainId', o_data.trainId);
+                dom.innerHTML  = o_data.trainId;
 
                 if (o_data.direction == '0') {
                     dom.className = 'train train-up ';
@@ -838,7 +837,10 @@
     .train {
         position: absolute;
         width: 33px;
-        height: 20px;
+        height: 36px;
+        font-size: 12px;
+        line-height: 16px;
+        text-align: center;
         background-repeat: no-repeat;
         background-size: 100%;
         z-index: 2;
@@ -846,14 +848,18 @@
 
 
         &.train-up{
-            bottom: 25px;
+            padding-top: 20px;
+            bottom: 5px;
             margin-left: -16.5px;
-            background-image: url(images/car-up-small.png);
+            color: #3da088;
+            background: url(images/car-up-small.png) no-repeat center top;
         }
         &.train-down{
-            top: 25px;
+            padding-bottom: 20px;
+            top: 5px;
             margin-left: -16.5px;
-            background-image: url(images/car-down-small.png);
+            color: #f39950;
+            background: url(images/car-down-small.png) no-repeat center bottom;
         }
 
     }

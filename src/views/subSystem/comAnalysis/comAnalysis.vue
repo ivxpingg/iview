@@ -1,6 +1,6 @@
 <template>
     <div class="comAnalysis-container">
-        <vHeader></vHeader>
+        <vHeader class="v-header"></vHeader>
         <div ref="routerViewBox" class="router-view">
             <keep-alive>
                 <router-view></router-view>

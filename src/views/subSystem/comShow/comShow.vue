@@ -5,6 +5,7 @@
         </div>
         <vRankPanel class="v-rank-panel"></vRankPanel>
         <vWebInfoPanel class="v-web-info-panel"></vWebInfoPanel>
+        <Button class="btn-layout" type="text" icon="log-out" title="返回导航页" @click="goBack"></Button>
     </div>
 </template>
 <script>
@@ -20,7 +21,21 @@
         },
         components: {vSubwayLinesComShow, vRankPanel, vTrainPanel, vSpeedPanel, vWebInfoPanel},
         mounted() {},
-        methods: {}
+        methods: {
+            goBack () {
+                this.$Modal.confirm({
+                    title: '提示',
+                    content: '<p>确定要返回系统菜单？</p>',
+                    onOk: () => {
+                        this.$router.push({
+                            name: 'platform',  // 路由名称
+                            params: {}
+                        });
+                    },
+                    onCancel: () => {}
+                });
+            }
+        }
     }
 </script>
 
@@ -50,6 +65,20 @@
             right: 50px;
             bottom: 25px;
             z-index: 1;
+        }
+
+        .btn-layout {
+            position: fixed;
+            top: 2px;
+            right: 15px;
+            width: 102px;
+            font-size: 46px;
+            color: #FFF;
+            z-index: 10;
+
+            &:hover {
+                color: #57a3f3;
+            }
         }
     }
 </style>

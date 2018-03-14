@@ -18,8 +18,8 @@ module.exports = {
         assetsPublicPath: '/',
         htmlPath: 'html',
         proxyTable: {
-            // '/metrosupervision': { target: 'http://wechat.doudou360.com', changeOrigin: true },
-            '/metrosupervision': { target: 'http://10.23.120.99:8102', changeOrigin: true }
+            '/metrosupervision': { target: 'http://wechat.doudou360.com', changeOrigin: true },
+            // '/metrosupervision': { target: 'http://10.23.120.99:8102', changeOrigin: true }
             // '/metrosupervision/xm': { target: 'http://cs.doudou360.com:8088', changeOrigin: tre },
             // '/metrosupervision/static': { target: 'http://cs.doudou360.com:8088', changeOrigin: true }
             // '/xm': { target: 'http://10.131.1.222:8088', changeOrigin: true }

@@ -408,6 +408,23 @@ var setBusStation = function (p_selected_malfunction_info) {
             map.addOverlay(labelUp);
             map_dom_malfunction_break[p_selected_malfunction_info.id].push(labelUp);
 
+            labelUp.colss = 1;
+            if (DB_data.breakImg[p_selected_malfunction_info.breakImg[0]].busStartStaion.indexOf(''+val+'') >= 0 && idx != (array.length - 1)) {
+                setInterval(function () {
+                    if (labelUp.colss == 1) {
+                        labelUp.colss = 2;
+                        labelUp.setStyle({
+                            backgroundColor: '#4ccf5f'
+                        });
+                    }
+                    else {
+                        labelUp.colss = 1;
+                        labelUp.setStyle({
+                            backgroundColor: '#11a361'
+                        });
+                    }
+                }, 800);
+            }
 
             var myIcon = new BMap.Icon(Util.staticImgUrl + "/static/img/icon2.png", new BMap.Size(19,26));
             var myOffset = new BMap.Size(0, -13);
@@ -453,6 +470,23 @@ var setBusStation = function (p_selected_malfunction_info) {
             map.addOverlay(labelDown);
             map_dom_malfunction_break[p_selected_malfunction_info.id].push(labelDown);
 
+            labelDown.colss = 1;
+            if (DB_data.breakImg[p_selected_malfunction_info.breakImg[0]].busStartStaion.indexOf(''+val+'') >= 0 && idx > 0) {
+                setInterval(function () {
+                    if (labelDown.colss == 1) {
+                        labelDown.colss = 2;
+                        labelDown.setStyle({
+                            backgroundColor: '#63d9f2'
+                        });
+                    }
+                    else {
+                        labelDown.colss = 1;
+                        labelDown.setStyle({
+                            backgroundColor: '#2c9dd3'
+                        });
+                    }
+                }, 800);
+            }
 
             var myIcon = new BMap.Icon(Util.staticImgUrl + "/static/img/icon1.png", new BMap.Size(19,26));
             var myOffset = new BMap.Size(-5, -13);

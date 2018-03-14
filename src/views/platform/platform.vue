@@ -107,6 +107,17 @@
             }
         },
         components: {vFooter},
+        created() {
+            var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+            var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1; //判断是否IE浏览器
+            debugger
+            if (!!window.ActiveXObject || "ActiveXObject" in window) {
+                this.$router.replace({
+                    name: 'platformIe',  // 路由名称
+                    params: {}
+                });
+            }
+        },
         watch: {
             mList(val, oldVal) {
                 var that = this;
@@ -365,7 +376,6 @@
     .platforms-container {
         position: relative;
         height: 100%;
-        height: 100%;
         min-height: 770px;
         background: url('./images/bg.png') no-repeat;
         background-position: center top;
@@ -471,7 +481,7 @@
                             height: 100%;
                             top: 0;
                             left: 0;
-                            background: url(./images/locked.png) no-repeat center top;
+                            background: url(./images/locked1.png) no-repeat center top;
                             background-size: 100% auto;
                         }
 
