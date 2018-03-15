@@ -4,12 +4,13 @@
             <div class="btn-com btn-up" :class="upOrDownTable ? 'active': ''" @click="upTable()"><span>上</span><span>行</span></div>
             <div class="btn-com btn-down" :class="upOrDownTable ? '': 'active'" @click="downTable()"><span>下</span><span>行</span></div>
         </div>
-        <div class="table-box" v-if="upOrDownTable">
+        <div class="table-box" v-show="upOrDownTable">
             <Table class="myTableIview" border stripe :columns="tableColumnsUp" :height="tableHeight" :data="tableDataUp"></Table>
         </div>
-        <div class="table-box" v-if="!upOrDownTable">
+        <div class="table-box" v-show="!upOrDownTable">
             <Table class="myTableIview" border stripe :columns="tableColumnsDown" :height="tableHeight" :data="tableDataDown"></Table>
         </div>
+        <Spin v-if="loading" fix size="large"></Spin>
     </div>
 </template>
 
@@ -492,7 +493,9 @@
                 ],
                 tableDataUp: [],
                 tableDataDown: [],
-                upTrainPosition: {}
+                upTrainPosition: {},
+
+                loading: false
             }
         },
         props: {
@@ -582,12 +585,14 @@
 
             // 获取
             getTrainRun() {
+                this.loading = true;
                 var that = this;
                 Util.ajax({
                     method: "get",
                     url: '/xm/run/runCount/getPlanAndActualRunInfo',
                     data: {}
                 }).then(function(response){
+                    that.loading = false;
                     if (response.status === 1) {
                         that.tableDataUp = response.result.upPlanAndActual;
                         that.tableDataDown = response.result.downPlanAndActual;
@@ -598,6 +603,7 @@
                         that.getTrainRun();
                     }, that.setTimeOutInfoPanelDataTime);
                 }).catch(function (error) {
+                    that.loading = false;
                     console.log(error);
                     that.setTimeOutInfoPanelData = setTimeout(function () {
                         that.getTrainRun();

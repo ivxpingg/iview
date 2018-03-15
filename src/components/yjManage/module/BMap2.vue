@@ -19,28 +19,197 @@
             <img :src="domin + img" alt="">
             <Button class="btn-close" type="ghost" shape="circle" icon="close-round" @click="breakClose"></Button>
         </div>
+
+        <div v-if="busInfo.length > 0" class="legend-panel" :class="{breakImgShow: breakImgShow}">
+            <div class="item">
+                <div class="item-legend legend-1"></div>
+                <div class="item-msg">故障站点或故障区段</div>
+            </div>
+            <div class="item">
+                <div class="item-legend legend-2"></div>
+                <div class="item-msg">中断区间</div>
+            </div>
+            <div class="item">
+                <div class="item-legend legend-3"></div>
+                <div class="item-msg">上行接驳线路</div>
+            </div>
+            <div class="item">
+                <div class="item-legend legend-4"></div>
+                <div class="item-msg">下行接驳线路</div>
+            </div>
+            <div class="item">
+                <div class="item-legend legend-5"></div>
+                <div class="item-msg">上行接驳站点</div>
+            </div>
+            <div class="item">
+                <div class="item-legend legend-6"></div>
+                <div class="item-msg">下行接驳站点</div>
+            </div>
+            <div class="item">
+                <div class="item-legend legend-7"></div>
+                <div class="item-msg">上行接驳出站口，闪烁为始发出站口</div>
+            </div>
+            <div class="item">
+                <div class="item-legend legend-8"></div>
+                <div class="item-msg">下行接驳出站口，闪烁为始发出站口</div>
+            </div>
+        </div>
+
+        <div class="echart-panel demo-spin-col" :class="{ isshow: busInfo.length > 0}">
+            <div class="title">
+                <div class="t1">进站客流分析</div>
+                <div class="t2">数据更新于{{time}}</div>
+            </div>
+            <div ref="echart1" class="echart"></div>
+            <Spin v-if="loading" fix size="large"></Spin>
+        </div>
         
     </div>
 </template>
 <script>
     import bmap_main from './js/bmap_main2';
     import Util from '../../../libs/util';
+    import echarts from 'echarts';
+    import DB_data from './js/databaseData';
+    import MOMENT from 'moment';
     export default {
         data() {
             return {
                 busInfo: [],
                 domin: Util.staticImgUrl + '/static/img/breakimg/',
                 img: '',
-                breakImgShow: false
+                breakImgShow: false,
+                loading: false,
+
+                stationIds: '',    // 存放当前中断区段包含站点, 用“，”分开站点Id  ps: '2,3,4'
+
+                echart1: null,
+                echartData: [],
+                option1: {
+                    series: [{
+                        name: '进站客流数据',
+                        data: []
+                    }]
+                }
             }
         },
         mounted() {
             var that = this;
+            this.setEchart();
             bmap_main(that, 'bmap');
+        },
+        watch: {
+            stationIds: function (val) {
+                if (val != "") {
+                    this.getEchartData();
+                }
+            },
+            echartData(val) {
+                this.option1.series[0].data = [];
+                //this.option1.title.text = '数据更新于' + MOMENT( val[0].insTime).format('YYYY-MM-DD HH:SS');
+                val.forEach((v) => {
+                    this.option1.series[0].data.push({
+                        name: DB_data.stationName[v.stationId],
+                        value: v.passengerFlow
+                    });
+                });
+
+                this.echart1.setOption(this.option1);
+            }
+        },
+        computed: {
+            time() {
+                if (this.echartData.length > 0) {
+                    return MOMENT( this.echartData[0].insTime).format('YYYY-MM-DD HH:SS');
+                }
+                else {
+                    return '';
+                }
+            }
         },
         methods:{
             breakClose() {
                 this.breakImgShow = false;
+            },
+
+            // 饼图 - 初始化图表
+            setEchart() {
+                var that = this;
+                this.echart1 = echarts.init(this.$refs.echart1);
+                var option = {
+                    color: ['#88c897', '#8e81bc','#65aadd','#f3994f', '#ef857d', '#2ec7c9', '#b6a2de', '#ffb980', '#d87a80'],
+                    backgroundColor: '',
+                    title : {},
+                    grid: {
+                        top: '20%',
+                        left: '10%',
+                        right: '10%',
+                        bottom: '5%',
+                        containLabel: false
+                    },
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    legend: {
+
+                    },
+                    series : [
+                        {
+                            name: '进站客流数据',
+                            type: 'pie',
+                            radius : '85%',
+                            center: ['50%', '50%'],
+                            label: {
+                                normal: {
+                                    show: true,
+                                   // formatter: '{b}: {c}'
+                                    position: 'inside' //outside
+                                }
+                            },
+                            data: [],
+                            itemStyle: {
+                                emphasis: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            },
+                            labelLine: {
+                                normal: {
+                                    smooth: true
+                                }
+                            }
+                        }
+                    ]
+                };
+
+                this.echart1.setOption(option);
+            },
+
+            // 获取中断站点最近统计的进站客流量
+            getEchartData() {
+                var that = this;
+                this.loading = true;
+                Util.ajax({
+                    method: "get",
+                    url: '/xm/run/passengerCount/getLastPassengerFlow',
+                    params: {
+                        stationIds: that.stationIds
+                    }
+                }).then(function (response) {
+                    that.loading = false;
+
+                    if (response.status == 1) {
+                        that.echartData = response.result.passengerFlowList;
+                    }
+                    else {
+                        that.echartData = [];
+                    }
+                }).catch(function (err) {
+                    that.loading = false;
+                    console.dir(err);
+                });
             }
         }
     }
@@ -57,7 +226,7 @@
 
         .breakImg {
             position: fixed;
-            z-index: 1;
+            z-index: 2;
             bottom: -200px;
             width: 100%;
             height: 200px;
@@ -132,6 +301,162 @@
                         padding-left: 16px;
                     }
                 }
+            }
+        }
+
+        .legend-panel {
+            position: fixed;
+            padding: 5px;
+            right: 5px;
+            bottom: 35px;
+            width: 300px;
+            height: 250px;
+            background-color: rgba(255,255,255,0.8);
+            border: 4px solid #63b1e3;
+            border-radius: 8px;
+            z-index: 1;
+
+            .item {
+                overflow: hidden;
+                margin-bottom: 3px;
+                .item-legend {
+                    display: inline-block;
+                    float: left;
+                    width: 80px;
+                    height: 26px;
+
+                    &.legend-1 {
+                        background: url(./images/malfunction2.png) no-repeat center;
+                    }
+
+                    &.legend-2 {
+                        position: relative;
+
+                        &:after {
+                            position: absolute;
+                            content: " ";
+                            width: 40px;
+                            height: 6px;
+                            top: 10px;
+                            left: 20px;
+                            background-color: #f99191;
+                        }
+                    }
+                    &.legend-3 {
+                        position: relative;
+
+                        &:after {
+                            position: absolute;
+                            content: " ";
+                            width: 40px;
+                            height: 6px;
+                            top: 10px;
+                            left: 20px;
+                            background-color: #11a361;
+                        }
+                    }
+                    &.legend-4 {
+                        position: relative;
+
+                        &:after {
+                            position: absolute;
+                            content: " ";
+                            width: 40px;
+                            height: 6px;
+                            top: 10px;
+                            left: 20px;
+                            background-color: #2c9dd3;
+                        }
+                    }
+                    &.legend-5 {
+                        background: url(./images/icon2.png) no-repeat center;
+                    }
+                    &.legend-6 {
+                        background: url(./images/icon1.png) no-repeat center;
+                    }
+
+                    &.legend-7 {
+                        position: relative;
+
+                        &:after {
+                            position: absolute;
+                            content: "X号口";
+                            color: #FFF;
+                            width: 40px;
+                            height: 18px;
+                            font-size: 12px;
+                            line-height: 18px;
+                            text-align: center;
+                            top: 3px;
+                            left: 20px;
+                            background-color: #11a361;
+                        }
+                    }
+
+                    &.legend-8 {
+                        position: relative;
+
+                        &:after {
+                            position: absolute;
+                            content: "X号口";
+                            color: #FFF;
+                            width: 40px;
+                            height: 18px;
+                            font-size: 12px;
+                            line-height: 18px;
+                            text-align: center;
+                            top: 3px;
+                            left: 20px;
+                            background-color: #2c9dd3;
+                        }
+                    }
+                }
+                .item-msg {
+                    display: inline-block;
+                    float: left;
+                    width: 200px;
+                    font-size: 12px;
+                    line-height: 26px;
+                }
+            }
+        }
+
+        .echart-panel {
+            position: absolute;
+            padding-top: 50px;
+            top: 100px;
+            left: 1000000px;
+            width: 350px;
+            height: 400px;
+            background-color: rgba(255,255,255, 0.8);
+            border: 4px solid #63b1e3;
+            border-radius: 8px;
+            z-index: 1;
+
+            &.isshow {
+                left: 10px;
+            }
+
+            .title {
+                position: absolute;
+                top: 10px;
+                left: 0;
+                width: 100%;
+                text-align: center;
+                z-index: 10;
+
+                .t1 {
+                    font-size: 16px;
+                    font-weight: 700;
+                }
+                .t2 {
+                    font-size: 12px;
+                }
+            }
+
+            .echart {
+                width: 100%;
+                height: 350px;
             }
         }
     }

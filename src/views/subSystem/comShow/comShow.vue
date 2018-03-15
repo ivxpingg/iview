@@ -75,9 +75,11 @@
             font-size: 46px;
             color: #FFF;
             z-index: 10;
+            opacity: 0.4;
 
             &:hover {
                 color: #57a3f3;
+                opacity: 1;
             }
         }
     }

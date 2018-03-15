@@ -145,11 +145,12 @@ var setMalfunctionLine = function (p_selected_malfunction_info) {
         showBreakLine();
     }
     else {
+        setEchart(p_selected_malfunction_info);
         breakLine(p_selected_malfunction_info);
         setBusLine(p_selected_malfunction_info);
-        busStationFlag(p_selected_malfunction_info);
         setBusStation(p_selected_malfunction_info);
         malfunctionPoint(p_selected_malfunction_info);
+
     }
 }
 
@@ -163,7 +164,6 @@ var showDepartInfo = function (breakStationIds) {
     for (var o in DB_data.departInfo) {
 
         for (var i = 0; i < breakStationIds.length; i++) {
-            console.dir(DB_data.departInfo[o].stationIds.indexOf(breakStationIds[i]));
             if (DB_data.departInfo[o].stationIds.indexOf(''+breakStationIds[i]+'') >=0 ) {
                 vm.busInfo.push(DB_data.departInfo[o]);
                 break;
@@ -208,7 +208,7 @@ var breakLine = function (p_selected_malfunction_info) {
         map_pointList.push(new BMap.Point(val.lng, val.lat));
     });
 
-    var polyline = new BMap.Polyline(map_pointList, {strokeColor:"#f25661", strokeWeight:8, strokeOpacity:1});
+    var polyline = new BMap.Polyline(map_pointList, {strokeColor:"#f99191", strokeWeight:8, strokeOpacity:1});
 
     var lineMenu = new BMap.ContextMenu();
     lineMenu.addItem(new BMap.MenuItem('取消该故障区段', function (e) {
@@ -255,22 +255,6 @@ var malfunctionPoint = function (p_selected_malfunction_info) {
     map_dom_malfunction_break[p_selected_malfunction_info.id].push(marker);
 }
 
-/**
- * 设置公交起点和终点标注 图片
- * @param p_selected_malfunction_info
- */
-var busStationFlag = function (p_selected_malfunction_info) {
-    var point;
-    var startStationList = DB_data.breakImg[p_selected_malfunction_info.breakImg].busStartStaion || [];
-    startStationList.forEach(function (val) {
-        point = DB_data.stationsPoint[DB_data.stationName[val]];
-        var myIcon = new BMap.Icon(Util.staticImgUrl + "/static/img/station-start.png", new BMap.Size(20,20));
-        var marker = new BMap.Marker(new BMap.Point(point[0], point[1]),{icon:myIcon});  // 创建标注
-        map.addOverlay(marker);
-        map_dom_malfunction_break[p_selected_malfunction_info.id].push(marker);
-    });
-
-}
 
 /***************************************公交接驳线路************************************
  * 设置公交接驳线路
@@ -512,151 +496,8 @@ var setBusStation = function (p_selected_malfunction_info) {
     });
 }
 
-/**
- * 设置站牌对应要闪烁的公交线路
- * @param stationId  站点Id
- * @param direction 方向； up: 上行； down: 下行
- */
-var setStationList = function (stationId ,direction) {
-
-    var pointListUp = [],
-        pointListDown = [],
-        idx,
-        maxIdx,
-        key,
-        map_pointList_up = [],
-        map_pointList_down = [];
-    var breakStationIds = selected_malfunction_info.breakStationIds;
-
-    idx = breakStationIds.indexOf(stationId);
-    maxIdx = idx;
-
-    var polylineUp;
-    var polylineDown;
-
-    if (direction == 'up') {
-
-        for(var i = idx; i < breakStationIds.length; i++) {
-            maxIdx = i;
-            map_pointList_up = [];
-            if (i != idx) {
-                key = breakStationIds[i - 1] + '-' + breakStationIds[i] + '-up';
-                pointListUp = DB_data.busRoute[key];//.concat(pointListUp );
-            }
-
-            pointListUp.forEach(function (val) {
-                map_pointList_up.push(new BMap.Point(val.lng, val.lat));
-            });
-
-            if (pointListUp.length > 0) {
-                polylineUp = new BMap.Polyline(map_pointList_up, {strokeColor:"#f39950", strokeWeight:8, strokeOpacity:1});
-                map.addOverlay(polylineUp);   //增加折线
-
-                map_dom_bus_line.push(polylineUp);
-            }
-        }
-        for(maxIdx; maxIdx >idx ; maxIdx--) {
-            map_pointList_down = [];
-
-            if (maxIdx != 0) {
-                key = breakStationIds[maxIdx - 1] + '-' + breakStationIds[maxIdx] + '-down';
-
-                pointListDown = DB_data.busRoute[key];
-            }
-
-            pointListDown.forEach(function (val) {
-                map_pointList_down.push(new BMap.Point(val.lng, val.lat));
-            });
-            if (pointListDown.length > 0) {
-                polylineDown = new BMap.Polyline(map_pointList_down, {strokeColor:"#f39950", strokeWeight:8, strokeOpacity:1});
-                map.addOverlay(polylineDown);   //增加折线
-                map_dom_bus_line.push(polylineDown);
-            }
-        }
-    }
-
-    if (direction == 'down') {
-        for(var i = 1; i <= idx; i++) {
-            map_pointList_up = [];
-
-            key = breakStationIds[i - 1] + '-' + breakStationIds[i] + '-up';
-            pointListUp = DB_data.busRoute[key];
-
-            pointListUp.forEach(function (val) {
-                map_pointList_up.push(new BMap.Point(val.lng, val.lat));
-            });
-
-            if (pointListUp.length > 0) {
-                polylineUp = new BMap.Polyline(map_pointList_up, {strokeColor:"#f39950", strokeWeight:8, strokeOpacity:1});
-                map.addOverlay(polylineUp);   //增加折线
-
-                map_dom_bus_line.push(polylineUp);
-            }
-        }
-
-        for(var i = idx; i > 0; i--) {
-            map_pointList_down = [];
-
-            if (i != 0) {
-                key = breakStationIds[i - 1] + '-' + breakStationIds[i] + '-down';
-
-                pointListDown = DB_data.busRoute[key];
-            }
-
-            pointListDown.forEach(function (val) {
-                map_pointList_down.push(new BMap.Point(val.lng, val.lat));
-            });
-            if (pointListDown.length > 0) {
-                polylineDown = new BMap.Polyline(map_pointList_down, {strokeColor:"#f39950", strokeWeight:8, strokeOpacity:1});
-                map.addOverlay(polylineDown);   //增加折线
-                map_dom_bus_line.push(polylineDown);
-            }
-        }
-    }
-
-
-    // pointListUp.forEach(function (val) {
-    //     map_pointList_up.push(new BMap.Point(val.lng, val.lat));
-    // });
-    //
-    // pointListDown.forEach(function (val) {
-    //     map_pointList_down.push(new BMap.Point(val.lng, val.lat));
-    // });
-    //
-    // if (pointListUp.length > 0) {
-    //     var polylineUp = new BMap.Polyline(map_pointList_up, {strokeColor:"#f39950", strokeWeight:8, strokeOpacity:1});
-    //     map.addOverlay(polylineUp);   //增加折线
-    //
-    //     map_dom_bus_line.push(polylineUp);
-    // }
-    // if (pointListDown.length > 0) {
-    //     var polylineDown = new BMap.Polyline(map_pointList_down, {strokeColor:"#f39950", strokeWeight:8, strokeOpacity:1});
-    //     map.addOverlay(polylineDown);   //增加折线
-    //     map_dom_bus_line.push(polylineDown);
-    // }
-
-}
-
-var interval = null;
-var setTwinkle = function () {
-    var wight = 4;
-    interval = setInterval(function () {
-        wight = wight == 4 ? 8 : 4;
-
-        map_dom_bus_line.forEach(function (val) {
-            val.setStrokeWeight(wight);
-        });
-    }, 200);
-}
-var stopTwinkle = function () {
-
-    map_dom_bus_line.forEach(function (val) {
-
-        map.removeOverlay(val);
-    });
-
-    clearInterval(interval);
-    map_dom_bus_line = [];
+var setEchart = function (p_selected_malfunction_info) {
+    vm.stationIds = p_selected_malfunction_info.breakStationIds.join(',');
 }
 
 /**

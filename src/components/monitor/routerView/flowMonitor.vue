@@ -30,7 +30,7 @@
                 oSetTimeOut1: null,
                 oSetTimeOut2: null,
                 oSetTimeOut3: null,
-                setTimeOutInfoPanelDataTime: 30000,
+                setTimeOutInfoPanelDataTime: 60000 * 15, // 15分钟一次
                 defaultSelect: '2',
                 stationData: [
                      { name: '镇海路', id: '1' },

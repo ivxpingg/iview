@@ -7,7 +7,7 @@
                 <div class="item">
                     <div class="title">运营生产日报</div>
                     <div class="center">
-                        <div class="tip-msg" :class="dailyFlag ? 'tip-msg-green':'tip-msg-red'">{{dailyFlag? '今日已上传运营生产日报':'今日未上传运营生产日报'}}</div>
+                        <div class="tip-msg" :class="dailyFlag ? 'tip-msg-green':'tip-msg-red'">{{dailyFlag? '已上传'+countDateFormat+'的运营生产日报':'未上传'+countDateFormat+'的运营生产日报'}}</div>
                         <div class="upload-panel">
                             <Upload name="file"
                                     class="vFileUpload"
@@ -62,6 +62,7 @@
     import vFileUpload from '../../../components/upload/fileUpload/fileUpload.vue';
     import vHeader from '../../../components/daily/header/header.vue';
     import vFooter from '../../../components/layout/footer/footer.vue';
+    import MOMENT from 'moment';
     export default {
         data() {
             return {
@@ -69,15 +70,22 @@
                 importFileUrl_daily: '',
                 exportFileUrl_daily: '',
                 dailyFlag: '',  // 'true':今日已上传过, 'false': 今日没有上传过
+                countDate: '',
                 ODFlag: '',
 
                 headers: {}
             }
         },
+        computed: {
+            // 把 countDate 日期转为MM月DD日
+            countDateFormat() {
+                return this.countDate!='' ? MOMENT(this.countDate).format('MM月DD日') : '';
+            }
+        },
         components: {vFileUpload, vHeader, vFooter},
         created() {
             this.importFileUrl_daily = Util.domain + '/xm/inte/dailyDownloadParse/uploadDaily';
-            this.exportFileUrl_daily = Util.domain + '/static/download/xlsx/运营生产日报_yyyy-mm-dd.xlsx';
+            this.exportFileUrl_daily = Util.domain + '/static/download/xlsx/交通局每日报送材料_yyyy-mm-dd.xlsx';
 
             this.headers = {
                 Authorization: Util.cookie.get('xmgd') || ''
@@ -90,26 +98,32 @@
             handleBeforeUpload_daily(file) {
                 var that = this;
 
-                return new Promise(
-                    function(resolve, reject) {
-                        if (that.dailyFlag == true) {
-                            that.$Modal.confirm({
-                                title: '提示',
-                                content: '<p>今天《运营生产日报》已上传，是否覆盖?</p>',
-                                loading: false,
-                                onOk: () => {
-                                    resolve();
-                                },
-                                onCancel: () => {
-                                    reject();
-                                }
-                            });
+                if(file.name.indexOf(that.countDate) > 0) {
+                    return new Promise(
+                        function (resolve, reject) {
+                            if (that.dailyFlag == true) {
+
+                                that.$Modal.confirm({
+                                    title: '提示',
+                                    content: '<p>' + that.countDateFormat + '的运营生产日报已上传，是否覆盖?</p>',
+                                    loading: false,
+                                    onOk: () => {
+                                        resolve();
+                                    },
+                                    onCancel: () => {
+                                        reject();
+                                    }
+                                });
+                            }
+                            else {
+                                resolve();
+                            }
                         }
-                        else {
-                            resolve();
-                        }
-                    }
-                );
+                    );
+                }
+                else {
+
+                }
 
             },
             handleSuccess_daily(response, file, fileList) {
@@ -122,7 +136,6 @@
 
                     return;
                 }
-                console.dir(response);
                 if (response.status == 1) {
                     that.$Message.success("《"+file.name+"》上传成功！");
                     that.ifUpload_daily_today();
@@ -130,7 +143,7 @@
                 else {
                     that.$Message.error({
                         content: response.errMsg,
-                        duration: 5,
+                        duration: 10,
                         closable: true
                     });
                 }
@@ -140,7 +153,7 @@
                 console.dir(error);
                 this.$Message.error({
                     content: '上传失败！',
-                    duration: 3
+                    duration: 5
                 });
             },
 
@@ -184,7 +197,11 @@
                     that.ifUpload_OD_today();
                 }
                 else {
-                    that.$Message.error(response.errMsg);
+                    that.$Message.error({
+                        content: response.errMsg,
+                        duration: 10,
+                        closable: true
+                    });
                 }
             },
 
@@ -197,14 +214,13 @@
                     params: {}
                 }).then(function (response) {
                     if (response.status == 1) {
-
+                        that.countDate = response.result.countDate;
                         that.dailyFlag = response.result.flag;
                     } else {
-
+                        that.countDate = '';
+                        that.dailyFlag = false;
                     }
                 }).catch(function () {
-                    that.$Modal.remove();
-                    that.$Message.info('删除失败!');
                 });
             },
             // 判断OD数据今天是否上传过

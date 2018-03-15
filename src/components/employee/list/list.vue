@@ -25,9 +25,9 @@
                             </FormItem>
 
                             <FormItem prop="postName" label="岗位名称:">
-                                <Select v-if="searchParams.postCategory != 'other'" v-model="searchParams.postName" transfer placeholder="请选择岗位名称" style="width: 140px">
+                                <Select ref="select_post_name_List" v-if="searchParams.postCategory != 'other'" v-model="searchParams.postName" transfer placeholder="请选择岗位名称" style="width: 140px">
                                     <Option :value="''">全选</Option>
-                                    <Option v-for="item in dict_post_name_List" :value="item.value">{{item.label}}</Option>
+                                    <Option v-for="item in dict_post_name_List" :value="item.value" :key="item.value">{{item.label}}</Option>
                                 </Select>
                                 <Input class="ms-input" v-else v-model="searchParams.otherPost" placeholder="请输入岗位名称" style="width: 140px"></Input>
                             </FormItem>
@@ -299,27 +299,6 @@
             </div>
         </Modal>
 
-        <!--<Modal v-model="modalExport" title="导入从业人员">-->
-            <!--<div>-->
-                <!--<Row v-if="modalExportType == '1'">-->
-                    <!--<Col class="text-center" span="12">-->
-                        <!--<a :href="exportFileUrl1" class="ivu-btn ivu-btn-primary"><span>下载从业人员模版</span></a>-->
-                    <!--</Col>-->
-                    <!--<Col class="text-center" span="12">-->
-                        <!--<vFileUpload :url="importFileUrl1"  bText="导入从业人员信息"></vFileUpload>-->
-                    <!--</Col>-->
-                <!--</Row>-->
-                <!--<Row v-else>-->
-                    <!--<Col class="text-center" span="12">-->
-                    <!--<a :href="exportFileUrl2" class="ivu-btn ivu-btn-primary"><span>下载从业人员模版</span></a>-->
-                    <!--</Col>-->
-                    <!--<Col class="text-center" span="12">-->
-                        <!--<vFileUpload :url="importFileUrl2" bText="导入从业人员培训记录信息" ></vFileUpload>-->
-                    <!--</Col>-->
-                <!--</Row>-->
-            <!--</div>-->
-            <!--<div slot="footer"></div>-->
-        <!--</Modal>-->
 
         <Modal title="查看图片" v-model="visible">
             <img :src="previewImgSrc" v-if="visible" style="width: 100%">
@@ -640,6 +619,11 @@
             dict_post_name_List() {
 
                 var that = this;
+
+                if(this.$refs.select_post_name_List) {
+                    this.$refs.select_post_name_List.$forceUpdate();
+                }
+
                 var nameList = [];
                 var id = '';
                 this.dict_post.forEach(function (val) {
