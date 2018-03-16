@@ -5,12 +5,11 @@
             <div class="btn-com btn-down" :class="upOrDownTable ? '': 'active'" @click="downTable()"><span>下</span><span>行</span></div>
         </div>
         <div class="table-box" v-show="upOrDownTable">
-            <Table class="myTableIview" border stripe :columns="tableColumnsUp" :height="tableHeight" :data="tableDataUp"></Table>
+            <Table ref="tableUp" class="myTableIview" border stripe :columns="tableColumnsUp"  :loading="loading" :height="tableHeight" :data="tableDataUp"></Table>
         </div>
         <div class="table-box" v-show="!upOrDownTable">
-            <Table class="myTableIview" border stripe :columns="tableColumnsDown" :height="tableHeight" :data="tableDataDown"></Table>
+            <Table ref="tableDown" class="myTableIview" border stripe :columns="tableColumnsDown" :loading="loading" :height="tableHeight" :data="tableDataDown"></Table>
         </div>
-        <Spin v-if="loading" fix size="large"></Spin>
     </div>
 </template>
 
@@ -493,9 +492,12 @@
                 ],
                 tableDataUp: [],
                 tableDataDown: [],
-                upTrainPosition: {},
 
-                loading: false
+                watchTableDataUp: [],
+                watchTableDataDown: [],
+
+                upTrainPosition: {},
+                loading: true
             }
         },
         props: {
@@ -509,7 +511,31 @@
         watch: {
             height(val, valOld) {
                 this.tableHeight = val;
-            }
+            },
+            watchTableDataUp(val, valOld) {
+                try {
+                    if (valOld.length == 0) {
+                        this.tableDataUp = val;
+                    }
+                    else {
+                        this.updateTable(val, valOld, this.$refs.tableUp.$el, 'up');
+                    }
+                } catch (e) {
+                    console.dir(e);
+                }
+            },
+            watchTableDataDown(val, valOld) {
+                try {
+                    if (valOld.length == 0) {
+                        this.tableDataDown = val;
+                    }
+                    else {
+                        this.updateTable(val, valOld, this.$refs.tableDown.$el, 'down');
+                    }
+                } catch (e) {
+                    console.dir(e);
+                }
+            },
         },
         beforeDestroy() {
             if (this.setTimeOutInfoPanelData) {
@@ -530,6 +556,82 @@
                 this.upOrDownTable = false;
             },
 
+            updateTable(val, valOld, tableDom, direction) {
+                var x = 0, // 表格第几行
+                    y = 0; // 表格第几列
+
+                var keyInt = 0,
+                    cellText = '';
+
+                // 测试
+                // valOld = val;
+
+                val.forEach((v, idx, array) => {
+                    x = idx;
+                    if (v.status != valOld[idx].status) {
+                        y = 2;
+                        switch(v.status) {
+                            case -1: cellText = '<span>未发班</span>'; break;
+                            case 0: cellText = '<span class="table-row-text-blue">运行中</span>';  break;
+                            case 1: cellText = '<span class="table-row-text-green">已完成</span>'; break;
+                            default: break;
+                        }
+                        tableDom.querySelectorAll('.ivu-table-body tr')[x].children[y].innerHTML = cellText;
+                    }
+
+                    for (var key in v) {
+                        if (key != 'status' && key != 'trainId') {
+
+                            if (v[key] != valOld[idx][key]) {
+                                keyInt = parseInt(key);
+                                if (direction == 'up') {y = keyInt + 2;}
+                                else { y = 24 - keyInt + 2; }
+                                cellText = this.getCellValue(v[key]);
+
+                                tableDom.querySelectorAll('.ivu-table-body tr')[x].children[y].innerHTML = cellText;
+                            }
+                        }
+                    }
+
+                });
+            },
+            getCellValue(value) {
+                var value1, value2;
+                var hh1, hh2, mm1, mm2, ss1, ss2, mVal = 0;
+
+                if (!value) {
+                    return '- -';
+                }
+
+                value1 = value.split('|')[0];
+                value2 = value.split('|')[1] || '';
+
+                if (value2 == '') {
+                    return MOMENT(value1).format('HH:mm');
+                }
+                else {
+                    hh1 = MOMENT(value1).hour();
+                    mm1 = MOMENT(value1).minute();
+                    hh2 = MOMENT(value2).hour();
+                    mm2 = MOMENT(value2).minute();
+
+                    ss1 = MOMENT(value1).seconds();
+                    ss2 = MOMENT(value2).seconds();
+
+                    mVal = (hh2 - hh1) * 60 + (mm2 - mm1) + ((ss2 - ss1) >= 30 ? 1 : 0);
+                }
+
+                if (mVal < 0) { // 早点
+                    return '<span class="row-complete">'+MOMENT(value1).format('hh:mm')+'<span class="random-error early-error">'+ mVal+'</span></span>';
+                }
+                else if (mVal > 0){
+                    return '<span class="row-complete">'+MOMENT(value1).format('hh:mm')+'<span class="random-error later-error">'+ mVal+'</span></span>';
+                }
+                else {
+                    return '<span class="row-complete">'+MOMENT(value1).format('hh:mm')+'<span class="icon-complete"></span></span>';
+                }
+            },
+
             morningTrain(h, params, key, type) {
                 //var type = '0';
                 // 如果没有值
@@ -547,7 +649,7 @@
                 value2 = value.split('|')[1] || '';
 
                 if (value2 == '') {
-                    return MOMENT(value1).format('hh:mm');
+                    return MOMENT(value1).format('HH:mm');
                 }
                 else {
                     hh1 = MOMENT(value1).hour();
@@ -585,7 +687,6 @@
 
             // 获取
             getTrainRun() {
-                this.loading = true;
                 var that = this;
                 Util.ajax({
                     method: "get",
@@ -594,8 +695,8 @@
                 }).then(function(response){
                     that.loading = false;
                     if (response.status === 1) {
-                        that.tableDataUp = response.result.upPlanAndActual;
-                        that.tableDataDown = response.result.downPlanAndActual;
+                        that.watchTableDataUp = response.result.upPlanAndActual;
+                        that.watchTableDataDown = response.result.downPlanAndActual;
                     }
                     else {}
 
