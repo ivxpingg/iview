@@ -202,6 +202,10 @@
                 }).then(function(response){
                     if (response.status === 1) {
                         that.infoPanelData = response.result;
+
+                        that.infoPanelData = that.infoPanelData.toFixed(1)
+
+
                     }
                     else {}
 

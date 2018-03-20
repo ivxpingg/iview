@@ -158,7 +158,7 @@
             }
         },
         mounted() {
-
+            this.$Spin.show();
             this.userId = Util.cookie.get('xmgduserid') || '';
             this.token =  Util.cookie.get('xmgd') || '';
 
@@ -171,9 +171,11 @@
                 var that = this;
                 Util.ajax.get('/xm/sys/auth/menuList')
                     .then(function (response) {
+                        that.$Spin.hide();
                         that.mList = response.result || null;
                     })
                     .catch(function (error) {
+                        that.$Spin.hide();
                         console.log(error);
                     });
             },

@@ -446,8 +446,29 @@
 
                 });
 
-                this.refresh_train_position(new_train_list);
+                this.filePullBack_section_name(new_train_list);
             },
+            // 过滤掉折返区段
+            filePullBack_section_name(new_train_list) {
+                var list = [];
+
+                new_train_list.forEach(function(val, idx) {
+
+                    if (val.direction == '0' && lineData.pullBack_section_name.down.indexOf(val.sectionName) >= 0) {
+
+                    }
+                    else if(val.direction == '1' && lineData.pullBack_section_name.up.indexOf(val.sectionName) >= 0) {
+
+                    }
+                    else {
+                        list.push(val);
+                    }
+
+                });
+
+                this.refresh_train_position(list);
+            },
+
             refresh_train_position(new_train_list) {
 
                 this.train_remove_nonexits(new_train_list);
@@ -503,6 +524,10 @@
                 var dom = o_element;
                 var dom_arrive_circle;
 
+                dom.setAttribute('sectionName', o_data.sectionName);
+                dom.setAttribute('direction', o_data.direction);
+                dom.setAttribute('status', o_data.status);
+
                 var dom_re = document.querySelector('.' + this.prefixClassNameShow + old_o_data.trainId);
 
                 if (!!dom_re) {
@@ -555,6 +580,9 @@
                 var dom = document.createElement('div');
                 var dom_arrive_circle;
                 dom.setAttribute('trainId', o_data.trainId);
+                dom.setAttribute('sectionName', o_data.sectionName);
+                dom.setAttribute('direction', o_data.direction);
+                dom.setAttribute('status', o_data.status);
                 dom.innerHTML  = o_data.trainId;
 
                 if (o_data.direction == '0') {

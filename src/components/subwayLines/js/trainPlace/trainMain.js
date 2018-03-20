@@ -1,6 +1,7 @@
 import Util from '../../../../libs/util';
 import train from './trainCreateZR';
 import MOMENT from 'moment';
+import lineData from '../baseData';
 
 
 /**
@@ -164,7 +165,7 @@ var getData = function () {
 
         if (response.status == 1) {
             console.dir(response.result);
-
+            var list = [];
             // 把小区段名转化为大区段名
             response.result.forEach(function(val, idx) {
                 if (val.sectionName.indexOf('-') > 0) {
@@ -172,7 +173,21 @@ var getData = function () {
                 }
             });
 
-            refresh_train_position(response.result);
+            response.result.forEach(function(val, idx) {
+
+                if (val.direction == '0' && lineData.pullBack_section_name.down.indexOf(val.sectionName) >= 0) {
+
+                }
+                else if(val.direction == '1' && lineData.pullBack_section_name.up.indexOf(val.sectionName) >= 0) {
+
+                }
+                else {
+                    list.push(val);
+                }
+
+            });
+
+            refresh_train_position(list);
         }
         else {
             console.dir(response.errMsg);

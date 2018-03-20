@@ -226,6 +226,14 @@ const routers = [{
                 requireAuth: true  // 添加该字段，表示进入这个路由是需要登录的
             },
             component: (resolve) => require(['./components/yjManage/routerView/yj2.vue'], resolve)
+        },{
+            path: 'yjEdit',
+            name: 'yjEdit',
+            meta: {
+                title: '厦门市轨道交通舆情分析子系统',
+                requireAuth: true  // 添加该字段，表示进入这个路由是需要登录的
+            },
+            component: (resolve) => require(['./components/yjManage/routerView/yjEdit.vue'], resolve)
         }]
     },
     {

@@ -59,10 +59,10 @@
                     <!--<router-link class="ivu-btn ivu-btn-primary ivu-btn-circle" to="employeeAdd">新增从业人员信息</router-link>-->
                     <Button type="primary" shape="circle" @click="onEmployeeAdd">新增从业人员信息</Button>
 
-                    <!--<div class="v-file-up-load"></div>-->
-                    <!--<div class="v-file-up-load"></div>-->
-                    <vFileUpload class="v-file-up-load" :url="importFileUrl1"  bText="导入从业人员报备表"></vFileUpload>
-                    <vFileUpload class="v-file-up-load" :url="importFileUrl2"  bText="导入从业人员异动报备表"></vFileUpload>
+                    <div class="v-file-up-load item-text">总在职人员数: <span class="text">{{searchParams.totalOnJobNum}}</span> </div>
+                    <div class="v-file-up-load item-text">当前查询结果人员数: <span class="text-green">{{searchParams.queryOnJobNum}}</span></div>
+                    <!--<vFileUpload class="v-file-up-load" :url="importFileUrl1"  bText="导入从业人员报备表"></vFileUpload>-->
+                    <!--<vFileUpload class="v-file-up-load" :url="importFileUrl2"  bText="导入从业人员异动报备表"></vFileUpload>-->
                 </div>
             </div>
 
@@ -378,6 +378,8 @@
                     { title: '培训内容', align: 'center', key: 'trainContent' },
                     { title: '成绩', align: 'center', key: 'achievement', width: 80 }],
                 searchParams: {
+                    queryOnJobNum: 0,
+                    totalOnJobNum: 0,
                     pageNo: 1,                   // 当前页数
                     pageSize: 10,                // 每页记录数
                     count: 0,                    // 总数据量
@@ -917,9 +919,12 @@
                 }).then(function (response) {
                     that.$Spin.hide();
                     if (response.status == 1) {
-                        that.searchParams.count = response.result.count;
-                        that.searchParams.pageCount = Math.ceil(response.result.count / response.result.pageSize);
-                        that.listData = response.result.list;
+                        that.searchParams.count = response.result.page.count;
+                        that.searchParams.pageCount = Math.ceil(response.result.page.count / response.result.page.pageSize);
+                        that.listData = response.result.page.list;
+
+                        that.searchParams.queryOnJobNum = response.result.queryOnJobNum;
+                        that.searchParams.totalOnJobNum = response.result.totalOnJobNum;
 
                     }
                     else {
@@ -1269,7 +1274,6 @@
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
     .my-list {
-
         .top-panel {
             display: flex;
             box-sizing: border-box;
@@ -1319,6 +1323,20 @@
                     .v-file-up-load {
                         margin-right: 45px;
                         display: inline-block;
+
+                        &.item-text {
+                            font-size: 14px;
+
+                            .text {
+                                color: #e06c75;
+                                font-weight: 700;
+                            }
+
+                            .text-green {
+                                color: #19be6b;
+                                font-weight: 700;
+                            }
+                        }
                     }
                     .ivu-btn {
                         margin-right: 45px;

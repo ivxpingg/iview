@@ -5,10 +5,10 @@
             <div class="btn-com btn-down" :class="upOrDownTable ? '': 'active'" @click="downTable()"><span>下</span><span>行</span></div>
         </div>
         <div class="table-box" v-show="upOrDownTable">
-            <Table ref="tableUp" class="myTableIview" border stripe :columns="tableColumnsUp"  :loading="loading" :height="tableHeight" :data="tableDataUp"></Table>
+            <Table ref="tableUp" class="myTableIview" :no-data-text="noDataText_table" border stripe :columns="tableColumnsUp"  :loading="loading" :height="tableHeight" :data="tableDataUp"></Table>
         </div>
         <div class="table-box" v-show="!upOrDownTable">
-            <Table ref="tableDown" class="myTableIview" border stripe :columns="tableColumnsDown" :loading="loading" :height="tableHeight" :data="tableDataDown"></Table>
+            <Table ref="tableDown" class="myTableIview" :no-data-text="noDataText_table" border stripe :columns="tableColumnsDown" :loading="loading" :height="tableHeight" :data="tableDataDown"></Table>
         </div>
     </div>
 </template>
@@ -44,7 +44,6 @@
                         align: 'center',
                         render(h, params) {
                             var value = '', clsName = '';
-
                             switch(params.row.status) {
                                 case -1: value = '未发班'; clsName = ''; break;
                                 case 0: value = '运行中'; clsName = 'table-row-text-blue'; break;
@@ -277,7 +276,6 @@
                         align: 'center',
                         render(h, params) {
                             var value = '', clsName = '';
-
                             switch(params.row.status) {
                                 case -1: value = '未发班'; clsName = ''; break;
                                 case 0: value = '运行中'; clsName = 'table-row-text-blue'; break;
@@ -497,7 +495,8 @@
                 watchTableDataDown: [],
 
                 upTrainPosition: {},
-                loading: true
+                loading: true,
+                noDataText_table: '加载中...'
             }
         },
         props: {
@@ -583,9 +582,16 @@
                         if (key != 'status' && key != 'trainId') {
 
                             if (v[key] != valOld[idx][key]) {
+//                                console.dir(idx);
+//                                console.dir(key);
+//                                console.dir(v[key] +'   '+valOld[idx][key]);
+
                                 keyInt = parseInt(key);
                                 if (direction == 'up') {y = keyInt + 2;}
-                                else { y = 24 - keyInt + 2; }
+                                else { y = 25 - keyInt + 2;
+//                                console.dir('x:' + x + '  y:' + y);
+//                                console.dir(tableDom.querySelectorAll('.ivu-table-body tr')[x].children[y]);
+                                }
                                 cellText = this.getCellValue(v[key]);
 
                                 tableDom.querySelectorAll('.ivu-table-body tr')[x].children[y].innerHTML = cellText;
@@ -622,13 +628,13 @@
                 }
 
                 if (mVal < 0) { // 早点
-                    return '<span class="row-complete">'+MOMENT(value1).format('hh:mm')+'<span class="random-error early-error">'+ mVal+'</span></span>';
+                    return '<span class="row-complete">'+MOMENT(value1).format('HH:mm')+'<span class="random-error early-error">'+ mVal+'</span></span>';
                 }
                 else if (mVal > 0){
-                    return '<span class="row-complete">'+MOMENT(value1).format('hh:mm')+'<span class="random-error later-error">'+ mVal+'</span></span>';
+                    return '<span class="row-complete">'+MOMENT(value1).format('HH:mm')+'<span class="random-error later-error">+'+ mVal+'</span></span>';
                 }
                 else {
-                    return '<span class="row-complete">'+MOMENT(value1).format('hh:mm')+'<span class="icon-complete"></span></span>';
+                    return '<span class="row-complete">'+MOMENT(value1).format('HH:mm')+'<span class="icon-complete"></span></span>';
                 }
             },
 
@@ -648,6 +654,7 @@
                 value1 = value.split('|')[0];
                 value2 = value.split('|')[1] || '';
 
+
                 if (value2 == '') {
                     return MOMENT(value1).format('HH:mm');
                 }
@@ -666,21 +673,21 @@
                 if (mVal < 0) { // 早点
                     return h('span', {
                         'class': 'row-complete'
-                    }, [MOMENT(value1).format('hh:mm'), h('span', {
+                    }, [MOMENT(value1).format('HH:mm'), h('span', {
                         'class': 'random-error early-error'
                     }, mVal)]);
                 }
                 else if (mVal > 0){
                     return h('span', {
                         'class': 'row-complete'
-                    }, [MOMENT(value1).format('hh:mm'), h('span', {
+                    }, [MOMENT(value1).format('HH:mm'), h('span', {
                         'class': 'random-error later-error'
                     }, '+' + mVal)]);
                 }
                 else {
                     return h('span',
                              {'class': 'row-complete'},
-                             [MOMENT(value1).format('hh:mm'), h('span',{ 'class': 'icon-complete'})]
+                             [MOMENT(value1).format('HH:mm'), h('span',{ 'class': 'icon-complete'})]
                             );
                 }
             },
@@ -699,6 +706,8 @@
                         that.watchTableDataDown = response.result.downPlanAndActual;
                     }
                     else {}
+
+                    that.noDataText_table = '暂无数据';
 
                     that.setTimeOutInfoPanelData = setTimeout(function () {
                         that.getTrainRun();
