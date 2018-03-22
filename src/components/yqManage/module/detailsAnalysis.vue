@@ -164,6 +164,7 @@
             },
 
             setChartOption(result) {
+
                 var that = this;
                 this.option1.series[0].data[0].value = result.all;
                 this.option1.series[1].data[0].value = result.positive;
@@ -186,18 +187,22 @@
 
                 var o_name_num = {};
                 result.topicList.forEach(function (val, idx) {
-                   var contKeywordList = val.contKeyword.split(',');
-                   var num = val.num;
 
-                    contKeywordList.forEach(function(v){
+                    if (val.contKeyword) {
+                        var contKeywordList = val.contKeyword.split(',');
+                        var num = val.num;
 
-                        if (o_name_num[v] != undefined) {
-                            o_name_num[v] += num;
-                        }
-                        else {
-                            o_name_num[v] = num;
-                        }
-                    });
+                        contKeywordList.forEach(function (v) {
+
+                            if (o_name_num[v] != undefined) {
+                                o_name_num[v] += num;
+                            }
+                            else {
+                                o_name_num[v] = num;
+                            }
+                        });
+                    }
+                    
                 });
 
                 var idx = 0;

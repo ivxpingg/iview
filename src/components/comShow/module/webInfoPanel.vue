@@ -166,7 +166,7 @@
 
                 Util.ajax({
                     method: "get",
-                    url: '/xm/run/getTrainPosition',
+                    url: '/xm/run/getTrainPosition?t=' + Math.random(),
                     params: {
                         time: ''//that.sTime
                     }
@@ -195,7 +195,7 @@
                 var that = this;
                 Util.ajax({
                     method: "get",
-                    url: '/xm/run/runCount/getRunCount',
+                    url: '/xm/run/runCount/getRunCount?t=' + Math.random(),
                     data: {}
                 }).then(function(response){
                     if (response.status === 1) {
@@ -218,7 +218,7 @@
                 var that = this;
                 Util.ajax({
                     method: "get",
-                    url: '/xm/show/passengerShow/getTodayTotalPassenger'
+                    url: '/xm/show/passengerShow/getTodayTotalPassenger?t=' + Math.random(),
                 }).then(function(response){
                     if (response.status === 1) {
                         that.todayTotalInPassenger = response.result.todayTotalInPassenger || 0;
@@ -241,14 +241,13 @@
                 var that = this;
                 Util.ajax({
                     method: "get",
-                    url: '/xm/pub/pubOpinionInfo/pubOpinionDetailAnalysis',
+                    url: '/xm/pub/pubOpinionInfo/pubOpinionDetailAnalysis?t=' + Math.random(),
                     params: {
                         beginDate: MOMENT().format('YYYY-MM-DD'),
                         endDate: MOMENT().format('YYYY-MM-DD')
                     }
                 }).then(function(response){
                     if (response.status === 1) {
-                        console.dir(response.result);
                         that.setYqData(response.result);
                     }
                     else {}
@@ -262,6 +261,7 @@
                 var that = this;
 
                 this.yq_all = result.all;
+                if (result.all == 0) { return;}
 
                 this.p_positive = ((result.positive / result.all) * 100).toFixed(1);
                 this.p_neutral = ((result.neutral / result.all) * 100).toFixed(1);

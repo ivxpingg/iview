@@ -215,7 +215,7 @@
                 var that = this;
                 Util.ajax({
                     method: "get",
-                    url: '/xm/run/passengerCount/getPassengerInfoByTime',
+                    url: '/xm/run/passengerCount/getPassengerInfoByTime?t=' + Math.random(),
                     data: {}
                 }).then(function(response){
                     if (response.status === 1) {
@@ -237,7 +237,7 @@
                 var that = this;
                 Util.ajax({
                     method: "get",
-                    url: '/xm/run/passengerCount/getPassengerInfoByTime',
+                    url: '/xm/run/passengerCount/getPassengerInfoByTime?t=' + Math.random(),
                     params: {
                         stationId: that.defaultSelect
                     }
@@ -261,7 +261,7 @@
                 var that = this;
                 Util.ajax({
                     method: "get",
-                    url: '/xm/run/passengerCount/getPassengerInfoByTime',
+                    url: '/xm/run/passengerCount/getPassengerInfoByTime?t=' + Math.random(),
                     params: {
                         stationId: that.defaultSelect
                     }
@@ -278,7 +278,7 @@
                 var that = this;
                 Util.ajax({
                     method: "get",
-                    url: '/xm/run/passengerCount/getTodayPassengerInfo',
+                    url: '/xm/run/passengerCount/getTodayPassengerInfo?t=' + Math.random(),
                     data: {}
                 }).then(function(response){
                     if (response.status === 1) {

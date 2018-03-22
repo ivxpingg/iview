@@ -410,7 +410,7 @@
 
                 Util.ajax({
                     method: "get",
-                    url: '/xm/run/getTrainPosition',
+                    url: '/xm/run/getTrainPosition?t=' + Math.random(),
                     params: {
                         time: ''//sTime
                     }
@@ -583,7 +583,7 @@
                 dom.setAttribute('sectionName', o_data.sectionName);
                 dom.setAttribute('direction', o_data.direction);
                 dom.setAttribute('status', o_data.status);
-                dom.innerHTML  = o_data.trainId;
+               // dom.innerHTML  = o_data.trainId;
 
                 if (o_data.direction == '0') {
                     dom.className = 'train train-up ';

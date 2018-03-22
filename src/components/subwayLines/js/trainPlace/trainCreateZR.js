@@ -30,7 +30,8 @@ var zr_text = function (p, txt, color) {
     return new ZText({
         position: p,
         style: {
-            text: txt,
+            //text: txt,
+            text: '',
             fontStyle: 'Microsoft YaHei',
             fontSize: '10px',
 
@@ -209,6 +210,7 @@ var update_up_position_train = function (obj, old_obj, zrObj, up_line, zr) {
         image_point_start = [0, 0], image_point_end = [0, 0],
         run_time = 0;
 
+
     if (obj.sectionName == old_obj.sectionName) {
         // 区段没改变
         if (b_train_arrive(old_obj.arriveFlag) && b_train_arrive(obj.arriveFlag)) {
@@ -221,6 +223,7 @@ var update_up_position_train = function (obj, old_obj, zrObj, up_line, zr) {
         else if (b_train_arrive(obj.arriveFlag)) {
             // 到站
             // 要设置到站动画
+
             zrObj.image.animate('style', false).when(500, {
                 width: trainConfig.CAR_WIDTH * 1.5,
                 height: trainConfig.CAR_HEIGHT * 1.5,
@@ -320,6 +323,7 @@ var update_down_position_train = function (obj, old_obj, zrObj, down_line, zr) {
         else if (b_train_arrive(obj.arriveFlag)) {
             // 到站
             // 要设置到站动画
+
             zrObj.image.animate('style', false).when(500, {
                 width: trainConfig.CAR_WIDTH * 1.5,
                 height: trainConfig.CAR_HEIGHT * 1.5,

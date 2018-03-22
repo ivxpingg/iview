@@ -46,9 +46,10 @@ var train_remove_nonexits = function(new_train_list) {
 
         if(!exit) {
             var zr_element_list = o_zr_list[val] || [];
-            zr_element_list.forEach(function (key) {
+
+            for (var key in zr_element_list) {
                 zr.remove(o_zr_list[val][key]);
-            });
+            }
 
             delete o_zr_list[val];
         }
@@ -70,6 +71,11 @@ var train_update_exist = function (new_train_list) {
 
         if (list.indexOf(val.trainId) >= 0) {
             // 更新位置信息 code
+
+
+            // if (!o_zr_list[val.trainId].image) {
+            //     debugger
+            // }
 
             train_update(val, train_list[val.trainId], o_zr_list[val.trainId]);
         }
@@ -157,7 +163,7 @@ var getData = function () {
 
     Util.ajax({
         method: "get",
-        url: '/xm/run/getTrainPosition',
+        url: '/xm/run/getTrainPosition?t=' + Math.random(),
         params: {
             time: ''//sTime
         }

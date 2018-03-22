@@ -697,7 +697,7 @@
                 var that = this;
                 Util.ajax({
                     method: "get",
-                    url: '/xm/run/runCount/getPlanAndActualRunInfo',
+                    url: '/xm/run/runCount/getPlanAndActualRunInfo?t=' + Math.random(),
                     data: {}
                 }).then(function(response){
                     that.loading = false;
