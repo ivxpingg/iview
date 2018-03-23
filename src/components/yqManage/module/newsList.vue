@@ -249,7 +249,6 @@
 
 <style lang="scss" rel="stylesheet/scss" scoped>
     .newsList-container {
-        width: 100%;
         height: 100%;
         border: 1px solid #c8dcf2;
         background-color: #F7F7F7;
@@ -338,6 +337,8 @@
                     font-size: 13px;
                     text-align: left;
                     line-height: 20px;
+                    max-width: 1000px;
+                    overflow: hidden;
 
                     > a {
                         font-weight: 500;

@@ -32,7 +32,7 @@
                 <div class="item">
                     <div class="title">OD数据</div>
                     <div class="center">
-                        <div class="tip-msg" :class="ODFlag == 'true'?'tip-msg-green':'tip-msg-red'">{{ODFlag == 'true'? '今日已上传OD数据':'今日未上传OD数据'}}</div>
+                        <div class="tip-msg" :class="ODFlag == 'true'?'tip-msg-green':'tip-msg-red'">{{ODFlag? '已上传' + countDateFormat_OD + '的OD数据':'未上传' + countDateFormat_OD + '的OD数据'}}</div>
                         <div class="upload-panel">
 
                             <Upload name="file"
@@ -43,7 +43,7 @@
                                     :on-error="handleError"
                                     :on-success="handleSuccess_OD"
                                     :before-upload="handleBeforeUpload_OD">
-                                <Button type="success" shape="circle" icon="ios-cloud-upload-outline"  size="large" disabled="disabled">OD数据上传</Button>
+                                <Button type="success" shape="circle" icon="ios-cloud-upload-outline"  size="large">OD数据上传</Button>
                             </Upload>
                         </div>
 
@@ -73,6 +73,8 @@
                 countDate: '',
                 ODFlag: '',
 
+                countDate_OD: '',
+
                 headers: {}
             }
         },
@@ -80,12 +82,18 @@
             // 把 countDate 日期转为MM月DD日
             countDateFormat() {
                 return this.countDate!='' ? MOMENT(this.countDate).format('MM月DD日') : '';
+            },
+            countDateFormat_OD() {
+                return this.countDate_OD!='' ? MOMENT(this.countDate_OD).format('MM月DD日') : '';
             }
         },
         components: {vFileUpload, vHeader, vFooter},
         created() {
+
             this.importFileUrl_daily = Util.domain + '/xm/inte/dailyDownloadParse/uploadDaily';
             this.exportFileUrl_daily = Util.domain + '/static/download/xlsx/交通局每日报送材料_yyyy-mm-dd.xlsx';
+
+            this.importFileUrl_OD = Util.domain + '/xm/traffic/uploadODData/uploadOD';
 
             this.headers = {
                 Authorization: Util.cookie.get('xmgd') || ''
@@ -93,6 +101,7 @@
         },
         mounted() {
             this.ifUpload_daily_today();
+            this.ifUpload_OD_today();
         },
         methods: {
             handleBeforeUpload_daily(file) {
@@ -159,31 +168,38 @@
 
             handleBeforeUpload_OD(file) {
                 var that = this;
+debugger
+                if(file.name.indexOf(that.countDate_OD) > 0) {
+                    return new Promise(
+                        function (resolve, reject) {
+                            if (that.ODFlag == true) {
 
-                return new Promise(
-                    function(resolve, reject) {
-                        if (that.dailyFlag == true) {
-                            that.$Modal.confirm({
-                                title: '提示',
-                                content: '<p>今天《OD数据》已上传，是否覆盖?</p>',
-                                loading: false,
-                                onOk: () => {
-                                    resolve();
-                                },
-                                onCancel: () => {
-                                    reject();
-                                }
-                            });
+                                that.$Modal.confirm({
+                                    title: '提示',
+                                    content: '<p>' + that.countDateFormat_OD + '的OD数据已上传，是否覆盖?</p>',
+                                    loading: false,
+                                    onOk: () => {
+                                        resolve();
+                                    },
+                                    onCancel: () => {
+                                        reject();
+                                    }
+                                });
+                            }
+                            else {
+                                resolve();
+                            }
                         }
-                        else {
-                            resolve();
-                        }
-                    }
-                );
+                    );
+                }
+                else {
+
+                }
 
             },
 
             handleSuccess_OD(response, file, fileList) {
+                var that = this;
                 if (response.errCode == "A0002") {
                     this.$router.push({
                         path: '/',  // 路由名称
@@ -224,7 +240,23 @@
                 });
             },
             // 判断OD数据今天是否上传过
-            ifUpload_OD_today() {}
+            ifUpload_OD_today() {
+                var that = this;
+                Util.ajax({
+                    method: 'get',
+                    url: '/xm/traffic/uploadODData/checkTodayUpload',
+                    params: {}
+                }).then(function (response) {
+                    if (response.status == 1) {
+                        that.countDate_OD = response.result.countDate;
+                        that.ODFlag = response.result.flag;
+                    } else {
+                        that.countDate_OD = '';
+                        that.ODFlag = false;
+                    }
+                }).catch(function () {
+                });
+            }
         }
     }
 </script>

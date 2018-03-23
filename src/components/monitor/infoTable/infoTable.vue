@@ -48,6 +48,7 @@
                                 case -1: value = '未发班'; clsName = ''; break;
                                 case 0: value = '运行中'; clsName = 'table-row-text-blue'; break;
                                 case 1: value = '已完成'; clsName = 'table-row-text-green'; break;
+                                case 2: value = '待确认'; clsName = 'table-row-text-gray'; break;
                             }
                             return h('span', {
                                 "class": clsName
@@ -280,6 +281,7 @@
                                 case -1: value = '未发班'; clsName = ''; break;
                                 case 0: value = '运行中'; clsName = 'table-row-text-blue'; break;
                                 case 1: value = '已完成'; clsName = 'table-row-text-green'; break;
+                                case 2: value = '待确认'; clsName = 'table-row-text-gray'; break;
                             }
                             return h('span', {
                                 "class": clsName
@@ -573,6 +575,7 @@
                             case -1: cellText = '<span>未发班</span>'; break;
                             case 0: cellText = '<span class="table-row-text-blue">运行中</span>';  break;
                             case 1: cellText = '<span class="table-row-text-green">已完成</span>'; break;
+                            case 2: cellText = '<span class="table-row-text-gray">待确认</span>'; break;
                             default: break;
                         }
                         tableDom.querySelectorAll('.ivu-table-body tr')[x].children[y].innerHTML = cellText;
@@ -864,6 +867,9 @@
         }
         .table-row-text-blue {
             color: #3980c3;
+        }
+        .table-row-text-gray {
+            color: rgb(171, 178, 191);
         }
 
         // 更改表格样式
