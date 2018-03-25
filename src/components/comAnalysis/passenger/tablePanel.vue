@@ -32,7 +32,7 @@
                         width: 90,
                         align: 'center',
                         render(h, params) {
-                            if (that.tableDim == 'day') {
+                            if (that.tableDim == 'day' && that.timeFrame == 'allDay') {
                                 return h('a', {
                                     attrs: {
                                         href: params.row['localUrl'],
