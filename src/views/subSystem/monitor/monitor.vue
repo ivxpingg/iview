@@ -27,6 +27,9 @@
             vFlowMonitor,
             vVideoMonitor
         },
+        created() {
+
+        },
         mounted() {
             this.init();
         },

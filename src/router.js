@@ -75,6 +75,15 @@ const routers = [{
                     requireAuth: true
                 },
                 component: (resolve) => require(['./components/monitor/routerView/videoMonitor.vue'], resolve)
+            },
+            {
+                path: 'videoMonitor/:t',
+                name: 'videoMonitorP',
+                meta: {
+                    title: '视频监视',
+                    requireAuth: true
+                },
+                component: (resolve) => require(['./components/monitor/routerView/videoMonitor.vue'], resolve)
             }
         ]
     },

@@ -7,7 +7,8 @@
             <div class="btn-panel">
                 <div class="m-btn" :class="routeName == 'runMonitor' ? 'm-active':''" @click="btnLink('runMonitor', $event)">行车监视</div>
                 <div class="m-btn" :class="routeName == 'flowMonitor' ? 'm-active':''" @click="btnLink('flowMonitor', $event)">客流监视</div>
-                <div class="m-btn" :class="routeName == 'videoMonitor' ? 'm-active':''" @click="btnLink('videoMonitor', $event)">视频监视</div>
+                <a class="m-btn" :class="routeName == 'videoMonitor' ? 'm-active':''"  v-if="!isIE" :href="viewIEUrl">视频监视</a>
+                <div v-if="isIE" class="m-btn" :class="routeName == 'videoMonitor' ? 'm-active':''" @click="btnLink('videoMonitor', $event)">视频监视</div>
             </div>
         </div>
     </div>
@@ -15,11 +16,29 @@
 
 <script>
     import Util from '../../../libs/util';
+    import browserType from '../../../libs/package/browser-type';
+    import MOMENT from 'moment';
     export default {
         data () {
             return {
+                viewIEUrl: 'openIE:',
+                isIE: false,
                 activeName: 'm-active',  // 激活样式名
                 routeName: ''            // 当前路由路径
+            }
+        },
+        created() {
+            const bt = browserType();
+            debugger
+            if(bt.isIE) {
+                this.isIE = bt.isIE;
+            }
+            else {
+                this.viewIEUrl = 'openIE:' + window.location.href.split('/monitor')[0] + '/monitor/videoMonitor';
+                this.viewIEUrl += '?t=' + Util.cookie.get('xmgd');
+                this.viewIEUrl += '--' + encodeURIComponent(Util.cookie.get('xmgdname'));
+                this.viewIEUrl += '--' + Util.cookie.get('xmgduserid');
+                this.isIE = bt.isIE;
             }
         },
         mounted() {
