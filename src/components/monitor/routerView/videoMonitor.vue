@@ -28,6 +28,7 @@
 
 <script>
     import Util from '../../../libs/util';
+    import MOMENT from 'moment';
     export default {
         data () {
             var that = this;
@@ -191,7 +192,6 @@
                 that.searchData = that.treeData;
             }
         },
-        created() { },
         mounted() {
             var that = this;
 

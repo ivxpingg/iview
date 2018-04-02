@@ -29,15 +29,17 @@
         },
         created() {
             const bt = browserType();
-            debugger
+
             if(bt.isIE) {
                 this.isIE = bt.isIE;
             }
             else {
+                console.log(Util.cookie.get('xmgd'));
                 this.viewIEUrl = 'openIE:' + window.location.href.split('/monitor')[0] + '/monitor/videoMonitor';
-                this.viewIEUrl += '?t=' + Util.cookie.get('xmgd');
+                this.viewIEUrl += '?singleSign=' + encodeURIComponent(Util.cookie.get('xmgd'));
                 this.viewIEUrl += '--' + encodeURIComponent(Util.cookie.get('xmgdname'));
                 this.viewIEUrl += '--' + Util.cookie.get('xmgduserid');
+                this.viewIEUrl += '--' + 'videoMonitor';
                 this.isIE = bt.isIE;
             }
         },

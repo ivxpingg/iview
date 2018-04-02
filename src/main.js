@@ -8,6 +8,8 @@ import App from './app.vue';
 import 'iview/dist/styles/iview.css';
 import './style/app.css';
 
+import singleSign  from './libs/package/singleSign';
+
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
@@ -26,6 +28,9 @@ const router = new VueRouter(RouterConfig);
 
 router.beforeEach((to, from, next) => {
 
+    singleSign(to, from, next);
+    console.log(to.fullPath);
+
     // next();return ;
     if (to.path === '/' || !to.meta.requireAuth) {
         Util.title(to.meta.title);
@@ -33,21 +38,6 @@ router.beforeEach((to, from, next) => {
         return;
     }
 
-    if (window.location.href.indexOf('/videoMonitor') > 0) {
-        var t = window.location.href.split('?t=')[1];
-        if (t) {
-
-            Util.cookie.set('xmgd', t.split('--')[0] , new Date(new Date().getTime() + 7 * 24 * 60 * 1000));
-            Util.cookie.set('xmgdname', decodeURIComponent( t.split('--')[1]), new Date(new Date().getTime() + 7 * 24 * 60 * 1000));
-            Util.cookie.set('xmgduserid', t.split('--')[2], new Date(new Date().getTime() + 7 * 24 * 60 * 1000));
-            Util.cookie.set('logintime', MOMENT().format('YYYY-MM-DD hh:mm:ss') , new Date(new Date().getTime() + 7 * 24 * 60 * 1000))
-            that.$store.commit('setToken', t.split('--')[2]);
-            that.$store.commit('setName', decodeURIComponent(t.split('--')[1]));
-
-            next();
-            return;
-        }
-    }
 
     if (store.state.token == null) {
         store.commit('setToken', Util.cookie.get('xmgd'));
