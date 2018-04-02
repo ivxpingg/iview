@@ -81,6 +81,7 @@
 </template>
 <script>
     import MOMENT from 'moment';
+    import lineData from '../../subwayLines/js/baseData';
     import Util from '../../../libs/util';
     export default {
         data() {
@@ -121,11 +122,30 @@
             }
         },
         watch: {
-            trainPositionData(val) {
+            trainPositionData(nval) {
 
                 var up = 0;
                 var down = 0;
-                val.forEach(function (val) {
+
+                var list = [];
+
+                nval.forEach(function(val, idx) {
+
+                    if (val.direction == '0' && lineData.pullBack_section_name.down.indexOf(val.sectionName) >= 0) {
+
+                    }
+                    else if(val.direction == '1' && lineData.pullBack_section_name.up.indexOf(val.sectionName) >= 0) {
+
+                    }
+                    else {
+                        list.push(val);
+                    }
+
+                });
+
+                debugger
+
+                list.forEach(function (val) {
                     if (val.direction == '0') {
                         ++up;
                     }
@@ -181,13 +201,13 @@
 
                     that.timeOut = setTimeout(function () {
                         that.getTrainPosition();
-                    }, 5000);
+                    }, 30000);
                 }).catch(function (err) {
                     console.dir(err);
 
                     that.timeOut = setTimeout(function () {
                         that.getTrainPosition();
-                    }, 5000);
+                    }, 30000);
                 });
             },
 

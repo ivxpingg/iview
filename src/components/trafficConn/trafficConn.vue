@@ -9,7 +9,7 @@
     export default {
         data() {
             return {
-                url: 'http://wechat.doudou360.com/metrosupervision/modules/traffic/mapstatistics.html'
+                url: Util.domain + '/modules/traffic/mapstatistics.html'
             }
         },
         components: {vIframe},
