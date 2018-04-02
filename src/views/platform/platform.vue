@@ -32,7 +32,31 @@
         <i class="arrow arrow-right ivu-icon ivu-icon-ios-arrow-right" @click="nextSystem"></i>
 
         <div class="btn-switcher" @click="logout">切换用户</div>
+        <div class="btn-pwd" @click="showPwdPanel">修改密码</div>
         <vFooter class="footer"></vFooter>
+
+        <Modal title="密码修改"
+               v-model="showPwdEdit"
+               :transfer="false"
+               width="380">
+            <div>
+                <Form ref="formInline" :model="pwdForm" :rules="pwdFormRule" inline autocomplete="off">
+                    <FormItem prop="oldPwd" label="旧密码:" :label-width="100" >
+                        <Input v-model="pwdForm.oldPwd" type="password" autocomplete="off" disableautocomplete  style="width: 220px"></Input>
+                    </FormItem>
+                    <FormItem prop="newPwd"  label="新密码:" :label-width="100" >
+                        <Input v-model="pwdForm.newPwd" type="password"  autocomplete="off" disableautocomplete  style="width: 220px"></Input>
+                    </FormItem>
+                    <FormItem  prop="newPwdFirst" label="重新输入密码:" :label-width="100" >
+                        <Input v-model="pwdForm.newPwdFirst" type="password" autocomplete="off" disableautocomplete  style="width: 220px"></Input>
+                    </FormItem>
+                    <FormItem  label="">
+                        <Button type="primary" style="width: 220px; margin-left: 100px;" @click="onEditPwd">确定</Button>
+                    </FormItem>
+                </Form>
+            </div>
+            <div slot="footer"></div>
+        </Modal>
     </div>
 
 </template>
@@ -43,7 +67,9 @@
     import vFooter from '../../components/layout/footer/footer.vue';
     export default {
         data() {
+            var that = this;
             return {
+                showPwdEdit: false,
                 domain: Util.domain,
                 mList: [],
                 timer: 100,
@@ -102,7 +128,39 @@
                 },
 
                 userId: '',
-                token: ''
+                token: '',
+
+                pwdForm: {
+                    oldPwd: '',
+                    newPwd: '',
+                    newPwdFirst: ''
+                },
+                pwdFormRule: {
+                    oldPwd: [
+                        { required: true, message: '请输入旧密码', trigger: 'blur' },
+
+                    ],
+                    newPwd: [
+                        { required: true, message: '请输入新密码', trigger: 'blur' },
+                        { type: 'string', min: 6, message: '密码长度不能少于6位', trigger: 'blur' }
+                    ],
+                    newPwdFirst: [
+                        { required: true, message: '请输入重新输入新密码', trigger: 'blur' },
+                        {
+                            validator(rule, value, callback, source, options) {
+
+                                var errors = [];
+                                if(that.pwdForm.newPwd == that.pwdForm.newPwdFirst) {
+
+                                }
+                                else {
+                                    errors.push(new Error('2次新密码必须一样！'));
+                                }
+                                callback(errors);
+                            }
+                        }
+                    ]
+                }
 
             }
         },
@@ -368,6 +426,50 @@
                     router.push({path: info.url});
                 }
 
+            },
+
+            showPwdPanel() {
+                this.showPwdEdit = true;
+            },
+
+            onEditPwd() {
+                var that = this;
+                this.$refs['formInline'].validate((valid) => {
+                    if (valid) {
+                        Util.ajax({
+                            method: "get",
+                            url: '/xm/sys/resetPassword',
+                            params: {
+                                oldPassword: that.pwdForm.oldPwd,
+                                newPassword: that.pwdForm.newPwd
+                            }
+                        }).then(function (response){
+
+                                if (response.status ==  '1') {
+                                    that.$Message.success('密码修改成功！');
+                                    Util.ajax.get('/xm/sys/logout')
+                                        .then(function (response){
+                                            var router = new VueRouter();
+                                            Util.cookie.unset('xmgd');
+                                            Util.cookie.unset('xmgdname');
+                                            that.$store.commit('setToken', null);
+                                            setTimeout(function () {
+                                                router.push({ path: '/' });
+                                            }, 2000);
+                                        })
+                                        .catch(function (error) {
+                                            console.log(error);
+                                        });
+                                }
+                                else {
+                                    that.$Message.error(response.errMsg);
+                                }
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            });
+                    }
+                },);
             }
         }
 
@@ -421,16 +523,31 @@
 
         .btn-switcher {
             position: absolute;
-            right: 45px;
+            right: 185px;
             bottom: 58px;
-            height: 39px;
-            padding-left: 49px;
+            height: 30px;
+            padding-left: 39px;
             font-size: 20px;
             color: #FFFFFF;
             background: url('./images/switcher.png') no-repeat left center;
+            background-size: 30px 30px;
             cursor: pointer;
             z-index: 2;
         }
+        .btn-pwd {
+            position: absolute;
+            right: 45px;
+            bottom: 58px;
+            height: 30px;
+            padding-left: 39px;
+            font-size: 20px;
+            color: #FFFFFF;
+            background: url('./images/lock2.png') no-repeat left center;
+            background-size: 30px 30px;
+            cursor: pointer;
+            z-index: 2;
+        }
+
         .subSystem-panel {
             position: absolute;
             padding-top: 50px;
