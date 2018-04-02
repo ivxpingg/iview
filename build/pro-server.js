@@ -13,6 +13,7 @@ rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
 
     shell.rm('-rf', path.join(__dirname, '../dist/*'));
     shell.mkdir('-p', path.join(__dirname, '../dist/static'));
+    shell.mkdir('-p', path.join(__dirname, '../dist/html'));
     shell.cp('-R', path.join(__dirname, '../src/static/*'), path.join(__dirname, '../dist/static'));
     shell.cp('-R', path.join(__dirname, '../src/html/*'), path.join(__dirname, '../dist/html'));
   webpack(webpackConfig, function (err, stats) {
