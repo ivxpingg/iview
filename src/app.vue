@@ -23,9 +23,9 @@
 </script>
 <style scoped>
     .container {
-        width: 100%;
-        min-width: 1400px;
         height: 100%;
-        overflow-x: auto;
+        overflow-y: auto;
+
+        /*overflow-x: auto;*/
     }
 </style>

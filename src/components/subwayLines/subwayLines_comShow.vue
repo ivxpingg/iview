@@ -103,7 +103,7 @@
         height: 100%;
         min-height: 700px;
         overflow: hidden;
-        overflow-y: auto;
+        /*overflow-y: auto;*/
         background-color: #4d4d4c;
 
         .d-popup {

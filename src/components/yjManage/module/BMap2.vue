@@ -31,11 +31,11 @@
             </div>
             <div class="item">
                 <div class="item-legend legend-3"></div>
-                <div class="item-msg">上行接驳线路</div>
+                <div class="item-msg">上行接驳线路（开往岩内）</div>
             </div>
             <div class="item">
                 <div class="item-legend legend-4"></div>
-                <div class="item-msg">下行接驳线路</div>
+                <div class="item-msg">下行接驳线路（开往镇海路）</div>
             </div>
             <div class="item">
                 <div class="item-legend legend-5"></div>

@@ -29,7 +29,7 @@ const router = new VueRouter(RouterConfig);
 router.beforeEach((to, from, next) => {
 
     singleSign(to, from, next);
-    console.log(to.fullPath);
+    // console.log(to.fullPath);
 
     // next();return ;
     if (to.path === '/' || !to.meta.requireAuth) {

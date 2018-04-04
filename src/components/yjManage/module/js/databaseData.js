@@ -238,7 +238,7 @@ export default {
             busStationUp: [{"lng":118.060755,"lat":24.608747}],        // 上行公交站点
             busStationDown: [{"lng":118.060755,"lat":24.608747}],      // 下行公交站点
             upName: '1号口',
-            downName: '4号口'
+            downName: '1号口'
         },
         '20': {
             busStationUp: [{"lng":118.055077,"lat":24.619621}],        // 上行公交站点
@@ -931,7 +931,7 @@ export default {
         },
         '2': {
             titleImg: '镇海路站—湖滨东路站故障交路图',
-            busStartStaion: ['1', '3']
+            busStartStaion: ['1', '3', '5']
         },
         '3': {
             titleImg: '镇海路站—吕厝站故障交路图',

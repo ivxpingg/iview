@@ -143,7 +143,6 @@
 
                 });
 
-                debugger
 
                 list.forEach(function (val) {
                     if (val.direction == '0') {

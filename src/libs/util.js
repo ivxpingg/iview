@@ -135,7 +135,7 @@ Ajax.interceptors.request.use(function (config) {
 Ajax.interceptors.response.use(function (response) {
 
     if(response.data.errCode === "A0002") {
-
+debugger
         let router = new VueRouter();
         Cookie.unset('xmgd');
         Cookie.unset('xmgdname');

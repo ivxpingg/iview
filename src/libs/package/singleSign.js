@@ -18,7 +18,6 @@ export default function (to, from, next) {
         Util.cookie.set('logintime', MOMENT().format('YYYY-MM-DD hh:mm:ss') , new Date(new Date().getTime() + 7 * 24 * 60 * 1000));
 
 
-        console.log(signInfo.split('--')[3]);
         next({
             name: signInfo.split('--')[3]
         })
