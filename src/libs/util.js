@@ -14,19 +14,21 @@ util.title = function(title) {
 
 // const serverUrl = 'http://wechat.doudou360.com';
 // const serverUrl = 'http://10.23.120.99:8102';     // 外网
-const serverUrl = 'http://172.29.0.183:8080';  // 内网
+// const serverUrl = 'http://172.29.0.183:8080';  // 内网
+
+const serverUrl = window.location.origin;
+
 
 const ajaxUrl = env === 'production' ?
     serverUrl + '/metrosupervision' :
     env === 'development' ?
-    'http://localhost:8880/metrosupervision' :
-    'http://localhost:8880/metrosupervision';
+        serverUrl + '/metrosupervision' :
+        serverUrl + '/metrosupervision';
 
 const staticImgUrl = env === 'production' ?
     serverUrl :
     env === 'development' ?
-    'http://localhost:8880' :
-    'http://localhost:8880';
+        serverUrl : serverUrl ;
 
 var Cookie = {
     get: function (name) {
