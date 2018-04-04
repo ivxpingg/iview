@@ -425,16 +425,18 @@
             position: absolute;
             padding-top: 50px;
             top: 100px;
-            left: 1000000px;
+            left: 10px;
             width: 350px;
             height: 400px;
             background-color: rgba(255,255,255, 0.8);
             border: 4px solid #63b1e3;
             border-radius: 8px;
             z-index: 1;
+            opacity: 0;
 
             &.isshow {
-                left: 10px;
+                /*left: 10px;*/
+                opacity: 1;
             }
 
             .title {

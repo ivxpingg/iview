@@ -50,7 +50,6 @@
             bottom: 0;
             left: 0;
             height: 100%;
-            min-height: 900px;
         }
 
         .footer {
