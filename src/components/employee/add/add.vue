@@ -634,7 +634,7 @@
 
                         that.employee.pictureRelation.forEach(function(val){
 
-                            val.url = val.pictureUrl;
+                            val.url = Util.domain + val.pictureUrl;
                             val.name = val.pictureId;
 
 

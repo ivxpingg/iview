@@ -148,7 +148,7 @@
             handleSuccess(res, file, fileList) {
 
                 if (res.status == 1) {
-                    file.url =  res.result.pictureUrl;
+                    file.url =  Util.domain + res.result.pictureUrl;
                     file.name = res.result.pictureName;
                     file.pictureId = res.result.pictureId
                 }

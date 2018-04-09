@@ -35,7 +35,7 @@
                             if (that.tableDim == 'day' && that.timeFrame == 'allDay') {
                                 return h('a', {
                                     attrs: {
-                                        href: params.row['localUrl'],
+                                        href: Util.domain + params.row['localUrl'],
                                         target: '_blank',
                                         title: '运营生产日报_' + params.row[params.column.key]
                                     }

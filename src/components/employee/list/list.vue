@@ -652,7 +652,7 @@
             headImageUrl() {
                 for (let i = 0; i < this.employee.pictureRelation.length; i++){
                     if (this.employee.pictureRelation[i].pictureType === 'HeadPortrait') {
-                        return this.employee.pictureRelation[i].pictureUrl;
+                        return Util.domain + this.employee.pictureRelation[i].pictureUrl;
                     }
                 }
                 return Util.staticImgUrl + '/static/img/default-head.jpg';
@@ -661,6 +661,7 @@
                 var list = [];
                 for (let i = 0; i < this.employee.pictureRelation.length; i++){
                     if (this.employee.pictureRelation[i].pictureType === 'Certificate') {
+                        this.employee.pictureRelation[i].pictureUrl = Util.domain + this.employee.pictureRelation[i].pictureUrl;
                         list.push(this.employee.pictureRelation[i]);
                     }
                 }
