@@ -12,11 +12,11 @@
                     </FormItem>
                 </Form>
             </div>
+            <div class="btn-box">
+                <Button type="ghost" shape="circle" icon="arrow-expand" title="全屏" @click="videoZoom">全屏</Button>
+                <Button type="ghost" shape="circle" icon="close-round" title="全屏" @click="videoStop">关闭</Button>
+            </div>
             <div class="tree-box">
-                <div class="btn-box">
-                    <Button type="ghost" shape="circle" icon="arrow-expand" title="全屏" @click="videoZoom">全屏</Button>
-                    <Button type="ghost" shape="circle" icon="close-round" title="全屏" @click="videoStop">关闭</Button>
-                </div>
                 <Tree :data="searchData" ></Tree>
             </div>
         </div>
@@ -435,6 +435,7 @@
             width: 280px;
             height: 100%;
             min-height: 717px;
+            overflow-y: hidden;
 
             &:after {
                 content: "";
@@ -453,6 +454,8 @@
                 position: relative;
                 padding: 10px 0;
                 text-align: center;
+                background: #FFF;
+                z-index: 1;
                 &:after {
                     content: "";
                     display: block;
@@ -466,14 +469,26 @@
                     z-index: 1;
                 }
             }
+            .btn-box {
+                position: relative;
+                padding-top: 10px;
+                padding-right: 10px;
+                padding-bottom: 10px;
+                text-align: right;
+                background: #FFF;
+                z-index: 2;
+            }
 
             .tree-box {
-                .btn-box {
-                    padding-right: 10px;
-                    text-align: right;
-                }
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                height: 100%;
                 padding-left: 15px;
-                padding-top: 10px;
+                padding-top: 106px;
+                overflow-y: auto;
             }
         }
 
