@@ -135,7 +135,7 @@
                     {
                         title: '平均运距', //载客里程
                         width: 80,
-                        key: 'carryMile',
+                        key: 'averageDistance',
                         align: 'center'
                     }],
                 columns2: [

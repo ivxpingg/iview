@@ -37,11 +37,84 @@ var initMap = function (domId, timer) {
 }
 
 var init = function () {
-    // editLine();
 
-    setMalfunction();
+    // editLine();
+    setMapStyle();
+
+    setStationName();
+
+    setTimeout(function() {
+        setMalfunction();
+    }, 1000);
+    // setMalfunction();
+
 }
 
+// 百度地图个性化设置
+var setMapStyle = function () {
+    var styleJson = [
+        // {
+        //     "featureType": "road",
+        //     "elementType": "all",
+        //     "stylers": {
+        //         "visibility": "off"
+        //     }
+        // },
+        {
+            "featureType": "all",
+            "elementType": "labels",
+            "stylers": {
+                "visibility": "off"
+            }
+        },
+        {
+            "featureType": "subway",
+            "elementType": "labels",
+            "stylers": {
+                "visibility": "on"
+            }
+        },
+        {
+            "featureType": "subway",
+            "elementType": "labels.icon",
+            "stylers": {
+                "visibility": "on"
+            }
+        }
+    ];
+    map.setMapStyle({
+        styleJson: styleJson
+    });
+}
+
+// 设置地铁站点名称
+var setStationName = function () {
+
+    var stations = DB_data.stationsPoint;
+    for(var key in stations) {
+        var optsUp = {
+            position : new BMap.Point(stations[key][0], stations[key][1]),    // 指定文本标注所在的地理位置
+            offset   : new BMap.Size( 0, -6)    //设置文本偏移量
+        }
+        var labelUp = new BMap.Label(key, optsUp);  // 创建文本标注对象
+        labelUp.setStyle({
+            paddingBottom: '3px',
+            paddingLeft: '3px',
+            paddingRight: '3px',
+            borderWidth: 0,
+            backgroundColor: 'transparent',
+            color : "#666",
+            fontSize : "12px",
+            height : "20px",
+            lineHeight : "",
+            fontFamily:"微软雅黑",
+            fontWeight: 700,
+            textShadow: "1px 1px 1px #FFF"
+        });
+        map.addOverlay(labelUp);
+    }
+
+}
 
 /***************************故障站点和区段************************************
  * 设置故障站点和区段
@@ -80,7 +153,7 @@ var setMalfunction = function () {
        }
        else {  // 故障是区段
            point.forEach(function (pVal) {
-               pointList.push(new BMap.Point(pVal.lng, pVal.lat))
+               pointList.push(new BMap.Point(pVal.lng, pVal.lat));
            });
            mapOverlay = new BMap.Polyline(pointList, {strokeColor:"#808283", strokeWeight:10, strokeOpacity:0.4});   //创建折线
 
