@@ -1,0 +1,757 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" style="height:100%;">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <link href="css/odcss.css" rel="stylesheet" />
+    <meta http-equiv="Pragma" content="no-cache" /> 
+    <meta http-equiv="Cache-Control" content="no-cache"/> 
+    <meta http-equiv="Expires" content="0"/> 
+    <script type="text/javascript" src="echarts-2.2.7/build/source/echarts.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=lqf4OUa8NyvLrU94FWdRRy1EmGK63Wc8"></script>
+    <script type="text/javascript" src="echarts-2.2.7/doc/asset/js/jquery.min.js"></script>
+    <script type="text/javascript" src="pickerDateRange/dateRange.js"></script>
+    <link href="pickerDateRange/dateRange.css" rel="stylesheet" />
+</head>
+<body style="height:100%">
+
+ <!-- <form action="/metrosupervision/xm/traffic/uploadODData/uploadOD" method="post" enctype="multipart/form-data">
+	<input type="file" name="file"/>
+	<input type="submit" value="提交"/>
+</form> -->
+
+    <div id="mapbox"></div>
+ <div class="searchbar"> 
+     <select id="showmodel" class="input">
+         <option value="1">起点分析模式</option>
+         <option value="2">终点分析模式</option>
+         <option value="3">线路选择模式</option>
+     </select>
+     	<div class="ta_date" id="div_date1" style="margin-left:5px;">
+                    <span class="date_title" id="date1"></span>
+                    <a class="opt_sel" id="input_trigger1" href="#">
+                        <i class="i_orderd"></i>
+                    </a>
+                </div>
+     <select class="input" id="hottime">
+         <option value="1">全天</option>
+         <option value="2">早高峰</option>
+         <option value="3">晚高峰</option>
+     </select>
+     <input type="button" onclick="searchData()" class="input button" value="查询" /></div>
+ <div class="databox left" id="upLineTop" style="bottom:220px">
+     <dl>
+         <dt>上行热门路线TOP10</dt>
+     </dl>
+ </div>
+ <div class="databox left" id="downLineTop">
+          <dl>
+         <dt>下行热门路线TOP10</dt>
+     </dl>
+ </div>
+     <div class="databox right" id="startTop10">
+                   <dl>
+         <dt>出发热门站点TOP10</dt>
+     </dl>
+ </div>
+     <div class="databox right" id="arriveTop10">
+         <dl>
+                  <dt>到达热门站点TOP10</dt>
+             </dl>
+ </div>
+ <script type="text/javascript">
+     var BMapExt = null;//百度地图chart对象
+     var fromStationName = null;//选择模式当前起始站
+     var toStationName = null;//选择模式当前终点站
+     var currSelectNode = null;//当前选中的节点
+     var siteUrl = '/metrosupervision/xm/traffic/map/';
+     var defaultSite = null;
+     var myChart = null;
+     var container = null;
+     (function ($) {
+         $.getUrlParam = function (name) {
+             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+             var r = window.location.search.substr(1).match(reg);
+             if (r != null) return unescape(r[2]); return null;
+         }
+     })(jQuery);
+     //站点数据
+     var stations = {
+            '厦门北站': [118.079645, 24.643368],
+            '高崎站': [118.123508, 24.543385],
+            '吕厝站': [118.134441, 24.496879],
+            '岩内站': [118.076438, 24.649608],
+            '官任站': [118.06505, 24.599746],
+            '塘边站': [118.129221, 24.512065],
+            '殿前站': [118.122904, 24.531396],
+            '莲坂站': [118.124767, 24.482044],
+            '文灶站': [118.11, 24.473995],
+            '乌石浦站': [118.132938, 24.504531],
+            '火炬园站': [118.125125, 24.51836],
+            '天水路站': [118.072692, 24.632225],
+            '杏锦路站': [118.063763, 24.587784],
+            '杏林村站': [118.068109, 24.583028],
+            '园博苑站': [118.073751, 24.576119],
+            '将军祠站': [118.106288, 24.467216],
+            '镇海路站': [118.088848, 24.456642],
+            '莲花路口站': [118.129242, 24.488912],
+            '集美大道站': [118.061922, 24.625933],
+            '集美学村站': [118.098824, 24.570218],
+            '诚毅广场站': [118.06086, 24.609156],
+            '湖滨东路站': [118.117997, 24.480252],
+            '中山公园站': [118.096469, 24.462612],
+            '集美软件园站': [118.053998, 24.618961]
+     };
+     var stationsIDs = {
+         '厦门北站': 23,
+         '高崎站': 13,
+         '吕厝站': 8,
+         '岩内站': 24,
+         '官任站': 18,
+         '塘边站': 10,
+         '殿前站': 12,
+         '莲坂站': 6,
+         '文灶站': 4,
+         '乌石浦站': 9,
+         '火炬园站': 11,
+         '天水路站': 22,
+         '杏锦路站': 17,
+         '杏林村站': 16,
+         '园博苑站': 15,
+         '将军祠站': 3,
+         '镇海路站': 1,
+         '莲花路口站': 7,
+         '集美大道站': 21,
+         '集美学村站': 14,
+         '诚毅广场站': 19,
+         '湖滨东路站': 5,
+         '中山公园站': 2,
+         '集美软件园站': 20
+     }
+     //chart参数对象
+     var lineOption = {
+         color: ['orange', 'yellow', 'lime', 'aqua'],
+            title: {
+                text: '起点模式分析',
+                subtext: '',
+                x: 'center',
+                textStyle: {
+                    color: '#fff'
+                }
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: function (v) {
+                    return v[1].replace(':', ' > ') + "(" + v.value + ')';
+                }
+            },
+            dataRange: {
+                min: 0,
+                max: 10000,
+                orient: 'horizontal',
+
+                x: 'center',
+                calculable: true,
+                color: ['orange', 'yellow', 'lime', 'aqua'],
+                textStyle: {
+                    color: '#fff'
+                }
+            },
+            series: [
+                {
+                    name: '厦门北站',
+                    type: 'map',
+                    mapType: 'none',
+                    data: [],
+                    geoCoord: stations,
+                    markLine: {
+                        smooth: true,
+                        effect: {
+                            show: true,
+                            scaleSize: 1,
+                            period: 20,
+                            color: '#fff',
+                            shadowBlur: 0
+                        },
+                        itemStyle: {
+                            normal: {
+                                borderWidth: 1,
+                                lineStyle: {
+                                    type: 'solid',
+                                    shadowBlur: 10
+                                }
+                            }
+                        },
+                        data: [
+        
+                        ]
+                    },
+                    markPoint: {
+                        symbol: 'emptyCircle',
+                        clickable: true,
+                        symbolSize: function (v) {
+                            return 10 + v / 1000
+                        },
+                        effect: {
+                            show: true,
+                            type: 'scale',
+                            shadowBlur: 0
+                        },
+                        itemStyle: {
+                            normal: {
+                                label: {
+                                    show: true
+                                }
+                            },
+                            emphasis: {
+                                label: { position: 'top' }
+                            }
+                        },
+                        data: [
+                           
+                        ]
+                    }
+
+                }
+            ]
+        };
+     //初始化地图
+     (function () {
+         require.config({
+             paths: {
+                 echarts: 'echarts-2.2.7/doc/example/www/js'
+             },
+             packages: [
+                 {
+                     name: 'BMap',
+                     location: 'echarts-2.2.7/extension/BMap/src',
+                     main: 'main'
+                 }
+             ]
+         });
+         require(
+         [
+             'echarts',
+             'BMap',
+             'echarts/chart/map'
+         ],
+         function (echarts, BMapExtension) {
+             // 初始化地图
+             BMapExt = new BMapExtension($('#mapbox')[0], BMap, echarts, {
+                 enableMapClick: false
+             });
+             var map = BMapExt.getMap();
+             container = BMapExt.getEchartsContainer();
+
+             var startPoint = {
+                 x: 118.121786,
+                 y: 24.543423
+             };
+             var point = new BMap.Point(startPoint.x, startPoint.y);
+             map.centerAndZoom(point, 12);
+             map.enableScrollWheelZoom();
+             map.addEventListener('click', function () {
+                 resetLineShow([]);
+             });
+             // 地图自定义样式
+             map.setMapStyle({
+                 styleJson: [
+                         {
+                             "featureType": "water",
+                             "elementType": "all",
+                             "stylers": {
+                                 "color": "#044161"
+                             }
+                         },
+                         {
+                             "featureType": "land",
+                             "elementType": "all",
+                             "stylers": {
+                                 "color": "#004981"
+                             }
+                         },
+                         {
+                             "featureType": "boundary",
+                             "elementType": "geometry",
+                             "stylers": {
+                                 "color": "#064f85"
+                             }
+                         },
+                         {
+                             "featureType": "railway",
+                             "elementType": "all",
+                             "stylers": {
+                                 "visibility": "off"
+                             }
+                         },
+                         {
+                             "featureType": "highway",
+                             "elementType": "geometry",
+                             "stylers": {
+                                 "color": "#004981"
+                             }
+                         },
+                         {
+                             "featureType": "highway",
+                             "elementType": "geometry.fill",
+                             "stylers": {
+                                 "color": "#005b96",
+                                 "lightness": 1
+                             }
+                         },
+                         {
+                             "featureType": "highway",
+                             "elementType": "labels",
+                             "stylers": {
+                                 "visibility": "off"
+                             }
+                         },
+                         {
+                             "featureType": "arterial",
+                             "elementType": "geometry",
+                             "stylers": {
+                                 "color": "#004981"
+                             }
+                         },
+                         {
+                             "featureType": "arterial",
+                             "elementType": "geometry.fill",
+                             "stylers": {
+                                 "color": "#00508b"
+                             }
+                         },
+                         {
+                             "featureType": "poi",
+                             "elementType": "all",
+                             "stylers": {
+                                 "visibility": "off"
+                             }
+                         },
+                         {
+                             "featureType": "green",
+                             "elementType": "all",
+                             "stylers": {
+                                 "color": "#056197",
+                                 "visibility": "off"
+                             }
+                         },
+                         {
+                             "featureType": "subway",
+                             "elementType": "geometry.fill",
+                             "stylers": {
+                                 // "color": "#f0831f",
+                                 // "weight": "3",
+                                 "visibility": "off"
+                             }
+                         },
+
+                     {
+                         "featureType": "subway",
+                         "elementType": "all",
+                         "stylers": {
+                             "visibility": "off"
+                         }
+                     },
+
+                         {
+                             "featureType": "subwaystation",
+                             "elementType": "all",
+                             "stylers": {
+                                 "color": "#f0831f"
+                             }
+                         },
+                         {
+                             "featureType": "manmade",
+                             "elementType": "all",
+                             "stylers": {
+                                 "visibility": "off"
+                             }
+                         },
+                         {
+                             "featureType": "local",
+                             "elementType": "all",
+                             "stylers": {
+                                 "visibility": "off"
+                             }
+                         },
+                         {
+                             "featureType": "arterial",
+                             "elementType": "labels",
+                             "stylers": {
+                                 "visibility": "off"
+                             }
+                         },
+                         {
+                             "featureType": "boundary",
+                             "elementType": "geometry.fill",
+                             "stylers": {
+                                 "color": "#029fd4"
+                             }
+                         },
+                         {
+                             "featureType": "building",
+                             "elementType": "all",
+                             "stylers": {
+                                 "color": "#1a5787"
+                             }
+                         },
+                         {
+                             "featureType": "label",
+                             "elementType": "all",
+                             "stylers": {
+                                 "visibility": "off"
+                             }
+                         }
+                 ]
+             });
+             //画出每个站点的标记和站点名称
+             for (var s in stations) {
+                 var p = new BMap.Point(stations[s][0], stations[s][1]);
+                 var myIcon = new BMap.Icon("images/circle.png", new BMap.Size(7, 7), { imageSize: new BMap.Size(7, 7) });
+                 var marke = new BMap.Marker(p, { title: s, icon: myIcon });
+                 map.addOverlay(marke);
+                 marke.addEventListener('click', function () {
+                     this.setAnimation(BMAP_ANIMATION_BOUNCE);
+                     this.setAnimation(null);
+					 var currentDate = dateRange1.getCurrentDate();
+                     //如果是选择模式，起点为空则第一次选择的为起点
+                     if ($('#showmodel').val() == '3') {
+                         if (fromStationName == null) {
+                             fromStationName = this.getTitle();
+                             return;
+                         }
+                         //如果起点不为空切终点为空并且起点不等于当前选择的点，则选择为终点
+                         if (fromStationName != null && toStationName == null && fromStationName != this.getTitle()) {
+                             toStationName = this.getTitle();
+                         }
+                         //如果选择路线则进行显示
+                         if (fromStationName != null && toStationName != null) {
+                             loadData(currentDate.startDate.replace(/-/g, ''), currentDate.endDate.replace(/-/g, ''), 'queryRoute', $('#showmodel').val(), stationsIDs[fromStationName], stationsIDs[toStationName]);
+                             //resetLineShow([{ fromStationName: fromStationName, toStationName: toStationName, value: 5000 }]);
+                             fromStationName = null;
+                             toStationName = null;
+                         }
+                     } else if ($('#showmodel').val() == '2') {//终点模式
+                         loadData(currentDate.startDate.replace(/-/g, ''), currentDate.endDate.replace(/-/g, ''), 'queryRoute', $('#showmodel').val(), null, stationsIDs[ this.getTitle()]);
+                     } else {
+                         loadData(currentDate.startDate.replace(/-/g, ''), currentDate.endDate.replace(/-/g, ''), 'queryRoute', $('#showmodel').val(), stationsIDs[ this.getTitle()], null);
+                     }
+                     event.preventDefault();
+                     event.stopPropagation();
+                 });
+                 /*var myCircle = new BMap.Circle(p, 150, { strokeColor: '#fff',strokeWeight:2,fillColor:'' });
+                 map.addOverlay(myCircle);
+                 myCircle.addEventListener('click', function () {
+                     alert('ddd');
+                     //如果是选择模式，起点为空则第一次选择的为起点
+                     if ($('#showmodel').val() != '3') return;
+                     if (fromStationName == null) {
+                         fromStationName = this.getTitle();
+                         return;
+                     }
+                     //如果起点不为空切终点为空并且起点不等于当前选择的点，则选择为终点
+                     if (fromStationName != null && toStationName == null && fromStationName != this.getTitle()) {
+                         toStationName = this.getTitle();
+                     }
+                     //如果选择路线则进行显示
+                     if (fromStationName != null && toStationName != null) {
+                         resetLineShow([{ fromStationName: fromStationName, toStationName: toStationName, value: 5000 }]);
+                         fromStationName = null;
+                         toStationName = null;
+                     }
+                 });*/
+             }
+
+             myChart = BMapExt.initECharts(container);
+             window.onresize = myChart.onresize;
+
+             renderLine(map);
+
+             //BMapExt.setOption(lineOption);
+             //初始化数据
+             searchData();
+         })
+     })();
+
+     // sgj增加的代码
+     // 绘制1号线线路
+     function renderLine(map) {
+         var pointList = [
+             {"lng":118.076438,"lat":24.649608},{"lng":118.079645,"lat":24.643368},
+             {"lng":118.079645,"lat":24.643368},{"lng":118.080291,"lat":24.641919},{"lng":118.080314,"lat":24.641332},{"lng":118.080147,"lat":24.640608},{"lng":118.079823,"lat":24.639698},{"lng":118.079155,"lat":24.638338},{"lng":118.0784,"lat":24.637146},{"lng":118.077028,"lat":24.635348},{"lng":118.07442,"lat":24.633247},{"lng":118.072692,"lat":24.632225},
+             {"lng":118.072692,"lat":24.632225},{"lng":118.061922,"lat":24.625933},
+             {"lng":118.061922,"lat":24.625933},{"lng":118.057967,"lat":24.623648},{"lng":118.05354,"lat":24.620799},{"lng":118.053293,"lat":24.620572},{"lng":118.053226,"lat":24.620292},{"lng":118.053283,"lat":24.619965},{"lng":118.053998,"lat":24.618961},
+             {"lng":118.053998,"lat":24.618961},{"lng":118.055353,"lat":24.617181},{"lng":118.056691,"lat":24.615299},{"lng":118.058555,"lat":24.612538},{"lng":118.060141,"lat":24.610126},{"lng":118.06086,"lat":24.609156},
+             {"lng":118.06086,"lat":24.609156},{"lng":118.064191,"lat":24.60467},{"lng":118.064839,"lat":24.602804},{"lng":118.065019,"lat":24.601331},{"lng":118.06505,"lat":24.599746},
+             {"lng":118.06505,"lat":24.599746},{"lng":118.065055,"lat":24.599224},{"lng":118.065058,"lat":24.598013},{"lng":118.064795,"lat":24.597103},{"lng":118.062856,"lat":24.594128},{"lng":118.062336,"lat":24.593181},{"lng":118.062038,"lat":24.592303},{"lng":118.061855,"lat":24.591257},{"lng":118.062007,"lat":24.5899},{"lng":118.063763,"lat":24.587784},
+             {"lng":118.063763,"lat":24.587784},{"lng":118.065915,"lat":24.585413},{"lng":118.068109,"lat":24.583028},
+             {"lng":118.068109,"lat":24.583028},{"lng":118.069003,"lat":24.581946},{"lng":118.069295,"lat":24.581308},{"lng":118.069775,"lat":24.579791},{"lng":118.07037,"lat":24.578672},{"lng":118.070936,"lat":24.577844},{"lng":118.071285,"lat":24.577411},{"lng":118.071863,"lat":24.576941},{"lng":118.073751,"lat":24.576119},
+             {"lng":118.073751,"lat":24.576119},{"lng":118.075666,"lat":24.575356},{"lng":118.076964,"lat":24.57488},{"lng":118.07798,"lat":24.574639},{"lng":118.08037,"lat":24.574251},{"lng":118.08913,"lat":24.572906},{"lng":118.094908,"lat":24.571816},{"lng":118.096462,"lat":24.571514},{"lng":118.097464,"lat":24.571284},{"lng":118.098049,"lat":24.571003},{"lng":118.098824,"lat":24.570218},
+             {"lng":118.098824,"lat":24.570218},{"lng":118.100091,"lat":24.568785},{"lng":118.111366,"lat":24.558063},{"lng":118.114415,"lat":24.555011},{"lng":118.119023,"lat":24.550752},{"lng":118.119839,"lat":24.549781},{"lng":118.123508,"lat":24.543385},
+             {"lng":118.123508,"lat":24.543385},{"lng":118.124015,"lat":24.542376},{"lng":118.124591,"lat":24.541064},{"lng":118.12494,"lat":24.540032},{"lng":118.125059,"lat":24.538704},{"lng":118.12494,"lat":24.536355},{"lng":118.124447,"lat":24.534488},{"lng":118.122904,"lat":24.531396},
+             {"lng":118.122904,"lat":24.531396},{"lng":118.121791,"lat":24.529345},{"lng":118.121531,"lat":24.528636},{"lng":118.121495,"lat":24.527879},{"lng":118.121783,"lat":24.527099},{"lng":118.122724,"lat":24.525862},{"lng":118.123518,"lat":24.524917},{"lng":118.124195,"lat":24.523794},{"lng":118.124763,"lat":24.521983},{"lng":118.124989,"lat":24.52074},{"lng":118.12497,"lat":24.519872},{"lng":118.125004,"lat":24.519061},{"lng":118.125125,"lat":24.51836},
+             {"lng":118.125125,"lat":24.51836},{"lng":118.12545,"lat":24.517256},{"lng":118.12558,"lat":24.51697},{"lng":118.12645,"lat":24.515365},{"lng":118.126914,"lat":24.514511},{"lng":118.12714,"lat":24.514131},{"lng":118.127726,"lat":24.51357},{"lng":118.129221,"lat":24.512065},
+             {"lng":118.129221,"lat":24.512065},{"lng":118.131254,"lat":24.510182},{"lng":118.131922,"lat":24.509167},{"lng":118.132291,"lat":24.508143},{"lng":118.132938,"lat":24.504531},
+             {"lng":118.132938,"lat":24.504531},{"lng":118.133505,"lat":24.501621},{"lng":118.134147,"lat":24.498565},{"lng":118.134441,"lat":24.496879},
+             {"lng":118.134441,"lat":24.496879},{"lng":118.134735,"lat":24.495573},{"lng":118.134717,"lat":24.495007},{"lng":118.134567,"lat":24.494628},{"lng":118.134213,"lat":24.494114},{"lng":118.133811,"lat":24.493709},{"lng":118.131475,"lat":24.491422},{"lng":118.129242,"lat":24.488912},
+             {"lng":118.129242,"lat":24.488912},{"lng":118.128956,"lat":24.488615},{"lng":118.128747,"lat":24.488302},{"lng":118.128096,"lat":24.486555},{"lng":118.127704,"lat":24.485106},{"lng":118.127159,"lat":24.483088},{"lng":118.126956,"lat":24.482689},{"lng":118.126757,"lat":24.482553},{"lng":118.126613,"lat":24.482496},{"lng":118.124767,"lat":24.482044},
+             {"lng":118.124767,"lat":24.482044},{"lng":118.117997,"lat":24.480252},
+             {"lng":118.117997,"lat":24.480252},{"lng":118.11504,"lat":24.479528},{"lng":118.110624,"lat":24.478453},{"lng":118.109983,"lat":24.478233},{"lng":118.109477,"lat":24.47767},{"lng":118.109237,"lat":24.476864},{"lng":118.10926,"lat":24.476079},{"lng":118.109603,"lat":24.475095},{"lng":118.109809,"lat":24.474566},{"lng":118.11,"lat":24.473995},
+             {"lng":118.11,"lat":24.473995},{"lng":118.110512,"lat":24.472457},{"lng":118.110581,"lat":24.471803},{"lng":118.110521,"lat":24.471366},{"lng":118.110363,"lat":24.47099},{"lng":118.110043,"lat":24.470574},{"lng":118.108007,"lat":24.468627},{"lng":118.107098,"lat":24.467837},{"lng":118.106288,"lat":24.467216},
+             {"lng":118.106288,"lat":24.467216},{"lng":118.105451,"lat":24.466565},{"lng":118.104719,"lat":24.466078},{"lng":118.103184,"lat":24.465205},{"lng":118.101695,"lat":24.464754},{"lng":118.099463,"lat":24.464403},{"lng":118.098485,"lat":24.464244},{"lng":118.097816,"lat":24.464071},{"lng":118.097279,"lat":24.463766},{"lng":118.096958,"lat":24.463396},{"lng":118.096469,"lat":24.462612},
+             {"lng":118.096469,"lat":24.462612},{"lng":118.09564,"lat":24.461127},{"lng":118.094558,"lat":24.459814},{"lng":118.092722,"lat":24.45806},{"lng":118.092441,"lat":24.45788},{"lng":118.091938,"lat":24.457713},{"lng":118.091257,"lat":24.457579},{"lng":118.090628,"lat":24.457427},{"lng":118.090145,"lat":24.457296},
+             {"lng":118.088848,"lat":24.456642}, {"lng":118.088848,"lat":24.456641}];
+
+         var map_pointList = [];
+         pointList.forEach(function (val) {
+             map_pointList.push(new BMap.Point(val.lng, val.lat));
+         });
+
+         var polyline = new BMap.Polyline(map_pointList, {strokeColor:"#f0831f", strokeWeight:6, strokeOpacity:1});
+
+         map.addOverlay(polyline);
+
+         // var stations = DB_data.stationsPoint;
+         for(var key in stations) {
+             var optsUp = {
+                 position : new BMap.Point(stations[key][0], stations[key][1]),    // 指定文本标注所在的地理位置
+                 offset   : new BMap.Size( 6, -6)    //设置文本偏移量
+             }
+             var labelUp = new BMap.Label(key, optsUp);  // 创建文本标注对象
+             labelUp.setStyle({
+                 paddingBottom: '3px',
+                 paddingLeft: '3px',
+                 paddingRight: '3px',
+                 borderWidth: 0,
+                 backgroundColor: 'transparent',
+                 color : "#FFF",
+                 fontSize : "12px",
+                 height : "20px",
+                 lineHeight : "",
+                 fontFamily:"微软雅黑",
+                 fontWeight: 700,
+                // textShadow: "1px 0 0 rgba(255,255,255, 1), -1px 0 0 rgba(255,255,255, 1),0 1px 0 rgba(255,255,255, 1), 0 -1px 0 rgba(255,255,255, 1)",
+             });
+             map.addOverlay(labelUp);
+         }
+     };
+
+
+
+     //设定当前模式
+     $('#showmodel').change(function () {
+         lineOption.title.text = this.options[this.selectedIndex].innerHTML;
+         resetLineShow([]);
+     });
+     //点击查询
+     function searchData() {
+		resetLineShow([]);
+         var currentDate = dateRange1.getCurrentDate();
+         loadData(currentDate.startDate.replace(/-/g, ''), currentDate.endDate.replace(/-/g, ''), 'hotRoutes', 1);
+         loadData(currentDate.startDate.replace(/-/g, ''), currentDate.endDate.replace(/-/g, ''), 'hotRoutes', 2);
+         loadData(currentDate.startDate.replace(/-/g, ''), currentDate.endDate.replace(/-/g, ''), 'hotStations', 1);
+         loadData(currentDate.startDate.replace(/-/g, ''), currentDate.endDate.replace(/-/g, ''), 'hotStations', 2);
+         //如果有默认起点模式
+         if (defaultSite) {
+             loadData(currentDate.startDate.replace(/-/g, ''), currentDate.endDate.replace(/-/g, ''), 'queryRoute', 1, defaultSite);
+         }
+     }
+     //加载数据
+     //dataType:hotRoutes(路线），queryRoute（站点）；
+     //type:路线模式 1 上线，2为下行；站点模式:1为起始站，2为终止站
+     function loadData(fromDate, toDate, dataType, type,fromStationId,toStationId) {
+         var showtype = $('#showmodel').val();
+         var hottime1 = '';
+         var hottime2 = '';
+         //早高峰
+         if ($('#hottime').val() == '2') {
+             hottime1 = '0800';
+             hottime2 = '0930';
+         } else if ($('#hottime').val() == '3') {
+             hottime1 = '1730';
+             hottime2 = '1930';
+         }
+         fromStationId = !fromStationId ? '' : '&fromStationId=' + fromStationId;
+         toStationId = !toStationId ? '' : '&toStationId=' + toStationId;
+         var url = siteUrl + dataType + '?type=' + type + '&fromDate=' + fromDate + hottime1 + '&toDate=' + toDate + hottime2 + fromStationId + toStationId;
+         //上行热门路线TOP10
+         $.ajax({
+             type: "GET",
+             url:url,
+			 headers:{
+				Authorization:$.getUrlParam('t')
+			 },
+             dataType: "text",//响应回来类型
+             async:false,
+             success: function (json) {
+                 var result = eval('('+json+')');
+                 var data = result.result;
+                 //上行热门路线TOP10
+                 if (dataType == 'hotRoutes' && type == 1) {
+                     showLineTop('upLineTop', data);
+                     return;
+                 }
+                 //下行热门路线TOP10
+                 if (dataType == 'hotRoutes' && type == 2) {
+                     showLineTop('downLineTop', data);
+                     return;
+                 }
+                 //出发热门路线TOP10
+                 if (dataType == 'hotStations' && type == 1) {
+                     showStationTop('startTop10',data);
+                     return;
+                 }
+                 //到达热门路线TOP10
+                 if (dataType == 'hotStations' && type == 2) {
+                     showStationTop('arriveTop10', data);
+                     return;
+                 }
+				 //线路显示
+				 if(dataType=='queryRoute'){
+					resetLineShow(data);
+				 }
+             }
+         });
+     }
+     //重新加载线的显示
+     //data:[{fromStationName:'站点名称',toStationName:'终点名称',count:3000人流量},
+     //{fromStationName:'站点名称',toStationName:'终点名称',count:3000人流量}
+     //.............]要显示线的数据
+     function resetLineShow(data) {
+         //清空之前的数据
+		 if(!data)data=[];
+         lineOption.series[0].markLine.data = [];//获取线数据对象
+         lineOption.series[0].markPoint.data = [];//获取点数据对象
+         var maxrange = 0;
+         var minrange = 0;
+         for (var i = 0; i < data.length; i++) {
+             var startL = {}, endL = {};
+             //初始化
+             if (minrange == 0 && data[i].count > 0) {
+                 minrange = data[i].count;
+             }
+             startL['name'] = data[i].fromStationName;
+             endL["name"] = data[i].toStationName;
+             endL["value"] = data[i].count;
+
+             var startP = {};
+             startP["name"] = data[i].toStationName;
+             startP["value"] = data[i].count;
+             lineOption.series[0].markLine.data.push([startL, endL]);
+             lineOption.series[0].markPoint.data.push(startP);
+             //取最大
+             if (data[i].count > maxrange) {
+                 maxrange = data[i].count;
+             }
+             //取最小
+             if (data[i].count < minrange) {
+                 minrange = data[i].count;
+             }
+         }
+         lineOption.dataRange.min = minrange;
+         lineOption.dataRange.max = maxrange;
+         if (myChart && myChart.dispose) {
+             myChart.dispose();
+         }
+         myChart = BMapExt.initECharts(container);
+         window.onresize = myChart.onresize;
+         BMapExt.setOption(lineOption, true);
+     }
+     //时间控件
+     var dateRange1 = new pickerDateRange('date1', {
+         isTodayValid: true,
+         startDate: GetTody(-3),
+         endDate: GetTody(),
+         needCompare: false,
+         defaultText: ' 至 ',
+         autoSubmit: true,
+         inputTrigger: 'input_trigger1',
+         theme: 'ta',
+         success: function (obj) {
+             //$("#dCon2").html('开始时间 : ' + obj.startDate + '<br/>结束时间 : ' + obj.endDate);
+         }
+     });
+     //获取今天
+     //days:添加或者减少天数整数为添加，负数为减少
+     function GetTody(days) {
+         var d = new Date();
+         if (days) {
+             d.setDate(d.getDate() + days);
+         }
+         var day = d.getDate();
+         day = String(day).length == 1 ? "0" + String(day) : day;
+         var month = d.getMonth() + 1;
+         month = String(month).length == 1 ? "0" + month : month;
+         var year = d.getFullYear();
+         return year + "-" + month + "-" + day;
+     }
+     //显示路线TOP10
+     //data:[{fromStationName:'站点名称',toStationName:'终点名称',value:3000人流量},
+     //{fromStationName:'站点名称',toStationName:'终点名称',count:3000人流量}
+     //.............]要显示线的数据
+     //type:1为上行，2为下行.
+     //return:
+     function showLineTop(id, data) {
+         $('#' + id + ' dd').remove();
+         var dl = $('#' + id + ' dl');
+         for (var i = 0; i < data.length; i++) {
+             dl.append('<dd data-line="[\'' + data[i].fromStationName + '\',\'' + data[i].toStationName + '\']" data-qty="' + data[i].count + '"><span class="seq">' + (i + 1) + '</span><span class="text">'
+                 + data[i].fromStationName + '<img src="images/dongdian.gif" alt="" />' + data[i].toStationName + '</span><span></span><span class="value">' + data[i].count + '</span> </dd>');
+         }
+         //注册当前选中的路线
+         $('#' + id + ' dd').each(function () {
+             $(this).click(function () {
+                 $(currSelectNode).removeClass('select');
+                 $(this).addClass('select');
+                 currSelectNode = this;
+                 var stations1 = eval($(this).attr('data-line'));
+                 var station = { fromStationName: stations1[0], toStationName: stations1[1], count: $(this).attr('data-qty') };
+                 resetLineShow([station]);
+             });
+         });
+     }
+     //显示站点TOP10
+     //data:[{fromStationName:'站点名称',toStationName:'终点名称',count:3000人流量},
+     //{fromStationName:'站点名称',toStationName:'终点名称',count:3000人流量}
+     //.............]要显示线的数据
+     function showStationTop(id, data) {
+         $('#' + id + ' dd').remove();
+         var dl = $('#' + id + ' dl');
+         var total = 0;
+         for (var i = 0; i < data.length; i++) {
+             total = total + data[i].count;
+         }
+         //默认站点
+         if (id == 'startTop10' && data.length > 0) {
+             defaultSite = data[0].fromStationId;
+         }
+         //计算bar的长读
+         for (var i = 0; i < data.length; i++) {
+             var width = (data[i].count / total) * 100;
+             var style = "";
+             if (width > 0) {
+                 style = 'style="width:' + width + '%"';
+             }
+             dl.append('<dd data-line="' + data[i].stationName + '" data-qty="' + data[i].count + '"><span class="seq">' + (i + 1) + '</span><span class="text">' + data[i].stationName
+                 + '</span><span class="barbox"><span class="backbar"><span class="valuebar l'+(i+1)+'" ' + style + '></span></span></span><span class="value">' + data[i].count + '</span> </dd>');
+         }
+         //注册当前选中的路线
+         $('#' + id + ' dd').each(function () {
+             $(this).click(function () {
+			     var currentDate = dateRange1.getCurrentDate();
+            	 var type=$(this).parents('[id=startTop10]')==null?2:1;
+				 var stationId=stationsIDs[$(this).attr('data-line')];
+                 $(currSelectNode).removeClass('select');
+                 $(this).addClass('select');
+                 currSelectNode = this;
+                 if (id == 'startTop10') {
+                     loadData(currentDate.startDate.replace(/-/g, ''), currentDate.endDate.replace(/-/g, ''), 'queryRoute', type, stationId);
+                 } else {
+                     loadData(currentDate.startDate.replace(/-/g, ''), currentDate.endDate.replace(/-/g, ''), 'queryRoute', type, null, stationId);
+                 }        
+             });
+         });
+     }
+   </script>
+</body>
+</html>

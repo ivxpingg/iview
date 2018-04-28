@@ -9,7 +9,7 @@
     export default {
         data() {
             return {
-                url: Util.domain + '/modules/traffic/mapstatistics.html'
+                url: '/html/traffic/mapstatistics.html'//Util.domain + '/modules/traffic/mapstatistics.html'
             }
         },
         components: {vIframe},
@@ -20,7 +20,7 @@
             var that = this;
 
             window.onmessage = function (ev) {
-                if (ev.data.type == "logOut") {
+                if (ev.data.type === "logOut") {
                     that.$router.push({
                         path: '/',
                         query: {redirect: that.$route.name}

@@ -109,7 +109,7 @@ var setStationName = function () {
             lineHeight : "",
             fontFamily:"微软雅黑",
             fontWeight: 700,
-            textShadow: "1px 1px 1px #FFF"
+            textShadow: "1px 0 0 rgba(255,255,255, 1), -1px 0 0 rgba(255,255,255, 1),0 1px 0 rgba(255,255,255, 1), 0 -1px 0 rgba(255,255,255, 1)"
         });
         map.addOverlay(labelUp);
     }
