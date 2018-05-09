@@ -175,7 +175,6 @@ OcxManager.prototype.startRealPlay = function (domainid, puid, chan, src, manu, 
 
 //停止
 OcxManager.prototype.stopRealPlay = function (windowId) {
-    alert(windowId);
     for (var i = 0; i < this.playArr.length;i++)
     {
         if (this.playArr[i].windowId == windowId)
