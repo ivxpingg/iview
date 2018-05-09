@@ -1,6 +1,7 @@
 
 var m1 = null;
 var windowIndex = 0;
+var screenNum = 4;
 
 
 
@@ -19,6 +20,11 @@ $(document).ready(function(){
             case 'videoStop':
                 windowIndex = pda.video.windowIndex;
                 stopRealPlay();
+                break;
+            case 'videoScreen':
+                screenNum = pda.video.screenNum;
+                windowIndex = 0;
+                m1.initViewNum(screenNum);
                 break;
             default: break;
         }
@@ -50,11 +56,11 @@ function OcxEventCB(lEvent, lWndIndex, lReserve1, lReserve2) {
     {
         // alert(lWndIndex + " isselected");
        // var windowIndex = lWndIndex;
-       //  var info = {
-       //      type: 'windowIndex',
-       //      windowIndex: lWndIndex
-       //  }
-       //  window.parent.postMessage(info,'*');
+        var info = {
+            type: 'windowIndex',
+            windowIndex: lWndIndex
+        }
+        window.parent.postMessage(info,'*');
 
         windowIndex = lWndIndex;
     }
@@ -91,8 +97,13 @@ function addVideo(puid) {
 
     var value =  m1.startRealPlay(domainid, puid, chan, src,  manu, hign, windowIndex);
     messageParent(value);
-    windowIndex = (windowIndex + 1) % 4;
 
+    if (screenNum === 4) {
+        windowIndex = (windowIndex + 1) % 4;
+    }
+    else {
+        windowIndex = (windowIndex + 1) % 9;
+    }
 }
 
 function messageParent(value) {

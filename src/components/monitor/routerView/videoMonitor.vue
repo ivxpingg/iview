@@ -13,8 +13,9 @@
                 </Form>
             </div>
             <div class="btn-box">
+                <Button type="ghost" shape="circle" icon="ios-grid-view" title="屏幕" @click="videoSwitch">屏幕</Button>
                 <Button type="ghost" shape="circle" icon="arrow-expand" title="全屏" @click="videoZoom">全屏</Button>
-                <Button type="ghost" shape="circle" icon="close-round" title="全屏" @click="videoStop">关闭</Button>
+                <Button type="ghost" shape="circle" icon="close-round" title="关闭" @click="videoStop">关闭</Button>
             </div>
             <div class="tree-box">
                 <Tree :data="searchData" ></Tree>
@@ -149,7 +150,8 @@
 
                 iframeSrc: '',
                 windowIndex: 0,
-                contentWindow: null
+                contentWindow: null,
+                screenNum: 4   //屏幕数量
             }
         },
         watch: {
@@ -195,6 +197,8 @@
         mounted() {
             var that = this;
 
+            this.onMessage();
+
             this.getData();
 
             this.contentWindow = document.getElementById("iframe_video").contentWindow;
@@ -206,13 +210,14 @@
             onMessage() {
                 var that = this;
                 window.onmessage = function (ev) {
+                    console.dir(ev);
                     switch(ev.data.type) {
                         case 'windowIndex':
                             that.windowIndex = ev.data.windowIndex;
                             break;
                         default: break;
                     }
-                }
+                };
             },
             initIframeSrc() {
                 this.iframeSrc = "/html/video.html";
@@ -387,11 +392,31 @@
                 var info = {
                     type: 'video',
                     video: {
-                        puid: data.puid
+                        puid: data.puid,
+                        screenNum: this.screenNum
                     }
                 };
                 this.contentWindow.postMessage(info, '*');
-                this.windowIndex = (this.windowIndex + 1) % 4;
+
+                if (this.screenNum === 4) {
+                    this.windowIndex = (this.windowIndex + 1) % 4;
+                }
+                else {
+                    this.windowIndex = (this.windowIndex + 1) % 9;
+                }
+            },
+
+            // 设置屏幕数量
+            videoSwitch() {
+                this.screenNum = this.screenNum === 4 ? 9 : 4;
+                this.windowIndex = 0;
+                var info = {
+                    type: 'videoScreen',
+                    video: {
+                        screenNum: this.screenNum
+                    }
+                };
+                this.contentWindow.postMessage(info, '*');
             },
             videoZoom() {
                 var info = {
@@ -415,7 +440,7 @@
 
                 setTimeout(() =>{
                     this.$Spin.hide();
-                }, 3000)
+                }, 3000);
             }
         }
     }

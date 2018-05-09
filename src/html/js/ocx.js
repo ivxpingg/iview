@@ -17,6 +17,8 @@ var OcxManager = function(elID) {
     this.windowIndex = 0;
     this.g_bInitMcuOcx = 0;    // 判断是否初始化过没有
 
+    this.screenNum = 4;
+
     return this;
 }
 
@@ -124,7 +126,7 @@ OcxManager.prototype.startRealPlay = function (domainid, puid, chan, src, manu, 
 
     //实现功能  ：设置画面数据
     // 参数说明  ：现支持1,4,9,16
-    this.objMcuOcx.SetWndStyle(4);
+    this.objMcuOcx.SetWndStyle(this.screenNum);
 
     //实现功能  ：切换码流传输方式
     //参数说明  ： streamPattern -0：TCP 1:UDP
@@ -173,6 +175,7 @@ OcxManager.prototype.startRealPlay = function (domainid, puid, chan, src, manu, 
 
 //停止
 OcxManager.prototype.stopRealPlay = function (windowId) {
+    alert(windowId);
     for (var i = 0; i < this.playArr.length;i++)
     {
         if (this.playArr[i].windowId == windowId)
@@ -180,13 +183,29 @@ OcxManager.prototype.stopRealPlay = function (windowId) {
             this.playId = this.playArr[i].playId;
         }
     }
-    if (this.playId != 65535) {
-        this.objMcuOcx.StopRealPlay(playId, windowId);
+    if (this.playId !== 65535) {
+        this.objMcuOcx.StopRealPlay(this.playId, windowId);
         this.playId = 65535;
     }
     else {
         // alert(windowId);
     }
+}
+
+OcxManager.prototype.initViewNum = function(num) {
+    this.screenNum = num;
+    for (var i = 0; i < this.playArr.length;i++)
+    {
+        if (this.playArr[i].playId !== 65535) {
+            this.objMcuOcx.StopRealPlay(this.playArr[i].playId, this.playArr[i].windowId);
+            this.playId = 65535;
+        }
+        else {
+            // alert(windowId);
+        }
+    }
+    this.objMcuOcx.SetWndStyle(this.screenNum);
+
 }
 
 // 全屏
@@ -197,7 +216,8 @@ OcxManager.prototype.zoom = function(){
 // lEnable--是否开启声音    0-关闭声音   1-开启声音
 // 实现功能  ：控制播放窗口的声音开关
 OcxManager.prototype.voice = function(){
-    if(this.playId != 65535){
+    if(this.playId !== 65535){
         this.objMcuOcx.SetWndSoundEnable(0, 1);
     }
 }
+
