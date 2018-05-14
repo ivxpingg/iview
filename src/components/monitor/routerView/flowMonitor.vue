@@ -135,10 +135,9 @@
                     todayPassengerOutList: [],
                     todayPassengerInList: []
                 }
-            }
+            };
         },
         props: {},
-        watch: {},
         beforeDestroy() {
             if (this.oSetTimeOut1) {
                 clearTimeout(this.oSetTimeOut1);
