@@ -8,7 +8,7 @@
             <div class="p-block p-left-1 " name="综合分析" :class="systemList['3'].auth ? '':'noauth'" @click="goto(systemList['3'])"><span class="subSystem subSystem3" name="综合分析"></span></div>
             <div class="p-block p-left-2 " name="运行监视" :class="systemList['2'].auth ? '':'noauth'" @click="goto(systemList['2'])"><span class="subSystem subSystem2" name="运行监视"></span></div>
             <div class="p-block p-left-3 " name="运营考评" :class="systemList['1'].auth ? '':'noauth'" @click="goto(systemList['1'])"><span class="subSystem subSystem1" name="运营考评"></span></div>
-            <div class="p-block p-left-4 " name="舆情分析" :class="systemList['4'].auth ? '':'noauth'" @click="goto(systemList['4'])"><span class="subSystem subSystem4" name="舆情分析"></span></div>
+            <!--<div class="p-block p-left-4 " name="舆情分析" :class="systemList['4'].auth ? '':'noauth'" @click="goto(systemList['4'])"><span class="subSystem subSystem4" name="舆情分析"></span></div>-->
 
             <div class="p-block p-right-1 " name="应急管理" :class="systemList['5'].auth ? '':'noauth'" @click="goto(systemList['5'])"><span class="subSystem subSystem5" name="应急管理"></span></div>
             <div class="p-block p-right-2 " name="从业人员" :class="systemList['6'].auth ? '':'noauth'" @click="goto(systemList['6'])"><span class="subSystem subSystem6" name="从业人员"></span></div>
@@ -385,7 +385,7 @@
             height: 614px;
             text-align: center;
             overflow: hidden;
-            background: url(./images/login2-menu-bg.png) no-repeat center top;
+            background: url(./images/login2-menu-bg1.png) no-repeat center top;
 
             .p-block {
                 position: absolute;
