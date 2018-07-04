@@ -21,6 +21,13 @@
                             </Upload>
                         </div>
                     </div>
+                    <div class="no-upload">
+                        <div class="title-tr">未上传的运营生产日报记录(共{{noUpload_daily.length}}日)</div>
+                        <ul class="list">
+                            <li class="no-data" v-if="noUpload_daily.length === 0">已全部上传</li>
+                            <li v-for="item in noUpload_daily">{{transformData(item)}}</li>
+                        </ul>
+                    </div>
                     <div class="download">
                         <a :href="exportFileUrl_daily" class="ivu-btn ivu-btn-warning mybtn" target="_blank">
                             <Icon type="ios-cloud-download-outline"></Icon>
@@ -47,6 +54,13 @@
                             </Upload>
                         </div>
 
+                    </div>
+                    <div class="no-upload">
+                        <div class="title-tr">未上传的OD数据记录(共{{noUpload_OD.length}}日)</div>
+                        <ul class="list">
+                            <li class="no-data" v-if="noUpload_OD.length === 0">已全部上传</li>
+                            <li v-for="item in noUpload_OD">{{transformData(item)}}</li>
+                        </ul>
                     </div>
                     <div class="download"></div>
                 </div>
@@ -75,8 +89,13 @@
 
                 countDate_OD: '',
 
-                headers: {}
-            }
+                headers: {},
+
+                // 未上传日期列表。
+                noUpload_daily: [],
+                noUpload_OD: [],
+
+            };
         },
         computed: {
             // 把 countDate 日期转为MM月DD日
@@ -97,11 +116,12 @@
 
             this.headers = {
                 Authorization: Util.cookie.get('xmgd') || ''
-            }
+            };
         },
         mounted() {
             this.ifUpload_daily_today();
             this.ifUpload_OD_today();
+            this.getNoUploadData();
         },
         methods: {
             handleBeforeUpload_daily(file) {
@@ -148,6 +168,7 @@
                 if (response.status == 1) {
                     that.$Message.success("《"+file.name+"》上传成功！");
                     that.ifUpload_daily_today();
+                    that.getNoUploadData();
                 }
                 else {
                     that.$Message.error({
@@ -168,7 +189,6 @@
 
             handleBeforeUpload_OD(file) {
                 var that = this;
-debugger
                 if(file.name.indexOf(that.countDate_OD) > 0) {
                     return new Promise(
                         function (resolve, reject) {
@@ -211,6 +231,7 @@ debugger
                 if (response.status == 1) {
                     that.$Message.success("《"+file.name+"》上传成功！");
                     that.ifUpload_OD_today();
+                    that.getNoUploadData();
                 }
                 else {
                     that.$Message.error({
@@ -247,7 +268,7 @@ debugger
                     url: '/xm/traffic/uploadODData/checkTodayUpload',
                     params: {}
                 }).then(function (response) {
-                    if (response.status == 1) {
+                    if (response.status === 1) {
                         that.countDate_OD = response.result.countDate;
                         that.ODFlag = response.result.flag;
                     } else {
@@ -256,7 +277,30 @@ debugger
                     }
                 }).catch(function () {
                 });
+            },
+
+            // 获取未上传的运营生产日报和OD数据 日期。
+            getNoUploadData() {
+                var that = this;
+                Util.ajax({
+                    method: 'get',
+                    url: '/xm/inte/dailyDownloadParse/getDaysWhichNotUpload'
+                }).then(function (response) {
+                    if(response.status === 1) {
+                        that.noUpload_daily = response.result.dailyDayList || [];
+                        that.noUpload_OD = response.result.odDayList || [];
+                    }
+                    
+                }).catch(function (e) {
+                    
+                });
+            },
+
+            // 把日期转化为中文格式
+            transformData(d) {
+                return MOMENT(d).format('YYYY年MM月DD日');
             }
+
         }
     }
 </script>
@@ -306,7 +350,7 @@ debugger
 
     .box-panel {
         margin: 135px auto 0;
-        width: 900px;
+        width: 1100px;
         background: rgba(169,206,237,0.8);
         border: 1px solid #c6dcf2;
         border-left: 5px solid rgba(119,178,225, 0.8);
@@ -331,7 +375,8 @@ debugger
 
                 .tip-msg {
                     margin-top: 40px;
-                    padding-left:54px;
+                    text-align: center;
+                    /*padding-left:54px;*/
                     height: 35px;
                     font-size: 14px;
                     font-weight: 700;
@@ -351,6 +396,38 @@ debugger
                     text-align: center;
                 }
 
+            }
+            .no-upload {
+                width: 300px;
+                border-left: 1px solid #c6dcf2;
+
+                .title-tr {
+                    margin-top: 20px;
+                    padding-left: 34px;
+                    height: 35px;
+                    color: red;
+                    font-size: 14px;
+                    font-weight: 700;
+                    line-height: 35px;
+                }
+
+                .list {
+                    list-style-type: none;
+                    padding-left:54px;
+                    height: 169px;
+                    overflow-y: auto;
+
+                    li {
+                        font-size: 14px;
+                        line-height: 24px;
+
+                        &.no-data {
+                            line-height: 45px;
+                            font-weight: 700;
+                            color: green;
+                        }
+                    }
+                }
             }
             .download {
                 width: 200px;
