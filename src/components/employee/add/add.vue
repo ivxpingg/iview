@@ -5,7 +5,7 @@
             <Col span="12">
 
                     <FormItem prop="name"  label="姓名">
-                        <Input v-model="employee.name" placeholder="请输入姓名"></Input>
+                        <Input v-model.trim="employee.name" placeholder="请输入姓名"></Input>
                     </FormItem>
 
                     <FormItem prop="sex"  label="性别">
@@ -15,7 +15,7 @@
                     </FormItem>
 
                     <FormItem prop="jobNum"  label="工号">
-                        <Input v-model="employee.jobNum" placeholder="请输入工号"></Input>
+                        <Input v-model.trim="employee.jobNum" placeholder="请输入工号"></Input>
                     </FormItem>
 
                     <FormItem prop="postCategory" label="岗位类别">
@@ -39,7 +39,7 @@
                     </FormItem>
 
                     <FormItem prop="idNumber"  label="身份证号">
-                        <Input v-model="employee.idNumber" placeholder="请输入身份证"></Input>
+                        <Input v-model.trim="employee.idNumber" type="text" placeholder="请输入身份证"></Input>
                     </FormItem>
 
                     <FormItem prop="education" label="文化程度">
@@ -61,7 +61,7 @@
                         <vImgUpload :defaultList="defaultHeadPortrait" :onSuccess="onSuccessForHeadPortrait"></vImgUpload>
                     </FormItem>
                     <FormItem prop="certificateName"  label="从业资格证名称">
-                        <Select v-model="employee.certificateName" transfer placeholder="请选择">
+                        <Select v-model.trim="employee.certificateName" transfer placeholder="请选择">
                             <Option v-for="(item, index) in dict_certificateName" :value="item.value">{{item.label}}</Option>
                         </Select>
                     </FormItem>
@@ -74,7 +74,7 @@
                         </Select>
                     </FormItem>
                     <FormItem prop="phone"  label="联系电话">
-                        <Input v-model="employee.phone" placeholder="手机号或者固话"></Input>
+                        <Input v-model.trim="employee.phone" placeholder="手机号或者固话"></Input>
                     </FormItem>
                     <FormItem prop="status" label="人员状态">
                         <Select v-model="employee.status" transfer placeholder="请选择人员状态">
