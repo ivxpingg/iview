@@ -27,7 +27,7 @@
                 <div class="title">列车平均</div>
                 <div class="sub-title">上行</div>
                 <div class="percent">
-                    <div class="percent-value orange" :style="{width: datas.downAverageSpeed + '%', borderWidth: (datas.downAverageWait > 0 ? 1 : 0)}"></div>
+                    <div class="percent-value orange" :style="{width: getSpeedWidthPer(datas.upAverageSpeed) + '%', borderWidth: (datas.downAverageWait > 0 ? 1 : 0)}"></div>
                 </div>
                 <div class="value"><span class="text">{{datas.upAverageSpeed}}</span>km/h</div>
             </div>
@@ -36,7 +36,7 @@
                 <div class="title">运行速度</div>
                 <div class="sub-title">下行</div>
                 <div class="percent">
-                    <div class="percent-value green" :style="{width: datas.downAverageSpeed + '%', borderWidth: (datas.downAverageWait > 0 ? 1 : 0)}"></div>
+                    <div class="percent-value green" :style="{width: getSpeedWidthPer(datas.downAverageSpeed) + '%', borderWidth: (datas.downAverageWait > 0 ? 1 : 0)}"></div>
                 </div>
                 <div class="value"><span class="text">{{datas.downAverageSpeed}}</span>km/h</div>
             </div>
@@ -45,7 +45,7 @@
                 <div class="title">列车平均</div>
                 <div class="sub-title">上行</div>
                 <div class="percent">
-                    <div class="percent-value orange" :style="{width: datas.upAverageRunTime + '%', borderWidth: (datas.downAverageWait > 0 ? 1 : 0)}"></div>
+                    <div class="percent-value orange" :style="{width: getTimeWidthPer(datas.upAverageRunTime) + '%', borderWidth: (datas.downAverageWait > 0 ? 1 : 0)}"></div>
                 </div>
                 <div class="value"><span class="text">{{datas.upAverageRunTime}}</span>min</div>
             </div>
@@ -54,26 +54,38 @@
                 <div class="title">运行时长</div>
                 <div class="sub-title">下行</div>
                 <div class="percent">
-                    <div class="percent-value green" :style="{width: datas.downAverageRunTime + '%', borderWidth: (datas.downAverageWait > 0 ? 1 : 0)}"></div>
+                    <div class="percent-value green" :style="{width: getTimeWidthPer(datas.downAverageRunTime) + '%', borderWidth: (datas.downAverageWait > 0 ? 1 : 0)}"></div>
                 </div>
                 <div class="value"><span class="text">{{datas.downAverageRunTime}}</span>min</div>
             </div>
         </div>
 
         <div class="info-panel">
-            <div class="prob prob3">正面<span>{{p_positive}}</span>%</div>
-            <div class="prob prob2">负面<span>{{p_negative}}</span>%</div>
-            <div class="prob prob1">中立<span>{{p_neutral}}</span>%</div>
+            <div class="prob prob3">
+                <div>
+                    上行完成班次{{upClassNum}}(<span>{{upClassNumPer}}</span>%)
+                </div>
+            </div>
+            <div class="prob prob2">
+                <div>
+                    下行完成班次{{downClassNum}}(<span>{{downClassNumPer}}</span>%)
+                </div>
 
+            </div>
+            <div class="prob prob1">
+                <div>
+                    未完成班次{{undoneClassNum}}(<span>{{undoneClassNumPer}}</span>%)
+                </div>
+            </div>
             <div class="circle circle-box">
-                <div class="circle circle3" :class="clsName1">
+                <div class="circle circle3" :class="clsName3">
                     <div class="circle circle2" :class="clsName2">
-                        <div class="circle circle1" :class="clsName3"></div>
+                        <div class="circle circle1" :class="clsName1"></div>
                     </div>
                 </div>
                 <div class="sum">
-                    <div class="title">总数</div>
-                    <div class="num">{{yq_all}}</div>
+                    <div class="title">计划班次总数</div>
+                    <div class="num">{{planClassNum}}</div>
                 </div>
             </div>
         </div>
@@ -86,6 +98,9 @@
     export default {
         data() {
             return {
+                maxRunSpeed: 60,   // 最大运行速度  阈值
+                maxRunTime: 60,    // 最长运行时间  阈值
+
                 datas: {
                     "upAverageRunTime": "0",     //上行平均运行时长
                     "downAverageRunTime": "0",   //下行平均运行时长
@@ -119,7 +134,22 @@
                 clsName1: 'bar-0',
                 clsName2: 'bar-0',
                 clsName3: 'bar-0',
+
+                // 班次
+                upClassNum: 0,
+                planClassNum: 0,
+                downClassNum: 0,
+
+                undoneClassNum: 0,
+
+                upClassNumPer: 0,
+                downClassNumPer: 0,
+                undoneClassNumPer: 0
+
             }
+        },
+        computed: {
+
         },
         watch: {
             trainPositionData(nval) {
@@ -173,7 +203,8 @@
             this.getTrainPosition();
             this.getRunMonitorInfo();
             this.getTodayTotalPassenger();
-            this.getTodayYQData();
+            this.getClassNumber();
+            // this.getTodayYQData();
         },
         methods: {
             // 用于计算上行列车数和下行列车数量
@@ -254,6 +285,109 @@
                         that.getTodayTotalPassenger();
                     }, 30000);
                 })
+            },
+
+            getClassNumber() {
+                var that = this;
+                Util.ajax({
+                    method: "get",
+                    url: '/xm/show/classShow/getClassNumber?t=' + Math.random(),
+                    params: {
+                        beginDate: MOMENT().format('YYYY-MM-DD'),
+                        endDate: MOMENT().format('YYYY-MM-DD')
+                    }
+                }).then(function(response){
+                    if (response.status === 1) {
+                        that.upClassNum = response.result.upClassNum;
+                        that.planClassNum = response.result.planClassNum;
+                        that.downClassNum = response.result.downClassNum;
+
+                        that.setClassData(response.result);
+                    }
+                    else { }
+
+                }).catch(function (error) {
+                });
+            },
+            setClassData() {
+                this.undoneClassNum = this.planClassNum - this.upClassNum - this.downClassNum;
+                if (this.undoneClassNum < 0) {
+                    this.undoneClassNum = 0;
+                }
+
+                if (this.planClassNum === 0) { return;}
+
+
+
+                this.undoneClassNumPer = ((this.undoneClassNum / this.planClassNum) * 100).toFixed(1);
+                this.upClassNumPer = ((this.upClassNum / this.planClassNum) * 100).toFixed(1);
+                this.downClassNumPer = ((this.downClassNum / this.planClassNum) * 100).toFixed(1);
+
+                if (this.undoneClassNumPer > 95) { this.clsName1 = 'bar-100'; }
+                else if (this.undoneClassNumPer > 90) { this.clsName1 = 'bar-95'; }
+                else if (this.undoneClassNumPer > 85) { this.clsName1 = 'bar-90'; }
+                else if (this.undoneClassNumPer > 80) { this.clsName1 = 'bar-85'; }
+                else if (this.undoneClassNumPer > 75) { this.clsName1 = 'bar-80'; }
+                else if (this.undoneClassNumPer > 70) { this.clsName1 = 'bar-75'; }
+                else if (this.undoneClassNumPer > 65) { this.clsName1 = 'bar-70'; }
+                else if (this.undoneClassNumPer > 60) { this.clsName1 = 'bar-65'; }
+                else if (this.undoneClassNumPer > 55) { this.clsName1 = 'bar-60'; }
+                else if (this.undoneClassNumPer > 50) { this.clsName1 = 'bar-55'; }
+                else if (this.undoneClassNumPer > 45) { this.clsName1 = 'bar-50'; }
+                else if (this.undoneClassNumPer > 40) { this.clsName1 = 'bar-45'; }
+                else if (this.undoneClassNumPer > 35) { this.clsName1 = 'bar-40'; }
+                else if (this.undoneClassNumPer > 30) { this.clsName1 = 'bar-35'; }
+                else if (this.undoneClassNumPer > 25) { this.clsName1 = 'bar-30'; }
+                else if (this.undoneClassNumPer > 20) { this.clsName1 = 'bar-25'; }
+                else if (this.undoneClassNumPer > 15) { this.clsName1 = 'bar-20'; }
+                else if (this.undoneClassNumPer > 10) { this.clsName1 = 'bar-15'; }
+                else if (this.undoneClassNumPer > 5) { this.clsName1 = 'bar-10'; }
+                else if (this.undoneClassNumPer > 0) { this.clsName1 = 'bar-5'; }
+                else { this.clsName1 = 'bar-0'; }
+
+                if (this.upClassNumPer > 95) { this.clsName3 = 'bar-100'; }
+                else if (this.upClassNumPer > 90) { this.clsName3 = 'bar-95'; }
+                else if (this.upClassNumPer > 85) { this.clsName3 = 'bar-90'; }
+                else if (this.upClassNumPer > 80) { this.clsName3 = 'bar-85'; }
+                else if (this.upClassNumPer > 75) { this.clsName3 = 'bar-80'; }
+                else if (this.upClassNumPer > 70) { this.clsName3 = 'bar-75'; }
+                else if (this.upClassNumPer > 65) { this.clsName3 = 'bar-70'; }
+                else if (this.upClassNumPer > 60) { this.clsName3 = 'bar-65'; }
+                else if (this.upClassNumPer > 55) { this.clsName3 = 'bar-60'; }
+                else if (this.upClassNumPer > 50) { this.clsName3 = 'bar-55'; }
+                else if (this.upClassNumPer > 45) { this.clsName3 = 'bar-50'; }
+                else if (this.upClassNumPer > 40) { this.clsName3 = 'bar-45'; }
+                else if (this.upClassNumPer > 35) { this.clsName3 = 'bar-40'; }
+                else if (this.upClassNumPer > 30) { this.clsName3 = 'bar-35'; }
+                else if (this.upClassNumPer > 25) { this.clsName3 = 'bar-30'; }
+                else if (this.upClassNumPer > 20) { this.clsName3 = 'bar-25'; }
+                else if (this.upClassNumPer > 15) { this.clsName3 = 'bar-20'; }
+                else if (this.upClassNumPer > 10) { this.clsName3 = 'bar-15'; }
+                else if (this.upClassNumPer > 5) { this.clsName3 = 'bar-10'; }
+                else if (this.upClassNumPer > 0) { this.clsName3 = 'bar-5'; }
+                else { this.clsName3 = 'bar-0'; }
+
+                if (this.downClassNumPer > 95) { this.clsName2 = 'bar-100'; }
+                else if (this.downClassNumPer > 90) { this.clsName2 = 'bar-95'; }
+                else if (this.downClassNumPer > 85) { this.clsName2 = 'bar-90'; }
+                else if (this.downClassNumPer > 80) { this.clsName2 = 'bar-85'; }
+                else if (this.downClassNumPer > 75) { this.clsName2 = 'bar-80'; }
+                else if (this.downClassNumPer > 70) { this.clsName2 = 'bar-75'; }
+                else if (this.downClassNumPer > 65) { this.clsName2 = 'bar-70'; }
+                else if (this.downClassNumPer > 60) { this.clsName2 = 'bar-65'; }
+                else if (this.downClassNumPer > 55) { this.clsName2 = 'bar-60'; }
+                else if (this.downClassNumPer > 50) { this.clsName2 = 'bar-55'; }
+                else if (this.downClassNumPer > 45) { this.clsName2 = 'bar-50'; }
+                else if (this.downClassNumPer > 40) { this.clsName2 = 'bar-45'; }
+                else if (this.downClassNumPer > 35) { this.clsName2 = 'bar-40'; }
+                else if (this.downClassNumPer > 30) { this.clsName2 = 'bar-35'; }
+                else if (this.downClassNumPer > 25) { this.clsName2 = 'bar-30'; }
+                else if (this.downClassNumPer > 20) { this.clsName2 = 'bar-25'; }
+                else if (this.downClassNumPer > 15) { this.clsName2 = 'bar-20'; }
+                else if (this.downClassNumPer > 10) { this.clsName2 = 'bar-15'; }
+                else if (this.downClassNumPer > 5) { this.clsName2 = 'bar-10'; }
+                else if (this.downClassNumPer > 0) { this.clsName2 = 'bar-5'; }
+                else { this.clsName2 = 'bar-0'; }
             },
 
             getTodayYQData() {
@@ -351,7 +485,26 @@
                 else if (this.p_negative > 5) { this.clsName2 = 'bar-10'; }
                 else if (this.p_negative > 0) { this.clsName2 = 'bar-5'; }
                 else { this.clsName2 = 'bar-0'; }
-            }
+            },
+
+            getSpeedWidthPer(value) {
+                var speed = (parseFloat(value) / this.maxRunSpeed) * 100;
+                if (speed > 100) {
+                    return 100;
+                }
+                else {
+                    return speed;
+                }
+            },
+            getTimeWidthPer(value) {
+                var speed = (parseFloat(value) / this.maxRunTime) * 100;
+                if (speed > 100) {
+                    return 100;
+                }
+                else {
+                    return speed;
+                }
+            },
         }
     }
 </script>
@@ -531,22 +684,46 @@
 
             .prob {
                 position: absolute;
+                padding-left: 12px;
                 font-size: 12px;
                 text-align: right;
+                z-index: 9;
+
+                &:after {
+                    display: block;
+                    position: absolute;
+                    top: 4px;
+                    left: 0;
+                    content: " ";
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    background-color: yellow;
+
+                }
 
                 &.prob1 {
-                    top: 132px;
-                    left: 15px;
+                    top: 74px;
+                    left: 190px;
+
+                    &:after {
+                        background-color: rgb(107,145,180);
+                    }
                 }
                 &.prob2 {
-                    top: 83px;
-                    left: 23px;
+                    top: 58px;
+                    left: 190px;
+                    &:after {
+                        background-color: rgb(213,119,62);
+                    }
                 }
                 &.prob3 {
-                    top: 215px;
-                    left: 270px;
+                    top: 42px;
+                    left: 190px;
                     text-align: left;
-
+                    &:after {
+                        background-color: rgb(48,141,49);
+                    }
                 }
             }
 
@@ -569,7 +746,7 @@
                         content: " ";
                         width: 179px;
                         height: 141px;
-                        background: url("./images/eline.png") no-repeat center;
+                        // background: url("./images/eline.png") no-repeat center;
                     }
 
                     .sum {
@@ -591,9 +768,10 @@
                 }
 
                 .circle3 {
-                    transform:rotate(-90deg);
+                    // transform:rotate(-90deg);
+                    transform: rotateY(180deg);
                     transform-origin: 50%;
-                    background: url('./images/circle-green-bg.png') no-repeat center;
+                    //background: url('./images/circle-green-bg.png') no-repeat center;
 
                     &:after {
                         position: absolute;
@@ -626,7 +804,7 @@
                     &.bar-100:after { background: url('./images/c_green_3/100.png') no-repeat center; }
 
                     .circle2 {
-                        background: url('./images/circle-orange-bg.png') no-repeat center; ;
+                        //background: url('./images/circle-orange-bg.png') no-repeat center; ;
 
                         &:after {
                             position: absolute;
@@ -643,7 +821,8 @@
                         &.bar-20:after { background: url('./images/c_orange_2/20.png') no-repeat center; }
                         &.bar-25:after { background: url('./images/c_orange_2/25.png') no-repeat center; }
                         &.bar-30:after { background: url('./images/c_orange_2/30.png') no-repeat center; }
-                        &.bar-35:after { background: url('./images/c_orange_2/40.png') no-repeat center; }
+                        &.bar-35:after { background: url('./images/c_orange_2/35.png') no-repeat center; }
+                        &.bar-40:after { background: url('./images/c_orange_2/40.png') no-repeat center; }
                         &.bar-45:after { background: url('./images/c_orange_2/45.png') no-repeat center; }
                         &.bar-50:after { background: url('./images/c_orange_2/50.png') no-repeat center; }
                         &.bar-55:after { background: url('./images/c_orange_2/55.png') no-repeat center; }
@@ -658,7 +837,7 @@
                         &.bar-100:after { background: url('./images/c_orange_2/100.png') no-repeat center; }
 
                         .circle1 {
-                            background: url('./images/circle-blue-bg.png') no-repeat center; ;
+                            //background: url('./images/circle-blue-bg.png') no-repeat center; ;
 
                             &:after {
                                 position: absolute;
@@ -675,7 +854,8 @@
                             &.bar-20:after { background: url('./images/c_blue_1/20.png') no-repeat center; }
                             &.bar-25:after { background: url('./images/c_blue_1/25.png') no-repeat center; }
                             &.bar-30:after { background: url('./images/c_blue_1/30.png') no-repeat center; }
-                            &.bar-35:after { background: url('./images/c_blue_1/40.png') no-repeat center; }
+                            &.bar-35:after { background: url('./images/c_blue_1/35.png') no-repeat center; }
+                            &.bar-40:after { background: url('./images/c_blue_1/40.png') no-repeat center; }
                             &.bar-45:after { background: url('./images/c_blue_1/45.png') no-repeat center; }
                             &.bar-50:after { background: url('./images/c_blue_1/50.png') no-repeat center; }
                             &.bar-55:after { background: url('./images/c_blue_1/55.png') no-repeat center; }

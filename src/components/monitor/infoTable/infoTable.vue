@@ -24,7 +24,7 @@
                 setTimeOutInfoPanelData: null,
                 tabsActive: true,
                 upOrDownTable: true,  // 默认展示上行表格
-                tableHeight: '0',
+                tableHeight: 0,
                 tableColumnsUp: [
                     {
                         type: 'index',
