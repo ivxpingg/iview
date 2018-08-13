@@ -92,7 +92,7 @@
     export default {
         data() {
             return {
-                dateRange: [new Date(), new Date()],
+                dateRange: [new Date(MOMENT().subtract(1, 'days').format('YYYY-MM-DD')), new Date(MOMENT().subtract(1, 'days').format('YYYY-MM-DD'))],
                 channelType: 'all',     // 发布渠道
 
                 channelTypeList: {

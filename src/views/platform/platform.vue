@@ -6,7 +6,7 @@
 
                 <li name="运行监视"><span class="subSystem subSystem2" :class="systemList['2'].auth ? '':'noauth'" @click="goto(systemList['2'])" ></span></li>
                 <li name="综合分析"><span class="subSystem subSystem3" :class="systemList['3'].auth ? '':'noauth'" @click="goto(systemList['3'])" ></span></li>
-                <!--<li name="舆情分析"><span class="subSystem subSystem4" :class="systemList['4'].auth ? '':'noauth'" @click="goto(systemList['4'])" ></span></li>-->
+                <li name="舆情分析"><span class="subSystem subSystem4" :class="systemList['4'].auth ? '':'noauth'" @click="goto(systemList['4'])" ></span></li>
                 <li name="应急管理"><span class="subSystem subSystem5" :class="systemList['5'].auth ? '':'noauth'" @click="goto(systemList['5'])" ></span></li>
                 <li name="运营考评"><span class="subSystem subSystem1" :class="systemList['1'].auth ? '':'noauth'" @click="goto(systemList['1'])" ></span></li>
 

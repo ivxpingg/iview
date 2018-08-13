@@ -40,7 +40,7 @@
     export default {
         data() {
             return {
-                dateRange: [new Date(), new Date()],
+                dateRange: [new Date(MOMENT().subtract(1, 'days').format('YYYY-MM-DD')), new Date(MOMENT().subtract(1, 'days').format('YYYY-MM-DD'))],
                 sTime: '',
                 eTime: '',
 
@@ -125,7 +125,7 @@
             }
         },
         created() {
-            this.dateRange[0] = MOMENT().subtract(6, 'days')._d;
+            this.dateRange[0] = MOMENT().subtract(7, 'days')._d;
         },
         mounted() {
             this.sTime = MOMENT(this.dateRange[0]).format('YYYY-MM-DD');

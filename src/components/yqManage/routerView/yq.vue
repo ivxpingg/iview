@@ -73,7 +73,7 @@
 
                 topicType: 'all',
                 source: 'all',
-                dateRange: [new Date(), new Date()]
+                dateRange: [new Date(MOMENT().subtract(1, 'days').format('YYYY-MM-DD')), new Date(MOMENT().subtract(1, 'days').format('YYYY-MM-DD'))]
             }
         },
         components: {vTrendAnalysis, vDetailsAnalysis, vNewsList},
