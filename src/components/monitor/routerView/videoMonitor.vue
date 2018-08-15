@@ -18,7 +18,7 @@
                 <Button type="ghost" shape="circle" icon="close-round" title="关闭" @click="videoStop">关闭</Button>
             </div>
             <div class="tree-box">
-                <Tree :data="searchData" ></Tree>
+                <Tree :data="searchData" :load-data="loadData"></Tree>
             </div>
         </div>
         <div class="panel-video">
@@ -36,115 +36,8 @@
             return {
                 searchValue: '',     // 检索表单控件model
                 keyword: '',         // 检索关键字
-                ajaxData: [
-//                    {
-//                        title: '视频监控',
-//                        expand: true,
-//                        render(h, {root, node, data}) {
-//                            return that.renderContent(h, {root, node, data});
-//                        },
-//                        children: [
-//                            {
-//                                title: '厦门市公安局',
-//                                expand: true,
-//                                render(h, {root, node, data}) {
-//                                    return that.renderContent(h, {root, node, data});
-//                                },
-//                                children: [
-//                                    {
-//                                        title: '厦禾路',
-//                                        expand: true,
-//                                        render(h, {root, node, data}) {
-//                                            return that.renderContent(h, {root, node, data});
-//                                        },
-//                                        children: [
-//                                            {
-//                                                title: '2028厦禾路白鹭洲路口',
-//                                                puid: 'c34fdcecdef6434db242dbc2fdbee61d@kedacom',
-//                                                render(h, {root, node, data}) {
-//                                                   return that.renderContent(h, {root, node, data});
-//                                                }
-//                                            },
-//                                            {
-//                                                title: '厦禾路银行中心路口3',
-//                                                puid: '802e4068b3904192948fbbb7f9c5f511@kedacom',
-//                                                render(h, {root, node, data}) {
-//                                                    return that.renderContent(h, {root, node, data});
-//                                                }
-//                                            },
-//                                            {
-//                                                title: '厦禾路公园小学路口3bf',
-//                                                puid: '7216441fdd4043bc9cc13d8fcb780aee@kedacom',
-//                                                render(h, {root, node, data}) {
-//                                                    return that.renderContent(h, {root, node, data});
-//                                                }
-//                                            }
-//                                        ]
-//                                    }
-//                                ]
-//                            },
-//                            {
-//                                title: '厦门BRT',
-//                                expand: true,
-//                                render(h, {root, node, data}) {
-//                                    return that.renderContent(h, {root, node, data});
-//                                },
-//                                children: [
-//                                    {
-//                                        title: '双十中学站',
-//                                        expand: true,
-//                                        render(h, {root, node, data}) {
-//                                            return that.renderContent(h, {root, node, data});
-//                                        },
-//                                        children: [
-//                                            {
-//                                                title: '双十中学站_上行电梯',
-//                                                puid: '86ccb50b45b44e9b9be229b9e1a25b7e@kedacom',
-//                                                render(h, {root, node, data}) {
-//                                                    return that.renderContent(h, {root, node, data});
-//                                                }
-//                                            }
-//                                        ]
-//                                    },
-//                                    {
-//                                        title: '洪文站',
-//                                        expand: true,
-//                                        render(h, {root, node, data}) {
-//                                            return that.renderContent(h, {root, node, data});
-//                                        },
-//                                        children: [
-//                                            {
-//                                                title: '洪文站_上行电梯',
-//                                                puid: '8e3a0705cfa440f6b1c0310e2d47ecc0@kedacom',
-//                                                render(h, {root, node, data}) {
-//                                                    return that.renderContent(h, {root, node, data});
-//                                                }
-//                                            }
-//                                        ]
-//                                    },
-//                                    {
-//                                        title: '集美大桥南站',
-//                                        expand: true,
-//                                        render(h, {root, node, data}) {
-//                                            return that.renderContent(h, {root, node, data});
-//                                        },
-//                                        children: [
-//                                            {
-//                                                title: '集南站_上行站厅2',
-//                                                puid: 'fae2e4ae53ef4263bf9d2be56743285a@kedacom',
-//                                                render(h, {root, node, data}) {
-//                                                    return that.renderContent(h, {root, node, data});
-//                                                }
-//                                            }
-//                                        ]
-//                                    }
-//                                ]
-//                            }
-//                        ],
-//
-//                    }
-                ],
-                treeData: [],
+                ajaxData: [],
+                treeData: [],        // 检索后的数据
 
                 searchData: [],
 
@@ -152,7 +45,7 @@
                 windowIndex: 0,
                 contentWindow: null,
                 screenNum: 4   //屏幕数量
-            }
+            };
         },
         watch: {
             keyword(value) {
@@ -187,11 +80,27 @@
                 };
 
                 val.forEach(function (v) {
-                   obj.children.push(that.callBackDataToTreeData(v));
+                   obj.children.push(that.callBackDataToTreeData(v, true));
+                });
+                that.treeData = [obj];
+
+
+
+                var obj_s = {
+                    title: '视频监控',
+                    expand: true,
+                    loading: false,
+                    render(h, {root, node, data}) {
+                        return that.renderContent(h, {root, node, data});
+                    },
+                    children: []
+                };
+
+                val.forEach(function (v) {
+                    obj_s.children.push(that.callBackDataToTreeData(v, false));
                 });
 
-                that.treeData = [obj];
-                that.searchData = that.treeData;
+                that.searchData = [obj_s];
             }
         },
         mounted() {
@@ -210,7 +119,6 @@
             onMessage() {
                 var that = this;
                 window.onmessage = function (ev) {
-                    console.dir(ev);
                     switch(ev.data.type) {
                         case 'windowIndex':
                             that.windowIndex = ev.data.windowIndex;
@@ -221,6 +129,18 @@
             },
             initIframeSrc() {
                 this.iframeSrc = "/html/video.html";
+            },
+
+            loadData(item, callback) {
+                var that = this;
+
+                for (var i = 0; i < that.treeData[0].children.length; i++) {
+                    if (that.treeData[0].children[i].videoPositionInfoId === item.videoPositionInfoId) {
+
+                        callback(that.treeData[0].children[i].children);
+
+                    }
+                }
             },
 
             // ajax 获取树
@@ -244,12 +164,13 @@
                 })
             },
 
-            callBackDataToTreeData(children) {
+            callBackDataToTreeData(children, deep) {
                 var that = this;
 
                 var obj = {
                     title: children.groupName,
                     expand: false,
+                    videoPositionInfoId: children.videoPositionInfoId,
                     render(h, {root, node, data}) {
                         return that.renderContent(h, {root, node, data});
                     },
@@ -260,10 +181,14 @@
                     obj.puid = children.puId;
                 }
 
-                if (children.childVideoPosition && children.childVideoPosition.length > 0) {
+                if (!deep) {
+                    obj.loading = false;
+                }
+
+                if (deep && children.childVideoPosition && children.childVideoPosition.length > 0) {
                     children.childVideoPosition.forEach(function (v) {
-                        obj.children.push(that.callBackDataToTreeData(v));
-                    })
+                        obj.children.push(that.callBackDataToTreeData(v, deep));
+                    });
                 }
 
                 return obj;

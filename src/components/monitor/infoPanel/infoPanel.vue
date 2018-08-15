@@ -34,7 +34,7 @@
                     </div>
                 </div>
                 <div class="info-content">
-                    <div class="title">列车平均</br>等待时长</div>
+                    <div class="title">乘客平均</br>等待时长</div>
                     <div class="value-panel">
                         <div class="sub-title">上行：</div>
                         <div class="value"> <span>{{datas.upAverageWait}}</span><span class="unit">min</span> </div>

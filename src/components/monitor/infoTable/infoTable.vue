@@ -515,7 +515,7 @@
             },
             watchTableDataUp(val, valOld) {
                 try {
-                    if (valOld.length == 0) {
+                    if (valOld.length === 0) {
                         this.tableDataUp = val;
                     }
                     else {
@@ -527,7 +527,7 @@
             },
             watchTableDataDown(val, valOld) {
                 try {
-                    if (valOld.length == 0) {
+                    if (valOld.length === 0) {
                         this.tableDataDown = val;
                     }
                     else {
@@ -717,7 +717,6 @@
                     }, that.setTimeOutInfoPanelDataTime);
                 }).catch(function (error) {
                     that.loading = false;
-                    console.log(error);
                     that.setTimeOutInfoPanelData = setTimeout(function () {
                         that.getTrainRun();
                     }, that.setTimeOutInfoPanelDataTime);
