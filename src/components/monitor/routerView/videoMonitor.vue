@@ -4,8 +4,7 @@
             <div class="tree-search">
                 <Form ref="formInline"  inline>
                     <FormItem prop="">
-                        <Input type="text" v-model="searchValue" placeholder="">
-                        </Input>
+                        <Input type="text" v-model="searchValue" placeholder="" />
                     </FormItem>
                     <FormItem>
                         <Button type="primary"  icon="ios-search" @click="onSubmit">检索</Button>
@@ -18,7 +17,7 @@
                 <Button type="ghost" shape="circle" icon="close-round" title="关闭" @click="videoStop">关闭</Button>
             </div>
             <div class="tree-box">
-                <Tree :data="searchData" :load-data="loadData"></Tree>
+                <Tree :data="treeData" :load-data="loadData"></Tree>
             </div>
         </div>
         <div class="panel-video">
@@ -29,6 +28,7 @@
 
 <script>
     import Util from '../../../libs/util';
+    import deepCopy from 'deep-copy';
     import MOMENT from 'moment';
     export default {
         data () {
@@ -36,9 +36,9 @@
             return {
                 searchValue: '',     // 检索表单控件model
                 keyword: '',         // 检索关键字
+                baseData: [],
                 ajaxData: [],
                 treeData: [],        // 检索后的数据
-
                 searchData: [],
 
                 iframeSrc: '',
@@ -51,56 +51,44 @@
             keyword(value) {
                 var that = this;
 
-                var datas = [];
-                this.treeData.forEach(function (obj) {
-                    var o = {
-                        title: obj.title,
-                        expand: true,
-                        render: obj.render,
-                        children: []
-                    }
-                    if (obj.children && obj.children.length > 0) {
-                        o.children = that.searchTree(value, obj.children);
-                    }
+                var datas = [],
+                    reValue;
 
-                    datas.push(o);
+                that.baseData.forEach(function (obj) {
+                    reValue = that.searchTree(value, obj);
+                    if (reValue != null) {
+                        datas.push(reValue);
+                    }
                 });
 
-                this.searchData = datas;
+                this.ajaxData = datas;
             },
-            ajaxData(val) {
-                var that = this;
-                var obj = {
-                    title: '视频监控',
-                    expand: true,
-                    render(h, {root, node, data}) {
-                        return that.renderContent(h, {root, node, data});
-                    },
-                    children: []
-                };
+            ajaxData: {
+                deep: true,
+                handler(val) {
+                    var that = this;
+                    that.searchData = [];
 
-                val.forEach(function (v) {
-                   obj.children.push(that.callBackDataToTreeData(v, true));
-                });
-                that.treeData = [obj];
+                    val.forEach(function (v) {
+                        that.searchData.push(that.callBackDataToTreeData(v, true));
+                    });
+
+                    var obj = {
+                        title: '视频监控',
+                        expand: true,
+                        render(h, {root, node, data}) {
+                            return that.renderContent(h, {root, node, data});
+                        },
+                        children: []
+                    };
 
 
+                    val.forEach(function (v) {
+                        obj.children.push(that.callBackDataToTreeData(v, false));
+                    });
 
-                var obj_s = {
-                    title: '视频监控',
-                    expand: true,
-                    loading: false,
-                    render(h, {root, node, data}) {
-                        return that.renderContent(h, {root, node, data});
-                    },
-                    children: []
-                };
-
-                val.forEach(function (v) {
-                    obj_s.children.push(that.callBackDataToTreeData(v, false));
-                });
-
-                that.searchData = [obj_s];
+                    that.treeData = [obj];
+                }
             }
         },
         mounted() {
@@ -134,10 +122,10 @@
             loadData(item, callback) {
                 var that = this;
 
-                for (var i = 0; i < that.treeData[0].children.length; i++) {
-                    if (that.treeData[0].children[i].videoPositionInfoId === item.videoPositionInfoId) {
+                for (var i = 0; i < that.searchData.length; i++) {
+                    if (that.searchData[i].videoPositionInfoId === item.videoPositionInfoId) {
 
-                        callback(that.treeData[0].children[i].children);
+                        callback(that.searchData[i].children);
 
                     }
                 }
@@ -156,6 +144,7 @@
                     that.$Spin.hide();
                     if (response.status === 1) {
                         that.ajaxData = response.result.videoPositionList;
+                        that.baseData = deepCopy(response.result.videoPositionList);
                     }
                     else {}
                 }).catch(function (error) {
@@ -173,16 +162,17 @@
                     videoPositionInfoId: children.videoPositionInfoId,
                     render(h, {root, node, data}) {
                         return that.renderContent(h, {root, node, data});
-                    },
-                    children: []
+                    }
                 }
 
                 if (children.puId) {
                     obj.puid = children.puId;
                 }
 
-                if (!deep) {
+
+                if (children.childVideoPosition && children.childVideoPosition.length > 0) {
                     obj.loading = false;
+                    obj.children = [];
                 }
 
                 if (deep && children.childVideoPosition && children.childVideoPosition.length > 0) {
@@ -196,46 +186,58 @@
 
             //  提交检索
             onSubmit() {
-                this.keyword = this.searchValue;
+                this.keyword = this.searchValue.trim();
             },
 
             // 数据检索
+
+            /**
+             * @keyname [String]
+             * @children [Object]
+             * @return Object || null
+             */
             searchTree(keyname, children) {
-                var that = this;
-                var pChildren = [];
+                var pChildren = {};
 
-                children.forEach(function (val) {
-                    var rChild = [];
-                    var o = {};
-                    if (val.children && val.children.length > 0) {
-                        rChild = that.searchTree(keyname, val.children);
-                    }
-                    else {
-                        rChild = [];
-                    }
+                var childVideoPosition = [];
 
-                    if(val.title.indexOf(keyname) >= 0 || rChild.length > 0) {
-                        o.title = val.title;
-                        o.expand = true;
-                        o.render = val.render;
-                        if (val.puid) {
-                            o.puid = val.puid;
+                if (children.childVideoPosition && children.childVideoPosition.length > 0) {
+                    children.childVideoPosition.forEach(function (val) {
+                        if (val.groupName.indexOf(keyname) >= 0){
+                            childVideoPosition.push(deepCopy(val));
                         }
-                        o.children = rChild;
+                    });
+                }
 
-                        pChildren.push(o);
+                if (childVideoPosition.length > 0) {
+                    pChildren = {
+                        groupName: children.groupName,
+                        insTime: children.insTime,
+                        stationId: children.stationId,
+                        videoPositionInfoId: children.videoPositionInfoId,
+                        childVideoPosition: childVideoPosition
+                    };
+                }
+                else {
+                    if (children.groupName.indexOf(keyname) >= 0){
+                        pChildren = {
+                            groupName: children.groupName,
+                            insTime: children.insTime,
+                            stationId: children.stationId,
+                            videoPositionInfoId: children.videoPositionInfoId
+                        };
                     }
                     else {
-
+                        pChildren = null;
                     }
-                });
+                }
+
                 return pChildren;
             },
 
             // 树的方法
             onSelectChange(n) {
                 n[0].expand = !n[0].expand;
-
             },
             renderContent (h, { root, node, data }) {
                 var that = this;
@@ -271,7 +273,9 @@
                              },
                              on: {
                                  click: () => {
-                                     data.expand = !data.expand;
+                                     if (data.children && data.children.length > 0) {
+                                         data.expand = !data.expand;
+                                     }
                                  }
                              }
                          }, dom);

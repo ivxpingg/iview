@@ -20,6 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.15.3",
+    "deep-copy": "^1.4.2",
     "echarts": "^3.7.2",
     "iscroll": "^5.2.0",
     "iview": "^2.8.0",
