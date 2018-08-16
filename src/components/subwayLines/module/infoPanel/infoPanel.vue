@@ -59,44 +59,44 @@
 
             <div class="dotted-line2"></div>
 
-            <div class="wait-info-panel">
+            <!--<div class="wait-info-panel">-->
 
-                <div class="wait-info-box">
-                    <div class="title title-left"><span>上</span><span>行</span></div>
-                    <div class="title title-right"><span>下</span><span>行</span></div>
+                <!--<div class="wait-info-box">-->
+                    <!--<div class="title title-left"><span>上</span><span>行</span></div>-->
+                    <!--<div class="title title-right"><span>下</span><span>行</span></div>-->
 
-                    <div class="station-wait station-wait-down">
-                        <div class="station-name station-name-left">{{datas.upWaitLongFirstStation}}<span>{{datas.upWaitLongFirstWaitTime}}</span><span class="unit">min</span></div>
-                        <div class="station-name station-name-right">{{datas.upWaitLongSecondStation}}<span>{{datas.upWaitLongSecondWaitTime}}</span><span class="unit">min</span></div>
-                    </div>
-                    <div class="dotted-vertical-line"></div>
-                    <div class="station-wait  station-wait-up">
-                        <div class="station-name station-name-left">{{datas.downWaitLongFirstStation}}<span>{{datas.downWaitLongFirstWaitTime}}</span><span class="unit">min</span></div>
-                        <div class="station-name station-name-right">{{datas.downWaitLongSecondStation}}<span>{{datas.downWaitLongSecondWaitTime}}</span><span class="unit">min</span></div>
-                    </div>
-                    <div class="explain">等待时间最长站点</div>
-                </div>
+                    <!--<div class="station-wait station-wait-down">-->
+                        <!--<div class="station-name station-name-left">{{datas.upWaitLongFirstStation}}<span>{{datas.upWaitLongFirstWaitTime}}</span><span class="unit">min</span></div>-->
+                        <!--<div class="station-name station-name-right">{{datas.upWaitLongSecondStation}}<span>{{datas.upWaitLongSecondWaitTime}}</span><span class="unit">min</span></div>-->
+                    <!--</div>-->
+                    <!--<div class="dotted-vertical-line"></div>-->
+                    <!--<div class="station-wait  station-wait-up">-->
+                        <!--<div class="station-name station-name-left">{{datas.downWaitLongFirstStation}}<span>{{datas.downWaitLongFirstWaitTime}}</span><span class="unit">min</span></div>-->
+                        <!--<div class="station-name station-name-right">{{datas.downWaitLongSecondStation}}<span>{{datas.downWaitLongSecondWaitTime}}</span><span class="unit">min</span></div>-->
+                    <!--</div>-->
+                    <!--<div class="explain">等待时间最长站点</div>-->
+                <!--</div>-->
 
 
 
-                <div class="wait-info-box">
-                    <div class="title title-left"><span>上</span><span>行</span></div>
-                    <div class="title title-right"><span>下</span><span>行</span></div>
+                <!--<div class="wait-info-box">-->
+                    <!--<div class="title title-left"><span>上</span><span>行</span></div>-->
+                    <!--<div class="title title-right"><span>下</span><span>行</span></div>-->
 
-                    <div class="station-wait station-wait-down">
-                        <div class="station-name station-name-left">{{datas.upWaitShortFirstStation}}<span>{{datas.upWaitShortFirstWaitTime}}</span><span class="unit">min</span></div>
-                        <div class="station-name station-name-right">{{datas.upWaitShortSecondStation}}<span>{{datas.upWaitShortSecondWaitTime}}</span><span class="unit">min</span></div>
-                    </div>
-                    <div class="dotted-vertical-line"></div>
-                    <div class="station-wait  station-wait-up">
-                        <div class="station-name station-name-left">{{datas.downWaitShortFirstStation}}<span>{{datas.downWaitShortFirstWaitTime}}</span><span class="unit">min</span></div>
-                        <div class="station-name station-name-right">{{datas.downWaitShortSecondStation}}<span>{{datas.downWaitShortSecondWaitTime}}</span><span class="unit">min</span></div>
-                    </div>
+                    <!--<div class="station-wait station-wait-down">-->
+                        <!--<div class="station-name station-name-left">{{datas.upWaitShortFirstStation}}<span>{{datas.upWaitShortFirstWaitTime}}</span><span class="unit">min</span></div>-->
+                        <!--<div class="station-name station-name-right">{{datas.upWaitShortSecondStation}}<span>{{datas.upWaitShortSecondWaitTime}}</span><span class="unit">min</span></div>-->
+                    <!--</div>-->
+                    <!--<div class="dotted-vertical-line"></div>-->
+                    <!--<div class="station-wait  station-wait-up">-->
+                        <!--<div class="station-name station-name-left">{{datas.downWaitShortFirstStation}}<span>{{datas.downWaitShortFirstWaitTime}}</span><span class="unit">min</span></div>-->
+                        <!--<div class="station-name station-name-right">{{datas.downWaitShortSecondStation}}<span>{{datas.downWaitShortSecondWaitTime}}</span><span class="unit">min</span></div>-->
+                    <!--</div>-->
 
-                    <div class="explain">等待时间最短站点</div>
-                </div>
+                    <!--<div class="explain">等待时间最短站点</div>-->
+                <!--</div>-->
 
-            </div>
+            <!--</div>-->
 
         </div>
 
