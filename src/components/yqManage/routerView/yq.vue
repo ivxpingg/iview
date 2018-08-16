@@ -87,18 +87,18 @@
                 this.topicType = 'all';
                 this.source = 'all';
                 this.cardName = '3';
-                this.dateRange = [new Date(), new Date()];
+                this.dateRange = [new Date(MOMENT().subtract(1, 'days').format('YYYY-MM-DD')), new Date(MOMENT().subtract(1, 'days').format('YYYY-MM-DD'))];
             },
             switchCardBySource(type) {
                 this.source = type;
                 this.topicType = 'all';
-                this.dateRange = [new Date(), new Date()];
+                this.dateRange = [new Date(MOMENT().subtract(1, 'days').format('YYYY-MM-DD')), new Date(MOMENT().subtract(1, 'days').format('YYYY-MM-DD'))];
                 this.cardName = '3';
             },
             switchCardByNatureType(type) {
                 this.topicType = type;
                 this.source = 'all';
-                this.dateRange = [new Date(), new Date()];
+                this.dateRange = [new Date(MOMENT().subtract(1, 'days').format('YYYY-MM-DD')), new Date(MOMENT().subtract(1, 'days').format('YYYY-MM-DD'))];
                 this.cardName = '3';
             },
 

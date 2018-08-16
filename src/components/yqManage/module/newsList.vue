@@ -128,7 +128,7 @@
             pDateRange: {
                 type: Array,
                 default() {
-                    return [new Date(), new Date()];
+                    return [new Date(MOMENT().subtract(1, 'days').format('YYYY-MM-DD')), new Date(MOMENT().subtract(1, 'days').format('YYYY-MM-DD'))];
                 }
             },
             // 发布渠道
@@ -152,6 +152,7 @@
         watch: {
             pDateRange(val){
                 this.dateRange = val;
+
                 this.sTime = MOMENT(val[0]).format('YYYY-MM-DD');
                 this.eTime = MOMENT(val[1]).format('YYYY-MM-DD');
                 this.onSearch();
@@ -161,18 +162,24 @@
                 this.eTime = MOMENT(this.dateRange[1]).format('YYYY-MM-DD');
             },
             source(val) {
+                var that = this;
                 this.channelType = val;
-                this.dateRange = [new Date(), new Date()];
+                this.dateRange = [new Date(MOMENT().subtract(1, 'days').format('YYYY-MM-DD')), new Date(MOMENT().subtract(1, 'days').format('YYYY-MM-DD'))];
                 this.sTime = MOMENT(this.dateRange[0]).format('YYYY-MM-DD');
                 this.eTime = MOMENT(this.dateRange[1]).format('YYYY-MM-DD');
-                this.onSearch();
+                setTimeout(function () {
+                    that.onSearch();
+                },50);
             },
             topicType(val) {
+                var that = this;
                 this.natureType = val;
-                this.dateRange = [new Date(), new Date()];
+                this.dateRange = [new Date(MOMENT().subtract(1, 'days').format('YYYY-MM-DD')), new Date(MOMENT().subtract(1, 'days').format('YYYY-MM-DD'))];
                 this.sTime = MOMENT(this.dateRange[0]).format('YYYY-MM-DD');
                 this.eTime = MOMENT(this.dateRange[1]).format('YYYY-MM-DD');
-                this.onSearch();
+                setTimeout(function () {
+                    that.onSearch();
+                },50);
             }
         },
         created() {
