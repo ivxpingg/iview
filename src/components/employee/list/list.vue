@@ -48,7 +48,7 @@
                             </FormItem>
                         </Form>
                         <div class="search-btn-panel">
-                            <Button class="mybtn" type="success" @click="search">查询</Button>
+                            <Button class="mybtn" type="success" @click="search('')">查询</Button>
                             <a :href="exportFileUrl" class="ivu-btn ivu-btn-success mybtn"><span>导出</span></a>
                             <!--<Button class="mybtn" type="success">导出</Button>-->
                         </div>
@@ -91,7 +91,8 @@
                 <Table  class="myTableIview" border :columns="columns" stripe :data="listData" :height="533"></Table>
                 <div class="ms-table-page">
                     <Page
-                        :total="searchParams.count"
+                        :total="page_count"
+                        :current="page_current"
                         :page-size="searchParams.pageSize"
                         :page-size-opts="page_size_opts"
                         placement="top"
@@ -417,18 +418,24 @@
                     updateBeginDate: '',           // 更新开始时间
                     updateEndDate: '',             // 更新结束时间
                     pageNo: 1,                     // 当前页数
-                    pageSize: 10                   // 每页记录数
+                    pageSize: 10,                  // 每页记录数
+                    count: 0                      // 总数据量
                 },
                 searchParams5: {
                     issuingUnit: '',
                     pageNo: 1,                     // 当前页数
-                    pageSize: 10                   // 每页记录数
+                    pageSize: 10,                  // 每页记录数
+                    count: 0                      // 总数据量
                 },
                 searchParams6: {
                     postCategory: '',
                     pageNo: 1,                     // 当前页数
-                    pageSize: 10                   // 每页记录数
+                    pageSize: 10,                  // 每页记录数
+                    count: 0                      // 总数据量
                 },
+
+                searchparamsIndex: '',  // '' || '3' || '4' || '5' || '6'
+
                 entryDate: '',
                 updateDate: '',
                 getCertificateTime: '',            // 时间控件 取证日期
@@ -547,6 +554,14 @@
         },
         components: { vFileUpload, vEmployeeAdd, vEmployeeEdit },
         computed: {
+            // 分页
+            page_count() {
+                return this['searchParams' + this.searchparamsIndex].count;
+            },
+            page_current() {
+                return this['searchParams' + this.searchparamsIndex].pageNo;
+            },
+
             // 性别
             employee_sex() {
                 for (let i = 0; i < this.dict_sex.length; i++) {
@@ -798,12 +813,13 @@
                 this.visible = true;
             },
             on_page_size_change(pageSize) {
-                this.searchParams.pageSize = pageSize;
-                this.getData();
+                this['searchParams' + this.searchparamsIndex].pageSize = pageSize;
+                this.getData(this.searchparamsIndex);
             },
             on_change(pageNo) {
-                this.searchParams.pageNo = pageNo;
-                this.getData();
+                // this.searchParams.pageNo = pageNo;
+                this['searchParams' + this.searchparamsIndex].pageNo = pageNo;
+                this.getData(this.searchparamsIndex);
             },
             getEmployeeInfoByID(id) {
                 var that = this;
@@ -908,7 +924,13 @@
                     that.searchParams.otherPost = "";
                 }
 
+
+                if(type !== undefined) {
+                    that.searchparamsIndex = type;
+                }
+
                 var params = type == undefined ? this.searchParams : this['searchParams' + type];
+
                 that.$Spin.show();
                 Util.ajax({
                     method: 'post',
@@ -920,13 +942,13 @@
                 }).then(function (response) {
                     that.$Spin.hide();
                     if (response.status == 1) {
-                        that.searchParams.count = response.result.page.count;
-                        that.searchParams.pageCount = Math.ceil(response.result.page.count / response.result.page.pageSize);
+                        that['searchParams' + that.searchparamsIndex].count = response.result.page.count;
+                        //that.searchParams.count = response.result.page.count;
+                        // that.searchParams.pageCount = Math.ceil(response.result.page.count / response.result.page.pageSize);
                         that.listData = response.result.page.list;
 
                         that.searchParams.queryOnJobNum = response.result.queryOnJobNum;
                         that.searchParams.totalOnJobNum = response.result.totalOnJobNum;
-
                     }
                     else {
                         console.log(response.errMsg);
@@ -1053,9 +1075,9 @@
             },
 
             // 查询按钮
-            search() {
+            search(type) {
                 this.searchParams.pageNo = 1;
-                this.getData();
+                this.getData(type);
             },
 
             // 新增或修改统计数据点击事件
@@ -1356,7 +1378,8 @@
                 flex: 1;
             }
             .top-right-panel {
-                flex: 1;
+                /*flex: 1;*/
+                width: 716px;
                 display: flex;
                 margin-left: 15px;
                 .echartPie {
