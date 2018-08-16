@@ -36,10 +36,10 @@
             return {
                 searchValue: '',     // 检索表单控件model
                 keyword: '',         // 检索关键字
-                baseData: [],
-                ajaxData: [],
-                treeData: [],        // 检索后的数据
-                searchData: [],
+                baseData: [],        // 视频树数据，首次请求赋值后就不再更改
+                ajaxData: [],        // 基于baseData数据，关键字检索后的数据。
+                treeData: [],        // 转化后树组件的data数据(只包含到站点层)
+                searchData: [],      // 转化后的树组件完整数据
 
                 iframeSrc: '',
                 windowIndex: 0,
