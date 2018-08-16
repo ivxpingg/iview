@@ -544,10 +544,18 @@
             }
         },
         mounted() {
-
+            var that = this;
             this.tableHeight = document.querySelector('.infoTable-container').clientHeight;
 
-            this.getTrainRun();
+            this.getTrainRunUp();
+
+            // setTimeout(function () {
+            //    that.getTrainRunDown();
+            // }, 1000);
+
+            setTimeout(function () {
+                that.getTrainRun();
+            }, that.setTimeOutInfoPanelDataTime);
         },
         methods: {
             upTable() {
@@ -555,6 +563,11 @@
             },
             downTable() {
                 this.upOrDownTable = false;
+
+
+                if (this.tableDataDown.length === 0) {
+                    this.getTrainRunDown();
+                }
             },
 
             updateTable(val, valOld, tableDom, direction) {
@@ -695,16 +708,73 @@
                 }
             },
 
+            // 分开获取
+            getTrainRunUp () {
+                var that = this;
+
+                Util.ajax({
+                    method: "get",
+                    url: '/xm/run/runCount/getPlanAndActualRunInfo',
+                    params: {
+                        t: Math.random(),
+                        direction: '0'
+                    }
+                }).then(function(response){
+                    that.loading = false;
+                    if (response.status === 1) {
+                        that.tableDataUp = response.result.upPlanAndActual.slice(0,10);
+
+                        setTimeout(function () {
+                            that.tableDataUp = response.result.upPlanAndActual;
+
+                        } ,500);
+
+                    }
+                    else {}
+                }).catch(function (error) {
+                    that.loading = false;
+                })
+            },
+            getTrainRunDown () {
+                var that = this;
+                that.loading = true;
+                Util.ajax({
+                    method: "get",
+                    url: '/xm/run/runCount/getPlanAndActualRunInfo',
+                    params: {
+                        t: Math.random(),
+                        direction: '1'
+                    }
+                }).then(function(response){
+                    that.loading = false;
+                    if (response.status === 1) {
+                        that.tableDataDown = response.result.downPlanAndActual.slice(0,10);
+
+                        setTimeout(function () {
+                            that.tableDataDown = response.result.downPlanAndActual;
+                        } ,500);
+
+
+                    }
+                    else {}
+                }).catch(function (error) {
+                    that.loading = false;
+                })
+            },
+
             // 获取
             getTrainRun() {
                 var that = this;
                 Util.ajax({
                     method: "get",
-                    url: '/xm/run/runCount/getPlanAndActualRunInfo?t=' + Math.random(),
-                    data: {}
+                    url: '/xm/run/runCount/getPlanAndActualRunInfo',
+                    params: {
+                        t: Math.random(),
+                    }
                 }).then(function(response){
                     that.loading = false;
                     if (response.status === 1) {
+
                         that.watchTableDataUp = response.result.upPlanAndActual;
                         that.watchTableDataDown = response.result.downPlanAndActual;
                     }
