@@ -10,7 +10,7 @@
 
         <div class="legend-box">
             <div class="title">图例说明</div>
-            <div class="sub-title">Legend</div>
+            <!--<div class="sub-title">Legend</div>-->
             <div class="flex-panel">
                 <div class="checkList">
                     <div class="line line1"><Checkbox v-model="lines.line1"><span class="color-panel"></span>一号线(运营中)</Checkbox></div>
@@ -136,7 +136,7 @@
                 @at-root .checkList {
                     .line {
                         position: relative;
-                        padding: 9px 0;
+                        padding: 6px 0;
                         line-height: 20px;
                         .color-panel {
                             display: inline-block;
@@ -147,7 +147,7 @@
                             line-height: 1;
                             position: relative;
                             width: 88px;
-                            height: 20px;
+                            height: 8px;
                             background-color: rgb(202,202,202);
                             border-radius: 10px;
                         }
@@ -163,7 +163,7 @@
                         label {
                             font-size: 12px;
                             display: inline-block;
-                            margin: 0 0 25px;
+                            margin: 0 0 13px;
 
                             img {
                                 margin-right: 28px;
@@ -179,10 +179,17 @@
 
                         &:first-child{
                             margin-top: 9px;
-
                             img {
-                                margin-left: 5px;
-                                margin-right: 35px;
+                                margin-left: 8px;
+                                margin-right: 38px;
+                                width: 15px;
+                            }
+                        }
+                        &:nth-child(2){
+                            img {
+                                margin-left: 4px;
+                                margin-right: 32px;
+                                width: 25px;
                             }
                         }
                     }
