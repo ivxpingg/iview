@@ -118,6 +118,7 @@
                                 Util.cookie.set('logintime', MOMENT().format('YYYY-MM-DD hh:mm:ss') , new Date(new Date().getTime() + 7 * 24 * 60 * 1000))
                                 that.$store.commit('setToken', response.result.sessionid);
                                 that.$store.commit('setName', response.result.name);
+                                that.$store.commit('setUserId', response.result.userId);
                                 let router = new VueRouter();
                                 if (that.$route.query.redirect) {
                                     router.push(that.$route.query.redirect);

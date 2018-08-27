@@ -39,14 +39,18 @@
             <div slot="footer"></div>
         </Modal>
 
+        <div>
+            <div>当前在线用户</div>
 
+        </div>
 
     </div>
 </template>
 <script>
     import vAddressList from '../module/addressList.vue';
     import vAddressList2 from '../module/addressList2.vue';
-    import vBMap from '../module/BMap2.vue';
+    import vBMap from '../module/BMap.vue';
+    import Util from '../../../libs/util';
     export default {
         data() {
             return {
@@ -58,7 +62,26 @@
             };
         },
         components: {vAddressList, vAddressList2, vBMap},
+        destroyed() {
+            this.deleteOnlineUser();
+        },
+        mounted() {
+
+        },
         methods: {
+
+            /**
+             * 删除在线用户
+             */
+            deleteOnlineUser() {
+                Util.ajax({
+                    method: 'get',
+                    url: '/xm/emerg/emergBaseData/deleteOnlineUser'
+                }).then(function (response) {
+
+                });
+            },
+
             onShowAddressList() {
                 this.showAddressList1 = !this.showAddressList1;
             },

@@ -249,7 +249,10 @@
                                 var router = new VueRouter();
                                 Util.cookie.unset('xmgd');
                                 Util.cookie.unset('xmgdname');
+                                Util.cookie.unset('xmgduserid');
                                 that.$store.commit('setToken', null);
+                                that.$store.commit('setName', null);
+                                that.$store.commit('setUserId', null);
                                 router.push({ path: '/' });
                             })
                             .catch(function (error) {

@@ -82,6 +82,7 @@ const store = new Vuex.Store({
     state: {
         token: null,
         name: '',
+        userId: '',
         systemScroll: null
     },
     getters: {
@@ -93,6 +94,9 @@ const store = new Vuex.Store({
         },
         setName(state, name) {
             state.name = name;
+        },
+        setUserId(state, userId) {
+            state.userId = userId;
         },
         setSystemScroll(state, oIScroll) {
             state.systemScroll = oIScroll;

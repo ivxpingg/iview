@@ -4,23 +4,22 @@
 
         </div>
 
-        <div class="bus-info-panel" v-show="busInfo.length > 0">
+        <div class="bus-info-panel" v-show="busCompanys.length > 0">
             <div class="title">承运公交公司信息</div>
-            <div v-for="item in busInfo" class="info-box">
-                <div class="item">{{item.department}}</div>
-                <div class="item">值班电话<span>{{item.tel}}</span></div>
-                <div class="item">负责人<span>{{item.name1}}</span> <span>{{item.phone1}}</span></div>
-                <div class="item">联系人<span>{{item.name2}}</span> <span>{{item.phone2}}</span></div>
-
+            <div v-for="item in busCompanys" class="info-box">
+                <div class="item">{{item.companyName}}</div>
+                <div class="item">值班电话<span>{{item.dutyTelephone}}</span></div>
+                <div class="item">负责人<span>{{item.principal}}</span> <span>{{item.principalPhone}}</span></div>
+                <div class="item">联系人<span>{{item.contact}}</span> <span>{{item.contactPhone}}</span></div>
             </div>
         </div>
         
         <div class="breakImg" :class="{breakImgShow: breakImgShow}">
-            <img :src="domin + img" alt="">
+            <img :src="domain + img" alt="">
             <Button class="btn-close" type="ghost" shape="circle" icon="close-round" @click="breakClose"></Button>
         </div>
 
-        <div v-if="busInfo.length > 0" class="legend-panel" :class="{breakImgShow: breakImgShow}">
+        <div v-if="busCompanys.length > 0" class="legend-panel" :class="{breakImgShow: breakImgShow}">
             <div class="item">
                 <div class="item-legend legend-1"></div>
                 <div class="item-msg">故障站点或故障区段</div>
@@ -55,13 +54,18 @@
             </div>
         </div>
 
-        <div class="echart-panel demo-spin-col" :class="{ isshow: busInfo.length > 0}">
+        <div class="echart-panel demo-spin-col" :class="{ isshow: busCompanys.length > 0}">
             <div class="title">
                 <div class="t1">进站客流分析</div>
                 <div class="t2">数据更新于{{time}}</div>
             </div>
             <div ref="echart1" class="echart"></div>
             <Spin v-if="loading" fix size="large"></Spin>
+        </div>
+
+        <div class="login-panel">
+            <div class="title">当前在线用户</div>
+            <vLoginUser></vLoginUser>
         </div>
         
     </div>
@@ -72,36 +76,52 @@
     import echarts from 'echarts';
     import DB_data from './js/databaseData';
     import MOMENT from 'moment';
+
+    import bmap from './js/bmap/bmap';
+    import vLoginUser from './LoginUser';
     export default {
+        components: {vLoginUser},
         data() {
             return {
-                busInfo: [],
-                domin: Util.staticImgUrl + '/static/img/breakimg/',
-                img: '',
-                breakImgShow: false,
+                busCompanyInfo: [],             // 承运公交信息
+                busCompanys: [],
+                domain: Util.staticImgUrl + '/static/img/breakimg/',  // 静态资源 路径
+                img: '',                 // 故障运行交路图
+                breakImgShow: false,     // 是否显示中断
                 loading: false,
-
-                stationIds: '',    // 存放当前中断区段包含站点, 用“，”分开站点Id  ps: '2,3,4'
-
-                echart1: null,
+                stationIds: '',          // 存放当前中断区段包含站点, 用“，”分开站点Id  ps: '2,3,4'
+                echart1: null,           // 图表对象
                 echartData: [],
                 option1: {
                     series: [{
                         name: '进站客流数据',
                         data: []
                     }]
-                }
-            }
+                },
+
+                roleList: [],            // 角色列表
+                map: null,               // 百度地图对象
+                Auth: null,              // 权限实例对象
+                StationAndSection: null, // stationAndSection 对象
+                stationAndSectionItem: {},
+                breakLine: null,
+                busInfo: null,
+
+                // 当前在线用户
+
+            };
         },
         mounted() {
-            var that = this;
             this.setEchart();
-            bmap_main(that, 'bmap');
+            bmap(this);
         },
         watch: {
-            stationIds: function (val) {
-                if (val != "") {
-                    this.getEchartData();
+            stationAndSectionItem: {
+                deep: true,
+                handler(val) {
+                    if (val.effectStation) {
+                        this.getEchartData();
+                    }
                 }
             },
             echartData(val) {
@@ -134,7 +154,6 @@
 
             // 饼图 - 初始化图表
             setEchart() {
-                var that = this;
                 this.echart1 = echarts.init(this.$refs.echart1);
                 var option = {
                     color: ['#88c897', '#8e81bc','#65aadd','#f3994f', '#ef857d', '#2ec7c9', '#b6a2de', '#ffb980', '#d87a80'],
@@ -149,7 +168,7 @@
                     },
                     tooltip : {
                         trigger: 'item',
-                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                        formatter: '{a} <br/>{b} : {c} ({d}%)'
                     },
                     legend: {
 
@@ -183,7 +202,6 @@
                         }
                     ]
                 };
-
                 this.echart1.setOption(option);
             },
 
@@ -195,12 +213,12 @@
                     method: "get",
                     url: '/xm/run/passengerCount/getLastPassengerFlow',
                     params: {
-                        stationIds: that.stationIds
+                        stationIds: that.stationAndSectionItem.effectStation
                     }
                 }).then(function (response) {
                     that.loading = false;
 
-                    if (response.status == 1) {
+                    if (response.status === 1) {
                         that.echartData = response.result.passengerFlowList;
                     }
                     else {
@@ -258,7 +276,7 @@
 
         .bus-info-panel {
             position: absolute;
-            top: 30px;
+            top: 20px;
             right: 20px;
             background: #63b1e3;
             overflow: hidden;
@@ -424,10 +442,10 @@
         .echart-panel {
             position: absolute;
             padding-top: 50px;
-            top: 100px;
-            left: 10px;
-            width: 350px;
-            height: 400px;
+            bottom: 250px;
+            right: 5px;
+            width: 300px;
+            height: 250px;
             background-color: rgba(255,255,255, 0.8);
             border: 4px solid #63b1e3;
             border-radius: 8px;
@@ -458,7 +476,30 @@
 
             .echart {
                 width: 100%;
-                height: 350px;
+                height: 150px;
+            }
+        }
+
+        .login-panel {
+            position: absolute;
+            padding-top: 50px;
+            top: 80px;
+            left: 5px;
+            width: 350px;
+            background-color: rgba(255,255,255, 0.8);
+            border: 4px solid #63b1e3;
+            border-radius: 8px;
+            z-index: 1;
+
+            .title {
+                position: absolute;
+                top: 10px;
+                left: 0;
+                width: 100%;
+                font-size: 16px;
+                line-height: 20px;
+                text-align: center;
+                z-index: 10;
             }
         }
     }
