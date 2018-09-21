@@ -15,7 +15,7 @@
                     { title: '值班电话', key: 'dutyTelephone', align: 'center' }
                 ],
                 tableData: []
-            }
+            };
         },
         props: {
             searchValue: {
