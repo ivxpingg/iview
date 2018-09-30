@@ -1,11 +1,35 @@
 <template>
     <div class="LoginUser-container">
-        <Table :data="tableData"
-               border
-               :columns="tableColumns"
-               :height="185"
-               
-               width="100%"></Table>
+        <!--<Table :data="tableData"-->
+               <!--border-->
+               <!--:columns="tableColumns"-->
+               <!--:height="185"-->
+
+               <!--width="100%"></Table>-->
+        <div class="user-list-item">
+            <span class="item item-color-1">轨</span>
+            <template v-for="item in userList">
+                <span v-if="item.roleNameList.indexOf('轨道公司') > -1" class="user-name">{{item.name}}</span>
+            </template>
+        </div>
+        <div class="user-list-item">
+            <span class="item item-color-2">管</span>
+            <template v-for="item in userList">
+                <span v-if="item.roleNameList.indexOf('运管处') > -1" class="user-name">{{item.name}}</span>
+            </template>
+        </div>
+        <div class="user-list-item">
+            <span class="item item-color-3">公</span>
+            <template v-for="item in userList">
+                <span v-if="item.roleNameList.indexOf('公交公司') > -1" class="user-name">{{item.name}}</span>
+            </template>
+        </div>
+        <div class="user-list-item">
+            <span class="item item-color-4">执</span>
+            <template v-for="item in userList">
+                <span v-if="item.roleNameList.indexOf('执法支队') > -1" class="user-name">{{item.name}}</span>
+            </template>
+        </div>
     </div>
 </template>
 
@@ -53,7 +77,17 @@
                 tableData: []
             };
         },
-
+        computed: {
+            userList() {
+                return this.tableData.filter(val => {
+                    return val.account !== 'admin' && (
+                        val.roleNameList.indexOf('轨道公司') > -1 ||
+                        val.roleNameList.indexOf('运管处') > -1 ||
+                        val.roleNameList.indexOf('公交公司') > -1 ||
+                        val.roleNameList.indexOf('执法支队') > -1);
+                });
+            }
+        },
         mounted() {
             MOMENT.locale('zh-cn');
             this.addOnlineUser();
@@ -92,5 +126,49 @@
 
 <style lang="scss" scoped>
     .LoginUser-container {
+        .user-list-item {
+            position: relative;
+            padding: 5px 10px 5px 45px;
+            overflow: hidden;
+            min-height: 35px;
+            .item {
+                position: absolute;
+                top: 2px;
+                left: 10px;
+                display: inline-block;
+                width: 30px;
+                height: 30px;
+                font-size: 15px;
+                font-weight: 700;
+                text-align: center;
+                line-height: 26px;
+                border: 2px solid #FFF;
+                border-radius: 50%;
+
+                &.item-color-1 {
+                    color: #19be6b;
+                    border-color: #19be6b;
+                }
+                &.item-color-2 {
+                    color: #2d8cf0;
+                    border-color: #2d8cf0;
+                }
+                &.item-color-3 {
+                    color: #ed3f14;
+                    border-color: #ed3f14;
+                }
+                &.item-color-4 {
+                    color: #f90;
+                    border-color: #f90;
+                }
+            }
+
+            .user-name {
+                display: inline-block;
+                padding: 0 5px;
+                font-size: 15px;
+            }
+        }
+
     }
 </style>

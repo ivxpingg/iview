@@ -4,6 +4,15 @@
 
         </div>
 
+        <div class="fault-by-info" v-if="busCompanys.length > 0">
+            <span class="inner">
+                <span>发起人：</span>
+                <span style="padding-right: 10px;">{{currentFaultRecord.userName}} </span>
+                <span> 发起时间：</span>
+                <span>{{currentFaultRecord.happenTime}}</span>
+            </span>
+        </div>
+
         <div class="bus-info-panel" v-show="busCompanys.length > 0">
             <div class="title">承运公交公司信息</div>
             <div v-for="item in busCompanys" class="info-box">
@@ -63,15 +72,25 @@
             <Spin v-if="loading" fix size="large"></Spin>
         </div>
 
-        <div class="login-panel">
-            <div class="title">当前在线用户</div>
-            <vLoginUser></vLoginUser>
+        <div class="position-left" v-if="currentFaultRecord.faultRecordId">
+            <div class="login-panel">
+                <div class="title">当前在线用户</div>
+                <vLoginUser></vLoginUser>
+            </div>
+
+            <vBusInfo ref="busInfo" v-if="isBusRole && busCompanys.length > 0"
+                      class="bus-conn-panel"
+                      :busStopPositionList="busStopPositionList"
+                      :faultRecordId="currentFaultRecord.faultRecordId">
+                <Button style="position: absolute; top: 5px; right: 5px;" type="primary" @click="onClick_switch">{{bus_destination_showHidden? '隐藏目的地': '显示目的地'}}</Button>
+
+            </vBusInfo>
         </div>
         
     </div>
 </template>
 <script>
-    import bmap_main from './js/bmap_main2';
+    // import bmap_main from './js/bmap_main2';
     import Util from '../../../libs/util';
     import echarts from 'echarts';
     import DB_data from './js/databaseData';
@@ -79,8 +98,9 @@
 
     import bmap from './js/bmap/bmap';
     import vLoginUser from './LoginUser';
+    import vBusInfo from './busInfo/busInfo';
     export default {
-        components: {vLoginUser},
+        components: {vLoginUser, vBusInfo},
         data() {
             return {
                 busCompanyInfo: [],             // 承运公交信息
@@ -106,10 +126,40 @@
                 stationAndSectionItem: {},
                 breakLine: null,
                 busInfo: null,
+                busSupport: null,
 
                 // 当前在线用户
 
+                // 公交车辆安排
+                // 公交可停靠位置
+                busStopPositionList: [],
+                // 当前故障记录
+                currentFaultRecord: {
+                    faultRecordId: '',
+                    faultStatus: '',
+                    faultStatusStr: '',
+                    happenTime: '',
+                    stationSectionId: '',
+                    userId: ''
+                },
+
+                // 定时获取公交实时位置
+                setInterval_busPosition: null,
+                setInterval_loginUser: null,
+
+                // 地图是否显示公交车的目的地
+                bus_destination_showHidden: false
             };
+        },
+        destroyed() {
+            // if (this.setInterval_busPosition) {
+            //     clearInterval(this.setInterval_busPosition);
+            // }
+            // if (this.setInterval_loginUser) {
+            //     clearInterval(this.setInterval_loginUser);
+            // }
+            this.setInterval_busPosition ? clearInterval(this.setInterval_busPosition) : '';
+            this.setInterval_loginUser ? clearInterval(this.setInterval_loginUser) : '';
         },
         mounted() {
             this.setEchart();
@@ -135,6 +185,9 @@
                 });
 
                 this.echart1.setOption(this.option1);
+            },
+            bus_destination_showHidden(val) {
+                val ? this.busSupport.show_text() : this.busSupport.show_hide();
             }
         },
         computed: {
@@ -145,6 +198,10 @@
                 else {
                     return '';
                 }
+            },
+            // 是否是公交角色
+            isBusRole() {
+                return this.Auth ? this.Auth.handleAuth('2') : false;
             }
         },
         methods:{
@@ -228,18 +285,44 @@
                     that.loading = false;
                     console.dir(err);
                 });
+            },
+
+            onClick_switch() {
+                this.bus_destination_showHidden = !this.bus_destination_showHidden;
             }
         }
     }
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
     .bmap-container {
+        position: relative;
         width: 100%;
         height: 100%;
         user-select: none;
+        min-height: 800px;
         .bmap {
             width: 100%;
             height: 100%;
+            min-height: 800px;
+        }
+
+        .fault-by-info {
+            position: fixed;
+            z-index: 1;
+            top:  87px;
+            left: 0;
+            right: 0;
+            line-height: 40px;
+            font-size: 14px;
+            text-align: center;
+
+            .inner {
+                display: inline-block;
+                padding: 0 16px;
+                border-radius: 0 0 4px 4px;
+                color: #FFF;
+                background-color: #63b1e3;
+            }
         }
 
         .breakImg {
@@ -323,10 +406,10 @@
         }
 
         .legend-panel {
-            position: fixed;
+            position: absolute;
             padding: 5px;
             right: 5px;
-            bottom: 35px;
+            bottom: 0px;
             width: 300px;
             height: 250px;
             background-color: rgba(255,255,255,0.8);
@@ -480,28 +563,49 @@
             }
         }
 
-        .login-panel {
+        .position-left {
             position: absolute;
             padding-top: 50px;
-            top: 80px;
+            top: 20px;
             left: 5px;
-            width: 350px;
-            background-color: rgba(255,255,255, 0.8);
-            border: 4px solid #63b1e3;
-            border-radius: 8px;
             z-index: 1;
 
-            .title {
-                position: absolute;
-                top: 10px;
-                left: 0;
-                width: 100%;
-                font-size: 16px;
-                line-height: 20px;
-                text-align: center;
-                z-index: 10;
+            .login-panel {
+                position: relative;
+                margin-bottom: 10px;
+                width: 350px;
+                background-color: rgba(255,255,255, 0.8);
+                border: 4px solid #63b1e3;
+                border-radius: 8px;
+
+                .title {
+                    /*position: absolute;*/
+                    /*top: 10px;*/
+                    /*left: 0;*/
+                    line-height: 40px;
+                    width: 100%;
+                    font-size: 16px;
+                    font-weight: 700;
+                    text-align: center;
+                    z-index: 10;
+                    border-bottom: 1px solid #dcdee2;
+                }
+            }
+
+            .bus-conn-panel {
+                /*position: absolute;*/
+                /*padding-top: 50px;*/
+                /*top: 330px;*/
+                /*left: 5px;*/
+                width: 350px;
+                background-color: rgba(255,255,255, 0.8);
+                border: 4px solid #63b1e3;
+                border-radius: 8px;
+                z-index: 1;
             }
         }
+
+
     }
 </style>
 

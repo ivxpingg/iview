@@ -4,7 +4,8 @@
 
 import Util from '../../../../../libs/util';
 import MOMENT from 'moment';
-
+import { getCurrentFaultRecord } from  './data';
+import BusSupport from "./module/busSupport";
 class Auth {
     constructor(vueComponent, roleList) {
         this.vm = vueComponent;
@@ -64,6 +65,11 @@ class Auth {
                 this.vm.stationAndSectionItem = target.itemInfo;
                 this.vm.breakLine.setBreakLine(target.itemInfo);
                 this.vm.busInfo.setBusInfo(target.itemInfo);
+
+                getCurrentFaultRecord().then(data => {
+                    this.vm.currentFaultRecord = Object.assign(this.vm.currentFaultRecord, data);
+                });
+
             }
             else {
                 this.vm.$Message.error({
@@ -92,7 +98,9 @@ class Auth {
                 this.vm.busInfo.hideBusSign(this.vm.stationAndSectionItem.sectionNo);
                 this.vm.busInfo.hideBusCompany();
                 this.vm.StationAndSection.show();
+                this.vm.busSupport.clear();
                 this.vm.breakImgShow = false;
+                this.vm.currentFaultRecord.faultRecordId = '';
             }
             else {
                 this.vm.$Message.error({
@@ -118,7 +126,9 @@ class Auth {
                 this.vm.busInfo.hideBusSign(this.vm.stationAndSectionItem.sectionNo);
                 this.vm.busInfo.hideBusCompany();
                 this.vm.StationAndSection.show();
+                this.vm.busSupport.clear();
                 this.vm.breakImgShow = false;
+                this.vm.currentFaultRecord.faultRecordId = '';
             }
             else {
                 this.vm.$Message.error({

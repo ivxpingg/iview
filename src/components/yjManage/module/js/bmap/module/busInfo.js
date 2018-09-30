@@ -31,6 +31,7 @@ export default class BusInfo {
 
             getBusStopPositionList(stationAndSectionItem.effectStation)
                 .then((data) => {
+                    this.vm.busStopPositionList = data;
                     this._createBusSign(data, stationAndSectionItem);
                 });
         }
