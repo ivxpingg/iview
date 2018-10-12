@@ -157,9 +157,6 @@ export default class busSupport {
                 this.busSupport_map.push(marker);
             }
         });
-
-        this.show_hide();
-
     }
 
     clear() {
@@ -181,7 +178,7 @@ export default class busSupport {
         });
     }
 
-    show_hide() {
+    hide_text() {
         this.busSupport_text_map.forEach((v) => {
             v.hide();
         });

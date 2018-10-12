@@ -78,7 +78,7 @@
                 <vLoginUser></vLoginUser>
             </div>
 
-            <vBusInfo ref="busInfo" v-if="isBusRole && busCompanys.length > 0"
+            <vBusInfo ref="busInfo" v-show="isBusRole && busCompanys.length > 0"
                       class="bus-conn-panel"
                       :busStopPositionList="busStopPositionList"
                       :faultRecordId="currentFaultRecord.faultRecordId">
@@ -148,7 +148,7 @@
                 setInterval_loginUser: null,
 
                 // 地图是否显示公交车的目的地
-                bus_destination_showHidden: false
+                bus_destination_showHidden: true
             };
         },
         destroyed() {
@@ -187,7 +187,7 @@
                 this.echart1.setOption(this.option1);
             },
             bus_destination_showHidden(val) {
-                val ? this.busSupport.show_text() : this.busSupport.show_hide();
+                val ? this.busSupport.show_text() : this.busSupport.hide_text();
             }
         },
         computed: {

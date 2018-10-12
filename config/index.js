@@ -22,8 +22,8 @@ module.exports = {
             // '/metrosupervision': { target: 'http://10.23.120.99:8102', changeOrigin: true }
             // '/metrosupervision/xm': { target: 'http://cs.doudou360.com:8088', changeOrigin: tre },
             // '/metrosupervision/static': { target: 'http://cs.doudou360.com:8088', changeOrigin: true }
-            // '/metrosupervision': { target: 'http://192.168.0.253:8889', changeOrigin: true }
-            '/metrosupervision': { target: 'http://192.168.0.100:8088/', changeOrigin: true }
+            '/metrosupervision': { target: 'http://192.168.0.253:8889', changeOrigin: true }
+            // '/metrosupervision': { target: 'http://192.168.0.190:8088/', changeOrigin: true }
 
         },
         // CSS Sourcemaps off by default because relative paths are "buggy"
