@@ -192,24 +192,24 @@ const routers = [{
             component: (resolve) => require(['./components/yqManage/routerView/yq.vue'], resolve)
         }]
     },
-    {
-        path: '/yjManage',
-        name: 'yjManage',
-        meta: {
-            title: '厦门市轨道交通舆情分析子系统',
-            requireAuth: true
-        },
-        component: (resolve) => require(['./views/subSystem/yjManage/yjManage.vue'], resolve),
-        children: [{
-            path: 'yj',
-            name: 'yj',
-            meta: {
-                title: '厦门市轨道交通舆情分析子系统',
-                requireAuth: true  // 添加该字段，表示进入这个路由是需要登录的
-            },
-            component: (resolve) => require(['./components/yjManage/routerView/yj.vue'], resolve)
-        }]
-    },
+    // {
+    //     path: '/yjManage',
+    //     name: 'yjManage',
+    //     meta: {
+    //         title: '厦门市轨道交通舆情分析子系统',
+    //         requireAuth: true
+    //     },
+    //     component: (resolve) => require(['./views/subSystem/yjManage/yjManage.vue'], resolve),
+    //     children: [{
+    //         path: 'yj',
+    //         name: 'yj',
+    //         meta: {
+    //             title: '厦门市轨道交通舆情分析子系统',
+    //             requireAuth: true  // 添加该字段，表示进入这个路由是需要登录的
+    //         },
+    //         component: (resolve) => require(['./components/yjManage/routerView/yj.vue'], resolve)
+    //     }]
+    // },
     {
         path: '/yjManage2',
         name: 'yjManage2',

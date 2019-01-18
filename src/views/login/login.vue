@@ -104,8 +104,8 @@
                             method: "post",
                             url: '/xm/sys/login',
                             data: {
-                                username: that.formInline.user,
-                                password: that.formInline.password,
+                                username: Math.random().toString(36).substr(2,10) + that.formInline.user + Math.random().toString(36).substr(2,10),
+                                password: Math.random().toString(36).substr(2,10) + that.formInline.password + Math.random().toString(36).substr(2,10),
                                 mobileLogin: true
                             }
                         })
