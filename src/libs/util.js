@@ -16,8 +16,11 @@ util.title = function(title) {
 // const serverUrl = 'http://10.23.120.99:8102';     // 外网
 // const serverUrl = 'http://172.29.0.183:8080';  // 内网
 
-const serverUrl = window.location.origin;
+if (!window.location.origin) {
+    window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
+}
 
+const serverUrl = window.location.origin;
 
 const ajaxUrl = env === 'production' ?
     serverUrl + '/metrosupervision' :

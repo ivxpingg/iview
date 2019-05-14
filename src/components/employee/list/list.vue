@@ -57,7 +57,8 @@
                 <div class="btn-panel">
 
                     <!--<router-link class="ivu-btn ivu-btn-primary ivu-btn-circle" to="employeeAdd">新增从业人员信息</router-link>-->
-                    <Button type="primary" shape="circle" @click="onEmployeeAdd">新增从业人员信息</Button>
+                    <Button type="primary" shape="circle" @click="onEmployeeAdd" style="width: 150px;">新增从业人员信息</Button>
+                    <Button type="primary" shape="circle" @click="modal_import = true" style="width: 60px;">导入</Button>
 
                     <div class="v-file-up-load item-text">总在职人员数: <span class="text">{{searchParams.totalOnJobNum}}</span> </div>
                     <div class="v-file-up-load item-text">当前查询结果人员数: <span class="text-green">{{searchParams.queryOnJobNum}}</span></div>
@@ -322,6 +323,12 @@
             <vEmployeeEdit :v-if="visibleEdit" status="edit" :employeeId="editEmployeeId" @hideModalEdit="hideModalEdit"></vEmployeeEdit>
             <div slot="footer"></div>
         </Modal>
+
+        <Modal title="导入"
+               footer-hide
+               v-model="modal_import">
+            <vModalImport @modal-callack="getData"></vModalImport>
+        </Modal>
     </div>
 
 </template>
@@ -333,6 +340,7 @@
     import echarts from 'echarts';
     import vEmployeeAdd from '../add/add.vue';
     import vEmployeeEdit from '../add/add.vue';
+    import vModalImport from './modalImport';
     export default {
         data() {
             return {
@@ -549,10 +557,12 @@
                             onClick: (picker) => {}
                         }
                     ]
-                }
+                },
+
+                modal_import: false
             }
         },
-        components: { vFileUpload, vEmployeeAdd, vEmployeeEdit },
+        components: { vFileUpload, vEmployeeAdd, vEmployeeEdit, vModalImport },
         computed: {
             // 分页
             page_count() {
@@ -1362,7 +1372,7 @@
                         }
                     }
                     .ivu-btn {
-                        margin-right: 45px;
+                        margin-right: 25px;
                         padding: 0 15px;
                         width: 187px;
                         height: 26px;
