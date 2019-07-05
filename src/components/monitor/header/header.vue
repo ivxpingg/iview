@@ -50,7 +50,7 @@
             // 重定向，未指定菜单，默认指定运行监视
             redirectUrl() {
                 this.routeName = this.$route.name;
-                if (this.$route.name == 'monitor') {
+                if (this.$route.name === 'monitor') {
                     this.routeName = 'runMonitor';
                     this.$router.replace({
                         name: 'runMonitor',  // 路由名称
@@ -82,7 +82,7 @@
             },
 
             goBack () {
-                if (this.$route.name == 'videoMonitor') {
+                if (this.$route.name === 'videoMonitor') {
                     this.$router.push({
                         name: 'platform',  // 路由名称
                         params: {}

@@ -196,7 +196,6 @@
                 dict_education: [],
                 dict_sex: [],
                 dict_status: [],
-
                 dict_certificateName: [],  //
                 dict_issuingUnit: [],
 

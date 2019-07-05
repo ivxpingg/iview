@@ -1164,6 +1164,7 @@
                             }
                         }).then(function (response) {
                             if (response.status == 1) {
+                                that.getData();
                                 that.listData.splice(that.listData.indexOf(row), 1);
                                 that.$Modal.remove();
                                 that.$Message.info('删除成功!');
