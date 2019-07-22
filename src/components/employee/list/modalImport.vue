@@ -95,7 +95,7 @@
           return Util.domain + '/xm/sys/employee/uploadCertificate/special';
         },
         exportFileUrl () {
-          return Util.domain + '/static/download/xlsx/从业人员信息导入模板.xlsx';
+          return Util.domain + '/static/download/xlsx/从业人员信息导入模板.xlsx?t=' + Math.random();
         }
       },
       data () {

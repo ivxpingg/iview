@@ -32,7 +32,7 @@
                         width: 90,
                         align: 'center',
                         render(h, params) {
-                            if (that.tableDim == 'day' && that.timeFrame == 'allDay') {
+                            if (that.tableDim == 'day' && that.timeFrame == 'allDay' && params.row['localUrl'] !== '') {
                                 return h('a', {
                                     attrs: {
                                         href: Util.domain + params.row['localUrl'],
@@ -164,14 +164,27 @@
                     {
                         title: '岩内',
                         key: '24',
-                        width: 40,
+                        align: 'center'
+                    },
+                    {
+                        title: '合计',
+                        width: 70,
                         align: 'center',
                         renderHeader(h, params) {
                             return h('span', {
                                 style: {
                                     paddingRight: '11px'
                                 }
-                            }, '岩内');
+                            }, '合计');
+                        },
+                        render: (h, params) => {
+                            let count = 0;
+                            Object.keys(params.row).forEach((key) => {
+                                if (!isNaN(parseInt(key))) {
+                                    count += params.row[key];
+                                }
+                            })
+                            return h('span', count);
                         }
                     }
 
@@ -219,7 +232,7 @@
                 var that = this;
                 this.$Spin.show();
                 Util.ajax({
-                    method: "get",
+                    method: 'get',
                     url: '/xm/inte/passengerAnalysis/getPassengerIndex',
                     params: {
                         beginDate: that.dates[0],
@@ -230,14 +243,57 @@
                 }).then(function(response){
                     that.$Spin.hide();
                     if (response.status === 1) {
-                        that.tableDataIn = response.result.inPassengerIndexList;
-                        that.tableDataOut = response.result.outPassengerIndexList;
+                        that.setTotal(response.result);
+                        //
+                        // that.tableDataIn = response.result.inPassengerIndexList;
+                        // that.tableDataOut = response.result.outPassengerIndexList;
                     }
                     else {}
                 }).catch(function (error) {
                     that.$Spin.hide();
                     console.log(error);
                 })
+            },
+            setTotal(data) {
+                let inCount = {
+                    insTime: '合计',
+                    localUrl: ''
+                };
+                let outCount = {
+                    insTime: '合计',
+                    localUrl: ''
+                };
+
+                data.inPassengerIndexList.forEach(obj => {
+                    for(let i = 1; i <= 24; i++) {
+                        let key = i + '';
+
+                        if (inCount[key] !== undefined) {
+                            inCount[key] += obj[key] || 0;
+                        }
+                        else {
+                            inCount[key] = 0;
+                            inCount[key] += obj[key] || 0;
+                        }
+                    }
+                })
+                data.inPassengerIndexList.push(inCount);
+
+                data.outPassengerIndexList.forEach(obj => {
+                    for(let i = 1; i <= 24; i++) {
+                        let key = i + '';
+                        if (outCount[key]) {
+                            outCount[key] += obj[key] || 0;
+                        }
+                        else {
+                            outCount[key] = 0;
+                            outCount[key] += obj[key] || 0;
+                        }
+                    }
+                });
+                data.outPassengerIndexList.push(outCount);
+                this.tableDataIn = data.inPassengerIndexList;
+                this.tableDataOut = data.outPassengerIndexList;
             }
         }
     }
